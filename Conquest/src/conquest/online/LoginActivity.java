@@ -321,14 +321,9 @@ import android.widget.TextView;
 				
 				//Return true on success
 				if ( success.equals("1") ) {
-					
-					//Storing temporary/user data in the shared preferences.
-					SharedPreferences pref = getApplicationContext().getSharedPreferences("userState", 0); // 0 - for private mode
-					Editor editor = pref.edit();
-					editor.putBoolean("loggedIn", true); // Stores that we're logged in
-					editor.putString("username", mUsername); // Stores the username
-					editor.commit(); // commit changes
 
+					UserSession User = new UserSession(getApplicationContext());
+					User.logIn(mUsername);
 					
 					return true;
 					

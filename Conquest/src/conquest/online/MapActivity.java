@@ -23,12 +23,10 @@ public class MapActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
+		UserSession user = new UserSession(getApplicationContext());
 		
-		//Load/display session information - TEST
 		TextView textView = (TextView) findViewById(R.id.username);
-		SharedPreferences pref = getApplicationContext().getSharedPreferences("userState", 0); // 0 - for private mode
-		String test = pref.getString("username", null); // getting String
-		textView.setText("Logged in as: " + test);		
+		textView.setText("Logged in as: " + user.returnUser());		
 	}
 
 	@Override

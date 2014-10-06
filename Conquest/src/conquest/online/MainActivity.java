@@ -1,21 +1,17 @@
 package conquest.online;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 
 
 public class MainActivity extends ActionBarActivity {
 
 	//Key to define for activities to access previous activity info
 	public final static String EXTRA_MESSAGE = "conquest.online.MESSAGE";
-	public String username = null;
 	
     @Override
     //This defines your first page to be started.
@@ -48,9 +44,6 @@ public class MainActivity extends ActionBarActivity {
     /** Called when the user clicks the send button on the main activity - THIS IS FOR TESTING*/
     public void goToLogin(View view) {
     	Intent login = new Intent(this, LoginActivity.class);
-    	EditText user = (EditText) findViewById(R.id.edit_message);
-    	String message = user.getText().toString();
-    	login.putExtra(EXTRA_MESSAGE, message);
     	startActivity(login);
     }  
     
