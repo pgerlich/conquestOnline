@@ -1,0 +1,56 @@
+package conquest.online;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+
+
+public class MainActivity extends ActionBarActivity {
+
+	//Key to define for activities to access previous activity info
+	public final static String EXTRA_MESSAGE = "conquest.online.MESSAGE";
+	public String username = null;
+	
+    @Override
+    //This defines your first page to be started.
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
+    /** Called when the user clicks the send button on the main activity - THIS IS FOR TESTING*/
+    public void goToLogin(View view) {
+    	Intent login = new Intent(this, LoginActivity.class);
+    	EditText user = (EditText) findViewById(R.id.edit_message);
+    	String message = user.getText().toString();
+    	login.putExtra(EXTRA_MESSAGE, message);
+    	startActivity(login);
+    }  
+    
+    
+    
+}
