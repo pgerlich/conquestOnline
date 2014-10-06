@@ -1,9 +1,21 @@
 package conquest.online;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.support.v7.app.ActionBarActivity;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MapActivity extends ActionBarActivity {
 
@@ -11,6 +23,12 @@ public class MapActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
+		
+		//Load/display session information - TEST
+		TextView textView = (TextView) findViewById(R.id.username);
+		SharedPreferences pref = getApplicationContext().getSharedPreferences("userState", 0); // 0 - for private mode
+		String test = pref.getString("username", null); // getting String
+		textView.setText("Logged in as: " + test);		
 	}
 
 	@Override
@@ -30,5 +48,41 @@ public class MapActivity extends ActionBarActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	/**
+	 * Represents an asynchronous login/registration task used to authenticate
+	 * the user.
+	 */
+	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+
+		private final String mUsername;
+		private final String mPassword;
+
+		UserLoginTask(String email, String password) {
+			mUsername = email;
+			mPassword = password;
+			//stuff
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			return null;
+
+			//What to do asynchronously
+			
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+
+			//end of execution
+			
+		}
+
+		@Override
+		protected void onCancelled() {
+			//on cancel
+		}
 	}
 }

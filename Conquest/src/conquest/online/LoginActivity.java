@@ -17,6 +17,8 @@ import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -44,6 +46,7 @@ import android.widget.TextView;
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
 	private UserLoginTask mAuthTask = null;
+	
 
 	// UI references.
 	private AutoCompleteTextView mEmailView;
@@ -318,6 +321,15 @@ import android.widget.TextView;
 				
 				//Return true on success
 				if ( success.equals("1") ) {
+					
+					//Storing temporary/user data in the shared preferences.
+					SharedPreferences pref = getApplicationContext().getSharedPreferences("userState", 0); // 0 - for private mode
+					Editor editor = pref.edit();
+					editor.putBoolean("loggedIn", true); // Stores that we're logged in
+					editor.putString("username", mUsername); // Stores the username
+					editor.commit(); // commit changes
+
+					
 					return true;
 					
 				//Set error message and return false.
