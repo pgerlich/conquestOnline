@@ -37,6 +37,11 @@
             android:label="@string/title_activity_map" >
         </activity>
         
+        <!-- Google map API KEY-->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBzn8to9ud-ZrwXOTErBE_ozkc2PzfC8QA"/>
+        
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
