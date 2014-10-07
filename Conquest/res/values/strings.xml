@@ -8,5 +8,6 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="hello_world">This is the map screen.</string>
+    <string name="log_out">Logout.</string>
 
 </resources>

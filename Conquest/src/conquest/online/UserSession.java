@@ -1,5 +1,13 @@
 package conquest.online;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -55,10 +63,29 @@ public class UserSession {
 	/**
 	 * Logout the user
 	 */
-	public void logOut() {
+	public String logOut() {
+		String message = "";
+	
+		//Query the login script with their entered username/password
+        List<NameValuePair> postParams = new ArrayList<NameValuePair>(2);
+        postParams.add(new BasicNameValuePair("username", "pgerlich"));
+        postParams.add(new BasicNameValuePair("bull", "shit"));
+	        
+        //Actual logout feature
+        JSONObject logoutAttempt = JSONfunctions.getJSONfromURL("http://gerlichsoftwaresolutions.net/conquest/logout.php", postParams);
+        
+		//Try/Catch to attempt logout message recovery.
+		try {
+			message = logoutAttempt.getString("message");
+		} catch (JSONException e) {
+			//Failed for some reason..
+		}
+		
 		edit.putBoolean("loggedIn", false); // Stores that we're logged in
 		edit.putString("username", null); // Stores the username
 		edit.commit(); // commit changes
+		
+		return message;
 	}
 	
 }

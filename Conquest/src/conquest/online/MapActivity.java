@@ -15,15 +15,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 public class MapActivity extends ActionBarActivity {
+	
+	private UserSession user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
-		UserSession user = new UserSession(getApplicationContext());
+		user = new UserSession(getApplicationContext());
 		
 		TextView textView = (TextView) findViewById(R.id.username);
 		textView.setText("Logged in as: " + user.returnUser());		
@@ -48,6 +51,16 @@ public class MapActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 	
+	//Log the user out
+	public void logOut(View view) {
+		//Gotta fix this.
+		String message = user.logOut();
+		
+		
+		TextView textView = (TextView) findViewById(R.id.username);
+		textView.setText(message);
+	}
+	
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
@@ -60,7 +73,7 @@ public class MapActivity extends ActionBarActivity {
 		UserLoginTask(String email, String password) {
 			mUsername = email;
 			mPassword = password;
-			//stuff
+			//Instantiate task
 		}
 
 		@Override
