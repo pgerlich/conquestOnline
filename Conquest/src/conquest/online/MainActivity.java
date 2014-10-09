@@ -7,6 +7,7 @@ import com.google.android.gms.maps.GoogleMap;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends FragmentActivity {
 
 	//Key to define for activities to access previous activity info
 	public final static String EXTRA_MESSAGE = "conquest.online.MESSAGE";
@@ -26,7 +27,17 @@ public class MainActivity extends ActionBarActivity {
     //This defines your first page to be started.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        
+      if(servicesOK())
+      {
+    	  Toast.makeText(this, "Ready to Map!!", Toast.LENGTH_SHORT).show();
+    	  setContentView(R.layout.activity_map);
+      }
+      else{
+    	  setContentView(R.layout.activity_main);
+      }
+        
+       
         
     }
 
@@ -65,6 +76,7 @@ public class MainActivity extends ActionBarActivity {
     	else{
     		Toast.makeText(this, "Can't Connect to Google Play Services", Toast.LENGTH_SHORT).show();
     	}
+    	
     	return false;
     }
     

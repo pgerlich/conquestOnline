@@ -1,4 +1,16 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:map="http://schemas.android.com/apk/res-auto"
+     android:id="@+id/map"
+     android:name="com.google.android.gms.maps.SupportMapFragment"
+ 	 android:layout_width="match_parent"
+     android:layout_height="match_parent" />
+ 
+ 
+ <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    
+    
+    
+    
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,4 +38,4 @@
         android:onClick="logOut"
         android:text="@string/log_out" />
 
-</RelativeLayout>
+</RelativeLayout> -->
