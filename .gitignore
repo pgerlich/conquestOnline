@@ -24,3 +24,9 @@ proguard/
 
 # Log Files
 *.log
+
+
+# Files that differ between Mac and PC some of these WILL have to be REMOVED in future
+Conquest/AndroidManifest.xml
+Conquest/res/layout/activity_map.xml
+Conquest/src/conquest/online/MainActivity.java
