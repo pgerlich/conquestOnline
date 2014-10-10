@@ -33,7 +33,7 @@ MainActivity.java
 
 
 #classpath files
-*.classpath
+.classpath
 
 #property files
-*.properties
+project.properties
