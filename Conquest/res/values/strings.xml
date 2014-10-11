@@ -9,5 +9,13 @@
     <string name="title_activity_map">MapActivity</string>
     <string name="hello_world">This is the map screen.</string>
     <string name="log_out">Logout.</string>
+    <string name="title_activity_register">Register</string>
+    <string name="rs_welcome">Register Screen.</string>
+    <string name="rs_user">Username:</string>
+    <string name="rs_email">E-Mail:</string>
+    <string name="rs_pass">Password:</string>
+    <string name="rs_pass_confirm">Confirm:</string>
+    <string name="rs_button">Register</string>
+   
 
 </resources>

@@ -8,11 +8,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.widget.TextView;
-
+import android.os.AsyncTask;
 public class UserSession {
 	
 	//The shared preference file
@@ -27,16 +28,17 @@ public class UserSession {
 	private static final String prefName = "userState";
 	
 	//This user is logged in
-	private static final String loggedIn = "loggedIn";
+	public final String loggedIn = "loggedIn";
 	
 	//Username
 	private static final String user = "username";
 	
 	/**
-	 * Createa a new user session with the given context
+	 * Createa a new user session with the given context. Suppressed a warning that pref.edit
+	 * isn't actually commiting any changes.
 	 * @param context
 	 */
-	public  UserSession(Context context) {
+	@SuppressLint("CommitPrefEdits") public  UserSession(Context context) {
 		_context = context;
 		pref = context.getSharedPreferences(prefName, 0); // 0 - for private mode
 		edit = pref.edit();
@@ -64,28 +66,76 @@ public class UserSession {
 	 * Logout the user
 	 */
 	public String logOut() {
-		String message = "";
-	
-		//Query the login script with their entered username/password
-        List<NameValuePair> postParams = new ArrayList<NameValuePair>(2);
-        postParams.add(new BasicNameValuePair("username", "pgerlich"));
-        postParams.add(new BasicNameValuePair("bull", "shit"));
-	        
-        //Actual logout feature
-        JSONObject logoutAttempt = JSONfunctions.getJSONfromURL("http://gerlichsoftwaresolutions.net/conquest/logout.php", postParams);
-        
-		//Try/Catch to attempt logout message recovery.
-		try {
-			message = logoutAttempt.getString("message");
-		} catch (JSONException e) {
-			//Failed for some reason..
-		}
+		BackgroundProcess mAuthTask = null;
+		
+		// Show a progress spinner, and kick off a background task to
+		// perform the user login attempt.
+		mAuthTask = new BackgroundProcess(pref.getString(user, null));
+		mAuthTask.execute((Void) null);
 		
 		edit.putBoolean("loggedIn", false); // Stores that we're logged in
 		edit.putString("username", null); // Stores the username
 		edit.commit(); // commit changes
 		
-		return message;
+		return mAuthTask.message;
+	}
+	
+	/**
+	 * Represents an asynchronous login/registration task used to authenticate
+	 * the user.
+	 */
+	public class BackgroundProcess extends AsyncTask<Void, Void, Boolean> {
+
+		private final String username;
+		public String message;
+		public String success;
+
+		//Instantiate task
+		BackgroundProcess(String username) {
+			this.username = username;
+			message = "";
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			
+			
+			//Query the login script with their entered username/password
+	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(2);
+	        postParams.add(new BasicNameValuePair("username", username));
+	        //FIXME: Include the token we receive when logging in.
+		        
+	        //Actual logout feature
+	        JSONObject logoutAttempt = JSONfunctions.getJSONfromURL("http://gerlichsoftwaresolutions.net/conquest/logout.php", postParams);
+	        
+			//Try/Catch to attempt logout message recovery.
+			try {
+				success = logoutAttempt.getString("success");
+				message = logoutAttempt.getString("message");
+				
+				//Succeeded in logging out
+				if ( success.equals("1") ) {
+					return true;
+				} 
+				
+			//Failed
+			} catch (JSONException e) {
+				//Print out the error
+				return false;
+			}
+			
+			return false;
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			
+		}
+
+		@Override
+		protected void onCancelled() {
+			//on cancel
+		}
 	}
 	
 }
