@@ -5,4 +5,4 @@
  * @author leosouthwick
  *
  */
-package gameAssets.Structures;
+package conquest.online.gameAssets.Structures;

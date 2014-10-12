@@ -1,4 +1,4 @@
-package gameAssets.Structures;
+package conquest.online.gameAssets.Structures;
 
 public class OffensiveStructure extends AbstractStructure {
 

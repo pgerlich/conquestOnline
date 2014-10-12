@@ -1,4 +1,4 @@
-package gameAssets.Moves;
+package conquest.online.gameAssets.Moves;
 import map.Coordinate;
 
 public class Attack {

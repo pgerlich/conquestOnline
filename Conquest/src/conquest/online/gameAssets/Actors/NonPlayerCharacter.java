@@ -1,4 +1,4 @@
-package gameAssets.Actors;
+package conquest.online.gameAssets.Actors;
 
 public class NonPlayerCharacter extends AbstractActor {
 

@@ -1,4 +1,4 @@
-package gameAssets.Items;
+package conquest.online.gameAssets.Items;
 public class Weapon extends AbstractEquipableItem {
 
 	

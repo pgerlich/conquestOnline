@@ -1,6 +1,6 @@
-package gameAssets.Structures;
-import gameAssets.Attackable;
-import gameAssets.Visible;
+package conquest.online.gameAssets.Structures;
+import conquest.online.gameAssets.Attackable;
+import conquest.online.gameAssets.Visible;
 import map.Coordinate;
 public abstract class AbstractStructure implements Visible, Attackable {
 

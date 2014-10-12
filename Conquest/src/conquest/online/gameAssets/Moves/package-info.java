@@ -5,4 +5,4 @@
  * @author leosouthwick
  *
  */
-package gameAssets.Moves;
+package conquest.online.gameAssets.Moves;

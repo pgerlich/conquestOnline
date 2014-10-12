@@ -1,11 +1,11 @@
-package gameAssets.Actors;
+package conquest.online.gameAssets.Actors;
 
 import map.Coordinate;
-import gameAssets.Attackable;
-import gameAssets.Visible;
-import gameAssets.Items.AbstractEquipableItem;
-import gameAssets.Items.Armor;
-import gameAssets.Items.Weapon;
+import conquest.online.gameAssets.Attackable;
+import conquest.online.gameAssets.Visible;
+import conquest.online.gameAssets.Items.AbstractEquipableItem;
+import conquest.online.gameAssets.Items.Armor;
+import conquest.online.gameAssets.Items.Weapon;
 
 public abstract class AbstractActor implements Visible, Attackable{
 	
