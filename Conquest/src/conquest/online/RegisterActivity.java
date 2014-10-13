@@ -8,17 +8,18 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class RegisterActivity extends ActionBarActivity {
 
@@ -34,6 +35,31 @@ public class RegisterActivity extends ActionBarActivity {
 
 	
 	/**
+	 * When user is registering and they select the Spy, this sets their class type to Spy
+	 */
+	public void makeSpy(View view) {
+		TextView t = (TextView) findViewById(R.id.classChosen);
+		t.setText("Spy");
+		
+	}
+	
+	/**
+	 * When the user is registering and they select the Engineer, this method is called and sets their class to Engineer
+	 */
+	public void makeEngineer(View view) {
+		TextView t = (TextView) findViewById(R.id.classChosen);
+		t.setText("Engineer");
+	}
+	
+	/**
+	 * When the user is registering and they select the Soldier, this method is called and sets their class to soldier
+	 */
+	public void makeSoldier(View view) {
+		TextView t = (TextView) findViewById(R.id.classChosen);
+		t.setText("Soldier");
+	}
+	
+	/**
 	 * When you click register, it takes all of the info you typed - compared passwords,
 	 * and kicks the information off to an asyncronous background task to register you
 	 * and log you in.
@@ -45,7 +71,9 @@ public class RegisterActivity extends ActionBarActivity {
 		EditText passEdit = (EditText) findViewById(R.id.password);
 		EditText confirmEdit = (EditText) findViewById(R.id.confirm);
 		EditText emailEdit = (EditText) findViewById(R.id.email);
+		TextView cChosen = (TextView) findViewById(R.id.classChosen);
 		
+		String classChosen = cChosen.getText().toString();
 		String username = userEdit.getText().toString();
 		String password = passEdit.getText().toString();
 		String confirmPass = confirmEdit.getText().toString();
@@ -54,7 +82,7 @@ public class RegisterActivity extends ActionBarActivity {
 		//Check passwords match
 		if (password.equals(confirmPass) ) {
 			//Execute background process - try and register account
-			RegistrationProcess register = new RegistrationProcess(username, password, email);
+			RegistrationProcess register = new RegistrationProcess(username, password, email, classChosen);
 			register.execute((Void) null);
 			
 			//Succeeded - login
@@ -123,14 +151,17 @@ public class RegisterActivity extends ActionBarActivity {
 		private final String email;
 		private final String username;
 		private final String password;
+		private final String classChosen;
 		public String message;
 		public String success;
 
 		//Instantiate task
-		RegistrationProcess(String username, String password, String email) {
+		RegistrationProcess(String username, String password, String email, String classChosen) {
 			this.username = username;
 			this.password= password;
 			this.email = email;
+			this.classChosen= classChosen;
+			
 			message = "";
 		}
 
@@ -139,10 +170,11 @@ public class RegisterActivity extends ActionBarActivity {
 			
 			
 			//Query the login script with their entered username/password
-	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
+	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(4);
 	        postParams.add(new BasicNameValuePair("username", username));
 	        postParams.add(new BasicNameValuePair("password", password));
 	        postParams.add(new BasicNameValuePair("email", email));
+	        postParams.add(new BasicNameValuePair("characterType", classChosen));
 	        //FIXME: Include the token we receive when logging in.
 		        
 	        //Actual logout feature

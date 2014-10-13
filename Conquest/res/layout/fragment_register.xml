@@ -26,60 +26,95 @@
         		<requestFocus />
     		</EditText>
 
-	    <TextView
-	        android:id="@+id/textView2"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/rs_user"
-	        android:textAppearance="?android:attr/textAppearanceSmall" />
+		    <TextView
+		        android:id="@+id/textView2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/rs_user"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+		
+		    <EditText
+		        android:id="@+id/username"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:ems="10"
+		        android:inputType="text" />
+		
+		    <TextView
+		        android:id="@+id/textView3"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/rs_pass"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+		
+		    <EditText
+		        android:id="@+id/password"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:ems="10"
+		        android:inputType="textPassword" />
+		
+		    <TextView
+		        android:id="@+id/textView4"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/rs_pass_confirm"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+		
+		    <EditText
+		        android:id="@+id/confirm"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:ems="10"
+		        android:inputType="textPassword" />
 	
-	    <EditText
-	        android:id="@+id/username"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:ems="10"
-	        android:inputType="text" />
-	
-	    <TextView
-	        android:id="@+id/textView3"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/rs_pass"
-	        android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	    <EditText
-	        android:id="@+id/password"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:ems="10"
-	        android:inputType="textPassword" />
-	
-	    <TextView
-	        android:id="@+id/textView4"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/rs_pass_confirm"
-	        android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	    <EditText
-	        android:id="@+id/confirm"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:ems="10"
-	        android:inputType="textPassword" />
-
-	    <TextView
-	        android:id="@+id/textView5"
-	        android:layout_width="297dp"
-	        android:layout_height="274dp"
-	        android:text="TextView" />
-
-	    <Button
-	        android:id="@+id/button1"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/rs_button"
-	        android:onClick="registerUser" />
+		    <TextView
+		        android:id="@+id/textView5"
+		        android:layout_width="297dp"
+		        android:layout_height="274dp"
+		        android:text="TextView" />
+		    
+		    <!-- We need to add in descriptions for the different classes -->	
+		        
+		    <ImageButton
+		        android:layout_height="80dip"
+		        android:layout_width="80dip"
+		        android:background="@drawable/spy"
+		        android:id="@+id/spy_button"
+		        android:onClick="makeSpy"
+		        android:gravity="center_horizontal"
+		        android:contentDescription="@string/characterButton" />
+		    
+		    <ImageButton 
+		        android:layout_height="80dip"
+		        android:layout_width="80dip" 
+		        android:background="@drawable/engineer" 
+		        android:id="@+id/engineer_button" 
+		        android:onClick="makeEngineer" 
+		        android:gravity="center_horizontal" 
+		        android:contentDescription="@string/characterButton" />
+		    
+		    <ImageButton
+		        android:layout_height="80dip" 
+		        android:layout_width="80dip" 
+		        android:background="@drawable/soldier" 
+		        android:id="@+id/soldier_button" 
+		        android:onClick="makeSoldier" 
+		        android:contentDescription="@string/characterButton" />
+		    
+		    <TextView 
+		        android:id="@+id/classChosen"
+		        android:layout_height="wrap_content"
+		        android:layout_width="wrap_content"
+		        android:text=""
+		        android:visibility="gone" />
+		        	
+		    <Button
+		        android:id="@+id/button1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/rs_button"
+		        android:onClick="registerUser" />
 	
 	    </LinearLayout>
 </ScrollView>
