@@ -4,7 +4,9 @@
     <!-- Main Stuff -->
     <string name="app_name">Conquest</string>
     <string name="action_settings">Settings</string>
-
+	<string name="action_logout">Logout</string>
+	<string name="action_close">Close</string>
+	
     <!--  Home Screen -->
     <string name="title_activity_main">Home</string>
     <string name="main_login">Login</string>

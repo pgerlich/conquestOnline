@@ -32,12 +32,6 @@ public class RegisterActivity extends ActionBarActivity {
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.register, menu);
-		return true;
-	}
 	
 	/**
 	 * When you click register, it takes all of the info you typed - compared passwords,
@@ -71,6 +65,7 @@ public class RegisterActivity extends ActionBarActivity {
 				User.logIn(username);
 				
 				//Transition to map screen
+				finish();
 				goToMap();
 			//Failed - print message
 			} else {

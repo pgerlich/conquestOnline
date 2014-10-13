@@ -5,12 +5,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import android.support.v7.app.ActionBarActivity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MapActivity extends ActionBarActivity {
@@ -37,6 +36,15 @@ public class MapActivity extends ActionBarActivity {
 		getMenuInflater().inflate(R.menu.map, menu);
 		return true;
 	}
+	
+	/**
+	 * Go to the main menu and close the current activity
+	 */
+	public void goToMain(){
+		finish();
+    	Intent main = new Intent(this, MainActivity.class);
+    	startActivity(main);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -44,34 +52,29 @@ public class MapActivity extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		
+		//Log user out - hope it didn't mess up.
+		if (id == R.id.action_logout) {
+			user.logOut();
+			goToMain();
+			return true;
+		} else if (id == R.id.action_settings ) {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
-	//Log the user out
-	public void logOut(View view) {
-		//Gotta fix this.
-		String message = user.logOut();
-		
-		
-		TextView textView = (TextView) findViewById(R.id.username);
-		textView.setText(message);
-	}
-	
 	/**
-	 * Represents an asynchronous login/registration task used to authenticate
-	 * the user.
+	 * Represents an asynchronous task run on a different thread.
 	 */
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-		private final String mUsername;
-		private final String mPassword;
+		//private final String mUsername;
+		//private final String mPassword;
 
 		UserLoginTask(String email, String password) {
-			mUsername = email;
-			mPassword = password;
+			//mUsername = email;
+			//mPassword = password;
 			//Instantiate task
 		}
 

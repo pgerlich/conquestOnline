@@ -35,7 +35,9 @@ public class MainActivity extends FragmentActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        
+        if (id == R.id.action_close) {
+        	finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -43,12 +45,14 @@ public class MainActivity extends FragmentActivity {
     
     /** Called when the user clicks the login button. */
     public void goToLogin(View view) {
+    	finish();
     	Intent login = new Intent(this, LoginActivity.class);
     	startActivity(login);
     }  
     
-    /** Called when the user clicks the register button. */
+    /** Called when the user clicks the register button.*/
     public void goToRegister(View view) {
+    	finish();
     	Intent register = new Intent(this, RegisterActivity.class);
     	startActivity(register);
     }  
