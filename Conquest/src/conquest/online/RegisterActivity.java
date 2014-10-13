@@ -8,17 +8,18 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class RegisterActivity extends ActionBarActivity {
 
@@ -37,6 +38,33 @@ public class RegisterActivity extends ActionBarActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.register, menu);
 		return true;
+	}
+	
+	/**
+	 * When user is registering and they select the Spy, this sets their class type to Spy
+	 */
+	public void makeSpy() {
+		TextView t = (TextView) findViewById(R.id.classChosen);
+		t.setText("Spy");
+		t.setVisibility(View.VISIBLE);
+	}
+	
+	/**
+	 * When the user is registering and they select the Engineer, this method is called and sets their class to Engineer
+	 */
+	public void makeEngineer() {
+		TextView t = (TextView) findViewById(R.id.classChosen);
+		t.setText("Engineer");
+		t.setVisibility(View.VISIBLE);
+	}
+	
+	/**
+	 * When the user is registering and they select the Soldier, this method is called and sets their class to soldier
+	 */
+	public void makeSoldier() {
+		TextView t = (TextView) findViewById(R.id.classChosen);
+		t.setText("Soldier");
+		t.setVisibility(View.VISIBLE);
 	}
 	
 	/**

@@ -16,6 +16,7 @@
     <string name="rs_pass">Password:</string>
     <string name="rs_pass_confirm">Confirm:</string>
     <string name="rs_button">Register</string>
+    <string name="characterButton">Button used to select class type of character</string>
    
 
 </resources>
