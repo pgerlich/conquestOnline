@@ -17,6 +17,7 @@ public class MapActivity extends ActionBarActivity {
 	private UserSession user;
 	private static final int GPS_ERRORDIALOG_REQUEST = 9001;
 
+	//test
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
