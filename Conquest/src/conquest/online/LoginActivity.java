@@ -8,6 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -17,8 +18,6 @@ import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -46,6 +45,7 @@ import android.widget.TextView;
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
 	private UserLoginTask mAuthTask = null;
+	
 	
 
 	// UI references.
@@ -148,11 +148,13 @@ import android.widget.TextView;
 		}
 	}
 	
-    /** Called when login completes succesfully - loads map Activity */
-    public void goToMap() {
-    	Intent map = new Intent(this, MapActivity.class);
-    	startActivity(map);
-    }  
+	/**
+	 * Send user to map screen upon succesful login attempt
+	 */
+	public void goToMap() {
+    	Intent login = new Intent(this, MapActivity.class);
+    	startActivity(login);
+	}
 
 
 	//FIXME: Min pass length?
@@ -243,7 +245,7 @@ import android.widget.TextView;
 				ContactsContract.CommonDataKinds.Email.IS_PRIMARY, };
 
 		int ADDRESS = 0;
-		int IS_PRIMARY = 1;
+		//int IS_PRIMARY = 1;
 	}
 
 	/**
@@ -307,11 +309,19 @@ import android.widget.TextView;
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
+			
+			String IP = IPGrabber.getIPAddress(false);
+			
+			if ( IP == null ) {
+				IP = IPGrabber.getIPAddress(true);
+			}
 
 			//Query the login script with their entered username/password
-	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(2);
+	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
 	        postParams.add(new BasicNameValuePair("username", mUsername));
 	        postParams.add(new BasicNameValuePair("password", mPassword));
+	        postParams.add(new BasicNameValuePair("IP", IP));
+	        
 			JSONObject loginAttempt = JSONfunctions.getJSONfromURL("http://www.gerlichsoftwaresolutions.net/conquest/login.php", postParams);
 			
 			
@@ -349,12 +359,13 @@ import android.widget.TextView;
 
 			if (success) {
 				//TODO: Navigate to the maps page.
-				finish();
-				goToMap();
+	        	finish();
+		        goToMap();
 			} else {
 				//Just focus on the error message.
 				//FIXME: Could do more focusing based on type of error. (Focus on user or pass)
 				mPasswordView.requestFocus();
+
 			}
 		}
 
@@ -364,4 +375,5 @@ import android.widget.TextView;
 			showProgress(false);
 		}
 	}
+
 }
