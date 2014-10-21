@@ -57,7 +57,7 @@ public class ConquestClient {
 		registerClasses(classes);
 		
 		//Adds a listened to the client (for responses from the server)
-		addListener();
+		//addListener();
 		
 	}
 	
@@ -91,32 +91,22 @@ public class ConquestClient {
 	/**
 	 * Add a listener to the client to deal with server responses! :D
 	 */
-	public void addListener(){
-		   client.addListener(new Listener() {
-		       public void received (Connection con, Object obj) {
-		          if (obj instanceof SomeResponse) {
-		             SomeResponse response = (SomeResponse)obj;
-		             System.out.println(response.text);
-		          }
-		       }
-		    });
-	}
-	
-	public class SomeResponse{
-		public String text;
-	}
-	
-	
-	public class SomeRequest{
-		public String text;
-	}
+//	public void addListener(){
+//		   client.addListener(new Listener() {
+//		       public void received (Connection con, Object obj) {
+//		          if (obj instanceof SomeResponse) {
+//		             SomeResponse response = (SomeResponse)obj;
+//		             System.out.println(response.text);
+//		          }
+//		       }
+//		    });
+//	}
 	
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{SomeResponse.class, SomeRequest.class, Login.class};
+		Class[] classes = new Class[]{LoginRequest.class};
 		ConquestClient client = new ConquestClient("test", "127.0.0.1", 54555, 54777, classes);
 		
-		Login test = new Login();
-		test.user = "test";
+		LoginRequest test = new LoginRequest("test", "test");
 		
 		client.client.sendUDP(test);
 	}

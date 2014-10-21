@@ -35,6 +35,14 @@ public class ConquestServer {
 	public ArrayList<Connection> usersConnected;
 	public int numUsersConnected;
 	
+	// JDBC driver name and database URL
+    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+    static final String DB_URL = "jdbc:mysql://localhost/EMP";
+
+    //  Database credentials
+    static final String USER = "u309R12";
+    static final String PASS = "Lau9-T_Kk";
+	
 	
 	/**
 	 * Creates a connection client that connects to the specified host and ports.
@@ -114,11 +122,11 @@ public class ConquestServer {
 		    	  System.out.print("(" + con.getRemoteAddressUDP() + ")" + ": ");
 		          
 		    	  //Login request test
-		    	  if (obj instanceof Login) {
+		    	  if (obj instanceof LoginRequest) {
 		    		  
 		    		  //If the connection is a new one
 		    		  if ( !usersConnected.contains(con) ) {
-		    			  Login user = (Login) obj;
+		    			  LoginRequest user = (LoginRequest) obj;
 		    			  con.setName(user.user);
 		    			  
 			    		  //Add user to online array List and increase number of clients
@@ -140,12 +148,8 @@ public class ConquestServer {
 		    });
 	}
 	
-	public class SomeResponse{
-		public String text;
-	}
-	
-	public class SomeRequest{
-		public String text;
+	public void loginUser(LoginRequest user) {
+		
 	}
 	
 	public void statistics(){
@@ -156,8 +160,9 @@ public class ConquestServer {
 	}
 	
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{SomeResponse.class, SomeRequest.class, Login.class};
+		Class[] classes = new Class[]{LoginRequest.class};
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777, classes);
 		
+			  
 	}
 }
