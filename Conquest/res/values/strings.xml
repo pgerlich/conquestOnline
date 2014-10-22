@@ -24,6 +24,10 @@
     <string name="rs_pass">Password:</string>
     <string name="rs_pass_confirm">Confirm:</string>
     <string name="rs_button">Register</string>
+    <string name="class_choose">Choose Class</string>
+    <string name="spy_b">Spy</string>
+    <string name="engineer_b">Engineer</string>
+    <string name="soldier_b">Soldier</string>
     <string name="characterButton">Button used to select class type of character</string>
    
 

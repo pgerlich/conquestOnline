@@ -16,6 +16,44 @@ public class MapActivity extends ActionBarActivity {
 	
 	private UserSession user;
 	private static final int GPS_ERRORDIALOG_REQUEST = 9001;
+	
+	/**
+	 * When user taps social button, this function is called and takes user to Social Screen
+	 */
+	public void toSocial() {
+		
+	}
+	
+	/**
+	 * When user taps settings button this functino is called and takes user to the social screen
+	 */
+	public void settings() {
+		
+	}
+	
+	/**
+	 * When user taps the logout button, the user is logged out and taken to the login screen
+	 */
+	public void logout() {
+		Intent lo = new Intent(this, MainActivity.class);
+		//logging out of server and such here
+		
+		startActivity(lo);
+	}
+	
+	/**
+	 * When user taps character button the user is taken to the character screen
+	 */
+	public void myCharacter() {
+		
+	}
+	
+	/**
+	 * when user taps the home button they are taken to their property if they have one
+	 */
+	public void goHome() {
+		
+	}
 
 	//test wtf
 	@Override
