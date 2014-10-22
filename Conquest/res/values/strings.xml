@@ -14,6 +14,7 @@
     
     <!-- Map Stuff -->
     <string name="title_activity_map">MapActivity</string>
+    <string name="mapDesc">Buttons on the map screen that are pressable</string>
     
     <!--  Register Screen -->
     <string name="title_activity_register">Register</string>
