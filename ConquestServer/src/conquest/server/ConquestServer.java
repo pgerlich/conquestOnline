@@ -35,14 +35,6 @@ public class ConquestServer {
 	public ArrayList<Connection> usersConnected;
 	public int numUsersConnected;
 	
-	// JDBC driver name and database URL
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-    static final String DB_URL = "jdbc:mysql://localhost/EMP";
-
-    //  Database credentials
-    static final String USER = "u309R12";
-    static final String PASS = "Lau9-T_Kk";
-	
 	
 	/**
 	 * Creates a connection client that connects to the specified host and ports.
