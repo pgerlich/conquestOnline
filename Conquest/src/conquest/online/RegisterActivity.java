@@ -79,6 +79,7 @@ public class RegisterActivity extends ActionBarActivity {
 		String confirmPass = confirmEdit.getText().toString();
 		String email = emailEdit.getText().toString();
 		
+		
 		//Check passwords match
 		if (password.equals(confirmPass) ) {
 			//Execute background process - try and register account

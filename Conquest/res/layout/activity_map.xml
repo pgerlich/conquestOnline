@@ -13,12 +13,12 @@
     
     <ImageButton
         android:id="@+id/social_b"
-        android:layout_height="30dp"
-        android:layout_width="30dp"
+        android:layout_height="45dp"
+        android:layout_width="45dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:background="@drawable/social_image"
-        android:onClick="toSocial()"
+        android:onClick="toSocial"
         android:contentDescription = "@string/mapDesc" />
     
     <TextView
@@ -31,41 +31,42 @@
         
     <ImageButton 
         android:id="@+id/setting_b"
-        android:layout_height="30dp"
-        android:layout_width="30dp"
+        android:layout_height="45dp"
+        android:layout_width="45dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/settings_cog"
-        android:onClick="settings()"
+        android:onClick="settings"
         android:contentDescription="@string/mapDesc" />
     
     <ImageButton
         android:id="@+id/logout_b"
-        android:layout_height="30dp"
-        android:layout_width="30dp"
+        android:layout_height="45dp"
+        android:layout_width="45dp"
         android:layout_below="@id/setting_b"
+        android:layout_alignParentRight="true"
         android:background="@drawable/logout_image"
-        android:onClick="logout()"
+        android:onClick="goToMain"
         android:contentDescription="@string/mapDesc" />
     
     <ImageButton
         android:id="@+id/character_b"
-        android:layout_height="10dp"
-        android:layout_width="10dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+        android:layout_height="45dp"
+        android:layout_width="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
         android:background="@drawable/person_image"
-        android:onClick="myCharacter()"
+        android:onClick="myCharacter"
         android:contentDescription="@string/mapDesc" />
     
     <ImageButton
         android:id="@+id/home_b"
-        android:layout_height="30dp"
-        android:layout_width="30dp"
+        android:layout_height="45dp"
+        android:layout_width="45dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/character_b"
         android:background="@drawable/house_building"
-        android:onClick="goHome()"
+        android:onClick="goHome"
         android:contentDescription="@string/mapDesc" />
         
 
