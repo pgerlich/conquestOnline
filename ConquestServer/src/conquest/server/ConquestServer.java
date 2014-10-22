@@ -9,6 +9,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import conquest.server.classes.LoginRequest;
+import conquest.server.classes.MySqlConnection;
 
 /**
  * This is a connection client. See the constructor for more details. 
@@ -34,6 +35,8 @@ public class ConquestServer {
 	//Array of online users.
 	public ArrayList<Connection> usersConnected;
 	public int numUsersConnected;
+	
+	private MySqlConnection con;
 	
 	
 	/**
@@ -61,23 +64,34 @@ public class ConquestServer {
 		
 		
 		//Bind Start up and bind ports
-		startServer(TCP, UDP);
-		
-		//Register classes
-		registerClasses(classes);
-		
-		//Adds a listened to the client (for responses from the server)
-		addListener();
-		
-		System.out.println("------ " + name + ":" + UDP + " ------");
-		
-		online = true;
+		if ( startServer(TCP, UDP) ) {
+			con = new MySqlConnection();
+			
+			//See if the connection succeded
+			if ( con.connected ) {
+				//Register classes
+				registerClasses(classes);
+				
+				//Adds a listened to the client (for responses from the server)
+				addListener();
+				
+				System.out.println("----- " + name + " : " + UDP + " -----");
+				
+				online = true;
+			} else {
+				online = false;
+			}	
+		} else {
+			online = false;
+			System.out.println("----- Binding server failed -----");
+		}
+
 	}
 	
 	/**
 	 * Start up the server and bind it to the ports and server.
 	 */
-	public void startServer(int TCP, int UDP){
+	public boolean startServer(int TCP, int UDP){
 		server.start();
 		
 		System.out.println("Server " + name + " online");
@@ -85,8 +99,10 @@ public class ConquestServer {
 		try {
 			server.bind(TCP, UDP);
 			System.out.println("Binded to UDP:" + UDP + " and listening.");
+			return true;
 		} catch (IOException e) {
 			System.out.println("Binding failed. Port already in use?");
+			return false;
 			//.printStackTrace();
 		}
 	}
@@ -116,9 +132,10 @@ public class ConquestServer {
 		    	  //Login request test
 		    	  if (obj instanceof LoginRequest) {
 		    		  
+		    		  LoginRequest user = (LoginRequest) obj;
+		    		  
 		    		  //If the connection is a new one
 		    		  if ( !usersConnected.contains(con) ) {
-		    			  LoginRequest user = (LoginRequest) obj;
 		    			  con.setName(user.user);
 		    			  
 			    		  //Add user to online array List and increase number of clients

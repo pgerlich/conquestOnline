@@ -11,6 +11,7 @@ public class MySqlConnection {
 	public static final String DBPASS = "Lau9-T_Kk";
 
 	private Connection con;
+	public boolean connected;
 	
 	/**
 	 * Create a MySql connection object
@@ -27,7 +28,7 @@ public class MySqlConnection {
 		}	
 		
 		
-		this.connect();
+		connected = connect();
 	}
 	
 	/**
@@ -64,16 +65,18 @@ public class MySqlConnection {
 		try {
 			stmt1 = con.createStatement();
 			
-			//Try and test user/password
-			ResultSet validate = stmt1.executeQuery("select * from users where username = " + user.user + " and password = " + user.password);
-		
+			//Set user and pass
+			ResultSet isValid = stmt1.executeQuery("select * from users where username = 'pgerlich' and password = 'paulg1450'");
+			
+			//get result set
+			//ResultSet isValid = validate.
+			
 			//If the credentials matched
-			if ( validate.next() ) {
+			if ( isValid.next() ) {
 				//Set the user to be logged in
-				PreparedStatement st = con.prepareStatement("UPDATE users SET loggedIn = ? WHERE username = ?");
+				PreparedStatement st = con.prepareStatement("UPDATE users SET loggedIn = ? WHERE loggedIn = 0");
 				st.setInt(1, 1);
-				st.setString(2,user.user);
-				st.executeQuery();
+				st.execute();
 			} else {
 				//Close connection
 				stmt1.close();
@@ -108,12 +111,13 @@ public class MySqlConnection {
 	/**
 	 * Connect to the MySql server
 	 */
-	public void connect(){
+	public boolean connect(){
 		//Try and connect
 		try {
 			//Connect and print out successfully
 			con = DriverManager.getConnection(DBURL, DBUSER, DBPASS);
 			System.out.println("*** Connected to Database ***");
+			return true;
 		}
 		
 		//Some error occured.
@@ -122,13 +126,8 @@ public class MySqlConnection {
 //			System.out.println("SQLState: " + E.getSQLState());
 //			System.out.println("VendorError: " + E.getErrorCode());
 			System.out.println("*** Unable to Connect ***");
+			return false;
 		} 
 	}
 	
-	public static void main(String args[]) {
-		LoginRequest test = new LoginRequest("pgerlich","paulg1450");
-		MySqlConnection con = new MySqlConnection();
-		con.test();
-		con.processLogin(test);
-	}
 }
