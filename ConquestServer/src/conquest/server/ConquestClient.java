@@ -107,7 +107,7 @@ public class ConquestClient {
 		Class[] classes = new Class[]{LoginRequest.class};
 		ConquestClient client = new ConquestClient("test", "127.0.0.1", 54555, 54777, classes);
 		
-		LoginRequest test = new LoginRequest("test", "test");
+		LoginRequest test = new LoginRequest("pgerlich", "paulg1450");
 		
 		client.client.sendUDP(test);
 	}
