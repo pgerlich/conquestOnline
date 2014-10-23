@@ -1,16 +1,17 @@
 package conquest.online;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-
-import android.support.v7.app.ActionBarActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class MapActivity extends ActionBarActivity {
 	
@@ -32,16 +33,6 @@ public class MapActivity extends ActionBarActivity {
 	}
 	
 	/**
-	 * When user taps the logout button, the user is logged out and taken to the login screen
-	 */
-	public void logout() {
-		Intent lo = new Intent(this, MainActivity.class);
-		//logging out of server and such here
-		
-		startActivity(lo);
-	}
-	
-	/**
 	 * When user taps character button the user is taken to the character screen
 	 */
 	public void myCharacter() {
@@ -53,6 +44,18 @@ public class MapActivity extends ActionBarActivity {
 	 */
 	public void goHome() {
 		
+	}
+	
+	/**
+	 * Used to adjust the health that is shown on the map screen
+	 */
+	public void updateHealth() {
+		TextView health = (TextView) findViewById(R.id.health_view);
+		String currentHealth = "";
+		String maxHealth = "";
+		// NEED TO GET CURRENT AND MAX HEALTH INFO
+		String display = "Health: " + currentHealth + "/" + maxHealth;
+		health.setText(display);
 	}
 
 	//test wtf
@@ -66,6 +69,7 @@ public class MapActivity extends ActionBarActivity {
     	} else {
     		//Display error message, close gracefully?
     	}
+    	updateHealth();
 	
 	}
 
