@@ -107,7 +107,7 @@ public class MySqlConnection {
 	 * @param user
 	 * @return The success/failure message
 	 */
-	public String processLogout(User user){
+	public String processLogout(LogoutRequest logout){
 		//Creating a statement
 		Statement stmt1;
 		
@@ -115,7 +115,7 @@ public class MySqlConnection {
 			stmt1 = con.createStatement();
 			
 			//compare user and token
-			ResultSet isValid = stmt1.executeQuery("select * from users where username = '" + user.username + "' and token = '" + user.token + "'");
+			ResultSet isValid = stmt1.executeQuery("select * from users where username = '" + logout.username + "' and token = '" + logout.token + "'");
 			
 			//If the credentials matched
 			if ( isValid.next() ) {
@@ -123,7 +123,7 @@ public class MySqlConnection {
 				PreparedStatement st = con.prepareStatement("UPDATE users SET loggedIn = ?, token = ? WHERE username = ?");
 				st.setInt(1, 0);
 				st.setString(2, "");
-				st.setString(3, user.username);
+				st.setString(3, logout.username);
 				st.execute();
 			} else {
 				//Close connection
@@ -135,7 +135,7 @@ public class MySqlConnection {
 			//Close connections
 			stmt1.close();
 			
-			return user.username + " logged out succesfully";
+			return logout.username + " logged out succesfully";
 		} catch (SQLException e) {
 			//System.out.println("Some error occured in test.");
 			e.printStackTrace();

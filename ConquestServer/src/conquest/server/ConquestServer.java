@@ -9,6 +9,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import conquest.server.classes.LoginRequest;
+import conquest.server.classes.LogoutRequest;
 import conquest.server.classes.MySqlConnection;
 import conquest.server.classes.RegisterRequest;
 import conquest.server.classes.User;
@@ -161,6 +162,11 @@ public class ConquestServer {
 		    	    	  RegisterRequest reggy = (RegisterRequest) obj;
 		    	    	  System.out.println(myCon.registerRequest(reggy));
 		    	      }
+		    	      
+		    	      //Logout request
+		    	      if (obj instanceof LogoutRequest) {
+		    	    	  
+		    	      }
 		       }
 		       
 		    });
@@ -181,20 +187,22 @@ public class ConquestServer {
 	 * @param user
 	 * @return
 	 */
-	public boolean kickFromServer(User user) {
+	public void kickFromServer(User user) {
 		//Send them message saying they're disconnected and close connection
 		user.con.sendUDP("You have been disconnected from the server");
 		user.con.close();
 		
+		LogoutRequest log = new LogoutRequest();
+		log.username = user.username;
+		log.token = user.token;
+		
 		//Log them out as far as the database is concerned
-		myCon.processLogout(user);
+		myCon.processLogout(log);
 		
 		//Remove them from the list of logged in users
 		usersConnected.remove(user);
 		
 		System.out.println(user.username + " kicked from server.");
-		
-		return true;
 	}
 		
 	public void statistics(){

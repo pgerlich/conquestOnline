@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import conquest.server.classes.LoginRequest;
+import conquest.server.classes.LogoutRequest;
 import conquest.server.classes.RegisterRequest;
 
 
@@ -118,8 +119,14 @@ public class ConquestClient {
 		reggy.email = "test@test.com";
 		reggy.accountTypeCharacter = 0;
 		
-		//client.client.sendUDP(test);
-		client.client.sendUDP(reggy);
+		
+		LogoutRequest log = new LogoutRequest();
+		log.username = "pgerlich";
+		log.token = null;
+		
+		client.client.sendUDP(test);
+		//client.client.sendUDP(reggy);
+		client.client.sendUDP(log);
 	}
 
 }

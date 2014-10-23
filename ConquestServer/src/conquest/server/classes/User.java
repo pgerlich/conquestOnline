@@ -9,6 +9,10 @@ public class User {
 	public String username;
 	public String token;
 	
+	//The users location. -1 = not on map currently (in some other screen)
+	public double latitude;
+	public double longitude;
+	
 	/**
 	 * Create a new user
 	 * @param username
