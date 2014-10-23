@@ -55,11 +55,17 @@
         </activity>
         <activity
             android:name=".CharacterActivity"
-            android:label="@string/title_activity_character" >
+            android:label="@string/title_activity_character"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name=".PropertyActivity"
-            android:label="@string/title_activity_property" >
+            android:label="@string/title_activity_property"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".StatsActivity"
+            android:label="@string/title_activity_stats" >
         </activity>
     </application>
 
@@ -72,13 +78,14 @@
     <!-- Permissions needed to implement Google Maps API -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!--
     <permission
         android:name="conquest.online.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"></permission>
     
-    <uses-permission android:name="conquest.online.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="conquest.online.permission.MAPS_RECEIVE" />
     -->
 
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />

@@ -77,6 +77,7 @@ public class MapActivity extends ActionBarActivity {
     		//Display error message, close gracefully?
     	}
     	updateHealth();
+    	
 	
 	}
 

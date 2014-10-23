@@ -1,9 +1,10 @@
 package conquest.online;
 
+import android.R;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 
 public class CharacterActivity extends Activity {
 
@@ -24,5 +25,10 @@ public class CharacterActivity extends Activity {
 		//Name
 		//Image
 		//STATS
+	}
+	
+	public void toStats(View view) {
+		Intent stats = new Intent(this, StatsActivity.class);
+		startActivity(stats);
 	}
 }

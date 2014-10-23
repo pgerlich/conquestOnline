@@ -42,4 +42,17 @@
     <string name="title_activity_character">CharacterActivity</string>
     <string name="title_activity_property">PropertyActivity</string>
 
+    <!-- Character Screen -->
+    <string name="itemPlace">Used to show what items a person has on him</string>
+    <string name="helmet">Helmet Holder, currently no item equipped</string>
+    <string name="chest">Chest piece holder, currently no item equipped</string>
+    <string name="leg">Leg holder, currently no item equipped</string>
+    <string name="boot">Boot holder, curretnly no item equipped</string>
+    <string name="weapon">Weapon holder, currently no weapon equipped</string>
+    <string name="stats">Player Stats</string>
+    <string name="title_activity_stats">StatsActivity</string>
+    
+    <!-- Property Screen -->
+    <string name="property">Property Information</string>
+
 </resources>
