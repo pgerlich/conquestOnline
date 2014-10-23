@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,28 +22,32 @@ public class MapActivity extends ActionBarActivity {
 	/**
 	 * When user taps social button, this function is called and takes user to Social Screen
 	 */
-	public void toSocial() {
-		
+	public void toSocial(View view) {
+		Intent soc = new Intent(this, SocialActivity.class);
+		startActivity(soc);
 	}
 	
+	public void logout(View view) {
+		goToMain();
+	}
 	/**
 	 * When user taps settings button this functino is called and takes user to the social screen
 	 */
-	public void settings() {
+	public void settings(View view) {
 		
 	}
 	
 	/**
 	 * When user taps character button the user is taken to the character screen
 	 */
-	public void myCharacter() {
+	public void myCharacter(View view) {
 		
 	}
 	
 	/**
 	 * when user taps the home button they are taken to their property if they have one
 	 */
-	public void goHome() {
+	public void goHome(View view) {
 		
 	}
 	

@@ -4,19 +4,19 @@
     <!-- Main Stuff -->
     <string name="app_name">Conquest</string>
     <string name="action_settings">Settings</string>
-	<string name="action_logout">Logout</string>
-	<string name="action_close">Close</string>
-	
-    <!--  Home Screen -->
+    <string name="action_logout">Logout</string>
+    <string name="action_close">Close</string>
+
+    <!-- Home Screen -->
     <string name="title_activity_main">Home</string>
     <string name="main_login">Login</string>
-    <string name="main_register">Register</string> 
-    
+    <string name="main_register">Register</string>
+
     <!-- Map Stuff -->
     <string name="title_activity_map">MapActivity</string>
     <string name="mapDesc">Buttons on the map screen that are pressable</string>
-    
-    <!--  Register Screen -->
+
+    <!-- Register Screen -->
     <string name="title_activity_register">Register</string>
     <string name="rs_welcome">Register Screen.</string>
     <string name="rs_user">Username:</string>
@@ -29,6 +29,13 @@
     <string name="engineer_b">Engineer</string>
     <string name="soldier_b">Soldier</string>
     <string name="characterButton">Button used to select class type of character</string>
-   
+    <string name="title_activity_social">SocialActivity</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <!-- Social Screen -->
+    <string name="social_screen">Social</string>
+    <string name="friend">Friends</string>
+    <string name="guild">Guild Members</string>
+    <string name="enemy">Enemies</string>
 
 </resources>

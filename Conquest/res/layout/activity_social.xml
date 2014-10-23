@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="conquest.online.SocialActivity" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/social_screen"
+        android:textSize="30sp" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:weightSum="3" >
+        
+        <LinearLayout
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_weight="1" >
+            
+            <TextView
+                android:id="@+id/friend"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/friend"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                android:textColor="#00FF00"
+            
+        </LinearLayout>
+        <LinearLayout
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_weight="1" >
+            
+            <TextView
+                android:id="@+id/guild"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/guild"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                android:textColor="#0000FF"
+            
+        </LinearLayout>
+        <LinearLayout
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_weight="1" >
+            
+            <TextView
+                android:id="@+id/enemy"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/enemy"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                android:textColor="#FF0000"
+            
+        </LinearLayout>
+        
+    </LinearLayout>
+            
+
+</LinearLayout>
