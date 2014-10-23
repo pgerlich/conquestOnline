@@ -10,6 +10,8 @@ import com.esotericsoftware.kryonet.Server;
 
 import conquest.server.classes.LoginRequest;
 import conquest.server.classes.MySqlConnection;
+import conquest.server.classes.RegisterRequest;
+import conquest.server.classes.User;
 
 /**
  * This is a connection client. See the constructor for more details. 
@@ -33,10 +35,9 @@ public class ConquestServer {
 	public String purpose;
 	
 	//Array of online users.
-	public ArrayList<Connection> usersConnected;
-	public int numUsersConnected;
+	public ArrayList<User> usersConnected;
 	
-	private MySqlConnection con;
+	public MySqlConnection myCon;
 	
 	
 	/**
@@ -60,15 +61,15 @@ public class ConquestServer {
 		this.TCP = TCP;
 		this.UDP = UDP;
 		this.name = name;
-		usersConnected = new ArrayList<Connection>();
+		usersConnected = new ArrayList<User>();
 		
 		
 		//Bind Start up and bind ports
 		if ( startServer(TCP, UDP) ) {
-			con = new MySqlConnection();
+			myCon = new MySqlConnection();
 			
 			//See if the connection succeded
-			if ( con.connected ) {
+			if ( myCon.connected ) {
 				//Register classes
 				registerClasses(classes);
 				
@@ -129,49 +130,84 @@ public class ConquestServer {
 		       public void received (Connection con, Object obj) {
 		    	  System.out.print("(" + con.getRemoteAddressUDP() + ")" + ": ");
 		          
-		    	  //Login request test
+		    	  //Login request
 		    	  if (obj instanceof LoginRequest) {
 		    		  
 		    		  LoginRequest user = (LoginRequest) obj;
 		    		  
-		    		  //If the connection is a new one
-		    		  if ( !usersConnected.contains(con) ) {
-		    			  con.setName(user.user);
-		    			  
-			    		  //Add user to online array List and increase number of clients
-			    		  usersConnected.add(con);
-			    		  numUsersConnected++;
-			    		  
-			    		  System.out.println(con.toString() + " Logged in.");
-			    		  
-			    	  //If the connection is not new - second log in attempt
-		    		  } else {
-		    			  //WTF happened - how is this person logging in twice?
+		    		  //See if this user is logged in 
+		    		  User thisUser = findUser(user.user);
+		    		  
+		    		  //If this user is logged in, kick them
+		    		  if ( thisUser != null ) {
+		    			  kickFromServer(thisUser);
 		    		  }
-
-		    		  //Print some basic connection stats.
-		    		  statistics();
-		    	  }
+		    		  
+		    		  //Make a new user object
+		    		  thisUser = new User(user.user, myCon.generateToken());
+		    		  
+		    		  //Name connection (Ip/Port) after user. Connect it to this user
+		    		  con.setName(user.user);
+		    		  thisUser.con = con;
+		    		  
+		    		  //Log the user in and set their token. Add to logged in users
+		    		  System.out.println(myCon.processLogin(user, thisUser.token));
+		    		  usersConnected.add(thisUser);
+		    		  
+		    		  }
+		    	  
+		    	      //Registration request
+		    	      if (obj instanceof RegisterRequest) {
+		    	    	  RegisterRequest reggy = (RegisterRequest) obj;
+		    	    	  System.out.println(myCon.registerRequest(reggy));
+		    	      }
 		       }
 		       
 		    });
 	}
 	
-	public void loginUser(LoginRequest user) {
+	public User findUser(String username) {
+		for(int i = 0; i < usersConnected.size(); i++) {
+			if ( usersConnected.get(i).username.equals(username) ){
+				return usersConnected.get(i);
+			}
+		}
 		
+		return null;
 	}
 	
+	/**
+	 * Kick the user from the server
+	 * @param user
+	 * @return
+	 */
+	public boolean kickFromServer(User user) {
+		//Send them message saying they're disconnected and close connection
+		user.con.sendUDP("You have been disconnected from the server");
+		user.con.close();
+		
+		//Log them out as far as the database is concerned
+		myCon.processLogout(user);
+		
+		//Remove them from the list of logged in users
+		usersConnected.remove(user);
+		
+		System.out.println(user.username + " kicked from server.");
+		
+		return true;
+	}
+		
 	public void statistics(){
-		System.out.println("# of users connected: " + numUsersConnected);
+		System.out.println("# of users connected: " + usersConnected.size());
 		for ( int i = 0; i < usersConnected.size(); i++ ) {
 			System.out.println(usersConnected.get(i).toString());
 		}
 	}
 	
+	@SuppressWarnings({ "unused", "rawtypes" })
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{LoginRequest.class};
+		Class[] classes = new Class[]{LoginRequest.class, RegisterRequest.class};
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777, classes);
 		
-			  
-}
 	}
+}

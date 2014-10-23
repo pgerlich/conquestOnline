@@ -4,10 +4,8 @@ import java.io.IOException;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
-import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
-
 import conquest.server.classes.LoginRequest;
+import conquest.server.classes.RegisterRequest;
 
 
 /**
@@ -104,11 +102,24 @@ public class ConquestClient {
 //	}
 	
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{LoginRequest.class};
+		@SuppressWarnings("rawtypes")
+		Class[] classes = new Class[]{LoginRequest.class, RegisterRequest.class};
+		
 		ConquestClient client = new ConquestClient("test", "127.0.0.1", 54555, 54777, classes);
+
+		LoginRequest test = new LoginRequest();
+		test.user = "pgerlich";
+		test.password = "paulg1450";
 		
-		LoginRequest test = new LoginRequest("pgerlich", "paulg1450");
+		RegisterRequest reggy = new RegisterRequest();
+		reggy.username = "test";
+		reggy.password = "test";
+		reggy.accountType = 0;
+		reggy.email = "test@test.com";
+		reggy.accountTypeCharacter = 0;
 		
-		client.client.sendUDP(test);
+		//client.client.sendUDP(test);
+		client.client.sendUDP(reggy);
 	}
+
 }
