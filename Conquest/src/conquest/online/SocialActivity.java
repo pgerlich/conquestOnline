@@ -22,7 +22,11 @@ public class SocialActivity extends ActionBarActivity {
 	 * called when the user hits the add friend button
 	 */
 	public void addFriend(View view) {
-		//potentially use to add users to view
+		/*
+		 * either do it this way, or we can make it so that adding a friend adds
+		 * them to the database, and then we call a different method to populate the 
+		 * friends into the screen for viewing stuff. 
+		 */
 		LinearLayout friend = (LinearLayout) findViewById(R.id.friend_list);
 		EditText usr = (EditText) findViewById(R.id.newFriend);
 		String name = usr.getText().toString();

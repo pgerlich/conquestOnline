@@ -31,7 +31,7 @@
     <string name="characterButton">Button used to select class type of character</string>
     <string name="title_activity_social">SocialActivity</string>
     <string name="hello_world">Hello world!</string>
-    
+
     <!-- Social Screen -->
     <string name="social_screen">Social</string>
     <string name="friend">Friends</string>
@@ -39,5 +39,7 @@
     <string name="enemy">Enemies</string>
     <string name="add_friend">Add Friend</string>
     <string name="userEmail">User name/ Email</string>
+    <string name="title_activity_character">CharacterActivity</string>
+    <string name="title_activity_property">PropertyActivity</string>
 
 </resources>

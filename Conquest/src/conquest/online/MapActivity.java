@@ -41,14 +41,16 @@ public class MapActivity extends ActionBarActivity {
 	 * When user taps character button the user is taken to the character screen
 	 */
 	public void myCharacter(View view) {
-		
+		Intent character = new Intent(this, CharacterActivity.class);
+		startActivity(character);
 	}
 	
 	/**
 	 * when user taps the home button they are taken to their property if they have one
 	 */
 	public void goHome(View view) {
-		
+		Intent property = new Intent(this, PropertyActivity.class);
+		startActivity(property);
 	}
 	
 	/**
