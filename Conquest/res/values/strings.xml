@@ -37,5 +37,7 @@
     <string name="friend">Friends</string>
     <string name="guild">Guild Members</string>
     <string name="enemy">Enemies</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="userEmail">User name/ Email</string>
 
 </resources>

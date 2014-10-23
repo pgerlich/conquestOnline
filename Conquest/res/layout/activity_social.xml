@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context="conquest.online.SocialActivity" >
 
     <TextView
@@ -15,60 +15,101 @@
         android:gravity="center_horizontal"
         android:text="@string/social_screen"
         android:textSize="30sp" />
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:orientation="horizontal"
-        android:weightSum="3" >
-        
+        android:weightSum="4" >
+
+        <LinearLayout
+            android:id="@+id/friend_list"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/friend"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/friend"
+                    android:textColor="#00FF00"
+                    android:textSize="20sp" />
+
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/guild_list"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/guild"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/guild"
+                    android:textColor="#0000FF"
+                    android:textSize="20sp" />
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/enemy_list"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/enemy"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/enemy"
+                    android:textColor="#FF0000"
+                    android:textSize="20sp" />
+            </ScrollView>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:layout_weight="1" >
-            
-            <TextView
-                android:id="@+id/friend"
-                android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/newFriend"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/friend"
-                android:gravity="center_horizontal"
-                android:textSize="20sp"
-                android:textColor="#00FF00"
-            
-        </LinearLayout>
-        <LinearLayout
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:layout_weight="1" >
-            
-            <TextView
-                android:id="@+id/guild"
-                android:layout_width="fill_parent"
+                android:ems="10"
+                android:hint="@string/userEmail"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/add_friend_b"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/guild"
-                android:gravity="center_horizontal"
-                android:textSize="20sp"
-                android:textColor="#0000FF"
-            
+                android:onClick="addFriend"
+                android:text="@string/add_friend" >
+            </Button>
         </LinearLayout>
-        <LinearLayout
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:layout_weight="1" >
-            
-            <TextView
-                android:id="@+id/enemy"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/enemy"
-                android:gravity="center_horizontal"
-                android:textSize="20sp"
-                android:textColor="#FF0000"
-            
-        </LinearLayout>
-        
     </LinearLayout>
-            
 
 </LinearLayout>
