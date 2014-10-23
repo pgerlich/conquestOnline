@@ -65,7 +65,13 @@
         </activity>
         <activity
             android:name=".StatsActivity"
-            android:label="@string/title_activity_stats" >
+            android:label="@string/title_activity_stats"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".ShopActivity"
+            android:label="@string/title_activity_shop"
+            android:screenOrientation="landscape" >
         </activity>
     </application>
 
@@ -85,7 +91,7 @@
         android:name="conquest.online.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"></permission>
     
-    <uses-permission android:name="conquest.online.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="conquest.online.permission.MAPS_RECEIVE" />
     -->
 
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />

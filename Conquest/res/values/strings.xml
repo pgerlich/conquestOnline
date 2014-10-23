@@ -51,8 +51,21 @@
     <string name="weapon">Weapon holder, currently no weapon equipped</string>
     <string name="stats">Player Stats</string>
     <string name="title_activity_stats">StatsActivity</string>
-    
+
     <!-- Property Screen -->
     <string name="property">Property Information</string>
+    <string name="title_activity_shop">ShopActivity</string>
+    
+    <!-- Shop Screen -->
+    <string name="apple">Adds 50 pts to health - 50g</string>
+    <string name="chicken">Adds 200 pts to health - 200g</string>
+    <string name="sandwich">Adds 100 pts to health - 100g</string>
+    <string name="cupcake">Adds 10 pts to health - 10g</string>
+    <string name="shop">Store</string>
+    <string name="health">Health Items</string>
+    <string name="weapons">Weapons and Ammo</string>
+    <string name="hDef">Home defense items</string>
+    <string name="hOff">Home offense items</string>
+    <string name="shopItem">Item that can be purchased in the shop</string>
 
 </resources>

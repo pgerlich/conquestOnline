@@ -46,7 +46,7 @@
         android:layout_below="@id/setting_b"
         android:layout_alignParentRight="true"
         android:background="@drawable/logout_image"
-        android:onClick="goToMain"
+        android:onClick="logout"
         android:contentDescription="@string/mapDesc" />
     
     <ImageButton

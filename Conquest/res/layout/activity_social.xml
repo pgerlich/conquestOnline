@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/social_screen"
-        android:textSize="30sp" />
+        android:textSize="30sp" />.
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,6 +24,7 @@
 
         <LinearLayout
             android:id="@+id/friend_list"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:orientation="vertical" >
@@ -47,6 +48,7 @@
 
         <LinearLayout
             android:id="@+id/guild_list"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:orientation="vertical" >
@@ -69,6 +71,7 @@
 
         <LinearLayout
             android:id="@+id/enemy_list"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:orientation="vertical" >
@@ -90,6 +93,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:orientation="vertical" >
