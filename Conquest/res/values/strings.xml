@@ -67,5 +67,10 @@
     <string name="hDef">Home defense items</string>
     <string name="hOff">Home offense items</string>
     <string name="shopItem">Item that can be purchased in the shop</string>
+    <string name="knife">Has an attack of 5 - 150g</string>
+    <string name="sword">Has an attack of 15 - 400g</string>
+    <string name="pistol">Has an attack of 50 - 1050g</string>
+    <string name="rifle">Has an attack to 200 - 2500g</string>
+    
 
 </resources>
