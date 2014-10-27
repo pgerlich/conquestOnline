@@ -9,6 +9,8 @@ import conquest.online.gameAssets.Items.Weapon;
 
 public abstract class AbstractActor implements Visible, Attackable{
 	
+	protected Coordinate coordinates;
+	
 	protected Weapon[] equippedWeapons;
 	protected Armor[] equippedArmor;
 	
@@ -16,6 +18,8 @@ public abstract class AbstractActor implements Visible, Attackable{
 	protected int baseDefense;
 	protected int baseSpeed;
 	protected int baseRange;
+	protected int maxHealth;
+	protected int currentHealth;
 	
 	protected String Name;
 	
@@ -23,20 +27,32 @@ public abstract class AbstractActor implements Visible, Attackable{
 	
 	
 	public void adjustCurrentHealth(int change) {
+		currentHealth += change;
 	}
 	
-
 	public int getCurrentHealth() {
-		return 0;
+		return currentHealth;
 	}
 	
 	public void adjustMaxHealth(int change) {
+		maxHealth += change;
 	}
 	
 	public int getMaxHealth() {
-		return 0;
+		return maxHealth;
 	}
 	
+	public void equip(AbstractEquipableItem item){}
+	
+	
+	
+	
+	///////////////////////////////////////////////////////////////////
+	/// Displaying Character /////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////
+	
+	
+	//Coming Soon!
 	public void drawSelf(Coordinate c) {
 		// TODO Auto-generated method stub
 
@@ -44,16 +60,27 @@ public abstract class AbstractActor implements Visible, Attackable{
 
 	public Coordinate getCoordinate() {
 		// TODO Auto-generated method stub
-		return null;
+		return coordinates;
 	}
 
 	public void setCoordinate(Coordinate c) {
-		// TODO Auto-generated method stub
+		coordinates = c;
 
 	}
 	
+	//allows adjustment of coordinates without creating new coordinates (used for player movement)
+	public void adjustCoordinate(int latChange, int lonChange){
+		Coordinate c = new Coordinate(coordinates.getX() + latChange, coordinates.getY() + lonChange);
+		setCoordinate(c);
+	}
 	
-	public void equip(AbstractEquipableItem item){}
+	
+	//Moving character 
+	public void moveCharacterTo(Coordinate c){
+		setCoordinate(coordinates.add(coordinates.getUnitMoveVector(c))); // gets unit movement and adds to position
+		
+	}
+
 	
 	
 }
