@@ -128,7 +128,7 @@ public class MySqlConnection {
 			} else {
 				//Close connection
 				stmt1.close();
-				return "Invalid token or username. Request not processed";
+				return "Invalid token or username. Request not processed.";
 			}
 			
 			

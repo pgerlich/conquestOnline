@@ -1,17 +1,23 @@
 package conquest.server;
 
 import java.io.IOException;
-
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+
 import conquest.server.classes.LoginRequest;
 import conquest.server.classes.LogoutRequest;
+import conquest.server.classes.LogoutResponse;
 import conquest.server.classes.RegisterRequest;
+import conquest.server.classes.LoginResponse;
+import conquest.server.classes.User;
 
 
 /**
  * This is a connection client. See the constructor for more details. 
  * 
+ * This client is used for login, logout, registration, and movement features
  * 
  * @author Paul
  *
@@ -29,6 +35,7 @@ public class ConquestClient {
 	public String name;
 	public String purpose;
 	
+	public User user;
 	
 	/**
 	 * Creates a connection client that connects to the specified host and ports.
@@ -43,7 +50,10 @@ public class ConquestClient {
 		
 		//Create and start our client
 		client = new Client();
-		client.start();
+		
+		//OK! So with the new release - this thread wilk be a daemon thread that shuts down when the child process shuts down (the main function call)
+		//So, we start this is in a new thread.
+		new Thread(client).start();
 		
 		//Set the variables
 		this.TCP = TCP;
@@ -57,7 +67,25 @@ public class ConquestClient {
 		registerClasses(classes);
 		
 		//Adds a listened to the client (for responses from the server)
-		//addListener();
+	   client.addListener(new Listener() {
+	       public void received (Connection connection, Object object) {
+	          if (object instanceof LoginResponse) {
+	        	 LoginResponse login = (LoginResponse) object;
+	             user = new User(login.username, login.message);
+	             System.out.println(login.message);
+	          }
+	          
+	          if (object instanceof LogoutResponse) {
+	        	  LogoutResponse logout = (LogoutResponse) object;
+	        	  System.out.println(logout.message);
+	        	  
+	        	  //If logged out successfully
+	        	  user = null;
+	          }
+	          
+
+	       }
+	    });
 		
 	}
 	
@@ -87,46 +115,40 @@ public class ConquestClient {
 	    	kryo.register(classes[i]);
 	    }
 	}
-	
-	/**
-	 * Add a listener to the client to deal with server responses! :D
-	 */
-//	public void addListener(){
-//		   client.addListener(new Listener() {
-//		       public void received (Connection con, Object obj) {
-//		          if (obj instanceof SomeResponse) {
-//		             SomeResponse response = (SomeResponse)obj;
-//		             System.out.println(response.text);
-//		          }
-//		       }
-//		    });
-//	}
-	
-	public static void main(String args[]) {
-		@SuppressWarnings("rawtypes")
-		Class[] classes = new Class[]{LoginRequest.class, RegisterRequest.class};
-		
-		ConquestClient client = new ConquestClient("test", "127.0.0.1", 54555, 54777, classes);
 
-		LoginRequest test = new LoginRequest();
-		test.user = "pgerlich";
-		test.password = "paulg1450";
-		
-		RegisterRequest reggy = new RegisterRequest();
-		reggy.username = "test";
-		reggy.password = "test";
-		reggy.accountType = 0;
-		reggy.email = "test@test.com";
-		reggy.accountTypeCharacter = 0;
-		
-		
-		LogoutRequest log = new LogoutRequest();
-		log.username = "pgerlich";
-		log.token = null;
-		
-		client.client.sendUDP(test);
-		//client.client.sendUDP(reggy);
-		client.client.sendUDP(log);
-	}
+	/**
+	 * Tests for the logging in and out and registration
+	 */
+//	public static void main(String args[]) {
+//		@SuppressWarnings("rawtypes")
+//		Class[] classes = new Class[]{LoginRequest.class, RegisterRequest.class, LogoutRequest.class, LoginResponse.class, LogoutResponse.class};
+//		ConquestClient client = new ConquestClient("test", "127.0.0.1", 54555, 54777, classes);
+//
+//		
+//		LoginRequest login = new LoginRequest();
+//		login.user = "pgerlich";
+//		login.password = "paulg1450";
+//		
+//		client.client.sendTCP(login);
+//		
+//		RegisterRequest reggy = new RegisterRequest();
+//		reggy.username = "test1";
+//		reggy.password = "test";
+//		reggy.accountType = 0;
+//		reggy.email = "test1@test.com";
+//		reggy.accountTypeCharacter = 0;
+//		
+//		client.client.sendUDP(reggy);
+//		
+//		
+//		LogoutRequest log = new LogoutRequest();
+//		log.username = client.user.username;
+//		log.token = client.user.token;
+//		
+//		
+//		client.client.sendUDP(log);
+//		
+//		
+//	}
 
 }

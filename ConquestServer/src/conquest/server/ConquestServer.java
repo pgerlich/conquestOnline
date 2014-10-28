@@ -9,7 +9,9 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import conquest.server.classes.LoginRequest;
+import conquest.server.classes.LoginResponse;
 import conquest.server.classes.LogoutRequest;
+import conquest.server.classes.LogoutResponse;
 import conquest.server.classes.MySqlConnection;
 import conquest.server.classes.RegisterRequest;
 import conquest.server.classes.User;
@@ -129,10 +131,10 @@ public class ConquestServer {
 	public void addListener(){
 		   server.addListener(new Listener() {
 		       public void received (Connection con, Object obj) {
-		    	  System.out.print("(" + con.getRemoteAddressUDP() + ")" + ": ");
-		          
+		    	   
 		    	  //Login request
 		    	  if (obj instanceof LoginRequest) {
+		    		  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
 		    		  
 		    		  LoginRequest user = (LoginRequest) obj;
 		    		  
@@ -155,18 +157,36 @@ public class ConquestServer {
 		    		  System.out.println(myCon.processLogin(user, thisUser.token));
 		    		  usersConnected.add(thisUser);
 		    		  
-		    		  }
+		    		  //Set token to send
+		    		  String token = thisUser.token;
+		    		  LoginResponse response = new LoginResponse();
+		    		  response.message = token;
+		    		  response.username = user.user;
+		    		  
+		    		  //CHANGE MESSAGE BASED ON SUCCCESS/FAILURE OF PASSWORD
+		    		  response.message = "Logged in succesfully";
+		    		  
+		    		  //Send back the user object w/ token
+		    		  con.sendUDP(response);
+		    	  }
 		    	  
-		    	      //Registration request
-		    	      if (obj instanceof RegisterRequest) {
-		    	    	  RegisterRequest reggy = (RegisterRequest) obj;
-		    	    	  System.out.println(myCon.registerRequest(reggy));
-		    	      }
+	    	      //Registration request
+	    	      if (obj instanceof RegisterRequest) {
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+	    	    	  RegisterRequest reggy = (RegisterRequest) obj;
+	    	    	  System.out.println(myCon.registerRequest(reggy));
+	    	      }
 		    	      
-		    	      //Logout request
-		    	      if (obj instanceof LogoutRequest) {
-		    	    	  
-		    	      }
+	    	      //Logout request
+	    	      if (obj instanceof LogoutRequest) {
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+	    	    	  LogoutRequest log = (LogoutRequest) obj;
+	    	    	  System.out.println(myCon.processLogout(log));
+	    	    	  
+	    	    	  LogoutResponse logout = new LogoutResponse();
+	    	    	  logout.message = "Logged out successfully";
+	    	    	  con.sendUDP(logout);
+	    	      }
 		       }
 		       
 		    });
@@ -214,7 +234,7 @@ public class ConquestServer {
 	
 	@SuppressWarnings({ "unused", "rawtypes" })
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{LoginRequest.class, RegisterRequest.class};
+		Class[] classes = new Class[]{LoginRequest.class, RegisterRequest.class, LogoutRequest.class, LoginResponse.class, LogoutResponse.class};
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777, classes);
 		
 	}
