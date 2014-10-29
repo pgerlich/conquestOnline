@@ -8,6 +8,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import conquest.client.classes.LoginRequest;
+import conquest.client.classes.LoginResponse;
+import conquest.online.client.ConquestClient;
+
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -312,43 +316,59 @@ import android.widget.TextView;
 			
 			String IP = IPGrabber.getIPAddress(false);
 			
-			if ( IP == null ) {
-				IP = IPGrabber.getIPAddress(true);
-			}
+//			if ( IP == null ) {
+//				IP = IPGrabber.getIPAddress(true);
+//			}
 
 			//Query the login script with their entered username/password
-	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
-	        postParams.add(new BasicNameValuePair("username", mUsername));
-	        postParams.add(new BasicNameValuePair("password", mPassword));
-	        postParams.add(new BasicNameValuePair("IP", IP));
-	        
-			JSONObject loginAttempt = JSONfunctions.getJSONfromURL("http://www.gerlichsoftwaresolutions.net/conquest/login.php", postParams);
+//	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
+//	        postParams.add(new BasicNameValuePair("username", mUsername));
+//	        postParams.add(new BasicNameValuePair("password", mPassword));
+//	        postParams.add(new BasicNameValuePair("IP", IP));
 			
-			
-			//Try and check if it succeeded
-			try {
-				String success = loginAttempt.getString("success");
-				
-				//Return true on success
-				if ( success.equals("1") ) {
+			//Send login request to server
+			Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class};
+			ConquestClient client = new ConquestClient("test", "proj-309-R12.cs.iastate.edu", 54555, 54777, classes);
 
-					UserSession User = new UserSession(getApplicationContext());
-					User.logIn(mUsername);
-					
-					return true;
-					
-				//Set error message and return false.
-				} else {
-					mPasswordView.setError(loginAttempt.getString("message"));
-					return false;
-				}
+			client.login(mUsername, mPassword);
 			
-			//Off chance that some weird shit happens
-			} catch (JSONException e) {
-				//Something went wrong - typically JSON value doesn't exist (success).
-				mPasswordView.setError("An error occured. Please try again later.");
+//			JSONObject loginAttempt = JSONfunctions.getJSONfromURL("http://www.gerlichsoftwaresolutions.net/conquest/login.php", postParams);
+//			
+			if ( client.logRes.success ) {
+				UserSession User = new UserSession(getApplicationContext());
+				User.logIn(mUsername);
+				
+				return true;
+			} else {
+				mPasswordView.setError(client.logRes.message);
 				return false;
 			}
+			
+			
+//			//Try and check if it succeeded
+//			try {
+//				String success = loginAttempt.getString("success");
+//				
+//				//Return true on success
+//				if ( success.equals("1") ) {
+//
+//					UserSession User = new UserSession(getApplicationContext());
+//					User.logIn(mUsername);
+//					
+//					return true;
+//					
+//				//Set error message and return false.
+//				} else {
+//					mPasswordView.setError(loginAttempt.getString("message"));
+//					return false;
+//				}
+//			
+//			//Off chance that some weird shit happens
+//			} catch (JSONException e) {
+//				//Something went wrong - typically JSON value doesn't exist (success).
+//				mPasswordView.setError("An error occured. Please try again later.");
+//				return false;
+//			}
 			
 		}
 

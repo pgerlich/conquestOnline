@@ -1,15 +1,18 @@
 package conquest.online.client;
 
 import java.io.IOException;
-
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
+import conquest.client.classes.*;
+
+
 /**
  * This is a connection client. See the constructor for more details. 
  * 
+ * This client is used for login, logout, registration, and movement features
  * 
  * @author Paul
  *
@@ -27,6 +30,9 @@ public class ConquestClient {
 	public String name;
 	public String purpose;
 	
+	public LoginResponse logRes;
+	
+	public User user;
 	
 	/**
 	 * Creates a connection client that connects to the specified host and ports.
@@ -41,7 +47,10 @@ public class ConquestClient {
 		
 		//Create and start our client
 		client = new Client();
-		client.start();
+		
+		//OK! So with the new release - this thread wilk be a daemon thread that shuts down when the child process shuts down (the main function call)
+		//So, we start this is in a new thread.
+		new Thread(client).start();
 		
 		//Set the variables
 		this.TCP = TCP;
@@ -55,7 +64,26 @@ public class ConquestClient {
 		registerClasses(classes);
 		
 		//Adds a listened to the client (for responses from the server)
-		addListener();
+	   client.addListener(new Listener() {
+	       public void received (Connection connection, Object object) {
+	          if (object instanceof LoginResponse) {
+	        	 LoginResponse login = (LoginResponse) object;
+	             user = new User(login.username, login.message);
+	             logRes = login;
+	             System.out.println(login.message);
+	          }
+	          
+	          if (object instanceof LogoutResponse) {
+	        	  LogoutResponse logout = (LogoutResponse) object;
+	        	  System.out.println(logout.message);
+	        	  
+	        	  //If logged out successfully
+	        	  user = null;
+	          }
+	          
+
+	       }
+	    });
 		
 	}
 	
@@ -65,21 +93,25 @@ public class ConquestClient {
 	public void startClient(String host, int TCP, int UDP){
 		try {
 			client.connect(5000, host, TCP, UDP);
+			System.out.println("Succesfully connected to server " + host);
 		} catch (IOException e) {
-			// Catch error and handle it
+			System.out.println("Could not connect to server " + host);
 			//.printStackTrace();
 		}
 	}
 	
-	/**
-	 * Send a basic message to the server
-	 * @param message
-	 */
-	public void SendMessageToServer(int message){
+	public void login(String username, String password) {
+		LoginRequest login = new LoginRequest();
+		login.user = "pgerlich";
+		login.password = "paulg1450";
 		
-		client.sendUDP(message);
+		//Send login request
+		this.client.sendUDP(login);
+		
+		
 	}
 	
+
 	/**
 	 * Bind the classes - IN THE SAME ORDER AS THE SERVER
 	 */
@@ -92,37 +124,32 @@ public class ConquestClient {
 	    	kryo.register(classes[i]);
 	    }
 	}
-	
+
 	/**
-	 * Add a listener to the client to deal with server responses! :D
+	 * Tests for the logging in and out and registration
 	 */
-	public void addListener(){
-		   client.addListener(new Listener() {
-		       public void received (Connection con, Object obj) {
-		          if (obj instanceof SomeResponse) {
-		             SomeResponse response = (SomeResponse)obj;
-		             System.out.println(response.text);
-		          }
-		       }
-		    });
-	}
-	
-	public class SomeResponse{
-		public String text;
-	}
-	
-	
-	public class SomeRequest{
-		public String text;
-	}
-	
-	public static void main(String args[]) {
-		Class[] classes = new Class[]{SomeResponse.class, SomeRequest.class};
-		ConquestClient client = new ConquestClient("test", "127.0.0.1", 54555, 54777, classes);
-		
-		for (int i = 0; i < 5; i++ ) {
-			client.SendMessageToServer(i);
-		}
-		
-	}
+//	public static void main(String args[]) {
+//		@SuppressWarnings("rawtypes")
+//		Class[] classes = new Class[]{LoginRequest.class, RegisterRequest.class, LogoutRequest.class, LoginResponse.class, LogoutResponse.class};
+//		ConquestClient client = new ConquestClient("test", "proj-309-R12.cs.iastate.edu", 54555, 54777, classes);
+//
+//		
+//		RegisterRequest reggy = new RegisterRequest();
+//		reggy.username = "test1";
+//		reggy.password = "test";
+//		reggy.accountType = 0;
+//		reggy.email = "test1@test.com";
+//		reggy.accountTypeCharacter = 0;
+//		
+//		client.client.sendUDP(reggy);
+//		
+//		
+//		LogoutRequest log = new LogoutRequest();
+//		log.username = client.user.username;
+//		log.token = client.user.token;
+//		
+//		
+//		client.client.sendUDP(log);
+//	}
+
 }
