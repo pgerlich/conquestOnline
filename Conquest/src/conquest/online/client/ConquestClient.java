@@ -17,7 +17,7 @@ import conquest.client.classes.*;
  * @author Paul
  *
  */
-public class ConquestClient {
+public class ConquestClient implements Runnable {
 
 	//Client to connect to
 	public Client client;
@@ -30,6 +30,7 @@ public class ConquestClient {
 	public String name;
 	public String purpose;
 	
+	//Response from loggin in
 	public LoginResponse logRes;
 	
 	public User user;
@@ -42,8 +43,9 @@ public class ConquestClient {
 	 * @param host - The host to connect to
 	 * @param TCP - TCP Port to bind to
 	 * @param UDP - UDP Port to bind to
+	 * @throws IOException 
 	 */
-	public ConquestClient(String name, String host, int TCP, int UDP, @SuppressWarnings("rawtypes") Class[] classes){
+	public ConquestClient(String name, String host, int TCP, int UDP, @SuppressWarnings("rawtypes") Class[] classes) throws IOException{
 		
 		//Create and start our client
 		client = new Client();
@@ -67,21 +69,15 @@ public class ConquestClient {
 	   client.addListener(new Listener() {
 	       public void received (Connection connection, Object object) {
 	          if (object instanceof LoginResponse) {
-	        	 LoginResponse login = (LoginResponse) object;
-	             user = new User(login.username, login.message);
-	             logRes = login;
-	             System.out.println(login.message);
+	        	 logRes = (LoginResponse) object;
+	             user = new User(logRes.username, logRes.message);
 	          }
 	          
 	          if (object instanceof LogoutResponse) {
 	        	  LogoutResponse logout = (LogoutResponse) object;
-	        	  System.out.println(logout.message);
-	        	  
 	        	  //If logged out successfully
 	        	  user = null;
 	          }
-	          
-
 	       }
 	    });
 		
@@ -89,26 +85,20 @@ public class ConquestClient {
 	
 	/**
 	 * Start up the client and bind it to the ports and server.
+	 * @throws IOException 
 	 */
-	public void startClient(String host, int TCP, int UDP){
-		try {
-			client.connect(5000, host, TCP, UDP);
-			System.out.println("Succesfully connected to server " + host);
-		} catch (IOException e) {
-			System.out.println("Could not connect to server " + host);
-			//.printStackTrace();
-		}
+	public void startClient(String host, int TCP, int UDP) throws IOException{
+		client.connect(5000, host, TCP, UDP);
+		//System.out.println("Succesfully connected to server " + host);
 	}
 	
 	public void login(String username, String password) {
 		LoginRequest login = new LoginRequest();
-		login.user = "pgerlich";
-		login.password = "paulg1450";
+		login.user = username;
+		login.password = password;
 		
 		//Send login request
 		this.client.sendUDP(login);
-		
-		
 	}
 	
 
@@ -123,6 +113,11 @@ public class ConquestClient {
 	    for(int i = 0; i < classes.length; i++) {
 	    	kryo.register(classes[i]);
 	    }
+	}
+
+	@Override
+	public void run() {
+		this.client.run();
 	}
 
 	/**

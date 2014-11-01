@@ -6,12 +6,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-import conquest.server.classes.LoginRequest;
-import conquest.server.classes.LogoutRequest;
-import conquest.server.classes.LogoutResponse;
-import conquest.server.classes.RegisterRequest;
-import conquest.server.classes.LoginResponse;
-import conquest.server.classes.User;
+import conquest.server.classes.*;
 
 
 /**
@@ -119,18 +114,18 @@ public class ConquestClient {
 	/**
 	 * Tests for the logging in and out and registration
 	 */
-//	public static void main(String args[]) {
-//		@SuppressWarnings("rawtypes")
-//		Class[] classes = new Class[]{LoginRequest.class, RegisterRequest.class, LogoutRequest.class, LoginResponse.class, LogoutResponse.class};
-//		ConquestClient client = new ConquestClient("test", "127.0.0.1", 54555, 54777, classes);
-//
-//		
-//		LoginRequest login = new LoginRequest();
-//		login.user = "pgerlich";
-//		login.password = "paulg1450";
-//		
-//		client.client.sendTCP(login);
-//		
+	public static void main(String args[]) {
+		@SuppressWarnings("rawtypes")
+		Class[] classes = new Class[]{LoginRequest.class, RegisterRequest.class, LogoutRequest.class, LoginResponse.class, LogoutResponse.class};
+		ConquestClient client = new ConquestClient("test", "proj-309-R12.cs.iastate.edu", 54555, 54777, classes);
+
+		
+		LoginRequest login = new LoginRequest();
+		login.user = "pgerlich";
+		login.password = "paulg1450";
+		
+		client.client.sendTCP(login);
+		
 //		RegisterRequest reggy = new RegisterRequest();
 //		reggy.username = "test1";
 //		reggy.password = "test";
@@ -147,8 +142,8 @@ public class ConquestClient {
 //		
 //		
 //		client.client.sendUDP(log);
-//		
-//		
-//	}
+		
+		
+	}
 
 }

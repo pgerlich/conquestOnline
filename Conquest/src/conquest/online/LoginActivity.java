@@ -1,5 +1,6 @@
 package conquest.online;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -314,7 +315,7 @@ import android.widget.TextView;
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			
-			String IP = IPGrabber.getIPAddress(false);
+			//String IP = IPGrabber.getIPAddress(false);
 			
 //			if ( IP == null ) {
 //				IP = IPGrabber.getIPAddress(true);
@@ -328,22 +329,34 @@ import android.widget.TextView;
 			
 			//Send login request to server
 			Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class};
-			ConquestClient client = new ConquestClient("test", "proj-309-R12.cs.iastate.edu", 54555, 54777, classes);
-
-			client.login(mUsername, mPassword);
+			ConquestClient client;
 			
-//			JSONObject loginAttempt = JSONfunctions.getJSONfromURL("http://www.gerlichsoftwaresolutions.net/conquest/login.php", postParams);
-//			
-			if ( client.logRes.success ) {
-				UserSession User = new UserSession(getApplicationContext());
-				User.logIn(mUsername);
+			try {
+				client = new ConquestClient("test", "proj-309-R12.cs.iastate.edu", 54555, 54777, classes);
 				
-				return true;
-			} else {
-				mPasswordView.setError(client.logRes.message);
+				new Thread(client).start();
+				
+				client.login(mUsername, mPassword);
+				
+				//Wait for a response from the server
+				while ( client.logRes == null ) {
+					
+				}
+				
+//				JSONObject loginAttempt = JSONfunctions.getJSONfromURL("http://www.gerlichsoftwaresolutions.net/conquest/login.php", postParams);				
+				if ( client.logRes.success ) {
+					UserSession User = new UserSession(getApplicationContext());
+					User.logIn(mUsername);
+					
+					return true;
+				} else {
+					mPasswordView.setError(client.logRes.message);
+					return false;
+				}
+			} catch (IOException e) {
+				mPasswordView.setError("Couldn't connect to server.");
 				return false;
 			}
-			
 			
 //			//Try and check if it succeeded
 //			try {

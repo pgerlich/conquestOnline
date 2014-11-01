@@ -63,7 +63,7 @@ public class MySqlConnection {
 	 * @param user
 	 * @return The success/failure message
 	 */
-	public String processLogin(LoginRequest user, String token) {
+	public User processLogin(LoginRequest user) {
 		//Creating a statement
 		Statement stmt1;
 		
@@ -78,27 +78,32 @@ public class MySqlConnection {
 			
 			//If the credentials matched
 			if ( isValid.next() ) {
+				//Make a new user object upon success
+	    		User thisUser = new User(user.user, generateToken());
+	    		
 				//Set the user to be logged in
 				PreparedStatement st = con.prepareStatement("UPDATE users SET loggedIn = ?, token = ? WHERE username = ?");
 				st.setInt(1, 1);
-				st.setString(2, token);
+				st.setString(2, thisUser.token);
 				st.setString(3, user.user);
 				st.execute();
+				
+				//Output sucess message to server command line
+				System.out.println(user.user + " Logged in");
+	    		
+				//Close connections
+				stmt1.close();
+				
+				return thisUser;
 			} else {
 				//Close connection
 				stmt1.close();
-				return "Invalid username or password";
+				return null;
 			}
-			
-			
-			//Close connections
-			stmt1.close();
-			
-			return user.user + " logged in succesfully";
 		} catch (SQLException e) {
-			//System.out.println("Some error occured in test.");
-			e.printStackTrace();
-			return "Something went wrong.";
+			System.out.println("Some error occured while attempting to login " + user.user);
+			//e.printStackTrace();
+			return null;
 		}
 	}
 	

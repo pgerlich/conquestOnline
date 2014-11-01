@@ -136,38 +136,47 @@ public class ConquestServer {
 		    	  if (obj instanceof LoginRequest) {
 		    		  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
 		    		  
+		    		  //A new login request cast from object
 		    		  LoginRequest user = (LoginRequest) obj;
 		    		  
-		    		  //See if this user is logged in 
-		    		  User thisUser = findUser(user.user);
+		    		  //Returns a logged in user if credentials match, null otherwise
+		    		  User thisUser = myCon.processLogin(user);
 		    		  
-		    		  //If this user is logged in, kick them
-		    		  if ( thisUser != null ) {
-		    			  kickFromServer(thisUser);
-		    		  }
-		    		  
-		    		  //Make a new user object
-		    		  thisUser = new User(user.user, myCon.generateToken());
-		    		  
-		    		  //Name connection (Ip/Port) after user. Connect it to this user
-		    		  con.setName(user.user);
-		    		  thisUser.con = con;
-		    		  
-		    		  //Log the user in and set their token. Add to logged in users
-		    		  System.out.println(myCon.processLogin(user, thisUser.token));
-		    		  usersConnected.add(thisUser);
-		    		  
-		    		  //Set token to send
-		    		  String token = thisUser.token;
-		    		  LoginResponse response = new LoginResponse();
-		    		  response.message = token;
-		    		  response.username = user.user;
-		    		  
-		    		  //CHANGE MESSAGE BASED ON SUCCCESS/FAILURE OF PASSWORD
-		    		  response.message = "Logged in succesfully";
-		    		  
-		    		  //Send back the user object w/ token
-		    		  con.sendUDP(response);
+		    		  //Login failed - let them know!
+		    		  if ( thisUser == null ) {
+			    		  LoginResponse response = new LoginResponse();
+			    		  response.message = "Incorrect username or password.";
+			    		  response.success = false;
+			    		  
+			    		  //Send back the user object w/ token
+			    		  con.sendUDP(response);
+		    		  } else { 
+			    		  
+			    		  //See if this user is logged in 
+			    		  User alreadyOnline = findUser(user.user);
+			    		  
+			    		  //If this user is logged in, kick them
+			    		  if ( alreadyOnline != null) {
+			    			  kickFromServer(alreadyOnline);
+			    		  }
+			    		  
+			    		  //Name connection (Ip/Port) after user. Connect it to this user
+			    		  con.setName(user.user);
+			    		  thisUser.con = con;
+			    		  
+			    		  //Add this user to logged in users
+			    		  usersConnected.add(thisUser);
+			    		  
+			    		  //Set token to send
+			    		  LoginResponse response = new LoginResponse();
+			    		  response.token = thisUser.token;
+			    		  response.username = user.user;
+			    		  response.success = true;
+			    		  response.message = "Logged in succesfully";
+			    		  
+			    		  //Send back the user object w/ token
+			    		  con.sendUDP(response);
+			    		  }
 		    	  }
 		    	  
 	    	      //Registration request
@@ -234,7 +243,7 @@ public class ConquestServer {
 	
 	@SuppressWarnings({ "unused", "rawtypes" })
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{LoginRequest.class, RegisterRequest.class, LogoutRequest.class, LoginResponse.class, LogoutResponse.class};
+		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class};
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777, classes);
 		
 	}
