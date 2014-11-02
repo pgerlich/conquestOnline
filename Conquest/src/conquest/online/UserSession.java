@@ -1,12 +1,6 @@
 package conquest.online;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
+import conquest.online.client.MovementClient;
 
 
 import android.annotation.SuppressLint;
@@ -27,11 +21,7 @@ public class UserSession {
 	//The name of the shared preference storing the data
 	private static final String prefName = "userState";
 	
-	//This user is logged in
-	public final String loggedIn = "loggedIn";
-	
-	//Username
-	private static final String user = "username";
+	private MovementClient MC;
 	
 	/**
 	 * Createa a new user session with the given context. Suppressed a warning that pref.edit
@@ -47,95 +37,92 @@ public class UserSession {
 	/**
 	 * Log the user in and store session variables
 	 */
-	public void logIn(String username){
+	public void logIn(String username, String token){
 		//Stores KEY - VALUE
-		edit.putBoolean(loggedIn, true); // Stores that we're logged in
-		edit.putString(user, username); // Stores the username
+		edit.putBoolean("loggedIn", true); // Stores that we're logged in
+		edit.putString("user", username); // Stores the username
+		edit.putString("token", token);
 		edit.commit(); // commit changes
 	}
 	
 	/**
-	 * Log the user in and store session variables
+	 * Returns the user name that is currently logged in
+	 * @return
 	 */
-	public String returnUser(){
-		return pref.getString(user, null);
+	public String getUser(){
+		return pref.getString("user", null);
+	}
+	
+	/**
+	 * Returns if the user is logged in or not
+	 * @return
+	 */
+	public boolean isLoggedIn(){
+		return pref.getBoolean("loggedIn", false);
+	}
+	
+	/**
+	 * Returns the user's token
+	 * @return
+	 */
+	public String getToken(){
+		return pref.getString("token", null);
 	}
 	
 	
 	/**
 	 * Logout the user
 	 */
-	public String logOut() {
-		BackgroundProcess mAuthTask = null;
+	public void logout() {
+
+		UserLoginTask logout = new UserLoginTask(getUser(), getToken(), MC);
+		logout.execute((Void) null);
 		
-		// Show a progress spinner, and kick off a background task to
-		// perform the user login attempt.
-		mAuthTask = new BackgroundProcess(pref.getString(user, null));
-		mAuthTask.execute((Void) null);
-		
-		edit.putBoolean("loggedIn", false); // Stores that we're logged in
-		edit.putString("username", null); // Stores the username
+		edit.putBoolean("loggedIn", false); // Logged out
+		edit.putString("username", null); // null user
+		edit.putString("token", null); // null token
 		edit.commit(); // commit changes
-		
-		return mAuthTask.message;
+
 	}
 	
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
 	 */
-	public class BackgroundProcess extends AsyncTask<Void, Void, Boolean> {
+	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
 		private final String username;
-		public String message;
-		public String success;
+		private final String token;
+		private MovementClient mc;
 
-		//Instantiate task
-		BackgroundProcess(String username) {
+		UserLoginTask(String username, String token, MovementClient mc) {
 			this.username = username;
-			message = "";
+			this.token = token;
+			this.mc = mc;
 		}
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			
+			//Have to start this on a new thread so it stays open and listends for responses
+			new Thread(mc).start();
 			
-			//Query the login script with their entered username/password
-	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(2);
-	        postParams.add(new BasicNameValuePair("username", username));
-	        //FIXME: Include the token we receive when logging in.
-		        
-	        //Actual logout feature
-	        JSONObject logoutAttempt = JSONfunctions.getJSONfromURL("http://gerlichsoftwaresolutions.net/conquest/logout.php", postParams);
-	        
-			//Try/Catch to attempt logout message recovery.
-			try {
-				success = logoutAttempt.getString("success");
-				message = logoutAttempt.getString("message");
-				
-				//Succeeded in logging out
-				if ( success.equals("1") ) {
-					return true;
-				} 
-				
-			//Failed
-			} catch (JSONException e) {
-				//Print out the error
-				return false;
-			}
+			//Attempt to log the user out
+			mc.logout(username, token);
 			
-			return false;
+			return true;
 		}
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
-			
+			//Nothing needs to go here
 		}
 
 		@Override
 		protected void onCancelled() {
-			//on cancel
+			//Nothing needs to go here
 		}
 	}
+
 	
 }

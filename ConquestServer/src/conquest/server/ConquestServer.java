@@ -11,7 +11,6 @@ import com.esotericsoftware.kryonet.Server;
 import conquest.server.classes.LoginRequest;
 import conquest.server.classes.LoginResponse;
 import conquest.server.classes.LogoutRequest;
-import conquest.server.classes.LogoutResponse;
 import conquest.server.classes.MySqlConnection;
 import conquest.server.classes.RegisterRequest;
 import conquest.server.classes.User;
@@ -191,10 +190,6 @@ public class ConquestServer {
 	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
 	    	    	  LogoutRequest log = (LogoutRequest) obj;
 	    	    	  System.out.println(myCon.processLogout(log));
-	    	    	  
-	    	    	  LogoutResponse logout = new LogoutResponse();
-	    	    	  logout.message = "Logged out successfully";
-	    	    	  con.sendUDP(logout);
 	    	      }
 		       }
 		       
@@ -212,7 +207,7 @@ public class ConquestServer {
 	}
 	
 	/**
-	 * Kick the user from the server
+	 * Kick the user from the server FIXME!!
 	 * @param user
 	 * @return
 	 */
@@ -243,8 +238,7 @@ public class ConquestServer {
 	
 	@SuppressWarnings({ "unused", "rawtypes" })
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class};
+		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class};
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777, classes);
-		
 	}
 }

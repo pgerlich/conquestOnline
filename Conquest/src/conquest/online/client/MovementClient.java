@@ -17,7 +17,7 @@ import conquest.client.classes.*;
  * @author Paul
  *
  */
-public class ConquestClient implements Runnable {
+public class MovementClient implements Runnable {
 
 	//Client to connect to
 	public Client client;
@@ -28,10 +28,10 @@ public class ConquestClient implements Runnable {
 	
 	//Name/purpose -- Name of the client/connection - 
 	public String name;
-	public String purpose;
+	public String host;
 	
 	//Response from loggin in
-	public LoginResponse logRes;
+	public LoginResponse loginResponse;
 	
 	public User user;
 	
@@ -45,7 +45,7 @@ public class ConquestClient implements Runnable {
 	 * @param UDP - UDP Port to bind to
 	 * @throws IOException 
 	 */
-	public ConquestClient(String name, String host, int TCP, int UDP, @SuppressWarnings("rawtypes") Class[] classes) throws IOException{
+	public MovementClient() throws IOException{
 		
 		//Create and start our client
 		client = new Client();
@@ -55,11 +55,16 @@ public class ConquestClient implements Runnable {
 		new Thread(client).start();
 		
 		//Set the variables
-		this.TCP = TCP;
-		this.UDP = UDP;
-		this.name = name;
+		this.TCP = 54555;
+		this.UDP = 54777;
+		this.name = "Conquest Online - Movement Client";
+		this.host = "proj-309-R12.cs.iastate.edu";
 		
-		//Bind ports and such
+		//Add all the classes
+		@SuppressWarnings("rawtypes")
+		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class};
+		
+		//Bind ports and start her up
 		startClient(host, TCP, UDP);
 		
 		//Register classes
@@ -69,9 +74,10 @@ public class ConquestClient implements Runnable {
 	   client.addListener(new Listener() {
 	       public void received (Connection connection, Object object) {
 	          if (object instanceof LoginResponse) {
-	        	 logRes = (LoginResponse) object;
-	             user = new User(logRes.username, logRes.message);
+	        	 loginResponse = (LoginResponse) object;
+	             user = new User(loginResponse.username, loginResponse.message);
 	          }
+
 	       }
 	    });
 		
@@ -90,6 +96,11 @@ public class ConquestClient implements Runnable {
 		client.close();
 	}
 	
+	/**
+	 * Attempt to login the user
+	 * @param username
+	 * @param password
+	 */
 	public void login(String username, String password) {
 		LoginRequest login = new LoginRequest();
 		login.user = username;
@@ -97,6 +108,19 @@ public class ConquestClient implements Runnable {
 		
 		//Send login request
 		this.client.sendUDP(login);
+	}
+	
+	/**
+	 * Attempt to logout the user
+	 * @param username
+	 * @param token
+	 */
+	public void logout(String username, String token) {
+		LogoutRequest logout = new LogoutRequest();
+		logout.username = username;
+		logout.token = token;
+		
+		this.client.sendUDP(logout);
 	}
 	
 

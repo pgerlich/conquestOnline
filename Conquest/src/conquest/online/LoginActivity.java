@@ -4,14 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import conquest.client.classes.LoginRequest;
-import conquest.client.classes.LoginResponse;
-import conquest.online.client.ConquestClient;
+import conquest.online.client.MovementClient;
 
 
 import android.animation.Animator;
@@ -327,30 +320,31 @@ import android.widget.TextView;
 //	        postParams.add(new BasicNameValuePair("password", mPassword));
 //	        postParams.add(new BasicNameValuePair("IP", IP));
 			
-			//Send login request to server
-			Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class};
-			ConquestClient client;
-			
 			try {
-				client = new ConquestClient("test", "proj-309-R12.cs.iastate.edu", 54555, 54777, classes);
+				//Will throw I/O exception if it fails to connect
+				MovementClient mc = new MovementClient();
 				
-				new Thread(client).start();
+				//Have to start this on a new thread so it stays open and listends for responses
+				new Thread(mc).start();
 				
-				client.login(mUsername, mPassword);
+				mc.login(mUsername, mPassword);
 				
 				//Wait for a response from the server
-				while ( client.logRes == null ) {
+				while ( mc.loginResponse == null ) {
 					
 				}
 				
 //				JSONObject loginAttempt = JSONfunctions.getJSONfromURL("http://www.gerlichsoftwaresolutions.net/conquest/login.php", postParams);				
-				if ( client.logRes.success ) {
+				
+				//If we succeeded!
+				if ( mc.loginResponse.success ) {
 					UserSession User = new UserSession(getApplicationContext());
-					User.logIn(mUsername);
-					
+					User.logIn(mUsername, mc.loginResponse.token);					
+					mc.close();
 					return true;
 				} else {
-					mPasswordView.setError(client.logRes.message);
+					mPasswordView.setError(mc.loginResponse.message);
+					mc.close();
 					return false;
 				}
 			} catch (IOException e) {

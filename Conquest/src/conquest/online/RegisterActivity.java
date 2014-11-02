@@ -91,7 +91,7 @@ public class RegisterActivity extends ActionBarActivity {
 				
 				//Log the user in
 				UserSession User = new UserSession(getApplicationContext());
-				User.logIn(username);
+				//FIXME: User.logIn(username);
 				
 				//Transition to map screen
 				finish();

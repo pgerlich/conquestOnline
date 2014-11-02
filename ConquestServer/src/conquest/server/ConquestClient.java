@@ -69,16 +69,6 @@ public class ConquestClient {
 	             user = new User(login.username, login.message);
 	             System.out.println(login.message);
 	          }
-	          
-	          if (object instanceof LogoutResponse) {
-	        	  LogoutResponse logout = (LogoutResponse) object;
-	        	  System.out.println(logout.message);
-	        	  
-	        	  //If logged out successfully
-	        	  user = null;
-	          }
-	          
-
 	       }
 	    });
 		
@@ -116,7 +106,7 @@ public class ConquestClient {
 	 */
 	public static void main(String args[]) {
 		@SuppressWarnings("rawtypes")
-		Class[] classes = new Class[]{LoginRequest.class, RegisterRequest.class, LogoutRequest.class, LoginResponse.class, LogoutResponse.class};
+		Class[] classes = new Class[]{LoginRequest.class, RegisterRequest.class, LoginResponse.class, LogoutRequest.class};
 		ConquestClient client = new ConquestClient("test", "proj-309-R12.cs.iastate.edu", 54555, 54777, classes);
 
 		

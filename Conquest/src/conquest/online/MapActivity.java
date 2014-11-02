@@ -18,6 +18,47 @@ public class MapActivity extends ActionBarActivity {
 	
 	private UserSession user;
 	private static final int GPS_ERRORDIALOG_REQUEST = 9001;
+
+	//test wtf
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		user = new UserSession(getApplicationContext());
+		user.logout();
+			
+    	if ( servicesOK() ) {
+        	setContentView(R.layout.activity_map);
+    	} else {
+    		//Display error message, close gracefully?
+    	}
+    	updateHealth();
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.map, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		
+		//Log user out - hope it didn't mess up.
+		if (id == R.id.action_logout) {
+			user.logout();
+			//goToMain();
+			return true;
+		} else if (id == R.id.action_settings ) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 	
 	/**
 	 * When user taps social button, this function is called and takes user to Social Screen
@@ -27,9 +68,6 @@ public class MapActivity extends ActionBarActivity {
 		startActivity(soc);
 	}
 	
-	public void logout(View view) {
-		goToMain();
-	}
 	/**
 	 * When user taps settings button this functino is called and takes user to the social screen
 	 */
@@ -64,29 +102,6 @@ public class MapActivity extends ActionBarActivity {
 		String display = "Health: " + currentHealth + "/" + maxHealth;
 		health.setText(display);
 	}
-
-	//test wtf
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		user = new UserSession(getApplicationContext());
-		
-    	if ( servicesOK() ) {
-        	setContentView(R.layout.activity_map);
-    	} else {
-    		//Display error message, close gracefully?
-    	}
-    	updateHealth();
-    	
-	
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.map, menu);
-		return true;
-	}
 	
 	/**
 	 * Go to the main menu and close the current activity
@@ -95,24 +110,6 @@ public class MapActivity extends ActionBarActivity {
 		finish();
     	Intent main = new Intent(this, MainActivity.class);
     	startActivity(main);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		
-		//Log user out - hope it didn't mess up.
-		if (id == R.id.action_logout) {
-			user.logOut();
-			goToMain();
-			return true;
-		} else if (id == R.id.action_settings ) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 	
 	/**
