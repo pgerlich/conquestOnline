@@ -20,9 +20,7 @@ public class UserSession {
 
 	//The name of the shared preference storing the data
 	private static final String prefName = "userState";
-	
-	private MovementClient MC;
-	
+
 	/**
 	 * Createa a new user session with the given context. Suppressed a warning that pref.edit
 	 * isn't actually commiting any changes.
@@ -75,7 +73,7 @@ public class UserSession {
 	 */
 	public void logout() {
 
-		UserLoginTask logout = new UserLoginTask(getUser(), getToken(), MC);
+		UserLoginTask logout = new UserLoginTask(getUser(), getToken());
 		logout.execute((Void) null);
 		
 		edit.putBoolean("loggedIn", false); // Logged out
@@ -93,22 +91,29 @@ public class UserSession {
 
 		private final String username;
 		private final String token;
-		private MovementClient mc;
 
-		UserLoginTask(String username, String token, MovementClient mc) {
+		UserLoginTask(String username, String token) {
 			this.username = username;
 			this.token = token;
-			this.mc = mc;
 		}
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			
-			//Have to start this on a new thread so it stays open and listends for responses
-			new Thread(mc).start();
-			
-			//Attempt to log the user out
-			mc.logout(username, token);
+			try { 
+				MovementClient mc = new MovementClient();
+				
+				//Have to start this on a new thread so it stays open and listends for responses
+				new Thread(mc).start();
+				
+				//Attempt to log the user out
+				mc.logout(username, token);
+				
+				mc.close();
+			}
+			catch (Exception e) {
+				//Idk why this would happen - only happens if it couldn't connect to server.
+			}
 			
 			return true;
 		}

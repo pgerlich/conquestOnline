@@ -8,6 +8,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import conquest.client.classes.RegisterRequest;
+import conquest.online.client.MovementClient;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RegisterActivity extends ActionBarActivity {
 
@@ -60,9 +65,8 @@ public class RegisterActivity extends ActionBarActivity {
 	}
 	
 	/**
-	 * When you click register, it takes all of the info you typed - compared passwords,
-	 * and kicks the information off to an asyncronous background task to register you
-	 * and log you in.
+	 * When you click register, it takes all of the info you typed - compares passwords,
+	 * and kicks the information off to an asynchronous background task to register you.
 	 * @param view
 	 */
 	public void registerUser(View view){
@@ -86,32 +90,32 @@ public class RegisterActivity extends ActionBarActivity {
 			RegistrationProcess register = new RegistrationProcess(username, password, email, classChosen);
 			register.execute((Void) null);
 			
-			//Succeeded - login
-			if ( register.success.equals("1") ) {
-				
-				//Log the user in
-				UserSession User = new UserSession(getApplicationContext());
-				//FIXME: User.logIn(username);
-				
-				//Transition to map screen
-				finish();
-				goToMap();
-			//Failed - print message
-			} else {
-				message = register.message;
-			}
-			
+			//Toast an error message if it exists. Will close and leave page if it doesn't
+			Context context = getApplicationContext();
+			CharSequence text = register.message;
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
 		} else {
 			//Passwords did not match - Display message
-			message = "Passwords did not match";
+			Context context = getApplicationContext();
+			CharSequence text = "Passwords did not match";
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
 		}
 		
 	}
 	
-    /** Called when login completes succesfully - loads map Activity */
-    public void goToMap() {
-    	Intent map = new Intent(this, MapActivity.class);
-    	startActivity(map);	
+    /**
+     * Call to go back home after succesful registration.. 
+     * FIXME: Change to go to map later and log then in?
+     */
+    public void goToMain() {
+    	Intent main = new Intent(this, MainActivity.class);
+    	startActivity(main);	
     }  
 
 	@Override
@@ -169,40 +173,51 @@ public class RegisterActivity extends ActionBarActivity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			
-			
-			//Query the login script with their entered username/password
-	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(4);
-	        postParams.add(new BasicNameValuePair("username", username));
-	        postParams.add(new BasicNameValuePair("password", password));
-	        postParams.add(new BasicNameValuePair("email", email));
-	        postParams.add(new BasicNameValuePair("characterType", classChosen));
-	        //FIXME: Include the token we receive when logging in.
-		        
-	        //Actual logout feature
-	        JSONObject registerAttempt = JSONfunctions.getJSONfromURL("http://gerlichsoftwaresolutions.net/conquest/register.php", postParams);
-	        
-			//Try/Catch to attempt register message recovery.
 			try {
-				success = registerAttempt.getString("success");
-				message = registerAttempt.getString("message");
+				MovementClient mc = new MovementClient();
 				
-				//Succeeded in logging out
-				if ( success.equals("1") ) {
+				RegisterRequest register = new RegisterRequest();
+				
+				register.username = username;
+				register.password = password;
+				register.email = email;
+				register.accountTypeCharacter = classChosen;		
+						
+				//FIXME: Must change this if we implement other login methods.
+				register.accountType = 0;
+				
+				mc.client.sendUDP(register);
+				
+				//Wait for a response from the server
+				while ( mc.regResponse == null ) {
+					
+				}
+				
+				message = mc.regResponse.message;
+				
+				if ( mc.regResponse.success ) {
+					message = mc.regResponse.message;
+					mc.close();
 					return true;
-				} 
-				
-			//Failed
-			} catch (JSONException e) {
-				//Print out the error
+				} else {
+					message = mc.regResponse.message;
+					mc.close();
+					return false;
+				}
+			}
+			catch (Exception e){
+				message = "Failed to connect to server";
 				return false;
 			}
-			
-			return false;
 		}
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			
+			if (success) {
+				finish();
+				goToMain();
+			}
 		}
 
 		@Override

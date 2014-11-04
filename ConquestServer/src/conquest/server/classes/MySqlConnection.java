@@ -153,9 +153,11 @@ public class MySqlConnection {
 	 * @param reggy
 	 * @return
 	 */
-	public String registerRequest(RegisterRequest reggy) {
+	public RegistrationResponse registerRequest(RegisterRequest reggy) {
 		//Creating a statement
 		Statement stmt1;
+		
+		RegistrationResponse response = new RegistrationResponse();
 		
 		try {
 			stmt1 = con.createStatement();
@@ -167,7 +169,9 @@ public class MySqlConnection {
 			if ( isValid.next() ) {
 				//Close connection
 				stmt1.close();
-				return "Username " + reggy.username + "  already in use.";
+				response.message = "Username " + reggy.username + "  already in use.";
+				response.success = false;
+				return response;
 			} else {
 				//Create the user account
 				PreparedStatement st = con.prepareStatement("INSERT INTO users(username, password, accountType, email, accountTypeCharacter) VALUES(?, ?, ?, ?, ?)");
@@ -175,7 +179,7 @@ public class MySqlConnection {
 				st.setString(2, reggy.password);
 				st.setInt(3, reggy.accountType);
 				st.setString(4, reggy.email);
-				st.setInt(5, reggy.accountTypeCharacter);
+				st.setString(5, reggy.accountTypeCharacter);
 				st.execute();
 			}
 			
@@ -183,11 +187,15 @@ public class MySqlConnection {
 			//Close connections
 			stmt1.close();
 			
-			return reggy.username + " registered succesfully";
+			response.message = reggy.username + " registered succesfully";
+			response.success = true;
+			return response;
 		} catch (SQLException e) {
-			//System.out.println("Some error occured in test.");
-			e.printStackTrace();
-			return "Something went wrong.";
+			System.out.println("Some error occured while trying to register " + reggy.username);
+			//e.printStackTrace();
+			response.message = "Something went wrong";
+			response.success = false;
+			return response;
 		}
 	}
 	

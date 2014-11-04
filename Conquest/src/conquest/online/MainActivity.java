@@ -1,6 +1,7 @@
 package conquest.online;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -18,7 +19,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-      	  setContentView(R.layout.activity_main);        
+        setContentView(R.layout.activity_main);       
     }
 
     @Override
@@ -39,6 +40,8 @@ public class MainActivity extends FragmentActivity {
         	finish();
             return true;
         }
+        
+        
         return super.onOptionsItemSelected(item);
     }
     
@@ -52,11 +55,8 @@ public class MainActivity extends FragmentActivity {
     /** Called when the user clicks the register button.*/
     public void goToRegister(View view) {
     	finish();
-    	//Intent register = new Intent(this, RegisterActivity.class);
-    	//startActivity(register);
-    	
-    	Intent map = new Intent(this, MapActivity.class);
-    	startActivity(map);
+    	Intent register = new Intent(this, RegisterActivity.class);
+    	startActivity(register);
     }  
     
 }

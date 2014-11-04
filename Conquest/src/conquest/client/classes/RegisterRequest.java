@@ -10,7 +10,7 @@ public class RegisterRequest {
 	public int accountType;
 	
 	//The character type (0=spy,1=engineer,2=hacker)
-	public int accountTypeCharacter;
+	public String accountTypeCharacter;
 	
 
 }

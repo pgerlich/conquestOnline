@@ -13,6 +13,7 @@ import conquest.server.classes.LoginResponse;
 import conquest.server.classes.LogoutRequest;
 import conquest.server.classes.MySqlConnection;
 import conquest.server.classes.RegisterRequest;
+import conquest.server.classes.RegistrationResponse;
 import conquest.server.classes.User;
 
 /**
@@ -180,9 +181,11 @@ public class ConquestServer {
 		    	  
 	    	      //Registration request
 	    	      if (obj instanceof RegisterRequest) {
-	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Attempting to register...");
 	    	    	  RegisterRequest reggy = (RegisterRequest) obj;
-	    	    	  System.out.println(myCon.registerRequest(reggy));
+	    	    	  RegistrationResponse response = myCon.registerRequest(reggy);
+	    	    	  System.out.println(response.message);
+	    	    	  con.sendUDP(response);
 	    	      }
 		    	      
 	    	      //Logout request
@@ -238,7 +241,7 @@ public class ConquestServer {
 	
 	@SuppressWarnings({ "unused", "rawtypes" })
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class};
+		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class};
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777, classes);
 	}
 }

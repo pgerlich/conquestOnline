@@ -1,6 +1,7 @@
 package conquest.online;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ public class MapActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		user = new UserSession(getApplicationContext());
-		user.logout();
+		//user.logout();
 			
     	if ( servicesOK() ) {
         	setContentView(R.layout.activity_map);
@@ -52,7 +53,7 @@ public class MapActivity extends ActionBarActivity {
 		//Log user out - hope it didn't mess up.
 		if (id == R.id.action_logout) {
 			user.logout();
-			//goToMain();
+			goToMain();
 			return true;
 		} else if (id == R.id.action_settings ) {
 			return true;
@@ -110,41 +111,6 @@ public class MapActivity extends ActionBarActivity {
 		finish();
     	Intent main = new Intent(this, MainActivity.class);
     	startActivity(main);
-	}
-	
-	/**
-	 * Represents an asynchronous task run on a different thread.
-	 */
-	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-		//private final String mUsername;
-		//private final String mPassword;
-
-		UserLoginTask(String email, String password) {
-			//mUsername = email;
-			//mPassword = password;
-			//Instantiate task
-		}
-
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			return null;
-
-			//What to do asynchronously
-			
-		}
-
-		@Override
-		protected void onPostExecute(final Boolean success) {
-
-			//end of execution
-			
-		}
-
-		@Override
-		protected void onCancelled() {
-			//on cancel
-		}
 	}
 	
     //method used to check if device is connected to google play services

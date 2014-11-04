@@ -32,6 +32,7 @@ public class MovementClient implements Runnable {
 	
 	//Response from loggin in
 	public LoginResponse loginResponse;
+	public RegistrationResponse regResponse;
 	
 	public User user;
 	
@@ -62,10 +63,10 @@ public class MovementClient implements Runnable {
 		
 		//Add all the classes
 		@SuppressWarnings("rawtypes")
-		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class};
+		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class};
 		
 		//Bind ports and start her up
-		startClient(host, TCP, UDP);
+		startClient();
 		
 		//Register classes
 		registerClasses(classes);
@@ -73,9 +74,14 @@ public class MovementClient implements Runnable {
 		//Adds a listened to the client (for responses from the server)
 	   client.addListener(new Listener() {
 	       public void received (Connection connection, Object object) {
-	          if (object instanceof LoginResponse) {
+	          
+	    	  if (object instanceof LoginResponse) {
 	        	 loginResponse = (LoginResponse) object;
 	             user = new User(loginResponse.username, loginResponse.message);
+	          }
+	          
+	          if (object instanceof RegistrationResponse) {
+	        	  regResponse = (RegistrationResponse) object;
 	          }
 
 	       }
@@ -87,7 +93,7 @@ public class MovementClient implements Runnable {
 	 * Start up the client and bind it to the ports and server.
 	 * @throws IOException 
 	 */
-	public void startClient(String host, int TCP, int UDP) throws IOException{
+	public void startClient() throws IOException{
 		client.connect(5000, host, TCP, UDP);
 		//System.out.println("Succesfully connected to server " + host);
 	}
@@ -121,6 +127,10 @@ public class MovementClient implements Runnable {
 		logout.token = token;
 		
 		this.client.sendUDP(logout);
+	}
+	
+	public void regster() {
+		
 	}
 	
 
