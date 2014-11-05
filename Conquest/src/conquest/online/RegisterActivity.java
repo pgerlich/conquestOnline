@@ -70,7 +70,6 @@ public class RegisterActivity extends ActionBarActivity {
 	 * @param view
 	 */
 	public void registerUser(View view){
-		String message;
 		EditText userEdit = (EditText) findViewById(R.id.username);
 		EditText passEdit = (EditText) findViewById(R.id.password);
 		EditText confirmEdit = (EditText) findViewById(R.id.confirm);
@@ -97,6 +96,7 @@ public class RegisterActivity extends ActionBarActivity {
 
 			Toast toast = Toast.makeText(context, text, duration);
 			toast.show();
+
 		} else {
 			//Passwords did not match - Display message
 			Context context = getApplicationContext();
@@ -158,7 +158,7 @@ public class RegisterActivity extends ActionBarActivity {
 		private final String password;
 		private final String classChosen;
 		public String message;
-		public String success;
+		public boolean success;
 
 		//Instantiate task
 		RegistrationProcess(String username, String password, String email, String classChosen) {
@@ -166,8 +166,6 @@ public class RegisterActivity extends ActionBarActivity {
 			this.password= password;
 			this.email = email;
 			this.classChosen= classChosen;
-			
-			message = "";
 		}
 
 		@Override
@@ -194,16 +192,10 @@ public class RegisterActivity extends ActionBarActivity {
 				}
 				
 				message = mc.regResponse.message;
-				
-				if ( mc.regResponse.success ) {
-					message = mc.regResponse.message;
-					mc.close();
-					return true;
-				} else {
-					message = mc.regResponse.message;
-					mc.close();
-					return false;
-				}
+				success = mc.regResponse.success;
+				mc.close();
+				return success;
+
 			}
 			catch (Exception e){
 				message = "Failed to connect to server";

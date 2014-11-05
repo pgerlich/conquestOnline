@@ -54,7 +54,6 @@ public class MainActivity extends FragmentActivity {
     
     /** Called when the user clicks the register button.*/
     public void goToRegister(View view) {
-    	finish();
     	Intent register = new Intent(this, RegisterActivity.class);
     	startActivity(register);
     }  
