@@ -5,6 +5,9 @@ public abstract class AbstractItem {
 	String itemName;
     Double cost;
     
-    abstract void use();
-	
+    public abstract void use();
+    
+    public Double getCost() {
+		return cost;
+	}
 }

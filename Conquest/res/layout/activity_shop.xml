@@ -30,7 +30,9 @@
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
-<!--  TAB 1 -->
+
+                <!-- TAB 1 -->
+
                 <LinearLayout
                     android:id="@+id/tab1"
                     android:layout_width="match_parent"
@@ -46,17 +48,16 @@
                         android:weightSum="2" >
 
                         <ImageButton
-                            android:id="@+id/cupcake"
+                            android:id="@+id/food_one"
                             android:layout_width="fill_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1.5"
-                            android:background="@drawable/cupcake"
                             android:contentDescription="@string/shopItem" />
 
                         <TextView
+                            android:id="@+id/food_one_info"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/cupcake" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -67,17 +68,16 @@
                         android:weightSum="2" >
 
                         <ImageButton
-                            android:id="@+id/apple"
+                            android:id="@+id/food_two"
                             android:layout_width="fill_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1.5"
-                            android:background="@drawable/apple"
                             android:contentDescription="@string/shopItem" />
 
                         <TextView
+                            android:id="@+id/food_two_info"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/apple" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -88,17 +88,16 @@
                         android:weightSum="2" >
 
                         <ImageButton
-                            android:id="@+id/sandwich"
+                            android:id="@+id/food_three"
                             android:layout_width="fill_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1.5"
-                            android:background="@drawable/sandwich"
                             android:contentDescription="@string/shopItem" />
 
                         <TextView
+                            android:id="@+id/food_three_info"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/sandwich" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -109,27 +108,27 @@
                         android:weightSum="2" >
 
                         <ImageButton
-                            android:id="@+id/chicken"
+                            android:id="@+id/food_four"
                             android:layout_width="fill_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1.5"
-                            android:background="@drawable/chicken"
                             android:contentDescription="@string/shopItem" />
 
                         <TextView
+                            android:id="@+id/food_four_info"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/chicken" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
                 </LinearLayout>
-<!--  TAB 2  -->
+                <!-- TAB 2 -->
+
                 <LinearLayout
                     android:id="@+id/tab2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:weightSum="4" >
-                    
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
@@ -138,17 +137,16 @@
                         android:weightSum="2" >
 
                         <ImageButton
-                            android:id="@+id/knife"
+                            android:id="@+id/weapon_one"
                             android:layout_width="fill_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1.5"
-                            android:background="@drawable/knife"
                             android:contentDescription="@string/shopItem" />
 
                         <TextView
+                            android:id="@+id/weapon_one_info"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/knife" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -159,17 +157,16 @@
                         android:weightSum="2" >
 
                         <ImageButton
-                            android:id="@+id/sword"
+                            android:id="@+id/weapon_two"
                             android:layout_width="fill_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1.5"
-                            android:background="@drawable/sword"
                             android:contentDescription="@string/shopItem" />
 
                         <TextView
+                            android:id="@+id/weapon_two_info"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/sword" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -180,17 +177,16 @@
                         android:weightSum="2" >
 
                         <ImageButton
-                            android:id="@+id/pistol"
+                            android:id="@+id/weapon_three"
                             android:layout_width="fill_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1.5"
-                            android:background="@drawable/pistol"
                             android:contentDescription="@string/shopItem" />
 
                         <TextView
+                            android:id="@+id/weapon_three_info"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/pistol" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -201,38 +197,292 @@
                         android:weightSum="2" >
 
                         <ImageButton
-                            android:id="@+id/rifle"
+                            android:id="@+id/weapon_four"
                             android:layout_width="fill_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1.5"
-                            android:background="@drawable/rifle"
                             android:contentDescription="@string/shopItem" />
 
                         <TextView
+                            android:id="@+id/weapon_four_info"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/rifle" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
-                    
                 </LinearLayout>
-<!-- TAB 3 -->
+                <!-- TAB 3 -->
+
                 <LinearLayout
                     android:id="@+id/tab3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:weightSum="4" >
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2" >
+
+                        <ImageButton
+                            android:id="@+id/armor_one"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:contentDescription="@string/shopItem" />
+
+                        <TextView
+                            android:id="@+id/armor_one_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2" >
+
+                        <ImageButton
+                            android:id="@+id/armor_two"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:contentDescription="@string/shopItem" />
+
+                        <TextView
+                            android:id="@+id/armor_two_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2" >
+
+                        <ImageButton
+                            android:id="@+id/armor_three"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:contentDescription="@string/shopItem" />
+
+                        <TextView
+                            android:id="@+id/armor_three_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2" >
+
+                        <ImageButton
+                            android:id="@+id/armor_four"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:contentDescription="@string/shopItem" />
+
+                        <TextView
+                            android:id="@+id/armor_four_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
                 </LinearLayout>
-<!-- TAB 4 -->
+                <!-- TAB 4 -->
+
                 <LinearLayout
                     android:id="@+id/tab4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:weightSum="4" >
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2" >
+
+                        <ImageButton
+                            android:id="@+id/ds_one"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:contentDescription="@string/shopItem" />
+
+                        <TextView
+                            android:id="@+id/ds_one_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2" >
+
+                        <ImageButton
+                            android:id="@+id/ds_two"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:contentDescription="@string/shopItem" />
+
+                        <TextView
+                            android:id="@+id/ds_two_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2" >
+
+                        <ImageButton
+                            android:id="@+id/ds_three"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:contentDescription="@string/shopItem" />
+
+                        <TextView
+                            android:id="@+id/ds_three_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2" >
+
+                        <ImageButton
+                            android:id="@+id/ds_four"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:contentDescription="@string/shopItem" />
+
+                        <TextView
+                            android:id="@+id/ds_four_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- TAB 5 -->
+
+                <LinearLayout
+                    android:id="@+id/tab5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="4" >
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2" >
+
+                        <ImageButton
+                            android:id="@+id/os_one"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:contentDescription="@string/shopItem" />
+
+                        <TextView
+                            android:id="@+id/os_one_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2" >
+
+                        <ImageButton
+                            android:id="@+id/os_two"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:contentDescription="@string/shopItem" />
+
+                        <TextView
+                            android:id="@+id/os_two_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2" >
+
+                        <ImageButton
+                            android:id="@+id/os_three"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:contentDescription="@string/shopItem" />
+
+                        <TextView
+                            android:id="@+id/os_three_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2" >
+
+                        <ImageButton
+                            android:id="@+id/os_four"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:contentDescription="@string/shopItem" />
+
+                        <TextView
+                            android:id="@+id/os_four_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </TabHost>
+
+    <TextView
+        android:id="@+id/error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

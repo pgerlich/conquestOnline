@@ -8,7 +8,8 @@ public abstract class AbstractStructure implements Visible, Attackable {
 	
 	
 	public abstract  void levelUp();
-	
+	public abstract void use();
+	public abstract Double getCost();
 
 	public void adjustCurrentHealth(int change) {
 	}

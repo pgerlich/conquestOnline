@@ -7,5 +7,17 @@ public class OffensiveStructure extends AbstractStructure {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void use() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Double getCost() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

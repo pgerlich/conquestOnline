@@ -4,7 +4,7 @@ public class Armor extends AbstractEquipableItem {
 
 
 	@Override
-	void use() {
+	public void use() {
 		// TODO Auto-generated method stub
 		
 	}
