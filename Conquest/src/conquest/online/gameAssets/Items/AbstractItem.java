@@ -6,12 +6,17 @@ public abstract class AbstractItem {
     Double cost;
     String picture;
     String description;
+    boolean owned = false;
     
     public void create(String name, Double cost, String pic, String description) {
     	setCost(cost);
     	setPic(pic);
     	setDesc(description);
     	setName(name);
+    }
+    
+    public boolean own() {
+    	return owned;
     }
     
     public abstract void use();

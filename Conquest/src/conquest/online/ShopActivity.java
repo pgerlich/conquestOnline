@@ -8,6 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,8 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import conquest.client.classes.RegisterRequest;
-import conquest.online.client.MovementClient;
 import conquest.online.gameAssets.Items.Armor;
 import conquest.online.gameAssets.Items.Food;
 import conquest.online.gameAssets.Items.Weapon;
@@ -122,42 +121,104 @@ public class ShopActivity extends ActionBarActivity {
 		//need to figure out how to set the background image to be read from getPic String? maybe change it to be a drwable
 		foodOne.setBackgroundResource(1);
 		foodOneInfo.setText(food[0].getName() + "-" + food[0].getDescription() + ":" + food[0].getCost());
+		if (food[0].own()) {
+			foodOneInfo.setTextColor(Color.RED);
+		}
 		foodTwo.setBackgroundResource(1);
 		foodTwoInfo.setText(food[1].getName() + "-" + food[1].getDescription() + ":" + food[1].getCost());
+		if (food[1].own()) {
+			foodTwoInfo.setTextColor(Color.RED);
+		}
 		foodThree.setBackgroundResource(1);
 		foodThreeInfo.setText(food[2].getName() + "-" + food[2].getDescription() + ":" + food[2].getCost());
+		if (food[2].own()) {
+			foodThreeInfo.setTextColor(Color.RED);
+		}
 		foodFour.setBackgroundResource(1);
 		foodFourInfo.setText(food[3].getName() + "-" + food[3].getDescription() + ":" + food[3].getCost());
+		if (food[3].own()) {
+			foodFourInfo.setTextColor(Color.RED);
+		}
 		weaponOne.setBackgroundResource(1);
 		weaponOneInfo.setText(weapon[0].getName() + "-" + weapon[0].getDescription() + ":" + weapon[0].getCost());
+		if (weapon[0].own()) {
+			weaponOneInfo.setTextColor(Color.RED);
+		}
 		weaponTwo.setBackgroundResource(1);
 		weaponTwoInfo.setText(weapon[1].getName() + "-" + weapon[1].getDescription() + ":" + weapon[1].getCost());
+		if (weapon[1].own()) {
+			weaponTwoInfo.setTextColor(Color.RED);
+		}
 		weaponThree.setBackgroundResource(1);
 		weaponThreeInfo.setText(weapon[2].getName() + "-" + weapon[2].getDescription() + ":" + weapon[2].getCost());
+		if (weapon[2].own()) {
+			weaponThreeInfo.setTextColor(Color.RED);
+		}
 		weaponFour.setBackgroundResource(1);
 		weaponFourInfo.setText(weapon[3].getName() + "-" + weapon[3].getDescription() + ":" + weapon[3].getCost());
-		weaponOne.setBackgroundResource(1);
+		if (weapon[3].own()) {
+			weaponFourInfo.setTextColor(Color.RED);
+		}
+		armorOne.setBackgroundResource(1);
 		armorOneInfo.setText(armor[0].getName() + "-" + armor[0].getDescription() + ":" + armor[0].getCost());
+		if (armor[0].own()) {
+			armorOneInfo.setTextColor(Color.RED);
+		}
 		armorTwo.setBackgroundResource(1);
 		armorTwoInfo.setText(armor[1].getName() + "-" + armor[1].getDescription() + ":" + armor[1].getCost());
+		if (armor[1].own()) {
+			armorTwoInfo.setTextColor(Color.RED);
+		}
 		armorThree.setBackgroundResource(1);
 		armorThreeInfo.setText(armor[2].getName() + "-" + armor[2].getDescription() + ":" + armor[2].getCost());
+		if (armor[2].own()) {
+			armorThreeInfo.setTextColor(Color.RED);
+		}
 		armorFour.setBackgroundResource(1);
 		armorFourInfo.setText(armor[3].getName() + "-" + armor[3].getDescription() + ":" + armor[3].getCost());
+		if (armor[3].own()) {
+			armorFourInfo.setTextColor(Color.RED);
+		}
+		dsOne.setBackgroundResource(1);
 		dsOneInfo.setText(ds[0].getName() + "-" + ds[0].getDes() + ":" + ds[0].getCost());
+		if (ds[0].own()) {
+			dsOneInfo.setTextColor(Color.RED);
+		}
 		dsTwo.setBackgroundResource(1);
 		dsTwoInfo.setText(ds[1].getName() + "-" + ds[1].getDes() + ":" + ds[1].getCost());
+		if (ds[1].own()) {
+			dsTwoInfo.setTextColor(Color.RED);
+		}
 		dsThree.setBackgroundResource(1);
 		dsThreeInfo.setText(ds[2].getName() + "-" + ds[2].getDes() + ":" + ds[2].getCost());
+		if (ds[2].own()) {
+			dsThreeInfo.setTextColor(Color.RED);
+		}
 		dsFour.setBackgroundResource(1);
 		dsFourInfo.setText(ds[3].getName() + "-" + ds[3].getDes() + ":" + ds[3].getCost());
+		if (ds[3].own()) {
+			dsFourInfo.setTextColor(Color.RED);
+		}
+		osOne.setBackgroundResource(1);
 		osOneInfo.setText(os[0].getName() + "-" + os[0].getDes() + ":" + os[0].getCost());
+		if (os[0].own()) {
+			osOneInfo.setTextColor(Color.RED);
+		}
 		osTwo.setBackgroundResource(1);
 		osTwoInfo.setText(os[1].getName() + "-" + os[1].getDes() + ":" + os[1].getCost());
+		if (os[1].own()) {
+			osTwoInfo.setTextColor(Color.RED);
+		}
 		osThree.setBackgroundResource(1);
 		osThreeInfo.setText(os[2].getName() + "-" + os[2].getDes() + ":" + os[2].getCost());
+		if (os[2].own()) {
+			osThreeInfo.setTextColor(Color.RED);
+		}
 		osFour.setBackgroundResource(1);
-		osFourInfo.setText(os[3].getName() + "-" + os[3].getDes() + ":" + os[3].getCost());		
+		osFourInfo.setText(os[3].getName() + "-" + os[3].getDes() + ":" + os[3].getCost());	
+		if (os[3].own()) {
+			osFourInfo.setTextColor(Color.RED);
+		}
 		createListeners();
 	}
 	

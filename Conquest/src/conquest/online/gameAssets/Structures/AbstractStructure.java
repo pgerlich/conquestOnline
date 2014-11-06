@@ -9,12 +9,15 @@ public abstract class AbstractStructure implements Visible, Attackable {
 	String picture;
 	String itemName;
 	Double cost;
-	
-	
+	boolean owned = false;	
 	
 	public abstract  void levelUp();
 	public abstract void use();
 	public abstract Double getCost();
+	
+	public boolean own() {
+		return owned;
+	}
 	
 	public void create(String name, Double cost, String pic, String description) {
     	setCost(cost);
