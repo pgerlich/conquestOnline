@@ -1,7 +1,7 @@
 package conquest.online;
 
 import android.app.Dialog;
-import android.content.Context;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,53 +14,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
 
 public class MapActivity extends ActionBarActivity {
 	
 	private UserSession user;
 	private static final int GPS_ERRORDIALOG_REQUEST = 9001;
-
-	//test wtf
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		user = new UserSession(getApplicationContext());
-		//user.logout();
-			
-    	if ( servicesOK() ) {
-        	setContentView(R.layout.activity_map);
-    	} else {
-    		//Display error message, close gracefully?
-    	}
-    	updateHealth();
-
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.map, menu);
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		
-		//Log user out - hope it didn't mess up.
-		if (id == R.id.action_logout) {
-			user.logout();
-			goToMain();
-			return true;
-		} else if (id == R.id.action_settings ) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-	
+	//Will be used as the reference to the map dispayed
+	GoogleMap mMap;
 	/**
 	 * When user taps social button, this function is called and takes user to Social Screen
 	 */
@@ -69,6 +31,9 @@ public class MapActivity extends ActionBarActivity {
 		startActivity(soc);
 	}
 	
+	public void logout(View view) {
+		goToMain();
+	}
 	/**
 	 * When user taps settings button this functino is called and takes user to the social screen
 	 */
@@ -90,6 +55,7 @@ public class MapActivity extends ActionBarActivity {
 	public void goHome(View view) {
 		Intent property = new Intent(this, PropertyActivity.class);
 		startActivity(property);
+		
 	}
 	
 	/**
@@ -103,6 +69,38 @@ public class MapActivity extends ActionBarActivity {
 		String display = "Health: " + currentHealth + "/" + maxHealth;
 		health.setText(display);
 	}
+
+	//test wtf
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		user = new UserSession(getApplicationContext());
+		
+    	if ( servicesOK() ) {
+        	setContentView(R.layout.activity_map);
+        	if(initMap())
+        	{
+        		//Toast.makeText(this, "RADYTOMAPPAP", Toast.LENGTH_SHORT).show();
+        		mMap.setMyLocationEnabled(true);
+        	}
+        	else{
+        		Toast.makeText(this, "CANTMAPBITCH", Toast.LENGTH_SHORT).show();
+        	}
+        	
+    	} else {
+    		//Display error message, close gracefully?
+    	}
+    	updateHealth();
+    	
+	
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.map, menu);
+		return true;
+	}
 	
 	/**
 	 * Go to the main menu and close the current activity
@@ -111,6 +109,59 @@ public class MapActivity extends ActionBarActivity {
 		finish();
     	Intent main = new Intent(this, MainActivity.class);
     	startActivity(main);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		
+		//Log user out - hope it didn't mess up.
+		if (id == R.id.action_logout) {
+			user.logout();
+			goToMain();
+			return true;
+		} else if (id == R.id.action_settings ) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	/**
+	 * Represents an asynchronous task run on a different thread.
+	 */
+	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+
+		//private final String mUsername;
+		//private final String mPassword;
+
+		UserLoginTask(String email, String password) {
+			//mUsername = email;
+			//mPassword = password;
+			//Instantiate task
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			return null;
+
+			//What to do asynchronously
+			
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+
+			//end of execution
+			
+		}
+
+		@Override
+		protected void onCancelled() {
+			//on cancel
+		}
 	}
 	
     //method used to check if device is connected to google play services
@@ -130,5 +181,13 @@ public class MapActivity extends ActionBarActivity {
     	}
     	
     	return false;
+    }
+    
+    private boolean initMap() {
+    	if (mMap == null){
+    		SupportMapFragment mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+    		mMap=mapFrag.getMap();
+    	}
+    	return (mMap!=null);
     }
 }

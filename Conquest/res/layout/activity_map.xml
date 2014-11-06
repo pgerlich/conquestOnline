@@ -33,6 +33,8 @@
         android:id="@+id/setting_b"
         android:layout_height="45dp"
         android:layout_width="45dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="10dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/settings_cog"
@@ -45,6 +47,7 @@
         android:layout_width="45dp"
         android:layout_below="@id/setting_b"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
         android:background="@drawable/logout_image"
         android:onClick="logout"
         android:contentDescription="@string/mapDesc" />
