@@ -84,6 +84,7 @@ public class ShopActivity extends ActionBarActivity {
 		user = new UserSession(getApplicationContext());
 		
 		getShop shop = new getShop(user.getUser(), user.getToken());
+		shop.execute((Void) null);
 		food = shop.food;
 		weapon = shop.weapon;
 		armor = shop.armor;
@@ -111,6 +112,53 @@ public class ShopActivity extends ActionBarActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	/**
+	 * this is to set all the images, names, descriptions, and costs.
+	 */
+	public void populateStore() {
+		String message;
+		//need to figure out how to set the background image to be read from getPic String? maybe change it to be a drwable
+		foodOne.setBackgroundResource(1);
+		foodOneInfo.setText(food[0].getName() + "-" + food[0].getDescription() + ":" + food[0].getCost());
+		foodTwo.setBackgroundResource(1);
+		foodTwoInfo.setText(food[1].getName() + "-" + food[1].getDescription() + ":" + food[1].getCost());
+		foodThree.setBackgroundResource(1);
+		foodThreeInfo.setText(food[2].getName() + "-" + food[2].getDescription() + ":" + food[2].getCost());
+		foodFour.setBackgroundResource(1);
+		foodFourInfo.setText(food[3].getName() + "-" + food[3].getDescription() + ":" + food[3].getCost());
+		weaponOne.setBackgroundResource(1);
+		weaponOneInfo.setText(weapon[0].getName() + "-" + weapon[0].getDescription() + ":" + weapon[0].getCost());
+		weaponTwo.setBackgroundResource(1);
+		weaponTwoInfo.setText(weapon[1].getName() + "-" + weapon[1].getDescription() + ":" + weapon[1].getCost());
+		weaponThree.setBackgroundResource(1);
+		weaponThreeInfo.setText(weapon[2].getName() + "-" + weapon[2].getDescription() + ":" + weapon[2].getCost());
+		weaponFour.setBackgroundResource(1);
+		weaponFourInfo.setText(weapon[3].getName() + "-" + weapon[3].getDescription() + ":" + weapon[3].getCost());
+		weaponOne.setBackgroundResource(1);
+		armorOneInfo.setText(armor[0].getName() + "-" + armor[0].getDescription() + ":" + armor[0].getCost());
+		armorTwo.setBackgroundResource(1);
+		armorTwoInfo.setText(armor[1].getName() + "-" + armor[1].getDescription() + ":" + armor[1].getCost());
+		armorThree.setBackgroundResource(1);
+		armorThreeInfo.setText(armor[2].getName() + "-" + armor[2].getDescription() + ":" + armor[2].getCost());
+		armorFour.setBackgroundResource(1);
+		armorFourInfo.setText(armor[3].getName() + "-" + armor[3].getDescription() + ":" + armor[3].getCost());
+		dsOneInfo.setText(ds[0].getName() + "-" + ds[0].getDes() + ":" + ds[0].getCost());
+		dsTwo.setBackgroundResource(1);
+		dsTwoInfo.setText(ds[1].getName() + "-" + ds[1].getDes() + ":" + ds[1].getCost());
+		dsThree.setBackgroundResource(1);
+		dsThreeInfo.setText(ds[2].getName() + "-" + ds[2].getDes() + ":" + ds[2].getCost());
+		dsFour.setBackgroundResource(1);
+		dsFourInfo.setText(ds[3].getName() + "-" + ds[3].getDes() + ":" + ds[3].getCost());
+		osOneInfo.setText(os[0].getName() + "-" + os[0].getDes() + ":" + os[0].getCost());
+		osTwo.setBackgroundResource(1);
+		osTwoInfo.setText(os[1].getName() + "-" + os[1].getDes() + ":" + os[1].getCost());
+		osThree.setBackgroundResource(1);
+		osThreeInfo.setText(os[2].getName() + "-" + os[2].getDes() + ":" + os[2].getCost());
+		osFour.setBackgroundResource(1);
+		osFourInfo.setText(os[3].getName() + "-" + os[3].getDes() + ":" + os[3].getCost());		
+		createListeners();
 	}
 	
 	/**
