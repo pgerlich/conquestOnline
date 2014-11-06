@@ -1,6 +1,6 @@
 package conquest.online;
 
-import conquest.online.R;
+//import conquest.online.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

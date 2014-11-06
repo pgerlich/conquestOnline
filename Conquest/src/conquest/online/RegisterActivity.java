@@ -110,7 +110,7 @@ public class RegisterActivity extends ActionBarActivity {
 	}
 	
     /**
-     * Call to go back home after succesful registration.. 
+     * Call to go back home after successful registration.. 
      * FIXME: Change to go to map later and log then in?
      */
     public void goToMain() {
@@ -173,7 +173,7 @@ public class RegisterActivity extends ActionBarActivity {
 			
 			try {
 				MovementClient mc = new MovementClient();
-				
+			
 				RegisterRequest register = new RegisterRequest();
 				
 				register.username = username;
@@ -185,7 +185,6 @@ public class RegisterActivity extends ActionBarActivity {
 				register.accountType = 0;
 				
 				mc.client.sendUDP(register);
-				
 				//Wait for a response from the server
 				while ( mc.regResponse == null ) {
 					

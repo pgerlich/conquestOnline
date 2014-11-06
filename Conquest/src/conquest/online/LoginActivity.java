@@ -147,7 +147,7 @@ import android.widget.TextView;
 	}
 	
 	/**
-	 * Send user to map screen upon succesful login attempt
+	 * Send user to map screen upon successful login attempt
 	 */
 	public void goToMap() {
     	Intent login = new Intent(this, MapActivity.class);
