@@ -1,5 +1,13 @@
 package conquest.online;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -61,6 +69,7 @@ public class ShopActivity extends ActionBarActivity {
 	TextView osFourInfo = (TextView) findViewById(R.id.os_four_info); 
 	TextView message = (TextView) findViewById(R.id.error_message);
 	
+	private UserSession user;
 	Food[] food = new Food[4];
 	Weapon[] weapon = new Weapon[4];
 	Armor[] armor = new Armor[4];
@@ -69,11 +78,20 @@ public class ShopActivity extends ActionBarActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
+		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.activity_shop);
 		
-		populateStore();
+		user = new UserSession(getApplicationContext());
+		
+		getShop shop = new getShop(user.getUser(), user.getToken());
+		food = shop.food;
+		weapon = shop.weapon;
+		armor = shop.armor;
+		ds = shop.ds;
+		os = shop.os;
+		
+		//makes the buttons
+		createListeners();
 	}
 
 	@Override
@@ -93,16 +111,6 @@ public class ShopActivity extends ActionBarActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-	
-	/**
-	 * This method is used to populate the store differently based on class type
-	 * it needs to update the image button pictures as well as the info about them
-	 */
-	public void populateStore() {
-		String message;
-		
-		createListeners();
 	}
 	
 	/**
@@ -415,8 +423,11 @@ public class ShopActivity extends ActionBarActivity {
 	
 	public void spendMoney(double cost) {
 		//take money away from user
+		//make another AsyncTask? maybe idk
 	}	
 	
+	
+	//need to update this to get information for the shop, not register
 	public class getShop extends AsyncTask<Void, Void, Boolean> {
 
 		/** 
@@ -429,56 +440,67 @@ public class ShopActivity extends ActionBarActivity {
 		 */
 		
 		private final String username;
-		private final String classChosen;
+		private final String token;
 		public String message;
 		public boolean success;
+		public Food[] food = new Food[4];
+		public Weapon[] weapon = new Weapon[4];
+		public Armor[] armor = new Armor[4];
+		public DefensiveStructure[] ds = new DefensiveStructure[4];
+		public OffensiveStructure[] os = new OffensiveStructure[4];
 
 		//Instantiate task
-		getShop(String username, String classChosen) {
+		getShop(String username, String token) {
 			this.username = username;
-			this.classChosen = classChosen;
+			this.token = token;
 			
 			message = "";
 		}
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
+			List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
+	        postParams.add(new BasicNameValuePair("username", username));
+	        postParams.add(new BasicNameValuePair("token", token));
 			
+	        //change to shop, not get friends
+			JSONObject requestShop = JSONfunctions.getJSONfromURL("http://proj-309-R12.cs.iastate.edu/functions/shop/getItems.php", postParams);					
+			
+			//Try and check if it succeeded
 			try {
-				MovementClient mc = new MovementClient();
+				String success = requestShop.getString("success");
 				
-				RegisterRequest register = new RegisterRequest();
-				
-				register.username = username;
-				register.accountTypeCharacter = classChosen;		
-						
-				//FIXME: Must change this if we implement other login methods.
-				register.accountType = 0;
-				
-				mc.client.sendUDP(register);
-				
-				//Wait for a response from the server
-				while ( mc.regResponse == null ) {
+				//Return true on success
+				if ( success.equals("1") ) {
 					
+					for (int i = 0; i < 4; i++ ) {
+						food[i].create(requestShop.getString("fn"+i),requestShop.getDouble("fc"+i), requestShop.getString("fp"+i),requestShop.getString("fd"+i));
+						weapon[i].create(requestShop.getString("wn"+i),requestShop.getDouble("wc"+i), requestShop.getString("wp"+i),requestShop.getString("wd"+i));
+						armor[i].create(requestShop.getString("an"+i),requestShop.getDouble("ac"+i), requestShop.getString("ap"+i),requestShop.getString("ad"+i));
+						ds[i].create(requestShop.getString("dn"+i),requestShop.getDouble("dc"+i), requestShop.getString("dp"+i),requestShop.getString("dd"+i));
+						os[i].create(requestShop.getString("on"+i),requestShop.getDouble("oc"+i), requestShop.getString("op"+i),requestShop.getString("od"+i));
+					}
+					
+					message = "success";
+					return true;
+					
+				//Set error message and return false.
+				} else {
+					message = requestShop.getString("message");
+					return false;
 				}
-				
-				message = mc.regResponse.message;
-				success = mc.regResponse.success;
-				mc.close();
-				return success;
-
-			}
-			catch (Exception e){
-				message = "Failed to connect to server";
+			
+			//Off chance that some weird shit happens
+			} catch (JSONException e) {
+				//Something went wrong - typically JSON value doesn't exist (success).
+				message = "An error occured. Please try again later.";
 				return false;
 			}
+			
 		}
-
 		@Override
 		protected void onPostExecute(final Boolean success) {
-			if (success) {
-				populateStore();
-			}
+			//dont know what to put here
 		}
 
 		@Override
