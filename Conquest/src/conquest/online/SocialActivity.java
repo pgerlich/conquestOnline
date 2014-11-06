@@ -36,6 +36,7 @@ public class SocialActivity extends ActionBarActivity {
 		//Create user session
 		user = new UserSession(getApplicationContext());
 		
+		//what does toast do?
 		toast(user.getUser());
 		
 		//Retrieve friends w/ asynch task
