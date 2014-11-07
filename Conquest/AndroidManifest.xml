@@ -59,6 +59,11 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
+            android:name=".NewPropertyActivity"
+            android:label="@string/title_activity_newproperty"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
             android:name=".PropertyActivity"
             android:label="@string/title_activity_property"
             android:screenOrientation="landscape" >

@@ -55,6 +55,8 @@
     <!-- Property Screen -->
     <string name="property">Property Information</string>
     <string name="title_activity_shop">ShopActivity</string>
+    <string name="new_prop">Add New Property</string>
+	<string name="title_activity_newproperty">PropertyActivity</string>
     
     <!-- Shop Screen -->
     <string name="apple">Adds 50 pts to health - 50g</string>
