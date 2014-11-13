@@ -31,12 +31,12 @@ public class CharacterActivity extends Activity {
 		thisUser = (TextView)findViewById(R.id.textView9); 
 		thisUser.setText(user.getUser());
 		
-		toast(""+user.getHealth());
-		toast(""+user.getAttack());
-		toast(""+user.getArmor());
-		toast(""+user.getSpeed());
-		toast(""+user.getStealth());
-		toast(""+user.getTech());
+		toast("Health: "+user.getHealth());
+		toast("Attack: "+user.getAttack());
+		toast("Armor: "+user.getArmor());
+		toast("Speed: "+user.getSpeed());
+		toast("Stealth: "+user.getStealth());
+		toast("Tech: "+user.getTech());
 		
 		//Load stats from user session object
 	}

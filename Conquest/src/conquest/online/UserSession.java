@@ -46,13 +46,13 @@ public class UserSession {
 		_context = context;
 		pref = context.getSharedPreferences(prefName, 0); // 0 - for private mode
 		edit = pref.edit();
-		try {
-			mc = new MovementClient();
-		} catch (IOException e) {
-			//
-		}
-		
-		new Thread(mc);
+//		try {
+//			mc = new MovementClient();
+//		} catch (IOException e) {
+//			//
+//		}
+//		
+//		new Thread(mc);
 		
 		//Need to have some way to check if we have gotten kicked, and close our screen and return to the main screen.
 		//Currently when we get kicked, it just logs us out and resets our token to a new token - esentially making us unable
