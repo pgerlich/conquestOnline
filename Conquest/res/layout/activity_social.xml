@@ -88,12 +88,12 @@
                 android:inputType="text" />
 
             <Button
-                android:id="@+id/add_friend_b"
+                android:id="@+id/button1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="addFriend"
-                android:text="@string/add_friend" >
-            </Button>
+                android:text="@string/add_friend" />
+
         </LinearLayout>
     </LinearLayout>
 

@@ -69,19 +69,12 @@ public class SocialActivity extends ActionBarActivity {
 	 * called when the user hits the add friend button
 	 */
 	public void addFriend(View view) {
-		/*
-		 * 
-		 */
-//		LinearLayout friend = (LinearLayout) findViewById(R.id.friend_list);
-//		EditText usr = (EditText) findViewById(R.id.newFriend);
-//		String name = usr.getText().toString();
-//		
-//		
-//		
-//		TextView f = new TextView(this);
-//        f.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-//
-//        ((LinearLayout) friend).addView(f);
+		EditText usr = (EditText) findViewById(R.id.newFriend);
+		String name = usr.getText().toString();
+		
+		
+		addPlayer add = new addPlayer(user.getUser(), name, user.getToken());
+		add.execute();
 	}
 	
 	/** 
@@ -172,6 +165,7 @@ public class SocialActivity extends ActionBarActivity {
 					
 					//Ignoring Message/Sucess - add the friends/enemies
 					for (int i = 0; i < requestPersons.length() - 2; i++ ) {
+						
 						if ( type.equals("friends") ) {
 							String person = requestPersons.getString("" + i);;
 							friends.add(person);
@@ -187,6 +181,7 @@ public class SocialActivity extends ActionBarActivity {
 							guilds.add(person);
 							curGuildMember++;
 						}
+						
 					}
 					
 					
@@ -218,7 +213,7 @@ public class SocialActivity extends ActionBarActivity {
 
 		@Override
 		protected void onCancelled() {
-			toast("canceled");
+			//
 		}
 	}
 	
@@ -235,22 +230,28 @@ public class SocialActivity extends ActionBarActivity {
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
 	 */
-	public class isPlayer extends AsyncTask<Void, Void, Boolean> {
+	public class addPlayer extends AsyncTask<Void, Void, Boolean> {
 
-		private final String username;
+		private final String myUser;
+		private final String otherUser;
+		private final String token;
 		public String message;
 
-		isPlayer(String username) {
-			this.username = username;
+		addPlayer(String myUser, String otherUser, String token) {
+			this.myUser = myUser;
+			this.otherUser = otherUser;
+			this.token = token;
 		}
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
 //			Query the login script with their entered username/password
-	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(1);
-	        postParams.add(new BasicNameValuePair("user", username));
-			
-			JSONObject requestFriends = JSONfunctions.getJSONfromURL("http://proj-309-R12.cs.iastate.edu/functions/social/checkPlayer.php", postParams);					
+	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
+	        postParams.add(new BasicNameValuePair("thisUser", myUser));
+	        postParams.add(new BasicNameValuePair("otherUser", otherUser));
+	        postParams.add(new BasicNameValuePair("token", token));
+	        
+			JSONObject requestFriends = JSONfunctions.getJSONfromURL("http://proj-309-R12.cs.iastate.edu/functions/social/addPlayer.php", postParams);					
 			
 			//Try and check if it succeeded
 			try {
@@ -258,14 +259,8 @@ public class SocialActivity extends ActionBarActivity {
 				
 				//Return true on success
 				if ( success.equals("1") ) {
-					
-					//Ignoring Message/Sucess - add the friends
-					for (int i = 0; i < requestFriends.length() - 2; i++ ) {
-						String friend = requestFriends.getString("" + i);
-						friends.add(friend);
-					}
-					
-					message = "success";
+					friends.add(otherUser);
+					message = otherUser + " added successfully";
 					return true;
 					
 				//Set error message and return false.
@@ -286,9 +281,10 @@ public class SocialActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			if ( success ) {
-				toast("Success");
+				listPeople("friends");
+				toast(message);
 			} else {
-				toast("Failed");
+				toast(message);
 			}
 		}
 
