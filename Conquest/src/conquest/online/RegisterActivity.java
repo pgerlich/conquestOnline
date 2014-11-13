@@ -84,29 +84,33 @@ public class RegisterActivity extends ActionBarActivity {
 		
 		
 		//Check passwords match
-		if (password.equals(confirmPass) ) {
+		if (password.equals(confirmPass) && !classChosen.equals("Choose Class")) {
 			//Execute background process - try and register account
 			RegistrationProcess register = new RegistrationProcess(username, password, email, classChosen);
 			register.execute((Void) null);
-			
-			//Toast an error message if it exists. Will close and leave page if it doesn't
-			Context context = getApplicationContext();
-			CharSequence text = register.message;
-			int duration = Toast.LENGTH_SHORT;
 
-			Toast toast = Toast.makeText(context, text, duration);
-			toast.show();
+			toast(register.message);
 
+		} else if (!password.equals(confirmPass)) {
+			toast("Passwords did not match!");
 		} else {
-			//Passwords did not match - Display message
-			Context context = getApplicationContext();
-			CharSequence text = "Passwords did not match";
-			int duration = Toast.LENGTH_SHORT;
-
-			Toast toast = Toast.makeText(context, text, duration);
-			toast.show();
+			toast("Please chooose a class");
 		}
 		
+	}
+	
+	/**
+	 * Displays message on screen
+	 * @param message
+	 */
+	public void toast(String message) {
+		//Toast an error message if it exists. Will close and leave page if it doesn't
+		Context context = getApplicationContext();
+		CharSequence text = message;
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
 	}
 	
     /**
@@ -189,6 +193,7 @@ public class RegisterActivity extends ActionBarActivity {
 				while ( mc.regResponse == null ) {
 					
 				}
+				
 				
 				message = mc.regResponse.message;
 				success = mc.regResponse.success;

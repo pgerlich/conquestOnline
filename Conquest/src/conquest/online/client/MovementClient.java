@@ -29,6 +29,7 @@ public class MovementClient implements Runnable {
 	//Name/purpose -- Name of the client/connection - 
 	public String name;
 	public String host;
+	public String test;
 	
 	//Response from loggin in
 	public LoginResponse loginResponse;
@@ -82,6 +83,7 @@ public class MovementClient implements Runnable {
 	          
 	          if (object instanceof RegistrationResponse) {
 	        	  regResponse = (RegistrationResponse) object;
+	        	  regResponse.message = "received";
 	          }
 
 	       }

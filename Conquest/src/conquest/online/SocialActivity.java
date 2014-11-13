@@ -9,7 +9,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -24,28 +26,33 @@ import android.widget.Toast;
 public class SocialActivity extends ActionBarActivity {
 	
 	private UserSession user;
-	private ArrayList<String> friends;
+	public ArrayList<String> friends;
+	public ArrayList<String> guilds;
+	public ArrayList<String> enemies;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_social);
-		
-		toast("happened");
-		
-		//Create user session
 		user = new UserSession(getApplicationContext());
 		
-		//what does toast do?
-		toast(user.getUser());
+		//Create user session and friends list
+		friends = new ArrayList<String>(10);
+		guilds = new ArrayList<String>(10);
+		enemies = new ArrayList<String>(10);
 		
-		//Retrieve friends w/ asynch task
-		RetrieveFriends grab = new RetrieveFriends(user.getUser(), user.getToken());
-		grab.execute((Void) null);
-		friends = grab.friends;
+		//Retrieve friends
+		RetrievePeople grabFriends = new RetrievePeople(user.getUser(), user.getToken(), "friends");
+		grabFriends.execute();
 		
-		//Now load the friends up on the display
-		listFriends();
+		//Retrieve guild members
+		RetrievePeople grabGuild = new RetrievePeople(user.getUser(), user.getToken(), "guild");
+		grabGuild.execute();
+		
+		//Retrieve enemies
+		RetrievePeople grabEnemies = new RetrievePeople(user.getUser(), user.getToken(), "enemies");
+		grabEnemies.execute();
 	}
 	
 	public void toast(String message) {
@@ -65,32 +72,42 @@ public class SocialActivity extends ActionBarActivity {
 		/*
 		 * 
 		 */
-		LinearLayout friend = (LinearLayout) findViewById(R.id.friend_list);
-		EditText usr = (EditText) findViewById(R.id.newFriend);
-		String name = usr.getText().toString();
-		
-		
-		
-		TextView f = new TextView(this);
-        f.setText("test");
-        f.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-
-        ((LinearLayout) friend).addView(f);
-        
-        toast("added: " + name);
+//		LinearLayout friend = (LinearLayout) findViewById(R.id.friend_list);
+//		EditText usr = (EditText) findViewById(R.id.newFriend);
+//		String name = usr.getText().toString();
+//		
+//		
+//		
+//		TextView f = new TextView(this);
+//        f.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+//
+//        ((LinearLayout) friend).addView(f);
 	}
 	
 	/** 
 	 * Display friends by iterating through the arraylist of friends
 	 */
-	public void listFriends() {
-		LinearLayout showFriends = (LinearLayout) findViewById(R.id.friend_list);
+	public void listPeople(String type) {
+		ArrayList<String> persons = null;
+		LinearLayout showPersons = null;
 		
-		for (String person : friends) {
+		//So this is a generic method called for friends, enemies, and guild members. This just specifies it
+		if ( type.equals("friends") ) {
+			persons = friends;
+			showPersons = (LinearLayout) findViewById(R.id.friend_list);
+		} else if ( type.equals("guild") ) {
+			persons = guilds;
+			showPersons = (LinearLayout) findViewById(R.id.guild_list);
+		} else if ( type.equals("enemies") ) {
+			persons = enemies;
+			showPersons = (LinearLayout) findViewById(R.id.enemy_list);
+		}
+				
+		for (String person : persons) {
 			TextView f = new TextView(this);
 			f.setText(person);
 			f.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-			((LinearLayout) showFriends).addView(f);
+			((LinearLayout) showPersons).addView(f);
 		}
 	}
 	
@@ -107,7 +124,12 @@ public class SocialActivity extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		
+		if (id == R.id.action_logout) {
+			user.logout();
+			goToMain();
+			return true;
+		} else if (id == R.id.action_settings ) {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -117,26 +139,118 @@ public class SocialActivity extends ActionBarActivity {
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
 	 */
-	public class RetrieveFriends extends AsyncTask<Void, Void, Boolean> {
+	public class RetrievePeople extends AsyncTask<Void, Void, Boolean> {
 
 		private final String username;
 		private final String token;
-		public ArrayList<String> friends;
+		private final String type;
 		public String message;
-
-		RetrieveFriends(String username, String token) {
+		
+		RetrievePeople(String username, String token, String type) {
 			this.username = username;
 			this.token = token;
+			this.type = type;
 		}
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
 //			Query the login script with their entered username/password
 	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
-	        postParams.add(new BasicNameValuePair("username", username));
+	        postParams.add(new BasicNameValuePair("user", username));
 	        postParams.add(new BasicNameValuePair("token", token));
+	        postParams.add(new BasicNameValuePair("type", type));
+
+			JSONObject requestPersons = JSONfunctions.getJSONfromURL("http://proj-309-R12.cs.iastate.edu/functions/social/requestPersons.php", postParams);					
 			
-			JSONObject requestFriends = JSONfunctions.getJSONfromURL("http://proj-309-R12.cs.iastate.edu/functions/social/requestFriends.php", postParams);					
+			//Try and check if it succeeded
+			try {
+				String success = requestPersons.getString("success");
+				
+				//Return true on success
+				if ( success.equals("1") ) {
+					int curGuildMember = 0;
+					
+					//Ignoring Message/Sucess - add the friends/enemies
+					for (int i = 0; i < requestPersons.length() - 2; i++ ) {
+						if ( type.equals("friends") ) {
+							String person = requestPersons.getString("" + i);;
+							friends.add(person);
+						} else if (type.equals("enemies") ) {
+							String person = requestPersons.getString("" + i);
+							enemies.add(person);
+						} else if (type.equals("guild") ) {
+							if ( curGuildMember >= requestPersons.getInt("numMembers")) {
+								break;
+							}
+							String person = requestPersons.getString("name" + curGuildMember);
+							person += " - " + requestPersons.getString("rank" + curGuildMember);
+							guilds.add(person);
+							curGuildMember++;
+						}
+					}
+					
+					
+					
+					message = "success";
+					return true;
+					
+				//Set error message and return false.
+				} else {
+					message = requestPersons.getString("message");
+					return false;
+				}
+			
+			//Off chance that some weird shit happens
+			} catch (JSONException e) {
+				//Something went wrong - typically JSON value doesn't exist (success).
+				message = "An error occured. Please try again later.";
+				return false;
+			}
+			
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			if ( success ) {
+				listPeople(type);
+			} 
+		}
+
+		@Override
+		protected void onCancelled() {
+			toast("canceled");
+		}
+	}
+	
+	/**
+	 * Go to the main menu and close the current activity
+	 */
+	public void goToMain(){
+		finish();
+    	Intent main = new Intent(this, MainActivity.class);
+    	startActivity(main);
+	}
+
+	/**
+	 * Represents an asynchronous login/registration task used to authenticate
+	 * the user.
+	 */
+	public class isPlayer extends AsyncTask<Void, Void, Boolean> {
+
+		private final String username;
+		public String message;
+
+		isPlayer(String username) {
+			this.username = username;
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+//			Query the login script with their entered username/password
+	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(1);
+	        postParams.add(new BasicNameValuePair("user", username));
+			
+			JSONObject requestFriends = JSONfunctions.getJSONfromURL("http://proj-309-R12.cs.iastate.edu/functions/social/checkPlayer.php", postParams);					
 			
 			//Try and check if it succeeded
 			try {
@@ -145,8 +259,10 @@ public class SocialActivity extends ActionBarActivity {
 				//Return true on success
 				if ( success.equals("1") ) {
 					
-					for (int i = 0; i < requestFriends.length() - 1; i++ ) {
-						friends.add(requestFriends.getString("" + i));
+					//Ignoring Message/Sucess - add the friends
+					for (int i = 0; i < requestFriends.length() - 2; i++ ) {
+						String friend = requestFriends.getString("" + i);
+						friends.add(friend);
 					}
 					
 					message = "success";
@@ -169,7 +285,11 @@ public class SocialActivity extends ActionBarActivity {
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
-			//Not really sure what there is to do here
+			if ( success ) {
+				toast("Success");
+			} else {
+				toast("Failed");
+			}
 		}
 
 		@Override
