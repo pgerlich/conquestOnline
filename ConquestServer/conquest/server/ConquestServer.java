@@ -276,7 +276,7 @@ public class ConquestServer {
 	    			  System.out.println(user + " not currently online.");
 	    		  }
 		    		  
-				} if ( input.toLowerCase().contains("help") ) {
+				} else if ( input.toLowerCase().contains("help") ) {
 					System.out.println("#### List of commands ####");
 					System.out.println("## Kick user :: Kicks the user from the server ##");
 					System.out.println("## Help :: Displays this menu of commands ##");
