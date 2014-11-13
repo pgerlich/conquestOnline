@@ -1,5 +1,6 @@
 package conquest.online;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,11 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+
+import conquest.client.classes.LoginResponse;
+import conquest.client.classes.RegistrationResponse;
 import conquest.online.client.MovementClient;
 
 
@@ -25,6 +31,8 @@ public class UserSession {
 	
 	//The context
 	public Context _context;
+	
+	public MovementClient mc;
 
 	//The name of the shared preference storing the data
 	private static final String prefName = "userState";
@@ -38,6 +46,18 @@ public class UserSession {
 		_context = context;
 		pref = context.getSharedPreferences(prefName, 0); // 0 - for private mode
 		edit = pref.edit();
+		try {
+			mc = new MovementClient();
+		} catch (IOException e) {
+			//
+		}
+		
+		new Thread(mc);
+		
+		//Need to have some way to check if we have gotten kicked, and close our screen and return to the main screen.
+		//Currently when we get kicked, it just logs us out and resets our token to a new token - esentially making us unable
+		//to interact with the server/database w/o relogging in. IT's effective, the user just doesn't have a way of being notified
+		//They were kicked or of being actually legitimately kicked from the game.
 	}
 	
 	/**
@@ -79,6 +99,14 @@ public class UserSession {
 	public void setHealth(int health) {
 		edit.putInt("health",  health);
 		edit.commit();
+	}
+	
+	/**
+	 * Creates and launches the async task to update all user's stats
+	 */
+	public void updateAllStats(){
+		RetrieveStats stats = new RetrieveStats(getUser(), getToken());
+		stats.execute();
 	}
 	
 	/**
@@ -127,7 +155,6 @@ public class UserSession {
 	public int getTech(){
 		return pref.getInt("tech", 0);
 	}
-	
 	
 	/**
 	 * Returns the user name that is currently logged in

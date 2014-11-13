@@ -35,8 +35,6 @@ public class MovementClient implements Runnable {
 	public LoginResponse loginResponse;
 	public RegistrationResponse regResponse;
 	
-	public User user;
-	
 	/**
 	 * Creates a connection client that connects to the specified host and ports.
 	 * 
@@ -78,7 +76,6 @@ public class MovementClient implements Runnable {
 	          
 	    	  if (object instanceof LoginResponse) {
 	        	 loginResponse = (LoginResponse) object;
-	             user = new User(loginResponse.username, loginResponse.message);
 	          }
 	          
 	          if (object instanceof RegistrationResponse) {

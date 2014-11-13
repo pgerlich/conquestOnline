@@ -1,20 +1,12 @@
 package conquest.online;
 
-//import conquest.online.R;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
-import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.Context;
+
 import android.os.Bundle;
-import android.view.View;
+
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CharacterActivity extends Activity {
 	private UserSession user;
@@ -24,7 +16,8 @@ public class CharacterActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_character);
 		user = new UserSession(getApplicationContext());
-
+		
+		loadCharacter();
 	}
 	
 	/**
@@ -38,6 +31,27 @@ public class CharacterActivity extends Activity {
 		thisUser = (TextView)findViewById(R.id.textView9); 
 		thisUser.setText(user.getUser());
 		
+		toast(""+user.getHealth());
+		toast(""+user.getAttack());
+		toast(""+user.getArmor());
+		toast(""+user.getSpeed());
+		toast(""+user.getStealth());
+		toast(""+user.getTech());
+		
 		//Load stats from user session object
+	}
+	
+	/**
+	 * Toasts the message as an alert box
+	 * @param message
+	 */
+	public void toast(String message) {
+		//Toast an error message if it exists. Will close and leave page if it doesn't
+		Context context = getApplicationContext();
+		CharSequence text = message;
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
 	}
 }

@@ -127,13 +127,13 @@ public class MySqlConnection {
 				//Set the user to be logged out
 				PreparedStatement st = con.prepareStatement("UPDATE users SET loggedIn = ?, token = ? WHERE username = ?");
 				st.setInt(1, 0);
-				st.setString(2, "");
+				st.setString(2, generateToken());
 				st.setString(3, logout.username);
 				st.execute();
 			} else {
 				//Close connection
 				stmt1.close();
-				return "Invalid token or username. Request not processed.";
+				return "Invalid token  or username. Request not processed.";
 			}
 			
 			

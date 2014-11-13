@@ -1,13 +1,17 @@
 package conquest.server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.sun.xml.internal.fastinfoset.util.CharArray;
 
+import conquest.server.classes.KickAssert;
 import conquest.server.classes.LoginRequest;
 import conquest.server.classes.LoginResponse;
 import conquest.server.classes.LogoutRequest;
@@ -216,7 +220,9 @@ public class ConquestServer {
 	 */
 	public void kickFromServer(User user) {
 		//Send them message saying they're disconnected and close connection
-		user.con.sendUDP("You have been disconnected from the server");
+		KickAssert kick = new KickAssert();
+		kick.message = "You have been kicked from the server.";
+		user.con.sendUDP(kick);
 		user.con.close();
 		
 		LogoutRequest log = new LogoutRequest();
@@ -243,5 +249,40 @@ public class ConquestServer {
 	public static void main(String args[]) {
 		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class};
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777, classes);
+		
+		try{
+			BufferedReader br = 
+	                      new BufferedReader(new InputStreamReader(System.in));
+	 
+			String input;
+	 
+			while((input=br.readLine())!=null){
+				if ( input.contains("kick") ) {
+					char[] str = input.toCharArray();
+					String user = "";
+					for ( int i = 0; i < input.length(); i++ ) {
+						if ( str[i] == ' ' ) {
+							user = input.substring(i + 1);
+						}
+					}
+
+	    		  //See if this user is logged in 
+	    		  User alreadyOnline = test.findUser(user);
+	    		  
+	    		  //If this user is logged in, kick them
+	    		  if ( alreadyOnline != null) {
+	    			  test.kickFromServer(alreadyOnline);
+	    		  } else {
+	    			  System.out.println(user + " not currently online.");
+	    		  }
+		    		  
+				} else {
+					System.out.println("Command " + input + " not recognized.");
+				}
+			}
+	 
+		}catch(IOException io){
+			System.out.println("Error occured reading from user input");
+		}	
 	}
 }
