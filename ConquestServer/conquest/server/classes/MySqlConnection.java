@@ -183,7 +183,7 @@ public class MySqlConnection {
 				st.execute();
 				
 				//Create the character
-				PreparedStatement st1 = con.prepareStatement("INSERT INTO characters(username, type, healh, attack, armor, speed, stealth, tech) VALUES(?,?,?,?,?,?,?,?)");
+				PreparedStatement st1 = con.prepareStatement("INSERT INTO characters(username, type, health, attack, armor, speed, stealth, tech) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
 				st1.setString(1, reggy.username);
 				st1.setString(2, reggy.accountTypeCharacter);
 				st1.setInt(3, 100);
