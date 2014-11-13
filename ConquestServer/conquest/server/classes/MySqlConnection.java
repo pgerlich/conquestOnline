@@ -169,7 +169,7 @@ public class MySqlConnection {
 			if ( isValid.next() ) {
 				//Close connection
 				stmt1.close();
-				response.message = "Username " + reggy.username + "  already in use.";
+				response.message = "Username " + reggy.username + " already in use.";
 				response.success = false;
 				return response;
 			} else {
@@ -181,6 +181,18 @@ public class MySqlConnection {
 				st.setString(4, reggy.email);
 				st.setString(5, reggy.accountTypeCharacter);
 				st.execute();
+				
+				//Create the character
+				PreparedStatement st1 = con.prepareStatement("INSERT INTO characters(username, type, healh, attack, armor, speed, stealth, tech) VALUES(?,?,?,?,?,?,?,?)");
+				st1.setString(1, reggy.username);
+				st1.setString(2, reggy.accountTypeCharacter);
+				st1.setInt(3, 100);
+				st1.setInt(4, 100);
+				st1.setInt(5, 100);
+				st1.setInt(6, 100);
+				st1.setInt(7, 100);
+				st1.setInt(8, 100);
+				st1.execute();
 			}
 			
 			

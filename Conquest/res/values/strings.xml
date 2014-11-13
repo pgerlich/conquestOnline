@@ -44,11 +44,11 @@
 
     <!-- Character Screen -->
     <string name="itemPlace">Used to show what items a person has on him</string>
-    <string name="helmet">Helmet Holder, currently no item equipped</string>
-    <string name="chest">Chest piece holder, currently no item equipped</string>
-    <string name="leg">Leg holder, currently no item equipped</string>
-    <string name="boot">Boot holder, curretnly no item equipped</string>
-    <string name="weapon">Weapon holder, currently no weapon equipped</string>
+    <string name="helmet">Helmet Holder</string>
+    <string name="chest">Chest piece holder</string>
+    <string name="leg">Leg holder</string>
+    <string name="boot">Boot holder</string>
+    <string name="weapon">Weapon holder</string>
     <string name="stats">Player Stats</string>
     <string name="title_activity_stats">StatsActivity</string>
 
@@ -56,8 +56,8 @@
     <string name="property">Property Information</string>
     <string name="title_activity_shop">ShopActivity</string>
     <string name="new_prop">Add New Property</string>
-	<string name="title_activity_newproperty">PropertyActivity</string>
-    
+    <string name="title_activity_newproperty">PropertyActivity</string>
+
     <!-- Shop Screen -->
     <string name="apple">Adds 50 pts to health - 50g</string>
     <string name="chicken">Adds 200 pts to health - 200g</string>
@@ -73,6 +73,6 @@
     <string name="sword">Has an attack of 15 - 400g</string>
     <string name="pistol">Has an attack of 50 - 1050g</string>
     <string name="rifle">Has an attack to 200 - 2500g</string>
-    
+    <string name="title_activity_character_activity_new">CharacterActivityNew</string>
 
 </resources>

@@ -1,5 +1,13 @@
 package conquest.online;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import conquest.online.client.MovementClient;
 
 
@@ -11,12 +19,12 @@ import android.os.AsyncTask;
 public class UserSession {
 	
 	//The shared preference file
-	SharedPreferences pref;
+	public SharedPreferences pref;
 	
-	Editor edit;
+	public Editor edit;
 	
 	//The context
-	Context _context;
+	public Context _context;
 
 	//The name of the shared preference storing the data
 	private static final String prefName = "userState";
@@ -41,7 +49,85 @@ public class UserSession {
 		edit.putString("user", username); // Stores the username
 		edit.putString("token", token);
 		edit.commit(); // commit changes
+		
+		//Execute async task to grab stats of user
+		RetrieveStats getStats = new RetrieveStats(getUser(), getToken());
+		getStats.execute();
 	}
+	
+	/**
+	 * Set the follow base stats
+	 * @param attack
+	 * @param armor
+	 * @param stealth
+	 * @param speed
+	 * @param tech
+	 */
+	public void setBaseStats(int attack, int armor, int stealth, int speed, int tech) {
+		edit.putInt("attack", attack);
+		edit.putInt("armor", armor);
+		edit.putInt("stealth", stealth);
+		edit.putInt("speed", speed);
+		edit.putInt("tech", tech);
+		edit.commit();
+	}
+	
+	/**
+	 * Set the users health
+	 * @param health
+	 */
+	public void setHealth(int health) {
+		edit.putInt("health",  health);
+		edit.commit();
+	}
+	
+	/**
+	 * Return the users health
+	 * @return
+	 */
+	public int getHealth(){
+		return pref.getInt("health", 0);
+	}
+	
+	/**
+	 * Returns the characters attack
+	 * @return
+	 */
+	public int getAttack(){
+		return pref.getInt("attack", 0);
+	}
+	
+	/**
+	 * Return the users armor
+	 */
+	public int getArmor(){
+		return pref.getInt("armor", 0);
+	}
+	
+	/**
+	 * Return the users stealth
+	 * @return
+	 */
+	public int getStealth(){
+		return pref.getInt("stealth", 0);
+	}
+	
+	/**
+	 * Return the users speed
+	 * @return
+	 */
+	public int getSpeed(){
+		return pref.getInt("speed", 0);
+	}
+	
+	/**
+	 * Return the users tech
+	 * @return
+	 */
+	public int getTech(){
+		return pref.getInt("tech", 0);
+	}
+	
 	
 	/**
 	 * Returns the user name that is currently logged in
@@ -129,5 +215,79 @@ public class UserSession {
 		}
 	}
 
-	
+	/**
+	 * Represents an asynchronous login/registration task used to authenticate
+	 * the user.
+	 */
+	public class RetrieveStats extends AsyncTask<Void, Void, Boolean> {
+
+		private final String username;
+		private final String token;
+		public String message;
+		public int health;
+		public int attack;
+		public int armor;
+		public int speed;
+		public int tech;
+		public int stealth;
+		
+		RetrieveStats(String username, String token) {
+			this.username = username;
+			this.token = token;
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+//			Query the login script with their entered username/password
+	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(2);
+	        postParams.add(new BasicNameValuePair("user", username));
+	        postParams.add(new BasicNameValuePair("token", token));
+
+			JSONObject stats = JSONfunctions.getJSONfromURL("http://proj-309-R12.cs.iastate.edu/functions/character/requestStats.php", postParams);					
+			
+			//Try and check if it succeeded
+			try {
+				String success = stats.getString("success");
+				
+				//Return true on success
+				if ( success.equals("1") ) {
+					
+					health = stats.getInt("health");
+					attack = stats.getInt("attack");
+					armor = stats.getInt("armor");
+					stealth = stats.getInt("stealth");
+					speed = stats.getInt("speed");
+					tech = stats.getInt("tech");
+					
+					message = "success";
+					return true;
+					
+				//Set error message and return false.
+				} else {
+					message = stats.getString("message");
+					return false;
+				}
+			
+			//Off chance that some weird shit happens
+			} catch (JSONException e) {
+				//Something went wrong - typically JSON value doesn't exist.
+				message = "An error occured. Please try again later.";
+				return false;
+			}
+			
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			if ( success ) {
+				setBaseStats(attack, armor, stealth, speed, tech);
+				setHealth(health);
+			} 
+		}
+
+		@Override
+		protected void onCancelled() {
+			//Action on cancle
+		}
+	}
 }

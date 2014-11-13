@@ -29,11 +29,6 @@
             android:layout_weight="1"
             android:orientation="vertical" >
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
                 <TextView
                     android:id="@+id/friend"
                     android:layout_width="fill_parent"
@@ -42,8 +37,6 @@
                     android:text="@string/friend"
                     android:textColor="#00FF00"
                     android:textSize="20sp" />
-
-            </ScrollView>
         </LinearLayout>
 
         <LinearLayout
@@ -53,11 +46,6 @@
             android:layout_weight="1"
             android:orientation="vertical" >
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
                 <TextView
                     android:id="@+id/guild"
                     android:layout_width="fill_parent"
@@ -66,7 +54,6 @@
                     android:text="@string/guild"
                     android:textColor="#0000FF"
                     android:textSize="20sp" />
-            </ScrollView>
         </LinearLayout>
 
         <LinearLayout
@@ -76,11 +63,6 @@
             android:layout_weight="1"
             android:orientation="vertical" >
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
                 <TextView
                     android:id="@+id/enemy"
                     android:layout_width="fill_parent"
@@ -89,7 +71,6 @@
                     android:text="@string/enemy"
                     android:textColor="#FF0000"
                     android:textSize="20sp" />
-            </ScrollView>
         </LinearLayout>
 
         <LinearLayout
