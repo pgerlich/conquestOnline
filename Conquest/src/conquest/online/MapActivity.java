@@ -69,10 +69,20 @@ public class MapActivity extends ActionBarActivity {
 				goToMain();
 				return true;
 			} else if (id == R.id.action_settings ) {
+				goToSettings();
 				return true;
 			}
 			return super.onOptionsItemSelected(item);
 		}
+		
+		
+	/**
+	 * Go to the settings
+	 */
+	public void goToSettings(){
+    	Intent settings = new Intent(this, SettingsActivity.class);
+    	startActivity(settings);
+	}
 		
 	
 	/**

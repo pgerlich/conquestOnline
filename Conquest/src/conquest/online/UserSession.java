@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.google.android.gms.maps.model.LatLng;
 
 import conquest.client.classes.LoginResponse;
 import conquest.client.classes.RegistrationResponse;
@@ -102,11 +103,65 @@ public class UserSession {
 	}
 	
 	/**
+	 * Set the users location.
+	 * @param latitude
+	 * @param longitude
+	 */
+	public void setLocation(LatLng location) {
+		edit.putFloat("lat", (float) location.latitude);
+		edit.putFloat("lon", (float) location.longitude);
+		edit.commit();
+	}
+	
+	/**
+	 * Set the users level
+	 * @param level
+	 */
+	public void setLevel(int level) {
+		edit.putInt("level",  level);
+		edit.commit();
+	}
+	
+	/**
+	 * Set the users exp
+	 * @param exp
+	 */
+	public void setExp(int exp) {
+		edit.putInt("health", exp);
+		edit.commit();
+	}
+	
+	/**
 	 * Creates and launches the async task to update all user's stats
 	 */
 	public void updateAllStats(){
 		RetrieveStats stats = new RetrieveStats(getUser(), getToken());
 		stats.execute();
+	}
+	
+	/**
+	 * Returns the location of the individual
+	 * @return
+	 */
+	public LatLng getLocation(){
+		LatLng location = new LatLng(pref.getFloat("lat", 0), pref.getFloat("lon", 0));
+		return location;
+	}
+
+	/**
+	 * Return the users level
+	 * @return
+	 */
+	public int getLevel(){
+		return pref.getInt("level", 0);
+	}
+	
+	/**
+	 * Return the users exp
+	 * @return
+	 */
+	public int getExp(){
+		return pref.getInt("exp", 0);
 	}
 	
 	/**
@@ -251,12 +306,18 @@ public class UserSession {
 		private final String username;
 		private final String token;
 		public String message;
+		
+		public int level;
+		public int exp;
 		public int health;
+		
 		public int attack;
 		public int armor;
 		public int speed;
 		public int tech;
 		public int stealth;
+		
+		public LatLng location;
 		
 		RetrieveStats(String username, String token) {
 			this.username = username;
@@ -279,12 +340,18 @@ public class UserSession {
 				//Return true on success
 				if ( success.equals("1") ) {
 					
+					level = stats.getInt("level");
+					exp = stats.getInt("exp");
+					
 					health = stats.getInt("health");
 					attack = stats.getInt("attack");
 					armor = stats.getInt("armor");
 					stealth = stats.getInt("stealth");
 					speed = stats.getInt("speed");
 					tech = stats.getInt("tech");
+					
+					
+					location = new LatLng(stats.getDouble("lat"), stats.getDouble("lon"));
 					
 					message = "success";
 					return true;
@@ -307,8 +374,11 @@ public class UserSession {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			if ( success ) {
+				setLevel(level);
+				setExp(level);
 				setBaseStats(attack, armor, stealth, speed, tech);
 				setHealth(health);
+				setLocation(location);
 			} 
 		}
 

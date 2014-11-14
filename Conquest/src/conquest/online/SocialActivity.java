@@ -55,6 +55,41 @@ public class SocialActivity extends ActionBarActivity {
 		grabEnemies.execute();
 	}
 	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.social, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		
+		if (id == R.id.action_logout) {
+			user.logout();
+			goToMain();
+			return true;
+		} else if (id == R.id.action_settings ) {
+			goToSettings();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	/**
+	 * Go to the settings
+	 */
+	public void goToSettings(){
+    	Intent settings = new Intent(this, SettingsActivity.class);
+    	startActivity(settings);
+	}
+	
+	
 	public void toast(String message) {
 		//Toast an error message if it exists. Will close and leave page if it doesn't
 		Context context = getApplicationContext();
@@ -102,30 +137,6 @@ public class SocialActivity extends ActionBarActivity {
 			f.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 			((LinearLayout) showPersons).addView(f);
 		}
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.social, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		
-		if (id == R.id.action_logout) {
-			user.logout();
-			goToMain();
-			return true;
-		} else if (id == R.id.action_settings ) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 	
 	/**
