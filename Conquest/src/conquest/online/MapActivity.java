@@ -48,32 +48,6 @@ public class MapActivity extends ActionBarActivity {
 	    	
 		
 		}
-
-		@Override
-		public boolean onCreateOptionsMenu(Menu menu) {
-			// Inflate the menu; this adds items to the action bar if it is present.
-			getMenuInflater().inflate(R.menu.map, menu);
-			return true;
-		}
-	
-		@Override
-		public boolean onOptionsItemSelected(MenuItem item) {
-			// Handle action bar item clicks here. The action bar will
-			// automatically handle clicks on the Home/Up button, so long
-			// as you specify a parent activity in AndroidManifest.xml.
-			int id = item.getItemId();
-			
-			//Log user out - hope it didn't mess up.
-			if (id == R.id.action_logout) {
-				user.logout();
-				goToMain();
-				return true;
-			} else if (id == R.id.action_settings ) {
-				goToSettings();
-				return true;
-			}
-			return super.onOptionsItemSelected(item);
-		}
 		
 		
 	/**
@@ -93,14 +67,25 @@ public class MapActivity extends ActionBarActivity {
 		startActivity(soc);
 	}
 	
-	public void logout(View view) {
-		goToMain();
+	public void shop(View view) {
+		Intent soc = new Intent(this, ShopActivity.class);
+		startActivity(soc);
 	}
 	/**
 	 * When user taps settings button this functino is called and takes user to the social screen
 	 */
 	public void settings(View view) {
-		
+		goToSettings();
+	}
+	
+	/**
+	 * Log the user out when they click the back button
+	 * @param view
+	 */
+	public void logout(View view) {
+		//Prompt the user
+		user.logout();
+		goToMain();
 	}
 	
 	/**
@@ -124,11 +109,12 @@ public class MapActivity extends ActionBarActivity {
 	 * Used to adjust the health that is shown on the map screen
 	 */
 	public void updateHealth() {
-		TextView health = (TextView) findViewById(R.id.health_view);
-		String currentHealth = "";
-		String maxHealth = "";
+		TextView health = (TextView) findViewById(R.id.playerHealthView);
+		double currentHealth = user.getCurHealth();
+		double maxHealth = user.getMaxHealth();
+		double percentHealth = currentHealth / maxHealth;
 		// NEED TO GET CURRENT AND MAX HEALTH INFO
-		String display = "Health: " + currentHealth + "/" + maxHealth;
+		String display = "Health: " + currentHealth + "/" + maxHealth + " " + percentHealth;
 		health.setText(display);
 	}
 

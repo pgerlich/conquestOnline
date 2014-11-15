@@ -94,12 +94,20 @@ public class UserSession {
 	}
 	
 	/**
-	 * Set the users health
+	 * Set the users max health
 	 * @param health
 	 */
-	public void setHealth(int health) {
-		edit.putInt("health",  health);
+	public void setMaxHealth(int health) {
+		edit.putInt("maxHealth",  health);
 		edit.commit();
+	}
+	
+	/**
+	 * Set the users current health
+	 * @param health
+	 */
+	public void setCurHealth(int health) {
+		edit.putInt("curHealth", health);
 	}
 	
 	/**
@@ -127,7 +135,7 @@ public class UserSession {
 	 * @param exp
 	 */
 	public void setExp(int exp) {
-		edit.putInt("health", exp);
+		edit.putInt("exp", exp);
 		edit.commit();
 	}
 	
@@ -165,11 +173,19 @@ public class UserSession {
 	}
 	
 	/**
-	 * Return the users health
+	 * Return the users max health
 	 * @return
 	 */
-	public int getHealth(){
-		return pref.getInt("health", 0);
+	public int getMaxHealth(){
+		return pref.getInt("maxHealth", 0);
+	}
+	
+	/**
+	 * Return the users current health
+	 * @return
+	 */
+	public int getCurHealth(){
+		return pref.getInt("curHealth", 0);
 	}
 	
 	/**
@@ -309,7 +325,8 @@ public class UserSession {
 		
 		public int level;
 		public int exp;
-		public int health;
+		public int maxHealth;
+		public int curHealth;
 		
 		public int attack;
 		public int armor;
@@ -335,15 +352,16 @@ public class UserSession {
 			
 			//Try and check if it succeeded
 			try {
-				String success = stats.getString("success");
+				int success = stats.getInt("success");
 				
 				//Return true on success
-				if ( success.equals("1") ) {
+				if ( success == 1 ) {
 					
 					level = stats.getInt("level");
 					exp = stats.getInt("exp");
 					
-					health = stats.getInt("health");
+					maxHealth = stats.getInt("maxHealth");
+					curHealth = stats.getInt("curHealth");
 					attack = stats.getInt("attack");
 					armor = stats.getInt("armor");
 					stealth = stats.getInt("stealth");
@@ -377,7 +395,8 @@ public class UserSession {
 				setLevel(level);
 				setExp(level);
 				setBaseStats(attack, armor, stealth, speed, tech);
-				setHealth(health);
+				setCurHealth(curHealth);
+				setMaxHealth(maxHealth);
 				setLocation(location);
 			} 
 		}

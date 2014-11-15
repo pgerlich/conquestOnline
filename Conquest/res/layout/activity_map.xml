@@ -13,49 +13,38 @@
     
     <ImageButton
         android:id="@+id/social_b"
-        android:layout_height="45dp"
-        android:layout_width="45dp"
+        android:layout_height="30dp"
+        android:layout_width="30dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:background="@drawable/social_image"
         android:onClick="toSocial"
         android:contentDescription = "@string/mapDesc" />
     
-    <TextView
-        android:id="@+id/health_view"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="" />
-        
-    <ImageButton 
+        <ImageButton
         android:id="@+id/setting_b"
-        android:layout_height="45dp"
-        android:layout_width="45dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="10dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/logout_b"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
         android:background="@drawable/settings_cog"
-        android:onClick="settings"
-        android:contentDescription="@string/mapDesc" />
+        android:contentDescription="@string/mapDesc"
+        android:onClick="settings" />
     
     <ImageButton
         android:id="@+id/logout_b"
-        android:layout_height="45dp"
-        android:layout_width="45dp"
+        android:layout_height="30dp"
+        android:layout_width="30dp"
         android:layout_below="@id/setting_b"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
         android:background="@drawable/logout_image"
         android:onClick="logout"
         android:contentDescription="@string/mapDesc" />
     
     <ImageButton
         android:id="@+id/character_b"
-        android:layout_height="45dp"
-        android:layout_width="45dp"
+        android:layout_height="30dp"
+        android:layout_width="30dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:background="@drawable/person_image"
@@ -64,13 +53,20 @@
     
     <ImageButton
         android:id="@+id/home_b"
-        android:layout_height="45dp"
-        android:layout_width="45dp"
+        android:layout_height="30dp"
+        android:layout_width="30dp"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@id/character_b"
         android:background="@drawable/house_building"
         android:onClick="goHome"
         android:contentDescription="@string/mapDesc" />
-        
+
+    <TextView
+        android:id="@+id/playerHealthView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

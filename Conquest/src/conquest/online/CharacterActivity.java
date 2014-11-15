@@ -78,7 +78,8 @@ public class CharacterActivity extends Activity {
 		thisUser = (TextView)findViewById(R.id.textView9); 
 		thisUser.setText(user.getUser());
 		
-		toast("Health: "+user.getHealth());
+		toast("Current Health: "+user.getCurHealth());
+		toast("Max Health: " + user.getMaxHealth());
 		toast("Attack: "+user.getAttack());
 		toast("Armor: "+user.getArmor());
 		toast("Speed: "+user.getSpeed());

@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Main Stuff -->
-    <string name="app_name">Conquest</string>
+    <string name="app_name">Conquest Online</string>
     <string name="action_settings">Settings</string>
     <string name="action_logout">Logout</string>
     <string name="action_close">Close</string>
@@ -15,6 +15,7 @@
     <!-- Map Stuff -->
     <string name="title_activity_map">MapActivity</string>
     <string name="mapDesc">Buttons on the map screen that are pressable</string>
+    <string name="playerHealth"></string>
 
     <!-- Register Screen -->
     <string name="title_activity_register">Register</string>
@@ -74,5 +75,7 @@
     <string name="pistol">Has an attack of 50 - 1050g</string>
     <string name="rifle">Has an attack to 200 - 2500g</string>
     <string name="title_activity_character_activity_new">CharacterActivityNew</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_bullshit">BULLSHIT</string>
 
 </resources>
