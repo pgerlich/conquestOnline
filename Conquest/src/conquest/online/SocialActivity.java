@@ -130,6 +130,8 @@ public class SocialActivity extends ActionBarActivity {
 			persons = enemies;
 			showPersons = (LinearLayout) findViewById(R.id.enemy_list);
 		}
+		
+		((LinearLayout) showPersons).removeAllViews();
 				
 		for (String person : persons) {
 			TextView f = new TextView(this);

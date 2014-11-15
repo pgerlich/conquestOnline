@@ -44,6 +44,11 @@ public class MapActivity extends ActionBarActivity {
 	    	} else {
 	    		//Display error message, close gracefully?
 	    	}
+	    	
+	    	while ( user.getMaxHealth() == 0 ) {
+	    		
+	    	}
+	    	
 	    	updateHealth();
 	    	
 		
@@ -100,7 +105,7 @@ public class MapActivity extends ActionBarActivity {
 	 * when user taps the home button they are taken to their property if they have one
 	 */
 	public void goHome(View view) {
-		Intent property = new Intent(this, PropertyActivity.class);
+		Intent property = new Intent(this, TestActivity.class);
 		startActivity(property);
 		
 	}
@@ -114,7 +119,7 @@ public class MapActivity extends ActionBarActivity {
 		double maxHealth = user.getMaxHealth();
 		double percentHealth = currentHealth / maxHealth;
 		// NEED TO GET CURRENT AND MAX HEALTH INFO
-		String display = "Health: " + currentHealth + "/" + maxHealth + " " + percentHealth;
+		String display = "Health: " + currentHealth + "/" + maxHealth + " %" + percentHealth;
 		health.setText(display);
 	}
 

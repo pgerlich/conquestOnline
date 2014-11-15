@@ -183,7 +183,7 @@ public class MySqlConnection {
 				st.execute();
 				
 				//Create the character
-				PreparedStatement st1 = con.prepareStatement("INSERT INTO characters(username, type, maxHealth, attack, armor, speed, stealth, tech, level, exp, lat, long, curHealth) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+				PreparedStatement st1 = con.prepareStatement("INSERT INTO characters(username, type, maxHealth, attack, armor, speed, stealth, tech, level, exp, lat, lon, curHealth) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				st1.setString(1, reggy.username);
 				st1.setString(2, reggy.accountTypeCharacter);
 				st1.setInt(3, 100);
@@ -197,6 +197,7 @@ public class MySqlConnection {
 				st1.setDouble(11, 0);
 				st1.setDouble(11, 0);
 				st1.setInt(12, 0);
+				st1.setInt(13, 100);
 				st1.execute();
 			}
 			
@@ -208,9 +209,9 @@ public class MySqlConnection {
 			response.success = true;
 			return response;
 		} catch (SQLException e) {
-			System.out.println("Some error occured while trying to register " + reggy.username);
+			System.out.println(e.getErrorCode() + " occured while trying to register " + reggy.username);
 			//e.printStackTrace();
-			response.message = "Something went wrong";
+			response.message = e.getMessage();
 			response.success = false;
 			return response;
 		}
