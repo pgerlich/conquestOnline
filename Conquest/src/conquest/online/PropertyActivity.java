@@ -27,10 +27,10 @@ public class PropertyActivity extends Activity {
 		//load images and such
 	}
 	
-//	public void goToNewProp(View view){
-//		finish();
-//		//Toast.makeText(this, "ASSNTITS", Toast.LENGTH_SHORT).show();
-//		Intent newproperty = new Intent(this, NewPropertyActivity.class);
-//		startActivity(newproperty);
-//	}
+	public void goToNewProp(View view){
+		finish();
+		//Toast.makeText(this, "ASSNTITS", Toast.LENGTH_SHORT).show();
+		Intent newproperty = new Intent(this, NewPropertyActivity.class);
+		startActivity(newproperty);
+	}
 }
