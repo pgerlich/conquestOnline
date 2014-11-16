@@ -20,11 +20,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import conquest.online.client.MovementClient;
+
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -42,13 +47,15 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	Polygon shape= null;
 	Marker mark;
 	LocationClient mLocationClient;
+	LatLng finalLL=null;
+	UserSession user;
 	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_newproperty);
-
+		user = new UserSession(getApplicationContext());
 		if (initMap()) {
 			// Toast.makeText(this, "RADYTOMAPPAP", Toast.LENGTH_SHORT).show();
 			mLocationClient = new LocationClient(this, this, this);
@@ -120,6 +127,9 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 				        .position(ll, 50f, 50f)
 				        .transparency((float) 0.5);
 						NewPropertyActivity.this.mMap.addGroundOverlay(blah);
+						finalLL =ll;
+						
+						
 
 						
 					}
@@ -149,6 +159,17 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		
 
 	}
+	
+	//sends latlng coordinates to databse along with length and width of property
+	public void confirmProp(View v){
+		//finalLL shit
+		toast("buttholes");
+		PropertyPurchaseTask ppt= new PropertyPurchaseTask(user.getUser(), user.getToken(), finalLL.latitude, finalLL.longitude);
+		ppt.execute();
+	}
+	
+	
+	
 //next three methods are part of the googleplayservices interfaces that are implemented
 	//they are in case the GPS conection fails, connects, or gets disconnected
 	@Override
@@ -225,5 +246,101 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		shape=null;
 	}
 	
+	//database shtuff
+
+/**
+	 * Represents an asynchronous login/registration task used to authenticate
+	 * the user.
+	 */
+	public class PropertyPurchaseTask extends AsyncTask<Void, Void, Boolean> {
+
+
+		private String mUsername;
+		private String mToken;
+		private double mLat;
+		private double mLng;
+		
+		public String message;
+
+
+		PropertyPurchaseTask(String username, String token, double lat, double lon) {
+			mUsername = username;
+			mToken = token;
+			mLat = lat;
+			mLng= lon;
+			
+		}
+
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			
+			//String IP = IPGrabber.getIPAddress(false);
+			
+			
+			try {
+				//Will throw I/O exception if it fails to connect
+				MovementClient mc = new MovementClient();
+				
+				//Have to start this on a new thread so it stays open and listens for responses
+				new Thread(mc).start();
+				
+				mc.purchaseProp(mUsername, mToken, mLat, mLng);
+				
+				//Wait for a response from the server
+				while ( mc.propResponse == null ) {
+					
+				}
+						
+				
+				
+				mc.close();
+				message = mc.propResponse.message;
+				return mc.propResponse.success;
+				
+			} catch (IOException e) {
+				toast("Couldn't connect to server.");
+				return false;
+			}
+	
+			
+		}
+
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			toast(message);
+			
+			if (success) {
+				//TODO: Navigate to the maps page.
+	        	finish();
+		        goToMap();
+			}
+		}
+
+
+		@Override
+		protected void onCancelled() {
+
+		}
+	}
+	
+	
+	public void toast(String message) {
+		//Toast an error message if it exists. Will close and leave page if it doesn't
+		Context context = getApplicationContext();
+		CharSequence text = message;
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
+	}
+	
+	public void goToMap()
+	{
+		finish();
+    	Intent map = new Intent(this, MapActivity.class);
+    	startActivity(map);
+	}
 	
 }

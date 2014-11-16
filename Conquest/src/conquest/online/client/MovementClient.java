@@ -31,9 +31,10 @@ public class MovementClient implements Runnable {
 	public String host;
 	public String test;
 	
-	//Response from loggin in
+	//server responses
 	public LoginResponse loginResponse;
 	public RegistrationResponse regResponse;
+	public PropertyPurchaseResponse propResponse;
 	
 	/**
 	 * Creates a connection client that connects to the specified host and ports.
@@ -62,7 +63,7 @@ public class MovementClient implements Runnable {
 		
 		//Add all the classes
 		@SuppressWarnings("rawtypes")
-		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class};
+		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class};
 		
 		//Bind ports and start her up
 		startClient();
@@ -81,6 +82,10 @@ public class MovementClient implements Runnable {
 	          if (object instanceof RegistrationResponse) {
 	        	  regResponse = (RegistrationResponse) object;
 	        	  regResponse.message = "received";
+	          }
+	          
+	          if (object instanceof PropertyPurchaseResponse){
+	        	  propResponse = (PropertyPurchaseResponse) object;
 	          }
 
 	       }
@@ -130,6 +135,15 @@ public class MovementClient implements Runnable {
 	
 	public void regster() {
 		
+	}
+	
+	public void purchaseProp(String usernameS, String tokenS, double latS, double lonS) {
+		PropertyPurchaseRequest ppr = new PropertyPurchaseRequest();
+		ppr.username = usernameS;
+		ppr.token = tokenS;
+		ppr.lat = latS;
+		ppr.lon = lonS;
+		this.client.sendUDP(ppr);
 	}
 	
 
