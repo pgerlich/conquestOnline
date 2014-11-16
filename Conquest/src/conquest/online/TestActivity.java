@@ -59,7 +59,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener {
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
-						mViewPager.
+						//
 					}
 				});
 
