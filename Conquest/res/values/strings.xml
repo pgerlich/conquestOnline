@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_logout">Logout</string>
     <string name="action_close">Close</string>
+     <string name="title_activity_settings">Settings</string>
 
     <!-- Home Screen -->
     <string name="title_activity_main">Home</string>

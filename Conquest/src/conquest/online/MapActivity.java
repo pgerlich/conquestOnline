@@ -105,8 +105,8 @@ public class MapActivity extends ActionBarActivity {
 	 * when user taps the home button they are taken to their property if they have one
 	 */
 	public void goHome(View view) {
-		Intent property = new Intent(this, TestActivity.class);
-		startActivity(property);
+		//Intent property = new Intent(this, TestActivity.class);
+		//startActivity(property);
 		
 	}
 	
