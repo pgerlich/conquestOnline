@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_logout">Logout</string>
     <string name="action_close">Close</string>
-     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Home Screen -->
     <string name="title_activity_main">Home</string>
@@ -81,5 +81,7 @@
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
+    <string name="title_activity_asd">ASD</string>
+    <string name="title_activity_new_social">NewSocialActivity</string>
 
 </resources>

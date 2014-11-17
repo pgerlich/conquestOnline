@@ -101,7 +101,8 @@ public class MySqlConnection {
 				return null;
 			}
 		} catch (SQLException e) {
-			System.out.println("Some error occured while attempting to login " + user.user);
+			System.out.println( e.getErrorCode() + "  occured while attempting to login " + user.user);
+			System.out.println( e.getMessage() );
 			//e.printStackTrace();
 			return null;
 		}
@@ -210,6 +211,80 @@ public class MySqlConnection {
 			return response;
 		} catch (SQLException e) {
 			System.out.println(e.getErrorCode() + " occured while trying to register " + reggy.username);
+			//e.printStackTrace();
+			response.message = e.getMessage();
+			response.success = false;
+			return response;
+		}
+	}
+	
+	/**
+	 * Register the user to the system.
+	 * @param reggy
+	 * @return
+	 */
+	public PropertyPurchaseResponse propertyPurchase(PropertyPurchaseRequest prop) {
+		//Creating a statement
+		Statement stmt1;
+		
+		PropertyPurchaseResponse response = new PropertyPurchaseResponse();
+		
+		try {
+			stmt1 = con.createStatement();
+			
+			//compare user and token
+			ResultSet isValid = stmt1.executeQuery("select * from users where username = '" + prop.username + "' AND token = '" + prop.token + "'");
+			
+			//If the credentials matched
+			if ( !isValid.next() ) {
+				//Close connection
+				stmt1.close();
+				response.message = "Invalid Token. You are not logged in.";
+				response.success = false;
+				return response;
+			} else {
+				
+				//Create the house
+				PreparedStatement st = con.prepareStatement("INSERT INTO houses(topX, topY, currentHealth, maxHealth, computerLevel, computerCapacity, computerCurrent, safeLevel, safeCapacity, safeCurrent) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+				st.setInt(1, 0);
+				st.setInt(2, 0);
+				st.setInt(3, 0);
+				st.setInt(4, 100);
+				st.setInt(5, 1);
+				st.setInt(6, 100);
+				st.setInt(7, 0);
+				st.setInt(8, 1);
+				st.setInt(9, 100);
+				st.setInt(10, 0);
+				st.execute();
+				
+				
+				//NEED TO GET HOUSE ID
+				//NEED TO CHANGE PROPERTY TO STORE AT ADDRESS
+				
+				
+				//Create the property
+				PreparedStatement st1 = con.prepareStatement("INSERT INTO properties(houseID, owner, numResidents, maxResidents, locLat, locLon, height, width) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+				st1.setInt(1, 0);
+				st1.setString(2, prop.username);
+				st1.setInt(3, 1);
+				st1.setInt(4, 10);
+				st1.setString(5,"" + prop.lat);
+				st1.setString(6,"" + prop.lon);
+				st1.setInt(7, 10);
+				st1.setInt(8, 10);
+				st1.execute();
+			}
+			
+			
+			//Close connections
+			stmt1.close();
+			
+			response.message = "Property purchased succesfully";
+			response.success = true;
+			return response;
+		} catch (SQLException e) {
+			System.out.println(e.getErrorCode() + " occured while trying to purchase property for " + prop.username);
 			//e.printStackTrace();
 			response.message = e.getMessage();
 			response.success = false;

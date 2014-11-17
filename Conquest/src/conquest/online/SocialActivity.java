@@ -8,6 +8,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import conquest.online.gameAssets.Property;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -306,5 +310,4 @@ public class SocialActivity extends ActionBarActivity {
 			//Nothing
 		}
 	}
-
 }

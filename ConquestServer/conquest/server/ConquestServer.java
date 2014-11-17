@@ -16,6 +16,8 @@ import conquest.server.classes.LoginRequest;
 import conquest.server.classes.LoginResponse;
 import conquest.server.classes.LogoutRequest;
 import conquest.server.classes.MySqlConnection;
+import conquest.server.classes.PropertyPurchaseRequest;
+import conquest.server.classes.PropertyPurchaseResponse;
 import conquest.server.classes.RegisterRequest;
 import conquest.server.classes.RegistrationResponse;
 import conquest.server.classes.User;
@@ -191,6 +193,14 @@ public class ConquestServer {
 	    	    	  System.out.println(response.message);
 	    	    	  con.sendUDP(response);
 	    	      }
+	    	      
+	    	      if (obj instanceof PropertyPurchaseRequest) {
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+	    	    	  PropertyPurchaseRequest prop = (PropertyPurchaseRequest) obj;
+	    	    	  PropertyPurchaseResponse response = myCon.propertyPurchase(prop);
+	    	    	  System.out.println(response.message);
+	    	    	  con.sendUDP(response);
+	    	      }
 		    	      
 	    	      //Logout request
 	    	      if (obj instanceof LogoutRequest) {
@@ -247,7 +257,7 @@ public class ConquestServer {
 	
 	@SuppressWarnings({ "unused", "rawtypes" })
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class};
+		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class};
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777, classes);
 		
 		try{
