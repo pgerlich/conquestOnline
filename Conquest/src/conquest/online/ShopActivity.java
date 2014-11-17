@@ -336,8 +336,9 @@ public class ShopActivity extends ActionBarActivity {
 					useItem use = new useItem(user.getUser(), user.getToken(),
 							food[0].getId());
 					use.execute((Void) null);
-					
-					addHealth add = new addHealth(user.getUser(), user.getToken(), food[0].getHealth());
+
+					addHealth add = new addHealth(user.getUser(), user
+							.getToken(), food[0].getHealth());
 					add.execute((Void) null);
 				} else {
 					message.setVisibility(View.VISIBLE);
@@ -355,8 +356,9 @@ public class ShopActivity extends ActionBarActivity {
 					useItem use = new useItem(user.getUser(), user.getToken(),
 							food[1].getId());
 					use.execute((Void) null);
-					
-					addHealth add = new addHealth(user.getUser(), user.getToken(), food[1].getHealth());
+
+					addHealth add = new addHealth(user.getUser(), user
+							.getToken(), food[1].getHealth());
 					add.execute((Void) null);
 
 				} else {
@@ -376,8 +378,9 @@ public class ShopActivity extends ActionBarActivity {
 					useItem use = new useItem(user.getUser(), user.getToken(),
 							food[2].getId());
 					use.execute((Void) null);
-					
-					addHealth add = new addHealth(user.getUser(), user.getToken(), food[2].getHealth());
+
+					addHealth add = new addHealth(user.getUser(), user
+							.getToken(), food[2].getHealth());
 					add.execute((Void) null);
 
 				} else {
@@ -397,8 +400,9 @@ public class ShopActivity extends ActionBarActivity {
 					useItem use = new useItem(user.getUser(), user.getToken(),
 							food[3].getId());
 					use.execute((Void) null);
-					
-					addHealth add = new addHealth(user.getUser(), user.getToken(), food[3].getHealth());
+
+					addHealth add = new addHealth(user.getUser(), user
+							.getToken(), food[3].getHealth());
 					add.execute((Void) null);
 
 				} else {
@@ -484,14 +488,15 @@ public class ShopActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				message.setVisibility(View.GONE);
-				if (checkBalance(armor[0].getCost())  && !armor[0].own()) {
+				if (checkBalance(armor[0].getCost()) && !armor[0].own()) {
 					spendMoney(armor[0].getCost());
 					armor[0].use();
 					useItem use = new useItem(user.getUser(), user.getToken(),
 							armor[0].getId());
 					use.execute((Void) null);
-					
-					incrHealth incr = new incrHealth(user.getUser(), user.getToken(), armor[0].getArmor());
+
+					incrHealth incr = new incrHealth(user.getUser(), user
+							.getToken(), armor[0].getArmor());
 					incr.execute((Void) null);
 
 				} else {
@@ -511,8 +516,9 @@ public class ShopActivity extends ActionBarActivity {
 					useItem use = new useItem(user.getUser(), user.getToken(),
 							armor[1].getId());
 					use.execute((Void) null);
-					
-					incrHealth incr = new incrHealth(user.getUser(), user.getToken(), armor[1].getArmor());
+
+					incrHealth incr = new incrHealth(user.getUser(), user
+							.getToken(), armor[1].getArmor());
 					incr.execute((Void) null);
 
 				} else {
@@ -532,8 +538,9 @@ public class ShopActivity extends ActionBarActivity {
 					useItem use = new useItem(user.getUser(), user.getToken(),
 							armor[2].getId());
 					use.execute((Void) null);
-					
-					incrHealth incr = new incrHealth(user.getUser(), user.getToken(), armor[2].getArmor());
+
+					incrHealth incr = new incrHealth(user.getUser(), user
+							.getToken(), armor[2].getArmor());
 					incr.execute((Void) null);
 
 				} else {
@@ -553,8 +560,9 @@ public class ShopActivity extends ActionBarActivity {
 					useItem use = new useItem(user.getUser(), user.getToken(),
 							armor[3].getId());
 					use.execute((Void) null);
-					
-					incrHealth incr = new incrHealth(user.getUser(), user.getToken(), armor[3].getArmor());
+
+					incrHealth incr = new incrHealth(user.getUser(), user
+							.getToken(), armor[3].getArmor());
 					incr.execute((Void) null);
 
 				} else {
@@ -712,6 +720,7 @@ public class ShopActivity extends ActionBarActivity {
 	public boolean checkBalance(String price) {
 		// if balance is enough return true, else return false
 		getMoney mon = new getMoney(user.getUser(), user.getToken());
+		mon.execute((Void) null);
 		gold = mon.gold;
 
 		if (price.equals(gold)) {
@@ -727,6 +736,7 @@ public class ShopActivity extends ActionBarActivity {
 		// make another AsyncTask? maybe idk
 		spendMoney spend = new spendMoney(user.getUser(), user.getToken(),
 				cost.toString());
+		spend.execute((Void) null);
 		gold = spend.gold;
 
 	}
@@ -1027,141 +1037,141 @@ public class ShopActivity extends ActionBarActivity {
 			// on cancel
 		}
 	}
-	
+
 	// TODO - this adds the health for food or armor to the player
-		public class addHealth extends AsyncTask<Void, Void, Boolean> {
+	public class addHealth extends AsyncTask<Void, Void, Boolean> {
 
-			private final String username;
-			private final String token;
-			private final String health;
-			public String message;
-			public boolean success;
+		private final String username;
+		private final String token;
+		private final String health;
+		public String message;
+		public boolean success;
 
-			// Instantiate task
-			addHealth(String username, String token, String health) {
-				this.username = username;
-				this.token = token;
-				this.health = health;
+		// Instantiate task
+		addHealth(String username, String token, String health) {
+			this.username = username;
+			this.token = token;
+			this.health = health;
 
-				message = "";
-			}
+			message = "";
+		}
 
-			@Override
-			protected Boolean doInBackground(Void... params) {
-				List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
-				postParams.add(new BasicNameValuePair("username", username));
-				postParams.add(new BasicNameValuePair("token", token));
-				postParams.add(new BasicNameValuePair("health", health));
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
+			postParams.add(new BasicNameValuePair("username", username));
+			postParams.add(new BasicNameValuePair("token", token));
+			postParams.add(new BasicNameValuePair("health", health));
 
-				// change to shop, not get friends
-				JSONObject useItem = JSONfunctions
-						.getJSONfromURL(
-								"http://proj-309-R12.cs.iastate.edu/functions/shop/addHealth.php",
-								postParams);
+			// change to shop, not get friends
+			JSONObject useItem = JSONfunctions
+					.getJSONfromURL(
+							"http://proj-309-R12.cs.iastate.edu/functions/shop/addHealth.php",
+							postParams);
 
-				// Try and check if it succeeded
-				try {
-					String success = useItem.getString("success");
+			// Try and check if it succeeded
+			try {
+				String success = useItem.getString("success");
 
-					// Return true on success
-					if (success.equals("1")) {
+				// Return true on success
+				if (success.equals("1")) {
 
-						message = "success";
-						return true;
+					message = "success";
+					return true;
 
-						// Set error message and return false.
-					} else {
-						message = useItem.getString("message");
-						return false;
-					}
-
-					// Off chance that some weird shit happens
-				} catch (JSONException e) {
-					// Something went wrong - typically JSON value doesn't exist
-					// (success).
-					message = "An error occured. Please try again later.";
+					// Set error message and return false.
+				} else {
+					message = useItem.getString("message");
 					return false;
 				}
 
+				// Off chance that some weird shit happens
+			} catch (JSONException e) {
+				// Something went wrong - typically JSON value doesn't exist
+				// (success).
+				message = "An error occured. Please try again later.";
+				return false;
 			}
 
-			@Override
-			protected void onPostExecute(final Boolean success) {
-				// dont know what to put here
-			}
-
-			@Override
-			protected void onCancelled() {
-				// on cancel
-			}
 		}
-		
-		// TODO - this adds the health for armor to the player
-				public class incrHealth extends AsyncTask<Void, Void, Boolean> {
 
-					private final String username;
-					private final String token;
-					private final String health;
-					public String message;
-					public boolean success;
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			// dont know what to put here
+		}
 
-					// Instantiate task
-					incrHealth(String username, String token, String health) {
-						this.username = username;
-						this.token = token;
-						this.health = health;
+		@Override
+		protected void onCancelled() {
+			// on cancel
+		}
+	}
 
-						message = "";
-					}
+	// TODO - this adds the health for armor to the player
+	public class incrHealth extends AsyncTask<Void, Void, Boolean> {
 
-					@Override
-					protected Boolean doInBackground(Void... params) {
-						List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
-						postParams.add(new BasicNameValuePair("username", username));
-						postParams.add(new BasicNameValuePair("token", token));
-						postParams.add(new BasicNameValuePair("health", health));
+		private final String username;
+		private final String token;
+		private final String health;
+		public String message;
+		public boolean success;
 
-						// change to shop, not get friends
-						JSONObject useItem = JSONfunctions
-								.getJSONfromURL(
-										"http://proj-309-R12.cs.iastate.edu/functions/shop/incrHealth.php",
-										postParams);
+		// Instantiate task
+		incrHealth(String username, String token, String health) {
+			this.username = username;
+			this.token = token;
+			this.health = health;
 
-						// Try and check if it succeeded
-						try {
-							String success = useItem.getString("success");
+			message = "";
+		}
 
-							// Return true on success
-							if (success.equals("1")) {
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
+			postParams.add(new BasicNameValuePair("username", username));
+			postParams.add(new BasicNameValuePair("token", token));
+			postParams.add(new BasicNameValuePair("health", health));
 
-								message = "success";
-								return true;
+			// change to shop, not get friends
+			JSONObject useItem = JSONfunctions
+					.getJSONfromURL(
+							"http://proj-309-R12.cs.iastate.edu/functions/shop/incrHealth.php",
+							postParams);
 
-								// Set error message and return false.
-							} else {
-								message = useItem.getString("message");
-								return false;
-							}
+			// Try and check if it succeeded
+			try {
+				String success = useItem.getString("success");
 
-							// Off chance that some weird shit happens
-						} catch (JSONException e) {
-							// Something went wrong - typically JSON value doesn't exist
-							// (success).
-							message = "An error occured. Please try again later.";
-							return false;
-						}
+				// Return true on success
+				if (success.equals("1")) {
 
-					}
+					message = "success";
+					return true;
 
-					@Override
-					protected void onPostExecute(final Boolean success) {
-						// dont know what to put here
-					}
-
-					@Override
-					protected void onCancelled() {
-						// on cancel
-					}
+					// Set error message and return false.
+				} else {
+					message = useItem.getString("message");
+					return false;
 				}
+
+				// Off chance that some weird shit happens
+			} catch (JSONException e) {
+				// Something went wrong - typically JSON value doesn't exist
+				// (success).
+				message = "An error occured. Please try again later.";
+				return false;
+			}
+
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			// dont know what to put here
+		}
+
+		@Override
+		protected void onCancelled() {
+			// on cancel
+		}
+	}
 
 }
