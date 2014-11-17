@@ -192,7 +192,14 @@ public class MapActivity extends ActionBarActivity {
     	if (mMap == null){
     		SupportMapFragment mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
     		mMap=mapFrag.getMap();
+    		Draw();
     	}
     	return (mMap!=null);
+    }
+    
+    //draws all properties found in database
+    public void Draw()
+    {
+    	
     }
 }
