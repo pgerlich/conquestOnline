@@ -9,6 +9,7 @@ public abstract class AbstractStructure implements Visible, Attackable {
 	String picture;
 	String itemName;
 	String cost;
+	String id;
 	boolean owned = false;	
 	
 	public abstract  void levelUp();
@@ -25,6 +26,14 @@ public abstract class AbstractStructure implements Visible, Attackable {
     	setDes(description);
     	setName(name);
     }
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public String getId() {
+		return id;
+	}
     
 	public void setCost(String cost) {
 		this.cost = cost;

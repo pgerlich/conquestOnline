@@ -10,13 +10,14 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R;
+import conquest.online.R;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,22 +56,22 @@ public class ShopActivity extends ActionBarActivity {
 	public TextView foodTwoInfo;
 	public TextView foodThreeInfo;
 	public TextView foodFourInfo;
-	public 	TextView weaponOneInfo;
-	public 	TextView weaponTwoInfo;
-	public 	TextView weaponThreeInfo;
-	public 	TextView weaponFourInfo;
-	public 	TextView armorOneInfo;
-	public 	TextView armorTwoInfo;
-	public 	TextView armorThreeInfo;
-	public 	TextView armorFourInfo;
-	public 	TextView dsOneInfo;
-	public 	TextView dsTwoInfo;
-	public 	TextView dsThreeInfo;
-	public 	TextView dsFourInfo;
+	public TextView weaponOneInfo;
+	public TextView weaponTwoInfo;
+	public TextView weaponThreeInfo;
+	public TextView weaponFourInfo;
+	public TextView armorOneInfo;
+	public TextView armorTwoInfo;
+	public TextView armorThreeInfo;
+	public TextView armorFourInfo;
+	public TextView dsOneInfo;
+	public TextView dsTwoInfo;
+	public TextView dsThreeInfo;
+	public TextView dsFourInfo;
 	public TextView osOneInfo;
 	public TextView osTwoInfo;
 	public TextView osThreeInfo;
-	public TextView osFourInfo ;
+	public TextView osFourInfo;
 	public TextView message;
 
 	private UserSession user;
@@ -99,7 +100,7 @@ public class ShopActivity extends ActionBarActivity {
 		// makes the buttons
 		createListeners();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -283,49 +284,48 @@ public class ShopActivity extends ActionBarActivity {
 	 * This method is to create all the button listeners for the shop
 	 */
 	public void createListeners() {
-		 foodOne = (ImageButton) findViewById(R.id.food_one);
-		 foodTwo = (ImageButton) findViewById(R.id.food_two);
-		 foodThree = (ImageButton) findViewById(R.id.food_three);
-		 foodFour = (ImageButton) findViewById(R.id.food_four);
-		 weaponOne = (ImageButton) findViewById(R.id.weapon_one);
-		 weaponTwo = (ImageButton) findViewById(R.id.weapon_two);
-		 weaponThree = (ImageButton) findViewById(R.id.weapon_three);
-		 weaponFour = (ImageButton) findViewById(R.id.weapon_four);
-		 armorOne = (ImageButton) findViewById(R.id.armor_one);
-		 armorTwo = (ImageButton) findViewById(R.id.armor_two);
-		 armorThree = (ImageButton) findViewById(R.id.armor_three);
-		 armorFour = (ImageButton) findViewById(R.id.armor_four);
-		 dsOne = (ImageButton) findViewById(R.id.ds_one);
-		 dsTwo = (ImageButton) findViewById(R.id.ds_two);
-		 dsThree = (ImageButton) findViewById(R.id.ds_three);
-		 dsFour = (ImageButton) findViewById(R.id.ds_four);
-		 osOne = (ImageButton) findViewById(R.id.os_one);
-		 osTwo = (ImageButton) findViewById(R.id.os_two);
-		 osThree = (ImageButton) findViewById(R.id.os_three);
-		 osFour = (ImageButton) findViewById(R.id.os_four);
-		 foodOneInfo = (TextView) findViewById(R.id.food_one_info);
-		 foodTwoInfo = (TextView) findViewById(R.id.food_two_info);
-		 foodThreeInfo = (TextView) findViewById(R.id.food_three_info);
-		 foodFourInfo = (TextView) findViewById(R.id.food_four_info);
-		 weaponOneInfo = (TextView) findViewById(R.id.weapon_one_info);
-		 weaponTwoInfo = (TextView) findViewById(R.id.weapon_two_info);
-		 weaponThreeInfo = (TextView) findViewById(R.id.weapon_three_info);
-		 weaponFourInfo = (TextView) findViewById(R.id.weapon_four_info);
-		 armorOneInfo = (TextView) findViewById(R.id.armor_one_info);
-		 armorTwoInfo = (TextView) findViewById(R.id.armor_two_info);
-		 armorThreeInfo = (TextView) findViewById(R.id.armor_three_info);
-		 armorFourInfo = (TextView) findViewById(R.id.armor_four_info);
-		 dsOneInfo = (TextView) findViewById(R.id.ds_one_info);
-		 dsTwoInfo = (TextView) findViewById(R.id.ds_two_info);
-		 dsThreeInfo = (TextView) findViewById(R.id.ds_three_info);
-		 dsFourInfo = (TextView) findViewById(R.id.ds_four_info);
-		 osOneInfo = (TextView) findViewById(R.id.os_one_info);
-		 osTwoInfo = (TextView) findViewById(R.id.os_two_info);
-		 osThreeInfo = (TextView) findViewById(R.id.os_three_info);
-		 osFourInfo = (TextView) findViewById(R.id.os_four_info);
-		 message = (TextView) findViewById(R.id.error_message);
+		foodOne = (ImageButton) findViewById(R.id.food_one);
+		foodTwo = (ImageButton) findViewById(R.id.food_two);
+		foodThree = (ImageButton) findViewById(R.id.food_three);
+		foodFour = (ImageButton) findViewById(R.id.food_four);
+		weaponOne = (ImageButton) findViewById(R.id.weapon_one);
+		weaponTwo = (ImageButton) findViewById(R.id.weapon_two);
+		weaponThree = (ImageButton) findViewById(R.id.weapon_three);
+		weaponFour = (ImageButton) findViewById(R.id.weapon_four);
+		armorOne = (ImageButton) findViewById(R.id.armor_one);
+		armorTwo = (ImageButton) findViewById(R.id.armor_two);
+		armorThree = (ImageButton) findViewById(R.id.armor_three);
+		armorFour = (ImageButton) findViewById(R.id.armor_four);
+		dsOne = (ImageButton) findViewById(R.id.ds_one);
+		dsTwo = (ImageButton) findViewById(R.id.ds_two);
+		dsThree = (ImageButton) findViewById(R.id.ds_three);
+		dsFour = (ImageButton) findViewById(R.id.ds_four);
+		osOne = (ImageButton) findViewById(R.id.os_one);
+		osTwo = (ImageButton) findViewById(R.id.os_two);
+		osThree = (ImageButton) findViewById(R.id.os_three);
+		osFour = (ImageButton) findViewById(R.id.os_four);
+		foodOneInfo = (TextView) findViewById(R.id.food_one_info);
+		foodTwoInfo = (TextView) findViewById(R.id.food_two_info);
+		foodThreeInfo = (TextView) findViewById(R.id.food_three_info);
+		foodFourInfo = (TextView) findViewById(R.id.food_four_info);
+		weaponOneInfo = (TextView) findViewById(R.id.weapon_one_info);
+		weaponTwoInfo = (TextView) findViewById(R.id.weapon_two_info);
+		weaponThreeInfo = (TextView) findViewById(R.id.weapon_three_info);
+		weaponFourInfo = (TextView) findViewById(R.id.weapon_four_info);
+		armorOneInfo = (TextView) findViewById(R.id.armor_one_info);
+		armorTwoInfo = (TextView) findViewById(R.id.armor_two_info);
+		armorThreeInfo = (TextView) findViewById(R.id.armor_three_info);
+		armorFourInfo = (TextView) findViewById(R.id.armor_four_info);
+		dsOneInfo = (TextView) findViewById(R.id.ds_one_info);
+		dsTwoInfo = (TextView) findViewById(R.id.ds_two_info);
+		dsThreeInfo = (TextView) findViewById(R.id.ds_three_info);
+		dsFourInfo = (TextView) findViewById(R.id.ds_four_info);
+		osOneInfo = (TextView) findViewById(R.id.os_one_info);
+		osTwoInfo = (TextView) findViewById(R.id.os_two_info);
+		osThreeInfo = (TextView) findViewById(R.id.os_three_info);
+		osFourInfo = (TextView) findViewById(R.id.os_four_info);
+		message = (TextView) findViewById(R.id.error_message);
 
-		
 		foodTwo.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -333,6 +333,12 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(food[0].getCost())) {
 					spendMoney(food[0].getCost());
 					food[0].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							food[0].getId());
+					use.execute((Void) null);
+					
+					addHealth add = new addHealth(user.getUser(), user.getToken(), food[0].getHealth());
+					add.execute((Void) null);
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -346,6 +352,13 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(food[1].getCost())) {
 					spendMoney(food[1].getCost());
 					food[1].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							food[1].getId());
+					use.execute((Void) null);
+					
+					addHealth add = new addHealth(user.getUser(), user.getToken(), food[1].getHealth());
+					add.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -360,6 +373,13 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(food[2].getCost())) {
 					spendMoney(food[2].getCost());
 					food[2].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							food[2].getId());
+					use.execute((Void) null);
+					
+					addHealth add = new addHealth(user.getUser(), user.getToken(), food[2].getHealth());
+					add.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -374,6 +394,13 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(food[3].getCost())) {
 					spendMoney(food[3].getCost());
 					food[3].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							food[3].getId());
+					use.execute((Void) null);
+					
+					addHealth add = new addHealth(user.getUser(), user.getToken(), food[3].getHealth());
+					add.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -388,6 +415,10 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(weapon[0].getCost())) {
 					spendMoney(weapon[0].getCost());
 					weapon[0].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							weapon[0].getId());
+					use.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -402,6 +433,10 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(weapon[1].getCost())) {
 					spendMoney(weapon[1].getCost());
 					weapon[1].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							weapon[1].getId());
+					use.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -416,6 +451,10 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(weapon[2].getCost())) {
 					spendMoney(weapon[2].getCost());
 					weapon[2].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							weapon[2].getId());
+					use.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -430,6 +469,10 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(weapon[3].getCost())) {
 					spendMoney(weapon[3].getCost());
 					weapon[3].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							weapon[3].getId());
+					use.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -441,9 +484,16 @@ public class ShopActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				message.setVisibility(View.GONE);
-				if (checkBalance(armor[0].getCost())) {
+				if (checkBalance(armor[0].getCost())  && !armor[0].own()) {
 					spendMoney(armor[0].getCost());
 					armor[0].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							armor[0].getId());
+					use.execute((Void) null);
+					
+					incrHealth incr = new incrHealth(user.getUser(), user.getToken(), armor[0].getArmor());
+					incr.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -455,9 +505,16 @@ public class ShopActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				message.setVisibility(View.GONE);
-				if (checkBalance(armor[1].getCost())) {
+				if (checkBalance(armor[1].getCost()) && !armor[1].own()) {
 					spendMoney(armor[1].getCost());
 					armor[1].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							armor[1].getId());
+					use.execute((Void) null);
+					
+					incrHealth incr = new incrHealth(user.getUser(), user.getToken(), armor[1].getArmor());
+					incr.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -469,9 +526,16 @@ public class ShopActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				message.setVisibility(View.GONE);
-				if (checkBalance(armor[2].getCost())) {
+				if (checkBalance(armor[2].getCost()) && !armor[2].own()) {
 					spendMoney(armor[2].getCost());
 					armor[2].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							armor[2].getId());
+					use.execute((Void) null);
+					
+					incrHealth incr = new incrHealth(user.getUser(), user.getToken(), armor[2].getArmor());
+					incr.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -483,9 +547,16 @@ public class ShopActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				message.setVisibility(View.GONE);
-				if (checkBalance(armor[3].getCost())) {
+				if (checkBalance(armor[3].getCost()) && !armor[3].own()) {
 					spendMoney(armor[3].getCost());
 					armor[3].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							armor[3].getId());
+					use.execute((Void) null);
+					
+					incrHealth incr = new incrHealth(user.getUser(), user.getToken(), armor[3].getArmor());
+					incr.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -493,6 +564,8 @@ public class ShopActivity extends ActionBarActivity {
 			}
 		});
 
+		// TODO
+		// need to add check to see if user owns a property or not
 		dsOne.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -500,6 +573,10 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(ds[0].getCost())) {
 					spendMoney(ds[0].getCost());
 					ds[0].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							ds[0].getId());
+					use.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -514,6 +591,10 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(ds[1].getCost())) {
 					spendMoney(ds[1].getCost());
 					ds[1].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							ds[1].getId());
+					use.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -527,6 +608,10 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(ds[2].getCost())) {
 					spendMoney(ds[2].getCost());
 					ds[2].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							ds[2].getId());
+					use.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -541,6 +626,10 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(ds[3].getCost())) {
 					spendMoney(ds[3].getCost());
 					ds[3].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							ds[3].getId());
+					use.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -555,6 +644,10 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(os[0].getCost())) {
 					spendMoney(os[0].getCost());
 					os[0].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							os[0].getId());
+					use.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -569,6 +662,10 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(os[1].getCost())) {
 					spendMoney(os[1].getCost());
 					os[1].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							os[1].getId());
+					use.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -583,6 +680,10 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(os[2].getCost())) {
 					spendMoney(os[2].getCost());
 					os[2].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							os[2].getId());
+					use.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -596,6 +697,10 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(os[3].getCost())) {
 					spendMoney(os[3].getCost());
 					os[3].use();
+					useItem use = new useItem(user.getUser(), user.getToken(),
+							os[3].getId());
+					use.execute((Void) null);
+
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -608,12 +713,11 @@ public class ShopActivity extends ActionBarActivity {
 		// if balance is enough return true, else return false
 		getMoney mon = new getMoney(user.getUser(), user.getToken());
 		gold = mon.gold;
-		
+
 		if (price.equals(gold)) {
-			//has enough gold to buy.
+			// has enough gold to buy.
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -621,9 +725,10 @@ public class ShopActivity extends ActionBarActivity {
 	public void spendMoney(String cost) {
 		// take money away from user
 		// make another AsyncTask? maybe idk
-		spendMoney spend = new spendMoney(user.getUser(), user.getToken(), cost.toString());
+		spendMoney spend = new spendMoney(user.getUser(), user.getToken(),
+				cost.toString());
 		gold = spend.gold;
-		
+
 	}
 
 	// need to update this to get information for the shop, not register
@@ -725,14 +830,14 @@ public class ShopActivity extends ActionBarActivity {
 			// on cancel
 		}
 	}
-	
+
 	public class getMoney extends AsyncTask<Void, Void, Boolean> {
 
 		private final String username;
 		private final String token;
 		public String gold;
 		public String message;
-		
+
 		getMoney(String username, String token) {
 			this.username = username;
 			this.token = token;
@@ -740,43 +845,46 @@ public class ShopActivity extends ActionBarActivity {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-//			Query the login script with their entered username/password
-	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(2);
-	        postParams.add(new BasicNameValuePair("user", username));
-	        postParams.add(new BasicNameValuePair("token", token));
+			// Query the login script with their entered username/password
+			List<NameValuePair> postParams = new ArrayList<NameValuePair>(2);
+			postParams.add(new BasicNameValuePair("user", username));
+			postParams.add(new BasicNameValuePair("token", token));
 
-			JSONObject getMoney = JSONfunctions.getJSONfromURL("http://proj-309-R12.cs.iastate.edu/functions/shop/getMoney.php", postParams);					
-			
-			//Try and check if it succeeded
+			JSONObject getMoney = JSONfunctions
+					.getJSONfromURL(
+							"http://proj-309-R12.cs.iastate.edu/functions/shop/getMoney.php",
+							postParams);
+
+			// Try and check if it succeeded
 			try {
 				String success = getMoney.getString("success");
-				
-				//Return true on success
-				if ( success.equals("1") ) {
-					gold = getMoney.getString("gold");			
-								
-					
+
+				// Return true on success
+				if (success.equals("1")) {
+					gold = getMoney.getString("gold");
+
 					message = "success";
 					return true;
-					
-				//Set error message and return false.
+
+					// Set error message and return false.
 				} else {
 					message = getMoney.getString("message");
 					return false;
 				}
-			
-			//Off chance that some weird shit happens
+
+				// Off chance that some weird shit happens
 			} catch (JSONException e) {
-				//Something went wrong - typically JSON value doesn't exist (success).
+				// Something went wrong - typically JSON value doesn't exist
+				// (success).
 				message = "An error occured. Please try again later.";
 				return false;
 			}
-			
+
 		}
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
-			
+
 		}
 
 		@Override
@@ -784,7 +892,8 @@ public class ShopActivity extends ActionBarActivity {
 			//
 		}
 	}
-	
+
+	// TODO - This needs to be from server, not with PHP
 	public class spendMoney extends AsyncTask<Void, Void, Boolean> {
 
 		private final String username;
@@ -792,7 +901,7 @@ public class ShopActivity extends ActionBarActivity {
 		public String gold;
 		public String message;
 		private final String cost;
-		
+
 		spendMoney(String username, String token, String cost) {
 			this.username = username;
 			this.token = token;
@@ -801,44 +910,47 @@ public class ShopActivity extends ActionBarActivity {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-//			Query the login script with their entered username/password
-	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
-	        postParams.add(new BasicNameValuePair("user", username));
-	        postParams.add(new BasicNameValuePair("token", token));
-	        postParams.add(new BasicNameValuePair("cost", cost));
+			// Query the login script with their entered username/password
+			List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
+			postParams.add(new BasicNameValuePair("user", username));
+			postParams.add(new BasicNameValuePair("token", token));
+			postParams.add(new BasicNameValuePair("cost", cost));
 
-			JSONObject spendMoney = JSONfunctions.getJSONfromURL("http://proj-309-R12.cs.iastate.edu/functions/shop/spendMoney.php", postParams);					
-			
-			//Try and check if it succeeded
+			JSONObject spendMoney = JSONfunctions
+					.getJSONfromURL(
+							"http://proj-309-R12.cs.iastate.edu/functions/shop/spendMoney.php",
+							postParams);
+
+			// Try and check if it succeeded
 			try {
 				String success = spendMoney.getString("success");
-				
-				//Return true on success
-				if ( success.equals("1") ) {
-					gold = spendMoney.getString("gold");			
-								
-					
+
+				// Return true on success
+				if (success.equals("1")) {
+					gold = spendMoney.getString("gold");
+
 					message = "success";
 					return true;
-					
-				//Set error message and return false.
+
+					// Set error message and return false.
 				} else {
 					message = spendMoney.getString("message");
 					return false;
 				}
-			
-			//Off chance that some weird shit happens
+
+				// Off chance that some weird shit happens
 			} catch (JSONException e) {
-				//Something went wrong - typically JSON value doesn't exist (success).
+				// Something went wrong - typically JSON value doesn't exist
+				// (success).
 				message = "An error occured. Please try again later.";
 				return false;
 			}
-			
+
 		}
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
-			
+
 		}
 
 		@Override
@@ -846,5 +958,210 @@ public class ShopActivity extends ActionBarActivity {
 			//
 		}
 	}
+
+	// TODO - this adds the item to the player table so that we know they own
+	// this item
+	public class useItem extends AsyncTask<Void, Void, Boolean> {
+
+		private final String username;
+		private final String token;
+		private final String id;
+		public String message;
+		public boolean success;
+
+		// Instantiate task
+		useItem(String username, String token, String id) {
+			this.username = username;
+			this.token = token;
+			this.id = id;
+
+			message = "";
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
+			postParams.add(new BasicNameValuePair("username", username));
+			postParams.add(new BasicNameValuePair("token", token));
+			postParams.add(new BasicNameValuePair("itemId", id));
+
+			// change to shop, not get friends
+			JSONObject useItem = JSONfunctions
+					.getJSONfromURL(
+							"http://proj-309-R12.cs.iastate.edu/functions/shop/useItem.php",
+							postParams);
+
+			// Try and check if it succeeded
+			try {
+				String success = useItem.getString("success");
+
+				// Return true on success
+				if (success.equals("1")) {
+
+					message = "success";
+					return true;
+
+					// Set error message and return false.
+				} else {
+					message = useItem.getString("message");
+					return false;
+				}
+
+				// Off chance that some weird shit happens
+			} catch (JSONException e) {
+				// Something went wrong - typically JSON value doesn't exist
+				// (success).
+				message = "An error occured. Please try again later.";
+				return false;
+			}
+
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			// dont know what to put here
+		}
+
+		@Override
+		protected void onCancelled() {
+			// on cancel
+		}
+	}
 	
+	// TODO - this adds the health for food or armor to the player
+		public class addHealth extends AsyncTask<Void, Void, Boolean> {
+
+			private final String username;
+			private final String token;
+			private final String health;
+			public String message;
+			public boolean success;
+
+			// Instantiate task
+			addHealth(String username, String token, String health) {
+				this.username = username;
+				this.token = token;
+				this.health = health;
+
+				message = "";
+			}
+
+			@Override
+			protected Boolean doInBackground(Void... params) {
+				List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
+				postParams.add(new BasicNameValuePair("username", username));
+				postParams.add(new BasicNameValuePair("token", token));
+				postParams.add(new BasicNameValuePair("health", health));
+
+				// change to shop, not get friends
+				JSONObject useItem = JSONfunctions
+						.getJSONfromURL(
+								"http://proj-309-R12.cs.iastate.edu/functions/shop/addHealth.php",
+								postParams);
+
+				// Try and check if it succeeded
+				try {
+					String success = useItem.getString("success");
+
+					// Return true on success
+					if (success.equals("1")) {
+
+						message = "success";
+						return true;
+
+						// Set error message and return false.
+					} else {
+						message = useItem.getString("message");
+						return false;
+					}
+
+					// Off chance that some weird shit happens
+				} catch (JSONException e) {
+					// Something went wrong - typically JSON value doesn't exist
+					// (success).
+					message = "An error occured. Please try again later.";
+					return false;
+				}
+
+			}
+
+			@Override
+			protected void onPostExecute(final Boolean success) {
+				// dont know what to put here
+			}
+
+			@Override
+			protected void onCancelled() {
+				// on cancel
+			}
+		}
+		
+		// TODO - this adds the health for armor to the player
+				public class incrHealth extends AsyncTask<Void, Void, Boolean> {
+
+					private final String username;
+					private final String token;
+					private final String health;
+					public String message;
+					public boolean success;
+
+					// Instantiate task
+					incrHealth(String username, String token, String health) {
+						this.username = username;
+						this.token = token;
+						this.health = health;
+
+						message = "";
+					}
+
+					@Override
+					protected Boolean doInBackground(Void... params) {
+						List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
+						postParams.add(new BasicNameValuePair("username", username));
+						postParams.add(new BasicNameValuePair("token", token));
+						postParams.add(new BasicNameValuePair("health", health));
+
+						// change to shop, not get friends
+						JSONObject useItem = JSONfunctions
+								.getJSONfromURL(
+										"http://proj-309-R12.cs.iastate.edu/functions/shop/incrHealth.php",
+										postParams);
+
+						// Try and check if it succeeded
+						try {
+							String success = useItem.getString("success");
+
+							// Return true on success
+							if (success.equals("1")) {
+
+								message = "success";
+								return true;
+
+								// Set error message and return false.
+							} else {
+								message = useItem.getString("message");
+								return false;
+							}
+
+							// Off chance that some weird shit happens
+						} catch (JSONException e) {
+							// Something went wrong - typically JSON value doesn't exist
+							// (success).
+							message = "An error occured. Please try again later.";
+							return false;
+						}
+
+					}
+
+					@Override
+					protected void onPostExecute(final Boolean success) {
+						// dont know what to put here
+					}
+
+					@Override
+					protected void onCancelled() {
+						// on cancel
+					}
+				}
+
 }
