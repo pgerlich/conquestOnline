@@ -1,8 +1,17 @@
 package conquest.online;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Intent;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -14,8 +23,14 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+
+import conquest.online.gameAssets.Property;
 
 public class MapActivity extends ActionBarActivity {
 	
@@ -23,6 +38,7 @@ public class MapActivity extends ActionBarActivity {
 	private static final int GPS_ERRORDIALOG_REQUEST = 9001;
 	//Will be used as the reference to the map dispayed
 	GoogleMap mMap;
+	LocationClient mLocationClient;
 	
 	//test wtf
 		@Override
@@ -192,7 +208,21 @@ public class MapActivity extends ActionBarActivity {
     	if (mMap == null){
     		SupportMapFragment mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
     		mMap=mapFrag.getMap();
-    		Draw();
+    		//Draw();
+    		Location currentLoc=mLocationClient.getLastLocation();
+    		if(currentLoc==null)
+    		{
+    			Toast.makeText(this, "can not find current location", Toast.LENGTH_SHORT).show();
+    		}
+    		else
+    		{
+    			//Toast.makeText(this, "find current location", Toast.LENGTH_SHORT).show();
+    			float zoom = 18;
+    			LatLng ll= new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
+    			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
+    			mMap.animateCamera(update);
+    			//makeMark("Property", ll.latitude, ll.longitude);
+    		}
     	}
     	return (mMap!=null);
     }
@@ -200,6 +230,101 @@ public class MapActivity extends ActionBarActivity {
     //draws all properties found in database
     public void Draw()
     {
-    	
+    	//getNearbyProperties gnp = new getNearbyProperties(user.getUser(), user.getToken(),);
     }
+    
+
+
+	/**
+	 * Represents an asynchronous login/registration task used to authenticate
+	 * the user.
+	 */
+	public class getNearbyProperties extends AsyncTask<Void, Void, Boolean> {
+
+
+		private final String myUser;
+		private final String token;
+		private final String lat;
+		private final String lon;
+		
+		public String message;
+		public ArrayList<Property> propertyList;
+
+
+		getNearbyProperties(String myUser, String token, String lat, String lon) {
+			this.myUser = myUser;
+			this.token = token;
+			this.lat = lat;
+			this.lon = lon;
+			propertyList = new ArrayList<Property>(10);
+		}
+
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+//			Query the login script with their entered username/password
+	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(4);
+	        postParams.add(new BasicNameValuePair("user", myUser));
+	        postParams.add(new BasicNameValuePair("token", token));
+	        postParams.add(new BasicNameValuePair("lat", lat));
+	        postParams.add(new BasicNameValuePair("lon", lon));
+	        
+			JSONObject requestProps = JSONfunctions.getJSONfromURL("http://proj-309-R12.cs.iastate.edu/functions/properties/requestNearbyProperties.php", postParams);					
+			
+			//Try and check if it succeeded
+			try {
+				String success = requestProps.getString("success");
+				
+				//Return true on success
+				if ( success.equals("1") ) {
+					
+					int numPeople = requestProps.getInt("numProperties");
+					
+					for (int i = 0 ; i < numPeople; i++) {
+						int propertyID = requestProps.getInt("property"+i+"id");
+						double propertyLat = Double.parseDouble(requestProps.getString("property"+i+"lat"));
+						double propertyLon = Double.parseDouble(requestProps.getString("property"+i+"id"));
+						LatLng location = new LatLng(propertyLat, propertyLon);
+						Property p = new Property(propertyID, location);
+						propertyList.add(p);
+
+					}
+					
+					message = requestProps.getString("message");
+
+
+					return true;
+					
+				//Set error message and return false.
+				} else {
+					message = requestProps.getString("message");
+					return false;
+				}
+			
+			//Off chance that some weird shit happens
+			} catch (JSONException e) {
+				//Something went wrong - typically JSON value doesn't exist (success).
+				message = "An error occured. Please try again later.";
+				return false;
+			}
+			
+		}
+
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+//			if ( success ) {
+//				listPeople("friends");
+//				toast(message);
+//			} else {
+//				toas  t(message);
+//			}
+		}
+
+
+		@Override
+		protected void onCancelled() {
+			//Nothing
+		}
+	}
 }
