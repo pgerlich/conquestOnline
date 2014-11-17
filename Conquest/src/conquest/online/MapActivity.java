@@ -84,7 +84,7 @@ public class MapActivity extends ActionBarActivity {
 	 * When user taps social button, this function is called and takes user to Social Screen
 	 */
 	public void toSocial(View view) {
-		Intent soc = new Intent(this, SocialActivity.class);
+		Intent soc = new Intent(this, NewSocialActivity.class);
 		startActivity(soc);
 	}
 	
@@ -209,20 +209,20 @@ public class MapActivity extends ActionBarActivity {
     		SupportMapFragment mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
     		mMap=mapFrag.getMap();
     		//Draw();
-    		Location currentLoc=mLocationClient.getLastLocation();
-    		if(currentLoc==null)
-    		{
-    			Toast.makeText(this, "can not find current location", Toast.LENGTH_SHORT).show();
-    		}
-    		else
-    		{
-    			//Toast.makeText(this, "find current location", Toast.LENGTH_SHORT).show();
-    			float zoom = 18;
-    			LatLng ll= new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
-    			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
-    			mMap.animateCamera(update);
-    			//makeMark("Property", ll.latitude, ll.longitude);
-    		}
+    		//Location currentLoc=mLocationClient.getLastLocation();
+//    		if(currentLoc==null)
+//    		{
+//    			Toast.makeText(this, "can not find current location", Toast.LENGTH_SHORT).show();
+//    		}
+//    		else
+//    		{
+//    			//Toast.makeText(this, "find current location", Toast.LENGTH_SHORT).show();
+//    			float zoom = 18;
+//    			LatLng ll= new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
+//    			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
+//    			mMap.animateCamera(update);
+//    			//makeMark("Property", ll.latitude, ll.longitude);
+//    		}
     	}
     	return (mMap!=null);
     }

@@ -1,6 +1,7 @@
 package conquest.online.client;
 
 import java.io.IOException;
+
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;

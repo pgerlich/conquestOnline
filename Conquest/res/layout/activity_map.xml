@@ -58,7 +58,7 @@
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@id/character_b"
         android:background="@drawable/house_building"
-        android:onClick="goHome"
+        android:onClick="shop"
         android:contentDescription="@string/mapDesc" />
 
     <TextView
