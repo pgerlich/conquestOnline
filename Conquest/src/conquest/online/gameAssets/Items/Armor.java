@@ -6,7 +6,7 @@ public class Armor extends AbstractEquipableItem {
 	@Override
 	public void use() {
 		// TODO Auto-generated method stub
-		
+		owned = true;
 	}
 
 }

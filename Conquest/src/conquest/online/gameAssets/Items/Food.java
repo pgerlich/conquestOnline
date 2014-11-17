@@ -5,7 +5,7 @@ public class Food extends AbstractItem {
 	@Override
 	public void use() {
 		// TODO Auto-generated method stub
-		
+		owned = true;
 	}
 
 }

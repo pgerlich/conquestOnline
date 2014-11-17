@@ -17,7 +17,7 @@ public class Weapon extends AbstractEquipableItem {
 	@Override
 	public void use() {
 		// TODO Auto-generated method stub
-		
+		owned = true;
 	}
 
 
