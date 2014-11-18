@@ -20,11 +20,12 @@ public abstract class AbstractStructure implements Visible, Attackable {
 		return owned;
 	}
 	
-	public void create(String name, String cost, String pic, String description) {
+	public void create(String name, String cost, String pic, String description, String id) {
     	setCost(cost);
     	setPic(pic);
     	setDes(description);
     	setName(name);
+    	setId(id);
     }
 	
 	public void setId(String id) {

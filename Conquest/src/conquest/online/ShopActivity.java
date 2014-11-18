@@ -495,8 +495,8 @@ public class ShopActivity extends ActionBarActivity {
 							armor[0].getId());
 					use.execute((Void) null);
 
-					incrHealth incr = new incrHealth(user.getUser(), user
-							.getToken(), armor[0].getArmor());
+					incrStats incr = new incrStats(user.getUser(), user
+							.getToken(), "armor", armor[0].getArmor());
 					incr.execute((Void) null);
 
 				} else {
@@ -517,8 +517,8 @@ public class ShopActivity extends ActionBarActivity {
 							armor[1].getId());
 					use.execute((Void) null);
 
-					incrHealth incr = new incrHealth(user.getUser(), user
-							.getToken(), armor[1].getArmor());
+					incrStats incr = new incrStats(user.getUser(), user
+							.getToken(), "armor", armor[1].getArmor());
 					incr.execute((Void) null);
 
 				} else {
@@ -539,8 +539,8 @@ public class ShopActivity extends ActionBarActivity {
 							armor[2].getId());
 					use.execute((Void) null);
 
-					incrHealth incr = new incrHealth(user.getUser(), user
-							.getToken(), armor[2].getArmor());
+					incrStats incr = new incrStats(user.getUser(), user
+							.getToken(), "armor", armor[2].getArmor());
 					incr.execute((Void) null);
 
 				} else {
@@ -561,8 +561,8 @@ public class ShopActivity extends ActionBarActivity {
 							armor[3].getId());
 					use.execute((Void) null);
 
-					incrHealth incr = new incrHealth(user.getUser(), user
-							.getToken(), armor[3].getArmor());
+					incrStats incr = new incrStats(user.getUser(), user
+							.getToken(), "armor", armor[3].getArmor());
 					incr.execute((Void) null);
 
 				} else {
@@ -792,23 +792,28 @@ public class ShopActivity extends ActionBarActivity {
 						food[i].create(requestShop.getString("fn" + i),
 								requestShop.getString("fc" + i),
 								requestShop.getString("fp" + i),
-								requestShop.getString("fd" + i));
+								requestShop.getString("fd" + i),
+								requestShop.getString("fi" + i));
 						weapon[i].create(requestShop.getString("wn" + i),
 								requestShop.getString("wc" + i),
 								requestShop.getString("wp" + i),
-								requestShop.getString("wd" + i));
+								requestShop.getString("wd" + i),
+								requestShop.getString("wi" + i));
 						armor[i].create(requestShop.getString("an" + i),
 								requestShop.getString("ac" + i),
 								requestShop.getString("ap" + i),
-								requestShop.getString("ad" + i));
+								requestShop.getString("ad" + i),
+								requestShop.getString("ai" + i));
 						ds[i].create(requestShop.getString("dn" + i),
 								requestShop.getString("dc" + i),
 								requestShop.getString("dp" + i),
-								requestShop.getString("dd" + i));
+								requestShop.getString("dd" + i),
+								requestShop.getString("di" + i));
 						os[i].create(requestShop.getString("on" + i),
 								requestShop.getString("oc" + i),
 								requestShop.getString("op" + i),
-								requestShop.getString("od" + i));
+								requestShop.getString("od" + i),
+								requestShop.getString("oi" + i));
 					}
 
 					message = "success";
@@ -1107,19 +1112,21 @@ public class ShopActivity extends ActionBarActivity {
 	}
 
 	// TODO - this adds the health for armor to the player
-	public class incrHealth extends AsyncTask<Void, Void, Boolean> {
+	public class incrStats extends AsyncTask<Void, Void, Boolean> {
 
 		private final String username;
 		private final String token;
-		private final String health;
+		private final String attribute;
+		private final String amount;
 		public String message;
 		public boolean success;
 
 		// Instantiate task
-		incrHealth(String username, String token, String health) {
+		incrStats(String username, String token, String attribute, String amount) {
 			this.username = username;
 			this.token = token;
-			this.health = health;
+			this.attribute = attribute;
+			this.amount = amount;
 
 			message = "";
 		}
@@ -1129,7 +1136,8 @@ public class ShopActivity extends ActionBarActivity {
 			List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
 			postParams.add(new BasicNameValuePair("username", username));
 			postParams.add(new BasicNameValuePair("token", token));
-			postParams.add(new BasicNameValuePair("health", health));
+			postParams.add(new BasicNameValuePair("attribute", attribute));
+			postParams.add(new BasicNameValuePair("amount", amount));
 
 			// change to shop, not get friends
 			JSONObject useItem = JSONfunctions

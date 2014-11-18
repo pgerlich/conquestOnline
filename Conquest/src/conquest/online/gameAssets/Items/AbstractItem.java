@@ -22,11 +22,12 @@ public abstract class AbstractItem {
     String id;
     boolean owned = false;
     
-    public void create(String name, String cost, String pic, String description) {
+    public void create(String name, String cost, String pic, String description, String id) {
     	setCost(cost);
     	setPic(pic);
     	setDesc(description);
     	setName(name);
+    	setId(id);
     }
     
     public boolean own() {
