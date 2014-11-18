@@ -325,6 +325,7 @@ public class ShopActivity extends ActionBarActivity {
 		osThreeInfo = (TextView) findViewById(R.id.os_three_info);
 		osFourInfo = (TextView) findViewById(R.id.os_four_info);
 		message = (TextView) findViewById(R.id.error_message);
+		boolean space = true;
 
 		foodTwo.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -572,8 +573,8 @@ public class ShopActivity extends ActionBarActivity {
 			}
 		});
 
-		// TODO
-		// need to add check to see if user owns a property or not
+		// TODO - check if there is room, way to pick property? 
+		// need to add check to see if user owns a property or not (
 		dsOne.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -739,6 +740,11 @@ public class ShopActivity extends ActionBarActivity {
 		spend.execute((Void) null);
 		gold = spend.gold;
 
+	}
+	
+	//TODO - When buying structures, check if there is room in the players structure to place item
+	public boolean checkRoom(String id) {
+		return true;
 	}
 
 	// need to update this to get information for the shop, not register
@@ -1111,7 +1117,7 @@ public class ShopActivity extends ActionBarActivity {
 		}
 	}
 
-	// TODO - this adds the health for armor to the player
+	// TODO - this adds the health for armor to the player -- need to make to increase all stats
 	public class incrStats extends AsyncTask<Void, Void, Boolean> {
 
 		private final String username;
