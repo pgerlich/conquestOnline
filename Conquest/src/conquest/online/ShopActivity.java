@@ -264,7 +264,7 @@ public class ShopActivity extends ActionBarActivity {
 		AssetManager man = getAssets();
 		InputStream open = null;
 		try {
-			open = man.open(pic);
+			open = man.open("placeholder.PNG");
 			Bitmap bitmap = BitmapFactory.decodeStream(open);
 			// Assign the bitmap to an ImageView in this layout
 			view.setImageBitmap(bitmap);
