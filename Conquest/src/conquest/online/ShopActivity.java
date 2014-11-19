@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import conquest.online.client.MovementClient;
 import conquest.online.gameAssets.Items.Armor;
 import conquest.online.gameAssets.Items.Food;
 import conquest.online.gameAssets.Items.Weapon;
@@ -333,14 +334,7 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[0].getCost())) {
 					spendMoney(food[0].getCost());
-					food[0].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							food[0].getId());
-					use.execute((Void) null);
-
-					addHealth add = new addHealth(user.getUser(), user
-							.getToken(), food[0].getHealth());
-					add.execute((Void) null);
+					
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -353,14 +347,6 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[1].getCost())) {
 					spendMoney(food[1].getCost());
-					food[1].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							food[1].getId());
-					use.execute((Void) null);
-
-					addHealth add = new addHealth(user.getUser(), user
-							.getToken(), food[1].getHealth());
-					add.execute((Void) null);
 
 				} else {
 					message.setVisibility(View.VISIBLE);
@@ -375,14 +361,6 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[2].getCost())) {
 					spendMoney(food[2].getCost());
-					food[2].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							food[2].getId());
-					use.execute((Void) null);
-
-					addHealth add = new addHealth(user.getUser(), user
-							.getToken(), food[2].getHealth());
-					add.execute((Void) null);
 
 				} else {
 					message.setVisibility(View.VISIBLE);
@@ -397,14 +375,6 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[3].getCost())) {
 					spendMoney(food[3].getCost());
-					food[3].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							food[3].getId());
-					use.execute((Void) null);
-
-					addHealth add = new addHealth(user.getUser(), user
-							.getToken(), food[3].getHealth());
-					add.execute((Void) null);
 
 				} else {
 					message.setVisibility(View.VISIBLE);
@@ -496,7 +466,7 @@ public class ShopActivity extends ActionBarActivity {
 							armor[0].getId());
 					use.execute((Void) null);
 
-					incrStats incr = new incrStats(user.getUser(), user
+					adjStats incr = new adjStats(user.getUser(), user
 							.getToken(), "armor", armor[0].getArmor());
 					incr.execute((Void) null);
 
@@ -518,7 +488,7 @@ public class ShopActivity extends ActionBarActivity {
 							armor[1].getId());
 					use.execute((Void) null);
 
-					incrStats incr = new incrStats(user.getUser(), user
+					adjStats incr = new adjStats(user.getUser(), user
 							.getToken(), "armor", armor[1].getArmor());
 					incr.execute((Void) null);
 
@@ -540,7 +510,7 @@ public class ShopActivity extends ActionBarActivity {
 							armor[2].getId());
 					use.execute((Void) null);
 
-					incrStats incr = new incrStats(user.getUser(), user
+					adjStats incr = new adjStats(user.getUser(), user
 							.getToken(), "armor", armor[2].getArmor());
 					incr.execute((Void) null);
 
@@ -562,7 +532,7 @@ public class ShopActivity extends ActionBarActivity {
 							armor[3].getId());
 					use.execute((Void) null);
 
-					incrStats incr = new incrStats(user.getUser(), user
+					adjStats incr = new adjStats(user.getUser(), user
 							.getToken(), "armor", armor[3].getArmor());
 					incr.execute((Void) null);
 
@@ -735,11 +705,9 @@ public class ShopActivity extends ActionBarActivity {
 	public void spendMoney(String cost) {
 		// take money away from user
 		// make another AsyncTask? maybe idk
-		spendMoney spend = new spendMoney(user.getUser(), user.getToken(),
-				cost.toString());
+		adjStats spend = new adjStats(user.getUser(), user.getToken(),
+				cost, cost);
 		spend.execute((Void) null);
-		gold = spend.gold;
-
 	}
 	
 	//TODO - When buying structures, check if there is room in the players structure to place item
@@ -777,7 +745,7 @@ public class ShopActivity extends ActionBarActivity {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
+			List<NameValuePair> postParams = new ArrayList<NameValuePair>(2);
 			postParams.add(new BasicNameValuePair("username", username));
 			postParams.add(new BasicNameValuePair("token", token));
 
@@ -914,72 +882,6 @@ public class ShopActivity extends ActionBarActivity {
 		}
 	}
 
-	// TODO - This needs to be from server, not with PHP
-	public class spendMoney extends AsyncTask<Void, Void, Boolean> {
-
-		private final String username;
-		private final String token;
-		public String gold;
-		public String message;
-		private final String cost;
-
-		spendMoney(String username, String token, String cost) {
-			this.username = username;
-			this.token = token;
-			this.cost = cost;
-		}
-
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			// Query the login script with their entered username/password
-			List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
-			postParams.add(new BasicNameValuePair("user", username));
-			postParams.add(new BasicNameValuePair("token", token));
-			postParams.add(new BasicNameValuePair("cost", cost));
-
-			JSONObject spendMoney = JSONfunctions
-					.getJSONfromURL(
-							"http://proj-309-R12.cs.iastate.edu/functions/shop/spendMoney.php",
-							postParams);
-
-			// Try and check if it succeeded
-			try {
-				String success = spendMoney.getString("success");
-
-				// Return true on success
-				if (success.equals("1")) {
-					gold = spendMoney.getString("gold");
-
-					message = "success";
-					return true;
-
-					// Set error message and return false.
-				} else {
-					message = spendMoney.getString("message");
-					return false;
-				}
-
-				// Off chance that some weird shit happens
-			} catch (JSONException e) {
-				// Something went wrong - typically JSON value doesn't exist
-				// (success).
-				message = "An error occured. Please try again later.";
-				return false;
-			}
-
-		}
-
-		@Override
-		protected void onPostExecute(final Boolean success) {
-
-		}
-
-		@Override
-		protected void onCancelled() {
-			//
-		}
-	}
-
 	// TODO - this adds the item to the player table so that we know they own
 	// this item
 	public class useItem extends AsyncTask<Void, Void, Boolean> {
@@ -1001,124 +903,38 @@ public class ShopActivity extends ActionBarActivity {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
-			postParams.add(new BasicNameValuePair("username", username));
-			postParams.add(new BasicNameValuePair("token", token));
-			postParams.add(new BasicNameValuePair("itemId", id));
-
-			// change to shop, not get friends
-			JSONObject useItem = JSONfunctions
-					.getJSONfromURL(
-							"http://proj-309-R12.cs.iastate.edu/functions/shop/useItem.php",
-							postParams);
-
-			// Try and check if it succeeded
-			try {
-				String success = useItem.getString("success");
-
-				// Return true on success
-				if (success.equals("1")) {
-
-					message = "success";
-					return true;
-
-					// Set error message and return false.
-				} else {
-					message = useItem.getString("message");
-					return false;
-				}
-
-				// Off chance that some weird shit happens
-			} catch (JSONException e) {
-				// Something went wrong - typically JSON value doesn't exist
-				// (success).
-				message = "An error occured. Please try again later.";
-				return false;
+			
+			try { 
+				MovementClient mc = new MovementClient();
+				
+				//Have to start this on a new thread so it stays open and listends for responses
+				new Thread(mc).start();
+				
+				//Attempt to log the user out
+				mc.logout(username, token);
+				
+				mc.close();
 			}
-
+			catch (Exception e) {
+				//Idk why this would happen - only happens if it couldn't connect to server.
+			}
+			
+			return true;
 		}
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
-			// dont know what to put here
+			//Nothing needs to go here
 		}
 
 		@Override
 		protected void onCancelled() {
-			// on cancel
+			//Nothing needs to go here
 		}
 	}
 
-	// TODO - this adds the health for food or armor to the player
-	public class addHealth extends AsyncTask<Void, Void, Boolean> {
-
-		private final String username;
-		private final String token;
-		private final String health;
-		public String message;
-		public boolean success;
-
-		// Instantiate task
-		addHealth(String username, String token, String health) {
-			this.username = username;
-			this.token = token;
-			this.health = health;
-
-			message = "";
-		}
-
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
-			postParams.add(new BasicNameValuePair("username", username));
-			postParams.add(new BasicNameValuePair("token", token));
-			postParams.add(new BasicNameValuePair("health", health));
-
-			// change to shop, not get friends
-			JSONObject useItem = JSONfunctions
-					.getJSONfromURL(
-							"http://proj-309-R12.cs.iastate.edu/functions/shop/addHealth.php",
-							postParams);
-
-			// Try and check if it succeeded
-			try {
-				String success = useItem.getString("success");
-
-				// Return true on success
-				if (success.equals("1")) {
-
-					message = "success";
-					return true;
-
-					// Set error message and return false.
-				} else {
-					message = useItem.getString("message");
-					return false;
-				}
-
-				// Off chance that some weird shit happens
-			} catch (JSONException e) {
-				// Something went wrong - typically JSON value doesn't exist
-				// (success).
-				message = "An error occured. Please try again later.";
-				return false;
-			}
-
-		}
-
-		@Override
-		protected void onPostExecute(final Boolean success) {
-			// dont know what to put here
-		}
-
-		@Override
-		protected void onCancelled() {
-			// on cancel
-		}
-	}
-
-	// TODO - this adds the health for armor to the player -- need to make to increase all stats
-	public class incrStats extends AsyncTask<Void, Void, Boolean> {
+	// TODO - The idea is that it uses PHP to get the stat value, adjust it here, and then put it back directly into the server?
+	public class adjStats extends AsyncTask<Void, Void, Boolean> {
 
 		private final String username;
 		private final String token;
@@ -1128,7 +944,7 @@ public class ShopActivity extends ActionBarActivity {
 		public boolean success;
 
 		// Instantiate task
-		incrStats(String username, String token, String attribute, String amount) {
+		adjStats(String username, String token, String attribute, String amount) {
 			this.username = username;
 			this.token = token;
 			this.attribute = attribute;
@@ -1143,48 +959,52 @@ public class ShopActivity extends ActionBarActivity {
 			postParams.add(new BasicNameValuePair("username", username));
 			postParams.add(new BasicNameValuePair("token", token));
 			postParams.add(new BasicNameValuePair("attribute", attribute));
-			postParams.add(new BasicNameValuePair("amount", amount));
 
 			// change to shop, not get friends
-			JSONObject useItem = JSONfunctions
+			JSONObject getStats = JSONfunctions
 					.getJSONfromURL(
-							"http://proj-309-R12.cs.iastate.edu/functions/shop/incrHealth.php",
+							"http://proj-309-R12.cs.iastate.edu/functions/shop/getStats.php",
 							postParams);
-
-			// Try and check if it succeeded
+			
 			try {
-				String success = useItem.getString("success");
+				
+				String success = getStats.getString("success");
 
 				// Return true on success
 				if (success.equals("1")) {
-
+				
+					MovementClient mc = new MovementClient();
+					
+					//Have to start this on a new thread so it stays open and listends for responses
+					new Thread(mc).start();
+					
+					//Attempt to log the user out
+					mc.logout(username, token);
+					
+					mc.close();
+					
 					message = "success";
 					return true;
-
-					// Set error message and return false.
 				} else {
-					message = useItem.getString("message");
+					message = getStats.getString("message");
 					return false;
 				}
-
-				// Off chance that some weird shit happens
-			} catch (JSONException e) {
-				// Something went wrong - typically JSON value doesn't exist
-				// (success).
-				message = "An error occured. Please try again later.";
-				return false;
 			}
-
+			catch (Exception e) {
+				//Idk why this would happen - only happens if it couldn't connect to server.
+			}
+			
+			return true;
 		}
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
-			// dont know what to put here
+			//Nothing needs to go here
 		}
 
 		@Override
 		protected void onCancelled() {
-			// on cancel
+			//Nothing needs to go here
 		}
 	}
 
