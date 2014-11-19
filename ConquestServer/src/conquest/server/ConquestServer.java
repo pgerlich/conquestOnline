@@ -11,7 +11,6 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.sun.xml.internal.fastinfoset.util.CharArray;
 
-import conquest.server.classes.KickAssert;
 import conquest.server.classes.LoginRequest;
 import conquest.server.classes.LoginResponse;
 import conquest.server.classes.LogoutRequest;
@@ -230,10 +229,10 @@ public class ConquestServer {
 	 */
 	public void kickFromServer(User user) {
 		//Send them message saying they're disconnected and close connection
-		KickAssert kick = new KickAssert();
-		kick.message = "You have been kicked from the server.";
-		user.con.sendUDP(kick);
-		user.con.close();
+//		KickAssert kick = new KickAssert();
+//		kick.message = "You have been kicked from the server.";
+//		user.con.sendUDP(kick);
+//		user.con.close();
 		
 		LogoutRequest log = new LogoutRequest();
 		log.username = user.username;
