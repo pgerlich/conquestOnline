@@ -8,25 +8,35 @@ public abstract class AbstractStructure implements Visible, Attackable {
 	String description;
 	String picture;
 	String itemName;
-	Double cost;
+	String cost;
+	String id;
 	boolean owned = false;	
 	
 	public abstract  void levelUp();
 	public abstract void use();
-	public abstract Double getCost();
+	public abstract String getCost();
 	
 	public boolean own() {
 		return owned;
 	}
 	
-	public void create(String name, Double cost, String pic, String description) {
+	public void create(String name, String cost, String pic, String description, String id) {
     	setCost(cost);
     	setPic(pic);
     	setDes(description);
     	setName(name);
+    	setId(id);
     }
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public String getId() {
+		return id;
+	}
     
-	public void setCost(Double cost) {
+	public void setCost(String cost) {
 		this.cost = cost;
 	}
 	
