@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,6 +90,38 @@ public class NewSocialActivity extends Activity {
 		return true;
 	}
 	
+	/** 
+	 * Display friends by iterating through the arraylist of friends
+	 */
+	@SuppressWarnings("deprecation")
+	public void listPeople(String type) {
+		ArrayList<String> persons = null;
+		
+		LinearLayout socialDisplay = (LinearLayout) findViewById(R.id.socialDisplay);
+		
+		if ( socialDisplay != null ) {
+		
+			//So this is a generic method called for friends, enemies, and guild members. This just specifies it
+			if ( type.equals("friends") ) {
+				persons = friends;
+			} else if ( type.equals("guild") ) {
+				persons = guilds;
+			} else if ( type.equals("enemies") ) {
+				persons = enemies;
+			}
+			
+			((LinearLayout) socialDisplay).removeAllViews();
+
+			for (String person : persons) {
+				TextView f = new TextView(this);
+				f.setText(person);
+				f.setX(150);
+				f.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+				((LinearLayout) socialDisplay).addView(f);
+			}
+		}
+	}
+	
 	public void toast(String message) {
 		//Toast an error message if it exists. Will close and leave page if it doesn't
 		Context context = getApplicationContext();
@@ -99,17 +132,16 @@ public class NewSocialActivity extends Activity {
 		toast.show();
 	}
 	
-//	/**
-//	 * called when the user hits the add friend button
-//	 */
-//	public void addFriend(View view) {
-//		EditText usr = (EditText) findViewById(R.id.newFriend);
-//		String name = usr.getText().toString();
-//		
-//		
-//		addPlayer add = new addPlayer(user.getUser(), name, user.getToken());
-//		add.execute();
-//	}
+	/**
+	 * called when the user hits the add friend button
+	 */
+	public void addFriend(View view) {
+		EditText usr = (EditText) findViewById(R.id.newPerson);
+		String name = usr.getText().toString();
+		
+		addPlayer add = new addPlayer(user.getUser(), name, user.getToken());
+		add.execute();
+	}
 	
 
 	@Override
@@ -203,7 +235,7 @@ public class NewSocialActivity extends Activity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			if ( success ) {
-
+				listPeople(type);
 			} 
 		}
 
@@ -268,6 +300,7 @@ public class NewSocialActivity extends Activity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			if ( success ) {
+				listPeople("friends");
 				toast(message);
 			} else {
 				toast(message);
@@ -332,6 +365,11 @@ public class NewSocialActivity extends Activity {
 		public int tabNumber;
 		public String Title;
 		
+		//Some UI references
+		public View socialTitle;
+		public View socialDisplay;
+		public View progressView;
+		
 
 		/**
 		 * Returns a new instance of this fragment for the given section number.
@@ -348,26 +386,40 @@ public class NewSocialActivity extends Activity {
 			this.tabNumber = tabNumber;
 		}
 		
-		public View setTitleAndPeople(View root, View v) {
+		public void setTitle() {
 			
 			if ( tabNumber == 1 ) {
 				Title = "Friends";
-				((TextView)v).setTextColor(Color.GREEN);
-				listPeople(root, "friends");
+				((TextView) socialTitle).setTextColor(Color.GREEN);
 			} else if ( tabNumber == 2 ) {
 				Title = "Guild Members";
-				listPeople(root, "guild");
-				((TextView)v).setTextColor(Color.BLUE);
+				((TextView) socialTitle).setTextColor(Color.BLUE);
 			} else if ( tabNumber == 3 ) {
 				Title = "Enemies";
-				((TextView)v).setTextColor(Color.RED);
-				listPeople(root, "enemies");
-				
+				((TextView) socialTitle).setTextColor(Color.RED);
 			}
 			
-			((TextView)v).setText(Title);
+			((TextView) socialTitle).setText(Title);
 			
-			return v;
+		}
+		
+		public void setPeople(){
+			if ( tabNumber == 1 ) {
+				while ( friends.size() == 0 ) {
+					
+				}
+				listPeople("friends");
+			} else if ( tabNumber == 2 ) {
+				while ( guilds.size() == 0 ) {
+					
+				}
+				listPeople("guild");
+			} else if ( tabNumber == 3 ) {
+				while ( enemies.size() == 0 ) {
+					
+				}
+				listPeople("enemiess");
+			}
 		}
 
 		@Override
@@ -377,8 +429,11 @@ public class NewSocialActivity extends Activity {
 					false);
 			
 	        //Set the title screen and load people
-			View tv = rootView.findViewById(R.id.socialTitle);
-            tv = setTitleAndPeople(rootView, tv);
+			socialTitle = rootView.findViewById(R.id.socialTitle);
+			socialDisplay = rootView.findViewById(R.id.socialDisplay);
+			
+            setTitle();
+            setPeople();
             
             //Show the addFriend part or whatever?
 			return rootView;
@@ -387,12 +442,11 @@ public class NewSocialActivity extends Activity {
 		/** 
 		 * Display friends by iterating through the arraylist of friends
 		 */
-		public void listPeople(View root, String type) {
+		@SuppressWarnings("deprecation")
+		public void listPeople(String type) {
 			ArrayList<String> persons = null;
 			
-			if ( root != null ) {
-			
-			LinearLayout showPersons = (LinearLayout) root.findViewById(R.id.socialDisplay);
+			if ( socialDisplay != null ) {
 			
 				//So this is a generic method called for friends, enemies, and guild members. This just specifies it
 				if ( type.equals("friends") ) {
@@ -403,14 +457,14 @@ public class NewSocialActivity extends Activity {
 					persons = enemies;
 				}
 				
-				((LinearLayout) showPersons).removeAllViews();
+				((LinearLayout) socialDisplay).removeAllViews();
 	
 				for (String person : persons) {
 					TextView f = new TextView(getActivity());
 					f.setText(person);
 					f.setX(150);
 					f.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-					((LinearLayout) showPersons).addView(f);
+					((LinearLayout) socialDisplay).addView(f);
 				}
 			}
 		}

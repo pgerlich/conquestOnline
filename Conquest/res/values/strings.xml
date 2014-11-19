@@ -36,6 +36,8 @@
 
     <!-- Social Screen -->
     <string name="socialAdd">Add</string>
+    <string name="title_activity_character">StatsActivity</string>
+    <string name="title_activity_property">StatsActivity</string>
 
     <!-- Character Screen -->
     <string name="itemPlace">Used to show what items a person has on him</string>
