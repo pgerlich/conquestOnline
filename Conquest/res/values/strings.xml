@@ -35,14 +35,7 @@
     <string name="hello_world">Hello world!</string>
 
     <!-- Social Screen -->
-    <string name="social_screen">Social</string>
-    <string name="friend">Friends</string>
-    <string name="guild">Guild Members</string>
-    <string name="enemy">Enemies</string>
-    <string name="add_friend">Add Friend</string>
-    <string name="userEmail">User name/ Email</string>
-    <string name="title_activity_character">CharacterActivity</string>
-    <string name="title_activity_property">PropertyActivity</string>
+    <string name="socialAdd">Add</string>
 
     <!-- Character Screen -->
     <string name="itemPlace">Used to show what items a person has on him</string>

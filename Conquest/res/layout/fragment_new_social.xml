@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="test"
+        android:text="Title"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout
@@ -29,6 +29,37 @@
         android:layout_centerHorizontal="true"
         android:orientation="vertical" >
 
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+           />
+
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="socialTitle"
+        android:layout_alignBottom="@+id/socialTitle"
+        android:layout_alignRight="@+id/socialTitle"
+        android:layout_marginRight="66dp"
+        android:ems="5" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/button1"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/socialTitle"
+        android:layout_alignRight="@+id/socialTitle"
+        android:layout_alignTop="@+id/socialTitle"
+        android:text="@string/socialAdd" />
 
 </RelativeLayout>

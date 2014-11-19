@@ -9,29 +9,21 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import conquest.online.SocialActivity.RetrievePeople;
-import conquest.online.SocialActivity.addPlayer;
-
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,10 +44,10 @@ public class NewSocialActivity extends Activity {
 	 */
 	ViewPager mViewPager;
 	
-	private UserSession user;
-	public ArrayList<String> friends;
-	public ArrayList<String> guilds;
-	public ArrayList<String> enemies;
+	private static UserSession user;
+	public static ArrayList<String> friends;
+	public static ArrayList<String> guilds;
+	public static ArrayList<String> enemies;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +70,7 @@ public class NewSocialActivity extends Activity {
 		
 		//Retrieve friends
 		RetrievePeople grabFriends = new RetrievePeople(user.getUser(), user.getToken(), "friends");
-		grabFriends.execute();
+		grabFriends.execute();		
 		
 		//Retrieve guild members
 		RetrievePeople grabGuild = new RetrievePeople(user.getUser(), user.getToken(), "guild");
@@ -107,43 +99,17 @@ public class NewSocialActivity extends Activity {
 		toast.show();
 	}
 	
-	/**
-	 * called when the user hits the add friend button
-	 */
-	public void addFriend(View view) {
-		EditText usr = (EditText) findViewById(R.id.newFriend);
-		String name = usr.getText().toString();
-		
-		
-		addPlayer add = new addPlayer(user.getUser(), name, user.getToken());
-		add.execute();
-	}
-	
-	/** 
-	 * Display friends by iterating through the arraylist of friends
-	 */
-	public void listPeople(String type) {
-		ArrayList<String> persons = null;
-		LinearLayout showPersons = (LinearLayout) findViewById(R.id.socialDisplay);
-		
-		//So this is a generic method called for friends, enemies, and guild members. This just specifies it
-		if ( type.equals("friends") ) {
-			persons = friends;
-		} else if ( type.equals("guild") ) {
-			persons = guilds;
-		} else if ( type.equals("enemies") ) {
-			persons = enemies;
-		}
-		
-		((LinearLayout) showPersons).removeAllViews();
-				
-		for (String person : persons) {
-			TextView f = new TextView(this);
-			f.setText(person);
-			f.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-			((LinearLayout) showPersons).addView(f);
-		}
-	}
+//	/**
+//	 * called when the user hits the add friend button
+//	 */
+//	public void addFriend(View view) {
+//		EditText usr = (EditText) findViewById(R.id.newFriend);
+//		String name = usr.getText().toString();
+//		
+//		
+//		addPlayer add = new addPlayer(user.getUser(), name, user.getToken());
+//		add.execute();
+//	}
 	
 
 	@Override
@@ -157,110 +123,7 @@ public class NewSocialActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	/**
-	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-	 * one of the sections/tabs/pages.
-	 */
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-		public SectionsPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a PlaceholderFragment (defined as a static inner class
-			// below).
-			return PlaceholderFragment.newInstance(position + 1);
-		}
-
-		@Override
-		public int getCount() {
-			// Show 3 total pages.
-			return 3;
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
-			switch (position) {
-			case 0:
-				return getString(R.string.title_section1).toUpperCase(l);
-			case 1:
-				return getString(R.string.title_section2).toUpperCase(l);
-			case 2:
-				return getString(R.string.title_section3).toUpperCase(l);
-			}
-			return null;
-		}
-	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		private static final String ARG_SECTION_NUMBER = "section_number";
-		
-		public int tabNumber;
-		public String Title;
-		
-
-		/**
-		 * Returns a new instance of this fragment for the given section number.
-		 */
-		public static PlaceholderFragment newInstance(int sectionNumber) {
-			PlaceholderFragment fragment = new PlaceholderFragment(sectionNumber);
-			Bundle args = new Bundle();
-			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-			fragment.setArguments(args);
-			return fragment;
-		}
-
-		public PlaceholderFragment(int tabNumber) {
-			this.tabNumber = tabNumber;
-		}
-		
-		public View setTitleView(View v) {
-			
-			if ( tabNumber == 1 ) {
-				Title = "Friends";
-				((TextView)v).setTextColor(Color.GREEN);
-			} else if ( tabNumber == 2 ) {
-				Title = "Guild Members";
-				((TextView)v).setTextColor(Color.BLUE);
-			} else if ( tabNumber == 3 ) {
-				Title = "Enemies";
-				((TextView)v).setTextColor(Color.RED);
-			}
-			
-			((TextView)v).setText(Title);
-			
-			return v;
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_new_social, container,
-					false);
-			
-	        //Set the title screen
-			View tv = rootView.findViewById(R.id.socialTitle);
-            tv = setTitleView(tv);
-            
-            //Load friends in..
-            
-            //Show the addFriend part or whatever?
-			return rootView;
-		}
-	}
-
+	
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
@@ -340,7 +203,7 @@ public class NewSocialActivity extends Activity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			if ( success ) {
-				listPeople(type);
+
 			} 
 		}
 
@@ -350,15 +213,6 @@ public class NewSocialActivity extends Activity {
 		}
 	}
 	
-	/**
-	 * Go to the main menu and close the current activity
-	 */
-	public void goToMain(){
-		finish();
-    	Intent main = new Intent(this, MainActivity.class);
-    	startActivity(main);
-	}
-
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
@@ -414,7 +268,6 @@ public class NewSocialActivity extends Activity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			if ( success ) {
-				listPeople("friends");
 				toast(message);
 			} else {
 				toast(message);
@@ -425,5 +278,154 @@ public class NewSocialActivity extends Activity {
 		protected void onCancelled() {
 			//Nothing
 		}
+	}
+
+	/**
+	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+	 * one of the sections/tabs/pages.
+	 */
+	public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+		public SectionsPagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			// getItem is called to instantiate the fragment for the given page.
+			// Return a PlaceholderFragment (defined as a static inner class
+			// below).
+			return PlaceholderFragment.newInstance(position + 1);
+		}
+
+		@Override
+		public int getCount() {
+			// Show 3 total pages.
+			return 3;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			Locale l = Locale.getDefault();
+			switch (position) {
+			case 0:
+				return getString(R.string.title_section1).toUpperCase(l);
+			case 1:
+				return getString(R.string.title_section2).toUpperCase(l);
+			case 2:
+				return getString(R.string.title_section3).toUpperCase(l);
+			}
+			return null;
+		}
+	}
+
+	/**
+	 * A placeholder fragment containing a simple view.
+	 */
+	public static class PlaceholderFragment extends Fragment {
+		/**
+		 * The fragment argument representing the section number for this
+		 * fragment.
+		 */
+		private static final String ARG_SECTION_NUMBER = "section_number";
+		
+		public int tabNumber;
+		public String Title;
+		
+
+		/**
+		 * Returns a new instance of this fragment for the given section number.
+		 */
+		public static PlaceholderFragment newInstance(int sectionNumber) {
+			PlaceholderFragment fragment = new PlaceholderFragment(sectionNumber);
+			Bundle args = new Bundle();
+			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+			fragment.setArguments(args);
+			return fragment;
+		}
+
+		public PlaceholderFragment(int tabNumber) {
+			this.tabNumber = tabNumber;
+		}
+		
+		public View setTitleAndPeople(View root, View v) {
+			
+			if ( tabNumber == 1 ) {
+				Title = "Friends";
+				((TextView)v).setTextColor(Color.GREEN);
+				listPeople(root, "friends");
+			} else if ( tabNumber == 2 ) {
+				Title = "Guild Members";
+				listPeople(root, "guild");
+				((TextView)v).setTextColor(Color.BLUE);
+			} else if ( tabNumber == 3 ) {
+				Title = "Enemies";
+				((TextView)v).setTextColor(Color.RED);
+				listPeople(root, "enemies");
+				
+			}
+			
+			((TextView)v).setText(Title);
+			
+			return v;
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View rootView = inflater.inflate(R.layout.fragment_new_social, container,
+					false);
+			
+	        //Set the title screen and load people
+			View tv = rootView.findViewById(R.id.socialTitle);
+            tv = setTitleAndPeople(rootView, tv);
+            
+            //Show the addFriend part or whatever?
+			return rootView;
+		}
+		
+		/** 
+		 * Display friends by iterating through the arraylist of friends
+		 */
+		public void listPeople(View root, String type) {
+			ArrayList<String> persons = null;
+			
+			if ( root != null ) {
+			
+			LinearLayout showPersons = (LinearLayout) root.findViewById(R.id.socialDisplay);
+			
+				//So this is a generic method called for friends, enemies, and guild members. This just specifies it
+				if ( type.equals("friends") ) {
+					persons = friends;
+				} else if ( type.equals("guild") ) {
+					persons = guilds;
+				} else if ( type.equals("enemies") ) {
+					persons = enemies;
+				}
+				
+				((LinearLayout) showPersons).removeAllViews();
+	
+				for (String person : persons) {
+					TextView f = new TextView(getActivity());
+					f.setText(person);
+					f.setX(150);
+					f.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+					((LinearLayout) showPersons).addView(f);
+				}
+			}
+		}
+		
+		
+		
+		public void toast(String message) {
+			//Toast an error message if it exists. Will close and leave page if it doesn't
+			Context context = getActivity();
+			CharSequence text = message;
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.show();
+		}
+
 	}
 }
