@@ -99,7 +99,7 @@ public class ShopActivity extends ActionBarActivity {
 		os = shop.os;
 
 		// makes the buttons
-		createListeners();
+		populateStore();
 	}
 
 	@Override
@@ -250,7 +250,7 @@ public class ShopActivity extends ActionBarActivity {
 		if (os[3].own()) {
 			osFourInfo.setTextColor(Color.RED);
 		}
-		createListeners();
+		//createListeners();
 	}
 
 	/**
@@ -284,409 +284,409 @@ public class ShopActivity extends ActionBarActivity {
 	/**
 	 * This method is to create all the button listeners for the shop
 	 */
-	public void createListeners() {
-		foodOne = (ImageButton) findViewById(R.id.food_one);
-		foodTwo = (ImageButton) findViewById(R.id.food_two);
-		foodThree = (ImageButton) findViewById(R.id.food_three);
-		foodFour = (ImageButton) findViewById(R.id.food_four);
-		weaponOne = (ImageButton) findViewById(R.id.weapon_one);
-		weaponTwo = (ImageButton) findViewById(R.id.weapon_two);
-		weaponThree = (ImageButton) findViewById(R.id.weapon_three);
-		weaponFour = (ImageButton) findViewById(R.id.weapon_four);
-		armorOne = (ImageButton) findViewById(R.id.armor_one);
-		armorTwo = (ImageButton) findViewById(R.id.armor_two);
-		armorThree = (ImageButton) findViewById(R.id.armor_three);
-		armorFour = (ImageButton) findViewById(R.id.armor_four);
-		dsOne = (ImageButton) findViewById(R.id.ds_one);
-		dsTwo = (ImageButton) findViewById(R.id.ds_two);
-		dsThree = (ImageButton) findViewById(R.id.ds_three);
-		dsFour = (ImageButton) findViewById(R.id.ds_four);
-		osOne = (ImageButton) findViewById(R.id.os_one);
-		osTwo = (ImageButton) findViewById(R.id.os_two);
-		osThree = (ImageButton) findViewById(R.id.os_three);
-		osFour = (ImageButton) findViewById(R.id.os_four);
-		foodOneInfo = (TextView) findViewById(R.id.food_one_info);
-		foodTwoInfo = (TextView) findViewById(R.id.food_two_info);
-		foodThreeInfo = (TextView) findViewById(R.id.food_three_info);
-		foodFourInfo = (TextView) findViewById(R.id.food_four_info);
-		weaponOneInfo = (TextView) findViewById(R.id.weapon_one_info);
-		weaponTwoInfo = (TextView) findViewById(R.id.weapon_two_info);
-		weaponThreeInfo = (TextView) findViewById(R.id.weapon_three_info);
-		weaponFourInfo = (TextView) findViewById(R.id.weapon_four_info);
-		armorOneInfo = (TextView) findViewById(R.id.armor_one_info);
-		armorTwoInfo = (TextView) findViewById(R.id.armor_two_info);
-		armorThreeInfo = (TextView) findViewById(R.id.armor_three_info);
-		armorFourInfo = (TextView) findViewById(R.id.armor_four_info);
-		dsOneInfo = (TextView) findViewById(R.id.ds_one_info);
-		dsTwoInfo = (TextView) findViewById(R.id.ds_two_info);
-		dsThreeInfo = (TextView) findViewById(R.id.ds_three_info);
-		dsFourInfo = (TextView) findViewById(R.id.ds_four_info);
-		osOneInfo = (TextView) findViewById(R.id.os_one_info);
-		osTwoInfo = (TextView) findViewById(R.id.os_two_info);
-		osThreeInfo = (TextView) findViewById(R.id.os_three_info);
-		osFourInfo = (TextView) findViewById(R.id.os_four_info);
-		message = (TextView) findViewById(R.id.error_message);
-		boolean space = true;
-
-		foodTwo.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(food[0].getCost())) {
-					spendMoney(food[0].getCost());
-					
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-			}
-		});
-
-		foodOne.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(food[1].getCost())) {
-					spendMoney(food[1].getCost());
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		foodThree.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(food[2].getCost())) {
-					spendMoney(food[2].getCost());
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		foodFour.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(food[3].getCost())) {
-					spendMoney(food[3].getCost());
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		weaponOne.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(weapon[0].getCost())) {
-					spendMoney(weapon[0].getCost());
-					weapon[0].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							weapon[0].getId());
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		weaponTwo.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(weapon[1].getCost())) {
-					spendMoney(weapon[1].getCost());
-					weapon[1].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							weapon[1].getId());
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		weaponThree.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(weapon[2].getCost())) {
-					spendMoney(weapon[2].getCost());
-					weapon[2].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							weapon[2].getId());
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		weaponFour.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(weapon[3].getCost())) {
-					spendMoney(weapon[3].getCost());
-					weapon[3].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							weapon[3].getId());
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		armorOne.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(armor[0].getCost()) && !armor[0].own()) {
-					spendMoney(armor[0].getCost());
-					armor[0].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							armor[0].getId());
-					use.execute((Void) null);
-
-					adjStats incr = new adjStats(user.getUser(), user
-							.getToken(), "armor", armor[0].getArmor());
-					incr.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		armorTwo.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(armor[1].getCost()) && !armor[1].own()) {
-					spendMoney(armor[1].getCost());
-					armor[1].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							armor[1].getId());
-					use.execute((Void) null);
-
-					adjStats incr = new adjStats(user.getUser(), user
-							.getToken(), "armor", armor[1].getArmor());
-					incr.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		armorThree.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(armor[2].getCost()) && !armor[2].own()) {
-					spendMoney(armor[2].getCost());
-					armor[2].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							armor[2].getId());
-					use.execute((Void) null);
-
-					adjStats incr = new adjStats(user.getUser(), user
-							.getToken(), "armor", armor[2].getArmor());
-					incr.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		armorFour.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(armor[3].getCost()) && !armor[3].own()) {
-					spendMoney(armor[3].getCost());
-					armor[3].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							armor[3].getId());
-					use.execute((Void) null);
-
-					adjStats incr = new adjStats(user.getUser(), user
-							.getToken(), "armor", armor[3].getArmor());
-					incr.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		// TODO - check if there is room, way to pick property? 
-		// need to add check to see if user owns a property or not (
-		dsOne.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(ds[0].getCost())) {
-					spendMoney(ds[0].getCost());
-					ds[0].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							ds[0].getId());
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		dsTwo.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(ds[1].getCost())) {
-					spendMoney(ds[1].getCost());
-					ds[1].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							ds[1].getId());
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-			}
-		});
-
-		dsThree.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(ds[2].getCost())) {
-					spendMoney(ds[2].getCost());
-					ds[2].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							ds[2].getId());
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		dsFour.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(ds[3].getCost())) {
-					spendMoney(ds[3].getCost());
-					ds[3].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							ds[3].getId());
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		osOne.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(os[0].getCost())) {
-					spendMoney(os[0].getCost());
-					os[0].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							os[0].getId());
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		osTwo.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(os[1].getCost())) {
-					spendMoney(os[1].getCost());
-					os[1].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							os[1].getId());
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-
-			}
-		});
-
-		osThree.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(os[2].getCost())) {
-					spendMoney(os[2].getCost());
-					os[2].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							os[2].getId());
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-			}
-		});
-
-		osFour.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(os[3].getCost())) {
-					spendMoney(os[3].getCost());
-					os[3].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							os[3].getId());
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-			}
-		});
-
-	}
+//	public void createListeners() {
+//		foodOne = (ImageButton) findViewById(R.id.food_one);
+//		foodTwo = (ImageButton) findViewById(R.id.food_two);
+//		foodThree = (ImageButton) findViewById(R.id.food_three);
+//		foodFour = (ImageButton) findViewById(R.id.food_four);
+//		weaponOne = (ImageButton) findViewById(R.id.weapon_one);
+//		weaponTwo = (ImageButton) findViewById(R.id.weapon_two);
+//		weaponThree = (ImageButton) findViewById(R.id.weapon_three);
+//		weaponFour = (ImageButton) findViewById(R.id.weapon_four);
+//		armorOne = (ImageButton) findViewById(R.id.armor_one);
+//		armorTwo = (ImageButton) findViewById(R.id.armor_two);
+//		armorThree = (ImageButton) findViewById(R.id.armor_three);
+//		armorFour = (ImageButton) findViewById(R.id.armor_four);
+//		dsOne = (ImageButton) findViewById(R.id.ds_one);
+//		dsTwo = (ImageButton) findViewById(R.id.ds_two);
+//		dsThree = (ImageButton) findViewById(R.id.ds_three);
+//		dsFour = (ImageButton) findViewById(R.id.ds_four);
+//		osOne = (ImageButton) findViewById(R.id.os_one);
+//		osTwo = (ImageButton) findViewById(R.id.os_two);
+//		osThree = (ImageButton) findViewById(R.id.os_three);
+//		osFour = (ImageButton) findViewById(R.id.os_four);
+//		foodOneInfo = (TextView) findViewById(R.id.food_one_info);
+//		foodTwoInfo = (TextView) findViewById(R.id.food_two_info);
+//		foodThreeInfo = (TextView) findViewById(R.id.food_three_info);
+//		foodFourInfo = (TextView) findViewById(R.id.food_four_info);
+//		weaponOneInfo = (TextView) findViewById(R.id.weapon_one_info);
+//		weaponTwoInfo = (TextView) findViewById(R.id.weapon_two_info);
+//		weaponThreeInfo = (TextView) findViewById(R.id.weapon_three_info);
+//		weaponFourInfo = (TextView) findViewById(R.id.weapon_four_info);
+//		armorOneInfo = (TextView) findViewById(R.id.armor_one_info);
+//		armorTwoInfo = (TextView) findViewById(R.id.armor_two_info);
+//		armorThreeInfo = (TextView) findViewById(R.id.armor_three_info);
+//		armorFourInfo = (TextView) findViewById(R.id.armor_four_info);
+//		dsOneInfo = (TextView) findViewById(R.id.ds_one_info);
+//		dsTwoInfo = (TextView) findViewById(R.id.ds_two_info);
+//		dsThreeInfo = (TextView) findViewById(R.id.ds_three_info);
+//		dsFourInfo = (TextView) findViewById(R.id.ds_four_info);
+//		osOneInfo = (TextView) findViewById(R.id.os_one_info);
+//		osTwoInfo = (TextView) findViewById(R.id.os_two_info);
+//		osThreeInfo = (TextView) findViewById(R.id.os_three_info);
+//		osFourInfo = (TextView) findViewById(R.id.os_four_info);
+//		message = (TextView) findViewById(R.id.error_message);
+//		boolean space = true;
+//
+//		foodTwo.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(food[0].getCost())) {
+//					spendMoney(food[0].getCost());
+//					
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//			}
+//		});
+//
+//		foodOne.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(food[1].getCost())) {
+//					spendMoney(food[1].getCost());
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		foodThree.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(food[2].getCost())) {
+//					spendMoney(food[2].getCost());
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		foodFour.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(food[3].getCost())) {
+//					spendMoney(food[3].getCost());
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		weaponOne.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(weapon[0].getCost())) {
+//					spendMoney(weapon[0].getCost());
+//					weapon[0].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							weapon[0].getId());
+//					use.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		weaponTwo.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(weapon[1].getCost())) {
+//					spendMoney(weapon[1].getCost());
+//					weapon[1].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							weapon[1].getId());
+//					use.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		weaponThree.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(weapon[2].getCost())) {
+//					spendMoney(weapon[2].getCost());
+//					weapon[2].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							weapon[2].getId());
+//					use.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		weaponFour.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(weapon[3].getCost())) {
+//					spendMoney(weapon[3].getCost());
+//					weapon[3].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							weapon[3].getId());
+//					use.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		armorOne.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(armor[0].getCost()) && !armor[0].own()) {
+//					spendMoney(armor[0].getCost());
+//					armor[0].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							armor[0].getId());
+//					use.execute((Void) null);
+//
+//					adjStats incr = new adjStats(user.getUser(), user
+//							.getToken(), "armor", armor[0].getArmor());
+//					incr.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		armorTwo.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(armor[1].getCost()) && !armor[1].own()) {
+//					spendMoney(armor[1].getCost());
+//					armor[1].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							armor[1].getId());
+//					use.execute((Void) null);
+//
+//					adjStats incr = new adjStats(user.getUser(), user
+//							.getToken(), "armor", armor[1].getArmor());
+//					incr.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		armorThree.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(armor[2].getCost()) && !armor[2].own()) {
+//					spendMoney(armor[2].getCost());
+//					armor[2].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							armor[2].getId());
+//					use.execute((Void) null);
+//
+//					adjStats incr = new adjStats(user.getUser(), user
+//							.getToken(), "armor", armor[2].getArmor());
+//					incr.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		armorFour.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(armor[3].getCost()) && !armor[3].own()) {
+//					spendMoney(armor[3].getCost());
+//					armor[3].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							armor[3].getId());
+//					use.execute((Void) null);
+//
+//					adjStats incr = new adjStats(user.getUser(), user
+//							.getToken(), "armor", armor[3].getArmor());
+//					incr.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		// TODO - check if there is room, way to pick property? 
+//		// need to add check to see if user owns a property or not (
+//		dsOne.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(ds[0].getCost())) {
+//					spendMoney(ds[0].getCost());
+//					ds[0].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							ds[0].getId());
+//					use.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		dsTwo.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(ds[1].getCost())) {
+//					spendMoney(ds[1].getCost());
+//					ds[1].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							ds[1].getId());
+//					use.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//			}
+//		});
+//
+//		dsThree.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(ds[2].getCost())) {
+//					spendMoney(ds[2].getCost());
+//					ds[2].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							ds[2].getId());
+//					use.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		dsFour.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(ds[3].getCost())) {
+//					spendMoney(ds[3].getCost());
+//					ds[3].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							ds[3].getId());
+//					use.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		osOne.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(os[0].getCost())) {
+//					spendMoney(os[0].getCost());
+//					os[0].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							os[0].getId());
+//					use.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		osTwo.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(os[1].getCost())) {
+//					spendMoney(os[1].getCost());
+//					os[1].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							os[1].getId());
+//					use.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//
+//			}
+//		});
+//
+//		osThree.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(os[2].getCost())) {
+//					spendMoney(os[2].getCost());
+//					os[2].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							os[2].getId());
+//					use.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//			}
+//		});
+//
+//		osFour.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				message.setVisibility(View.GONE);
+//				if (checkBalance(os[3].getCost())) {
+//					spendMoney(os[3].getCost());
+//					os[3].use();
+//					useItem use = new useItem(user.getUser(), user.getToken(),
+//							os[3].getId());
+//					use.execute((Void) null);
+//
+//				} else {
+//					message.setVisibility(View.VISIBLE);
+//				}
+//			}
+//		});
+//
+//	}
 
 	public boolean checkBalance(String price) {
 		// if balance is enough return true, else return false
