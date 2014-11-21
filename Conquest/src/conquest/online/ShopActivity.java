@@ -332,7 +332,7 @@ public class ShopActivity extends ActionBarActivity {
 		osThreeInfo = (TextView) findViewById(R.id.os_three_info);
 		osFourInfo = (TextView) findViewById(R.id.os_four_info);
 		message = (TextView) findViewById(R.id.error_message);
-		stats = (TextView) findViewById(R.id.stats);
+		//stats = (TextView) findViewById(R.id.stats);
 		boolean space = true;
 
 		foodTwo.setOnClickListener(new View.OnClickListener() {

@@ -9,14 +9,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
-import android.app.Fragment;
 import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +49,7 @@ public class MapActivity extends ActionBarActivity {
 	        	{
 	        		//Toast.makeText(this, "RADYTOMAPPAP", Toast.LENGTH_SHORT).show();
 	        		mMap.setMyLocationEnabled(true);
+	        		//THIS CHANGES ZOOM/ECT. Took code from Initialize function -- setView();
 	        	}
 	        	else{
 	        		Toast.makeText(this, "CANTMAPBITCH", Toast.LENGTH_SHORT).show();
@@ -66,8 +64,6 @@ public class MapActivity extends ActionBarActivity {
 	    	}
 	    	
 	    	updateHealth();
-	    	
-		
 		}
 		
 		
@@ -209,20 +205,7 @@ public class MapActivity extends ActionBarActivity {
     		SupportMapFragment mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
     		mMap=mapFrag.getMap();
     		//Draw();
-    		//Location currentLoc=mLocationClient.getLastLocation();
-//    		if(currentLoc==null)
-//    		{
-//    			Toast.makeText(this, "can not find current location", Toast.LENGTH_SHORT).show();
-//    		}
-//    		else
-//    		{
-//    			//Toast.makeText(this, "find current location", Toast.LENGTH_SHORT).show();
-//    			float zoom = 18;
-//    			LatLng ll= new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
-//    			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
-//    			mMap.animateCamera(update);
-//    			//makeMark("Property", ll.latitude, ll.longitude);
-//    		}
+    		
     	}
     	return (mMap!=null);
     }
@@ -233,6 +216,22 @@ public class MapActivity extends ActionBarActivity {
     	//getNearbyProperties gnp = new getNearbyProperties(user.getUser(), user.getToken(),);
     }
     
+    private void setView(){
+		Location currentLoc=mLocationClient.getLastLocation();
+		if(currentLoc==null)
+		{
+			Toast.makeText(this, "can not find current location", Toast.LENGTH_SHORT).show();
+		}
+		else
+		{
+			//Toast.makeText(this, "find current location", Toast.LENGTH_SHORT).show();
+			float zoom = 18;
+			LatLng ll= new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
+			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
+			mMap.animateCamera(update);
+			//makeMark("Property", ll.latitude, ll.longitude);
+		}
+    }
 
 
 	/**

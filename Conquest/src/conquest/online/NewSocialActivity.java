@@ -90,38 +90,6 @@ public class NewSocialActivity extends Activity {
 		return true;
 	}
 	
-	/** 
-	 * Display friends by iterating through the arraylist of friends
-	 */
-	@SuppressWarnings("deprecation")
-	public void listPeople(String type) {
-		ArrayList<String> persons = null;
-		
-		LinearLayout socialDisplay = (LinearLayout) findViewById(R.id.socialDisplay);
-		
-		if ( socialDisplay != null ) {
-		
-			//So this is a generic method called for friends, enemies, and guild members. This just specifies it
-			if ( type.equals("friends") ) {
-				persons = friends;
-			} else if ( type.equals("guild") ) {
-				persons = guilds;
-			} else if ( type.equals("enemies") ) {
-				persons = enemies;
-			}
-			
-			((LinearLayout) socialDisplay).removeAllViews();
-
-			for (String person : persons) {
-				TextView f = new TextView(this);
-				f.setText(person);
-				f.setX(150);
-				f.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-				((LinearLayout) socialDisplay).addView(f);
-			}
-		}
-	}
-	
 	public void toast(String message) {
 		//Toast an error message if it exists. Will close and leave page if it doesn't
 		Context context = getApplicationContext();
@@ -135,11 +103,11 @@ public class NewSocialActivity extends Activity {
 	/**
 	 * called when the user hits the add friend button
 	 */
-	public void addFriend(View view) {
+	public void addPlayer(View view, String type) {
 		EditText usr = (EditText) findViewById(R.id.newPerson);
 		String name = usr.getText().toString();
 		
-		addPlayer add = new addPlayer(user.getUser(), name, user.getToken());
+		addPlayer add = new addPlayer(user.getUser(), name, user.getToken(), type);
 		add.execute();
 	}
 	
@@ -235,7 +203,7 @@ public class NewSocialActivity extends Activity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			if ( success ) {
-				listPeople(type);
+
 			} 
 		}
 
@@ -254,12 +222,14 @@ public class NewSocialActivity extends Activity {
 		private final String myUser;
 		private final String otherUser;
 		private final String token;
+		private final String type;
 		public String message;
 
-		addPlayer(String myUser, String otherUser, String token) {
+		addPlayer(String myUser, String otherUser, String token, String type) {
 			this.myUser = myUser;
 			this.otherUser = otherUser;
 			this.token = token;
+			this.type = type;
 		}
 
 		@Override
@@ -300,7 +270,6 @@ public class NewSocialActivity extends Activity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			if ( success ) {
-				listPeople("friends");
 				toast(message);
 			} else {
 				toast(message);
@@ -368,7 +337,6 @@ public class NewSocialActivity extends Activity {
 		//Some UI references
 		public View socialTitle;
 		public View socialDisplay;
-		public View progressView;
 		
 
 		/**
@@ -405,20 +373,11 @@ public class NewSocialActivity extends Activity {
 		
 		public void setPeople(){
 			if ( tabNumber == 1 ) {
-				while ( friends.size() == 0 ) {
-					
-				}
 				listPeople("friends");
 			} else if ( tabNumber == 2 ) {
-				while ( guilds.size() == 0 ) {
-					
-				}
 				listPeople("guild");
 			} else if ( tabNumber == 3 ) {
-				while ( enemies.size() == 0 ) {
-					
-				}
-				listPeople("enemiess");
+				listPeople("enemies");
 			}
 		}
 

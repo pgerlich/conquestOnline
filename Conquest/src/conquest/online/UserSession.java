@@ -1,6 +1,5 @@
 package conquest.online;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,14 +8,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
 import com.google.android.gms.maps.model.LatLng;
-
-import conquest.client.classes.LoginResponse;
-import conquest.client.classes.RegistrationResponse;
 import conquest.online.client.MovementClient;
-
 
 import android.annotation.SuppressLint;
 import android.content.Context;
