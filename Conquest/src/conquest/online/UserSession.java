@@ -94,6 +94,16 @@ public class UserSession {
 	}
 	
 	/**
+	 * Adjusts the following stats
+	 */
+	public void adjStats(int health, int maxHealth, int attack) {
+		edit.putInt("maxhealth", maxHealth);
+		edit.putInt("health", health);
+		edit.putInt("attack", attack);
+		edit.commit();
+	}
+	
+	/**
 	 * Set the users max health
 	 * @param health
 	 */
@@ -194,6 +204,13 @@ public class UserSession {
 	 */
 	public int getAttack(){
 		return pref.getInt("attack", 0);
+	}
+	
+	/**
+	 * Returns the users Money
+	 */
+	public int getMoney(){
+		return pref.getInt("money", 0);
 	}
 	
 	/**
