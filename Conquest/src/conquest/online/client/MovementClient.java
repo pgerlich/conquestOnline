@@ -36,6 +36,7 @@ public class MovementClient implements Runnable {
 	public LoginResponse loginResponse;
 	public RegistrationResponse regResponse;
 	public PropertyPurchaseResponse propResponse;
+	public UpdateStatsResponse upStatResponse;
 	
 	/**
 	 * Creates a connection client that connects to the specified host and ports.
@@ -64,7 +65,7 @@ public class MovementClient implements Runnable {
 		
 		//Add all the classes
 		@SuppressWarnings("rawtypes")
-		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class};
+		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class};
 		
 		//Bind ports and start her up
 		startClient();
@@ -87,6 +88,10 @@ public class MovementClient implements Runnable {
 	          
 	          if (object instanceof PropertyPurchaseResponse){
 	        	  propResponse = (PropertyPurchaseResponse) object;
+	          }
+	          
+	          if (object instanceof UpdateStatsResponse){
+	        	  upStatResponse = (UpdateStatsResponse) object;
 	          }
 
 	       }
@@ -147,6 +152,26 @@ public class MovementClient implements Runnable {
 		this.client.sendUDP(ppr);
 	}
 	
+	/**
+	 * This is used to update the stats for the player
+	 * @param username
+	 * @param token
+	 * @param maxHealth
+	 * @param curHealth
+	 * @param attack
+	 * @param armor
+	 * @param money
+	 */
+	public void updateStats(String username, String token, int maxHealth, int curHealth, int attack, int armor, int money) {
+		UpdateStatsRequest update = new UpdateStatsRequest();
+		update.username = username;
+		update.token = token;
+		update.maxHealth = maxHealth;
+		update.curHealth = curHealth;
+		update.armor = armor;
+		update.attack = attack;
+		this.client.sendUDP(update);
+	}
 
 	/**
 	 * Bind the classes - IN THE SAME ORDER AS THE SERVER

@@ -1010,7 +1010,12 @@ public class ShopActivity extends ActionBarActivity {
 		private final String username;
 		private final String token;
 		private final String attribute;
-		private final String amount;
+		private final int amount;
+		private int attack;
+		private int maxHealth;
+		private int curHealth;
+		private int armor;
+		private int money;
 		public String message;
 		public boolean success;
 
@@ -1019,22 +1024,22 @@ public class ShopActivity extends ActionBarActivity {
 			this.username = username;
 			this.token = token;
 			this.attribute = attribute;
-			this.amount = amount;
+			this.amount = Integer.parseInt(amount);
+			
 
 			message = "";
 		}
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
+			List<NameValuePair> postParams = new ArrayList<NameValuePair>();
 			postParams.add(new BasicNameValuePair("username", username));
 			postParams.add(new BasicNameValuePair("token", token));
-			postParams.add(new BasicNameValuePair("attribute", attribute));
 
 			// change to shop, not get friends
 			JSONObject getStats = JSONfunctions
 					.getJSONfromURL(
-							"http://proj-309-R12.cs.iastate.edu/functions/shop/getStats.php",
+							"http://proj-309-R12.cs.iastate.edu/functions/character/requestStats.php",
 							postParams);
 			
 			try {
@@ -1043,14 +1048,35 @@ public class ShopActivity extends ActionBarActivity {
 
 				// Return true on success
 				if (success.equals("1")) {
-				
+					maxHealth = getStats.getInt("maxHealth");
+					curHealth = getStats.getInt("curHealth");
+					attack = getStats.getInt("attack");
+					armor = getStats.getInt("armor");
+					money = getStats.getInt("money");
+					
+					if (attribute.equals("maxHealth")) {
+						maxHealth += amount;
+					}
+					if (attribute.equals("money")) {
+						money += amount;
+					}
+					if (attribute.equals("curHealth")) {
+						curHealth += amount;
+					}
+					if (attribute.equals("attack")) {
+						attack +=  amount;
+					}
+					if (attribute.equals("armor")) {
+						armor += amount;
+					}
+										
 					MovementClient mc = new MovementClient();
 					
 					//Have to start this on a new thread so it stays open and listends for responses
 					new Thread(mc).start();
-					
+				
 					//Attempt to log the user out
-					mc.logout(username, token);
+					mc.updateStats(username, token, maxHealth, curHealth, attack, armor, money);
 					
 					mc.close();
 					
