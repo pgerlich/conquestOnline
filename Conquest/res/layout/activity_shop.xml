@@ -10,8 +10,8 @@
     
     <TabHost
         android:id="@android:id/tabhost"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" >
 
@@ -490,7 +490,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Health: xxxx/xxxx 	Gold: xxxx" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

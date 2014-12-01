@@ -104,6 +104,7 @@ public class ShopActivity extends ActionBarActivity {
 		armor = shop.armor;
 		ds = shop.ds;
 		os = shop.os;
+		populateStore();
 	}
 
 	@Override
@@ -129,6 +130,48 @@ public class ShopActivity extends ActionBarActivity {
 	 * this is to set all the images, names, descriptions, and costs.
 	 */
 	public void populateStore() {
+		foodOne = (ImageButton) findViewById(R.id.food_one);
+		foodTwo = (ImageButton) findViewById(R.id.food_two);
+		foodThree = (ImageButton) findViewById(R.id.food_three);
+		foodFour = (ImageButton) findViewById(R.id.food_four);
+		weaponOne = (ImageButton) findViewById(R.id.weapon_one);
+		weaponTwo = (ImageButton) findViewById(R.id.weapon_two);
+		weaponThree = (ImageButton) findViewById(R.id.weapon_three);
+		weaponFour = (ImageButton) findViewById(R.id.weapon_four);
+		armorOne = (ImageButton) findViewById(R.id.armor_one);
+		armorTwo = (ImageButton) findViewById(R.id.armor_two);
+		armorThree = (ImageButton) findViewById(R.id.armor_three);
+		armorFour = (ImageButton) findViewById(R.id.armor_four);
+		dsOne = (ImageButton) findViewById(R.id.ds_one);
+		dsTwo = (ImageButton) findViewById(R.id.ds_two);
+		dsThree = (ImageButton) findViewById(R.id.ds_three);
+		dsFour = (ImageButton) findViewById(R.id.ds_four);
+		osOne = (ImageButton) findViewById(R.id.os_one);
+		osTwo = (ImageButton) findViewById(R.id.os_two);
+		osThree = (ImageButton) findViewById(R.id.os_three);
+		osFour = (ImageButton) findViewById(R.id.os_four);
+		foodOneInfo = (TextView) findViewById(R.id.food_one_info);
+		foodTwoInfo = (TextView) findViewById(R.id.food_two_info);
+		foodThreeInfo = (TextView) findViewById(R.id.food_three_info);
+		foodFourInfo = (TextView) findViewById(R.id.food_four_info);
+		weaponOneInfo = (TextView) findViewById(R.id.weapon_one_info);
+		weaponTwoInfo = (TextView) findViewById(R.id.weapon_two_info);
+		weaponThreeInfo = (TextView) findViewById(R.id.weapon_three_info);
+		weaponFourInfo = (TextView) findViewById(R.id.weapon_four_info);
+		armorOneInfo = (TextView) findViewById(R.id.armor_one_info);
+		armorTwoInfo = (TextView) findViewById(R.id.armor_two_info);
+		armorThreeInfo = (TextView) findViewById(R.id.armor_three_info);
+		armorFourInfo = (TextView) findViewById(R.id.armor_four_info);
+		dsOneInfo = (TextView) findViewById(R.id.ds_one_info);
+		dsTwoInfo = (TextView) findViewById(R.id.ds_two_info);
+		dsThreeInfo = (TextView) findViewById(R.id.ds_three_info);
+		dsFourInfo = (TextView) findViewById(R.id.ds_four_info);
+		osOneInfo = (TextView) findViewById(R.id.os_one_info);
+		osTwoInfo = (TextView) findViewById(R.id.os_two_info);
+		osThreeInfo = (TextView) findViewById(R.id.os_three_info);
+		osFourInfo = (TextView) findViewById(R.id.os_four_info);
+		message = (TextView) findViewById(R.id.error_message);
+		stats = (TextView) findViewById(R.id.stats);
 		String message;
 
 		// need to figure out how to set the background image to be read from
@@ -256,7 +299,6 @@ public class ShopActivity extends ActionBarActivity {
 		if (!checkBalance(os[3].getCost())) {
 			osFourInfo.setTextColor(Color.RED);
 		}
-		//createListeners();
 	}
 
 	/**
@@ -291,48 +333,7 @@ public class ShopActivity extends ActionBarActivity {
 	 * This method is to create all the button listeners for the shop
 	 */
 	public void createListeners() {
-		foodOne = (ImageButton) findViewById(R.id.food_one);
-		foodTwo = (ImageButton) findViewById(R.id.food_two);
-		foodThree = (ImageButton) findViewById(R.id.food_three);
-		foodFour = (ImageButton) findViewById(R.id.food_four);
-		weaponOne = (ImageButton) findViewById(R.id.weapon_one);
-		weaponTwo = (ImageButton) findViewById(R.id.weapon_two);
-		weaponThree = (ImageButton) findViewById(R.id.weapon_three);
-		weaponFour = (ImageButton) findViewById(R.id.weapon_four);
-		armorOne = (ImageButton) findViewById(R.id.armor_one);
-		armorTwo = (ImageButton) findViewById(R.id.armor_two);
-		armorThree = (ImageButton) findViewById(R.id.armor_three);
-		armorFour = (ImageButton) findViewById(R.id.armor_four);
-		dsOne = (ImageButton) findViewById(R.id.ds_one);
-		dsTwo = (ImageButton) findViewById(R.id.ds_two);
-		dsThree = (ImageButton) findViewById(R.id.ds_three);
-		dsFour = (ImageButton) findViewById(R.id.ds_four);
-		osOne = (ImageButton) findViewById(R.id.os_one);
-		osTwo = (ImageButton) findViewById(R.id.os_two);
-		osThree = (ImageButton) findViewById(R.id.os_three);
-		osFour = (ImageButton) findViewById(R.id.os_four);
-		foodOneInfo = (TextView) findViewById(R.id.food_one_info);
-		foodTwoInfo = (TextView) findViewById(R.id.food_two_info);
-		foodThreeInfo = (TextView) findViewById(R.id.food_three_info);
-		foodFourInfo = (TextView) findViewById(R.id.food_four_info);
-		weaponOneInfo = (TextView) findViewById(R.id.weapon_one_info);
-		weaponTwoInfo = (TextView) findViewById(R.id.weapon_two_info);
-		weaponThreeInfo = (TextView) findViewById(R.id.weapon_three_info);
-		weaponFourInfo = (TextView) findViewById(R.id.weapon_four_info);
-		armorOneInfo = (TextView) findViewById(R.id.armor_one_info);
-		armorTwoInfo = (TextView) findViewById(R.id.armor_two_info);
-		armorThreeInfo = (TextView) findViewById(R.id.armor_three_info);
-		armorFourInfo = (TextView) findViewById(R.id.armor_four_info);
-		dsOneInfo = (TextView) findViewById(R.id.ds_one_info);
-		dsTwoInfo = (TextView) findViewById(R.id.ds_two_info);
-		dsThreeInfo = (TextView) findViewById(R.id.ds_three_info);
-		dsFourInfo = (TextView) findViewById(R.id.ds_four_info);
-		osOneInfo = (TextView) findViewById(R.id.os_one_info);
-		osTwoInfo = (TextView) findViewById(R.id.os_two_info);
-		osThreeInfo = (TextView) findViewById(R.id.os_three_info);
-		osFourInfo = (TextView) findViewById(R.id.os_four_info);
-		message = (TextView) findViewById(R.id.error_message);
-		//stats = (TextView) findViewById(R.id.stats);
+		
 		boolean space = true;
 
 		foodTwo.setOnClickListener(new View.OnClickListener() {
@@ -783,6 +784,7 @@ public class ShopActivity extends ActionBarActivity {
 	
 	//TODO - When buying structures, check if there is room in the players structure to place item
 	public boolean checkRoom(String id) {
+		
 		return true;
 	}
 
@@ -954,7 +956,7 @@ public class ShopActivity extends ActionBarActivity {
 	}
 
 	// TODO - this adds the item to the player table so that we know they own
-	// this item
+	// this item THIS IS NEEDED FOR WEAPONS, ARMOR, DS, and OS
 	public class useItem extends AsyncTask<Void, Void, Boolean> {
 
 		private final String username;
@@ -1004,7 +1006,7 @@ public class ShopActivity extends ActionBarActivity {
 		}
 	}
 
-	// TODO - The idea is that it uses PHP to get the stat value, adjust it here, and then put it back directly into the server?
+	//The idea is that it uses PHP to get the stat value, adjust it here, and then put it back directly into the server?
 	public class adjStats extends AsyncTask<Void, Void, Boolean> {
 
 		private final String username;
@@ -1032,7 +1034,7 @@ public class ShopActivity extends ActionBarActivity {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			List<NameValuePair> postParams = new ArrayList<NameValuePair>();
+			List<NameValuePair> postParams = new ArrayList<NameValuePair>(2);
 			postParams.add(new BasicNameValuePair("username", username));
 			postParams.add(new BasicNameValuePair("token", token));
 
