@@ -153,7 +153,7 @@ public class MovementClient implements Runnable {
 	}
 	
 	/**
-	 * This is used to update the stats for the player
+	 * This is used to update the stats for the player and items for the player in the character table
 	 * @param username
 	 * @param token
 	 * @param maxHealth
@@ -162,7 +162,7 @@ public class MovementClient implements Runnable {
 	 * @param armor
 	 * @param money
 	 */
-	public void updateStats(String username, String token, int maxHealth, int curHealth, int attack, int armor, int money) {
+	public void updateStats(String username, String token, int maxHealth, int curHealth, int attack, int armor, int money, int armor0, int armor1, int armor2, int armor3, int weapon0, int weapon1, int weapon2, int weapon3) {
 		UpdateStatsRequest update = new UpdateStatsRequest();
 		update.username = username;
 		update.token = token;
@@ -170,6 +170,14 @@ public class MovementClient implements Runnable {
 		update.curHealth = curHealth;
 		update.armor = armor;
 		update.attack = attack;
+		update.armor0 = armor0;
+		update.armor1 = armor1;
+		update.armor2 = armor2;
+		update.armor3 = armor3;
+		update.weapon0 = weapon0;
+		update.weapon1 = weapon1;
+		update.weapon2 = weapon2;
+		update.weapon3 = weapon3;
 		this.client.sendUDP(update);
 	}
 

@@ -129,6 +129,7 @@ public class ShopActivity extends ActionBarActivity {
 	/**
 	 * this is to set all the images, names, descriptions, and costs.
 	 */
+	//TODO - double check that all stuff looks the way it should, color changes when necessary.
 	public void populateStore() {
 		foodOne = (ImageButton) findViewById(R.id.food_one);
 		foodTwo = (ImageButton) findViewById(R.id.food_two);
@@ -333,7 +334,7 @@ public class ShopActivity extends ActionBarActivity {
 	 * This method is to create all the button listeners for the shop
 	 */
 	public void createListeners() {
-		
+		//TODO - go through and get rid of stuff we don't need, and make sure every button is doing the right thing when clicked.
 		boolean space = true;
 
 		foodTwo.setOnClickListener(new View.OnClickListener() {
@@ -782,7 +783,7 @@ public class ShopActivity extends ActionBarActivity {
 		spend.execute((Void) null);
 	}
 	
-	//TODO - When buying structures, check if there is room in the players structure to place item
+	//TODO - When buying structures, check if there is room in the players structure to place item/ add item to inventory? not sure which
 	public boolean checkRoom(String id) {
 		
 		return true;
@@ -956,7 +957,7 @@ public class ShopActivity extends ActionBarActivity {
 	}
 
 	// TODO - this adds the item to the player table so that we know they own
-	// this item THIS IS NEEDED FOR WEAPONS, ARMOR, DS, and OS
+	// this item THIS IS NEEDED FOR DS, and OS
 	public class useItem extends AsyncTask<Void, Void, Boolean> {
 
 		private final String username;
@@ -978,6 +979,7 @@ public class ShopActivity extends ActionBarActivity {
 		protected Boolean doInBackground(Void... params) {
 			
 			try { 
+				//TODO - takes the id given, and puts that id into the userStructures table.
 				MovementClient mc = new MovementClient();
 				
 				//Have to start this on a new thread so it stays open and listends for responses
@@ -1018,6 +1020,28 @@ public class ShopActivity extends ActionBarActivity {
 		private int curHealth;
 		private int armor;
 		private int money;
+		private int armor0;
+		private int armor1;
+		private int armor2;
+		private int armor3;
+		private int weapon0;
+		private int weapon1;
+		private int weapon2;
+		private int weapon3;
+		/* Dont use these here yet, maybe can in the future, not sure
+		private int wins;
+		private int loses;
+		private int kills;
+		private int deaths;
+		private String guild;
+		private double lat;
+		private double lon;
+		private int speed;
+		private int stealth;
+		private int tech;
+		private int level;
+		private int exp;
+		*/
 		public String message;
 		public boolean success;
 
@@ -1026,8 +1050,7 @@ public class ShopActivity extends ActionBarActivity {
 			this.username = username;
 			this.token = token;
 			this.attribute = attribute;
-			this.amount = Integer.parseInt(amount);
-			
+			this.amount = Integer.parseInt(amount);	
 
 			message = "";
 		}
@@ -1055,6 +1078,29 @@ public class ShopActivity extends ActionBarActivity {
 					attack = getStats.getInt("attack");
 					armor = getStats.getInt("armor");
 					money = getStats.getInt("money");
+					armor0 = getStats.getInt("armor0");
+					armor1 = getStats.getInt("armor1");
+					armor2 = getStats.getInt("armor2");
+					armor3 = getStats.getInt("armor3");
+					weapon0 = getStats.getInt("weapon0");
+					weapon1 = getStats.getInt("weapon1");
+					weapon2 = getStats.getInt("weapon2");
+					weapon3 = getStats.getInt("weapon3");
+					
+					/* dont know why we would need to get these here? maybe we could use this in the future
+					wins = getStats.getInt("wins");
+					loses = getStats.getInt("stats");
+					kills = getStats.getInt("kills");
+					deaths = getStats.getInt("deaths");
+					guild = getStats.getString("guild");
+					lat = getStats.getDouble("lat");
+					lon = getStats.getDouble("lon");
+					speed = getStats.getInt("speed");
+					stealth = getStats.getInt("stealth");
+					tech = getStats.getInt("tech");
+					level = getStats.getInt("level");
+					exp = getStats.getInt("exp");
+					*/
 					
 					if (attribute.equals("maxHealth")) {
 						maxHealth += amount;
@@ -1071,14 +1117,28 @@ public class ShopActivity extends ActionBarActivity {
 					if (attribute.equals("armor")) {
 						armor += amount;
 					}
+					if (attribute.equals("armor4")) {
+						//need to move 1-3 down and then make the newest one 3
+						armor0 = armor1;
+						armor1 = armor2;
+						armor2 = armor3;
+						armor3 = amount;
+					}
+					if (attribute.equals("weapon4")) {
+						//need to move 1-3 down and make the newest one 3
+						weapon0 = weapon1;
+						weapon1 = weapon2;
+						weapon2 = weapon3;
+						weapon3 = amount;
+					}
 										
 					MovementClient mc = new MovementClient();
 					
-					//Have to start this on a new thread so it stays open and listends for responses
+					//Have to start this on a new thread so it stays open and listens for responses
 					new Thread(mc).start();
 				
-					//Attempt to log the user out
-					mc.updateStats(username, token, maxHealth, curHealth, attack, armor, money);
+					//Attempt to update the stats of the user to the character table.
+					mc.updateStats(username, token, maxHealth, curHealth, attack, armor, money, armor0, armor1, armor2, armor3, weapon0, weapon1, weapon2, weapon3);
 					
 					mc.close();
 					
