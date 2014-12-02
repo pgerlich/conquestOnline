@@ -19,6 +19,8 @@ import conquest.server.classes.PropertyPurchaseRequest;
 import conquest.server.classes.PropertyPurchaseResponse;
 import conquest.server.classes.RegisterRequest;
 import conquest.server.classes.RegistrationResponse;
+import conquest.server.classes.UpdateStatsRequest;
+import conquest.server.classes.UpdateStatsResponse;
 import conquest.server.classes.User;
 
 /**
@@ -206,6 +208,15 @@ public class ConquestServer {
 	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
 	    	    	  LogoutRequest log = (LogoutRequest) obj;
 	    	    	  System.out.println(myCon.processLogout(log));
+	    	      }
+	    	      
+	    	      //Update stats request
+	    	      if (obj instanceof UpdateStatsRequest) {
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+	    	    	  UpdateStatsRequest update = (UpdateStatsRequest) obj;
+	    	    	  UpdateStatsResponse response = myCon.updateStats(update);
+	    	    	  System.out.println(response.message);
+	    	    	  con.sendUDP(update);
 	    	      }
 		       }
 		       
