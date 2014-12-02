@@ -85,7 +85,7 @@ public class MapActivity extends ActionBarActivity {
 	}
 	
 	public void shop(View view) {
-		Intent soc = new Intent(this, ShopActivity.class);
+		Intent soc = new Intent(this, PersonalPropertyActivity.class);
 		startActivity(soc);
 	}
 	/**
