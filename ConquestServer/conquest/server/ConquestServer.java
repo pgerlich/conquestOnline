@@ -267,7 +267,7 @@ public class ConquestServer {
 	
 	@SuppressWarnings({ "unused", "rawtypes" })
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class};
+		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class};
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777, classes);
 		
 		try{
