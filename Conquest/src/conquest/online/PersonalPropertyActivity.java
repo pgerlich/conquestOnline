@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -108,6 +109,52 @@ public class PersonalPropertyActivity extends Activity {
 		});
 		
 	}
+	
+	/**
+	 * Go to the settings
+	 */
+	public void goToSettings(){
+    	Intent settings = new Intent(this, SettingsActivity.class);
+    	startActivity(settings);
+	}
+		
+	
+	/**
+	 * Go to the main menu and close the current activity
+	 */
+	public void goToMap(View view){
+		finish();
+    	Intent main = new Intent(this, MapActivity.class);
+    	startActivity(main);
+	}
+	
+	/**
+	 * When user taps social button, this function is called and takes user to Social Screen
+	 */
+	public void toSocial(View view) {
+		Intent soc = new Intent(this, NewSocialActivity.class);
+		startActivity(soc);
+	}
+	
+	public void shop(View view) {
+		Intent soc = new Intent(this, PersonalPropertyActivity.class);
+		startActivity(soc);
+	}
+	/**
+	 * When user taps settings button this functino is called and takes user to the social screen
+	 */
+	public void settings(View view) {
+		goToSettings();
+	}
+	
+	/**
+	 * When user taps character button the user is taken to the character screen
+	 */
+	public void myCharacter(View view) {
+		Intent character = new Intent(this, CharacterActivity.class);
+		startActivity(character);
+	}
+	
 	
 	/**
 	 * Displays the message on the screen

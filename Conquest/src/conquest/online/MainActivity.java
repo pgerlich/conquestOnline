@@ -48,7 +48,7 @@ public class MainActivity extends FragmentActivity {
     /** Called when the user clicks the login button. */
     public void goToLogin(View view) {
     	finish();
-    	Intent login = new Intent(this, PersonalPropertyActivity.class);
+    	Intent login = new Intent(this, LoginActivity.class);
     	startActivity(login);
     }  
     
