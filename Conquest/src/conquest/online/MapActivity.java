@@ -59,11 +59,11 @@ public class MapActivity extends ActionBarActivity {
 	    		//Display error message, close gracefully?
 	    	}
 	    	
-	    	while ( user.getMaxHealth() == 0 ) {
-	    		
-	    	}
-	    	
-	    	updateHealth();
+//	    	while ( user.getMaxHealth() == 0 ) {
+//	    		
+//	    	}
+//	    	
+//	    	updateHealth();
 		}
 		
 		

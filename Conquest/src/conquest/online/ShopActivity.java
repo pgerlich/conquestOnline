@@ -802,7 +802,6 @@ public class ShopActivity extends ActionBarActivity {
 		private final String username;
 		private final String token;
 		public String message;
-		public boolean success;
 		public Food[] food = new Food[4];
 		public Weapon[] weapon = new Weapon[4];
 		public Armor[] armor = new Armor[4];
@@ -820,7 +819,7 @@ public class ShopActivity extends ActionBarActivity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			List<NameValuePair> postParams = new ArrayList<NameValuePair>(2);
-			postParams.add(new BasicNameValuePair("username", username));
+			postParams.add(new BasicNameValuePair("user", username));
 			postParams.add(new BasicNameValuePair("token", token));
 
 			// change to shop, not get friends
