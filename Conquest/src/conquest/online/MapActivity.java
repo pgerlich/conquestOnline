@@ -59,11 +59,11 @@ public class MapActivity extends ActionBarActivity {
 	    		//Display error message, close gracefully?
 	    	}
 	    	
-	    	while ( user.getMaxHealth() == 0 ) {
-	    		
-	    	}
-	    	
-	    	updateHealth();
+//	    	while ( user.getMaxHealth() == 0 ) {
+//	    		
+//	    	}
+//	    	
+//	    	updateHealth();
 		}
 		
 		
@@ -85,7 +85,7 @@ public class MapActivity extends ActionBarActivity {
 	}
 	
 	public void shop(View view) {
-		Intent soc = new Intent(this, ShopActivity.class);
+		Intent soc = new Intent(this, PersonalPropertyActivity.class);
 		startActivity(soc);
 	}
 	/**
