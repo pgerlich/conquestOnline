@@ -145,7 +145,7 @@ public class MovementClient implements Runnable {
 		this.client.sendUDP(logout);
 	}
 	
-	public void requestStructs(String username, String token, int propertyID){
+	public void requestStructs(String username, String token, int propertyID, String location){
 		PropStructsRequest psr = new PropStructsRequest();
 		psr.user = username;
 		psr.token = token;

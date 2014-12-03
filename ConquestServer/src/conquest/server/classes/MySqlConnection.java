@@ -273,35 +273,78 @@ public class MySqlConnection {
 				//If we own a property
 				if ( getPID.next() ) {
 					int id = getPID.getInt("propertyID");
-					ResultSet structs = stmt1.executeQuery("select * from userStructures inner join structures on userStructures.structureID = structures.structureID where propertyID = '" + id + "'");
 					
-					while (structs.next()) {
-						PropStructsResponse thisResponse = new PropStructsResponse();
-						thisResponse.message = "Succesfully grabbed structures.";
-						thisResponse.success = true;
-						thisResponse.propertyID = structs.getString("structureID");
+					if ( psr.location.equals("property") ) {
+					
+						ResultSet structs = stmt1.executeQuery("select * from userStructures inner join structures on userStructures.structureID = structures.structureID where propertyID = '" + id + "'");
 						
-						AbstractStructure temp = new AbstractStructure();
-						temp.name = structs.getString("name");
-						temp.type = structs.getString("type");
-						temp.x = structs.getInt("topX");
-						temp.y = structs.getInt("topY");
-						temp.level = structs.getInt("level");
-						temp.cost = structs.getInt("price");
-						temp.curHealth = structs.getInt("curHealth");
-						temp.maxHealth = structs.getInt("maxHealth");
-						temp.defense = structs.getInt("defense");
-						temp.viewRadius = structs.getInt("viewRadius");
-						temp.enabled = true;
+						while (structs.next()) {
+							PropStructsResponse thisResponse = new PropStructsResponse();
+							thisResponse.message = "Succesfully grabbed structures.";
+							thisResponse.success = true;
+							thisResponse.propertyID = structs.getString("structureID");
+							
+							AbstractStructure temp = new AbstractStructure();
+							temp.name = structs.getString("name");
+							temp.imageID = structs.getInt("imageID");
+							temp.type = structs.getString("type");
+							temp.x = structs.getInt("topX");
+							temp.y = structs.getInt("topY");
+							temp.level = structs.getInt("level");
+							temp.cost = structs.getInt("price");
+							temp.curHealth = structs.getInt("curHealth");
+							temp.maxHealth = structs.getInt("maxHealth");
+							temp.defense = structs.getInt("defense");
+							temp.viewRadius = structs.getInt("viewRadius");
+							temp.enabled = true;
+							
+							thisResponse.struct = temp;
+							
+							System.out.println("added: " + structs.getString("name"));
+							response.add(thisResponse);
+						}
+					} else if ( psr.location.equals("chest") ) {
 						
-						thisResponse.struct = temp;
+						ResultSet structs = stmt1.executeQuery("select * from chest where propertyID = '" + id + "'");
 						
-						System.out.println("added: " + structs.getString("name"));
-						response.add(thisResponse);
+						//If we have a chest..
+						if (structs.next()) {
+							//For each item in our chest
+							for(int i = 1; i == 10; i++ ) {
+								//If we have an item here.
+								if ( structs.getInt("struc" + i) != -1 ) {
+									//Create new response object
+									PropStructsResponse thisResponse = new PropStructsResponse();
+									thisResponse.message = "Succesfully grabbed structures.";
+									thisResponse.success = true;
+									thisResponse.propertyID = structs.getString("propertyID");
+									
+									//Grab the info on this structure
+									ResultSet thisStruct = stmt1.executeQuery("select * from structures where structureID = 'struc" + i + "'");
+									if( thisStruct.next() ){
+										AbstractStructure temp = new AbstractStructure();
+										temp.name = structs.getString("name");
+										temp.imageID = structs.getInt("imageID");
+										temp.type = structs.getString("type");
+										temp.x = -1;
+										temp.y = -1;
+										temp.level = 1;
+										temp.cost = structs.getInt("price");
+										temp.curHealth = -1;
+										temp.maxHealth = structs.getInt("maxHealth");
+										temp.defense = structs.getInt("defense");
+										temp.viewRadius = structs.getInt("viewRadius");
+										temp.enabled = false;
+										
+										thisResponse.struct = temp;
+									}
+									
+									response.add(thisResponse);
+								}
+							}
+						}
 					}
-					
 				}
-				
 			}
 
 			// Close connections

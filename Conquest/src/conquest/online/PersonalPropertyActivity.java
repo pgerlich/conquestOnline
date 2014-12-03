@@ -25,12 +25,14 @@ public class PersonalPropertyActivity extends Activity {
 	public ImageView[][] grid;
 	
 	//Arraylist of structures
-	public ArrayList<AbstractStructure> structs;
+	public ArrayList<AbstractStructure> structs = new ArrayList<AbstractStructure>(10);
+	public ArrayList<AbstractStructure> chestItems = new ArrayList<AbstractStructure>(10);
 	
 	public int width;
 	public int height;
 	
 	public StructsRequest SR;
+	public StructsRequest grabChestItems;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +41,14 @@ public class PersonalPropertyActivity extends Activity {
 		UserSession user = new UserSession(getApplicationContext());
 		
 		width = height = 7;
-		
-		structs = new ArrayList<AbstractStructure>(10);
-		
+
 		//Grab structs w/ ASYNC task
-		SR = new StructsRequest(user.getUser(), user.getToken(), -1);
+		SR = new StructsRequest(user.getUser(), user.getToken(), "property", -1);
 		SR.execute();
+		
+		//Grab the chest items
+		grabChestItems = new StructsRequest(user.getUser(), user.getToken(), "chest", -1);
+		grabChestItems.execute();
 	}
 	
 	/**
@@ -229,13 +233,15 @@ public class PersonalPropertyActivity extends Activity {
 
 		private final String user;
 		private final String token;
+		private final String location;
 		private final int propertyID;
 
 		public String message;
 		public ArrayList<PropStructsResponse> structs = new ArrayList<PropStructsResponse>(10);
 		
-		StructsRequest(String user, String token, int propID) {
+		StructsRequest(String user, String token, String location, int propID) {
 			this.user = user;
+			this.location = location;
 			this.token = token;
 			this.propertyID = propID;
 		}
@@ -251,7 +257,7 @@ public class PersonalPropertyActivity extends Activity {
 				//Have to start this on a new thread so it stays open and listends for responses
 				new Thread(mc).start();
 				
-				mc.requestStructs(user, token, propertyID);
+				mc.requestStructs(user, token, propertyID, location);
 				
 				//Wait for a response from the server
 				while ( mc.structsResponse.size() == 0 ) {
@@ -282,7 +288,12 @@ public class PersonalPropertyActivity extends Activity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			if ( success ) {
-				addStructuresToProperty();
+				if ( location.equals("property") ) {
+					addStructuresToProperty();
+				} else if ( location.equals("chest") ) {
+					//Load chest up
+				}
+				
 			}
 		}
 	}

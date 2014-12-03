@@ -33,9 +33,10 @@ public class MapActivity extends ActionBarActivity {
 	
 	private UserSession user;
 	private static final int GPS_ERRORDIALOG_REQUEST = 9001;
+	
 	//Will be used as the reference to the map dispayed
-	GoogleMap mMap;
-	LocationClient mLocationClient;
+	public GoogleMap mMap;
+	public LocationClient mLocationClient;
 	
 	//test wtf
 		@Override
@@ -111,9 +112,8 @@ public class MapActivity extends ActionBarActivity {
 	 * when user taps the home button they are taken to their property if they have one
 	 */
 	public void goHome(View view) {
-		Intent property = new Intent(this, PropertyActivity.class);
+		Intent property = new Intent(this, PersonalPropertyActivity.class);
 		startActivity(property);
-		
 	}
 	
 	/**
