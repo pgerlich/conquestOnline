@@ -44,7 +44,7 @@ public class AbstractStructure  {
 	 * @param viewRadius
 	 * @param enabled
 	 */
-	public void setStats(String name, int imageID, int level, int cost, int curHealth, int maxHealth, int defense, int viewRadius, boolean enabled){
+	public void setStats(String name, int imageID, int x, int y, int level, int cost, int curHealth, int maxHealth, int defense, int viewRadius, boolean enabled){
 		this.name = name;
 		this.imageID = imageID;
 		this.level = level;
@@ -54,6 +54,8 @@ public class AbstractStructure  {
 		this.defense = defense;
 		this.viewRadius = viewRadius;
 		this.enabled = enabled;
+		this.x = x;
+		this.y = y;
 	}
 	
 	/**

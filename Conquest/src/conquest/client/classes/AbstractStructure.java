@@ -1,7 +1,7 @@
-package conquest.client.classes;
+package conquest.server.classes;
 
-
-public abstract class AbstractStructure  {
+import java.util.ArrayList;
+public class AbstractStructure  {
 
 	//Stats/Info
 	private String name;
@@ -21,7 +21,7 @@ public abstract class AbstractStructure  {
 	private int x;
 	private int y;
 
-	public abstract void use();
+	//public abstract void use();
 	
 	/**
 	 * Instantiate an object
@@ -44,7 +44,7 @@ public abstract class AbstractStructure  {
 	 * @param viewRadius
 	 * @param enabled
 	 */
-	public void setStats(String name, int imageID, int level, int cost, int curHealth, int maxHealth, int defense, int viewRadius, boolean enabled){
+	public void setStats(String name, int imageID, int x, int y, int level, int cost, int curHealth, int maxHealth, int defense, int viewRadius, boolean enabled){
 		this.name = name;
 		this.imageID = imageID;
 		this.level = level;
@@ -54,6 +54,8 @@ public abstract class AbstractStructure  {
 		this.defense = defense;
 		this.viewRadius = viewRadius;
 		this.enabled = enabled;
+		this.x = x;
+		this.y = y;
 	}
 	
 	/**

@@ -310,8 +310,9 @@ public class ConquestServer {
 				} else if ( input.toLowerCase().contains("help") ) {
 					System.out.println("#### List of commands ####");
 					System.out.println("## Kick user :: Kicks the user from the server ##");
+					System.out.println("## online :: Display current users online and info ##");
 					System.out.println("## Help :: Displays this menu of commands ##");
-				} else if ( input.toLowerCase().contains("list") ) {
+				} else if ( input.toLowerCase().contains("online") ) {
 					statistics();
 				} else {
 					System.out.println("Command " + input + " not recognized.");

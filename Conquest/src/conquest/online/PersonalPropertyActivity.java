@@ -33,14 +33,21 @@ public class PersonalPropertyActivity extends Activity {
 		
 		width = height = 7;
 		
-		//Do we move this into the onPostExecute?
-		populateGridsAndAddListeners();
-		
 		structs = new ArrayList<AbstractStructure>(10);
 		
 		//Grab structs w/ ASYNC task
 		StructsRequest SR = new StructsRequest(user.getUser(), user.getToken(), -1);
 		SR.execute();
+
+	}
+	
+	/**
+	 * Add the structures to the property
+	 */
+	public void addStructuresToProperty(){
+		for(int i = 0; i < structs.size(); i++){
+			grid[structs.get(i).getX()][structs.get(i).getY()].setImageResource(R.id.character_b);
+		}
 	}
 	
 	/*
@@ -240,7 +247,8 @@ public class PersonalPropertyActivity extends Activity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			if ( success ) {
-				//Now populate your property
+				//Do we move this into the onPostExecute?
+				populateGridsAndAddListeners();
 			} else {
 				//nah
 			}

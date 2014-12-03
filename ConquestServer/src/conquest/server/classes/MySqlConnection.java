@@ -273,11 +273,11 @@ public class MySqlConnection {
 				//If we own a property
 				if ( getPID.next() ) {
 					int id = getPID.getInt("propertyID");
-					ResultSet structs = stmt1.executeQuery("select * from userStructures where propertyID = '" + id + "' inner join structures on userStructures.structureID = structures.structureID");
+					ResultSet structs = stmt1.executeQuery("select * from userStructures inner join structures on userStructures.structureID = structures.structureID where propertyID = '" + id + "'");
 					
 					while (structs.next()) {
 						AbstractStructure temp = new AbstractStructure(structs.getInt("structureID"), "test");
-						temp.setStats(structs.getString("name"), -1, structs.getInt("level"), structs.getInt("price"), structs.getInt("curHealth"), structs.getInt("maxHealth"), structs.getInt("defense"), structs.getInt("viewRadius"), true);
+						temp.setStats(structs.getString("name"), -1, structs.getInt("topX"), structs.getInt("topY"), structs.getInt("level"), structs.getInt("price"), structs.getInt("curHealth"), structs.getInt("maxHealth"), structs.getInt("defense"), structs.getInt("viewRadius"), true);
 						response.structs.add(temp);
 						System.out.println("added: " + structs.getString("name"));
 					}
