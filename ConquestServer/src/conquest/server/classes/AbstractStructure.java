@@ -1,6 +1,5 @@
 package conquest.server.classes;
 
-import java.util.ArrayList;
 public class AbstractStructure  {
 
 	//Stats/Info

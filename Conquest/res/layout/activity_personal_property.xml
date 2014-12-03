@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
 
     <!-- Items on Property -->
 
@@ -35,15 +35,16 @@
             android:layout_height="32.5dp"
             android:layout_column="0"
             android:layout_row="0"
-            android:src="@drawable/blank" />
-
+            android:src="@drawable/blank"
+            android:visibility="invisible" />
+        
         <ImageView
             android:id="@+id/imageView10"
             android:layout_width="70dp"
             android:layout_height="32.5dp"
             android:layout_column="1"
             android:layout_row="0"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView20"
@@ -51,7 +52,7 @@
             android:layout_height="32.5dp"
             android:layout_column="2"
             android:layout_row="0"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView30"
@@ -59,7 +60,7 @@
             android:layout_height="32.5dp"
             android:layout_column="3"
             android:layout_row="0"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView40"
@@ -67,7 +68,7 @@
             android:layout_height="32.5dp"
             android:layout_column="4"
             android:layout_row="0"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView50"
@@ -75,7 +76,7 @@
             android:layout_height="32.5dp"
             android:layout_column="5"
             android:layout_row="0"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView60"
@@ -83,7 +84,7 @@
             android:layout_height="32.5dp"
             android:layout_column="6"
             android:layout_row="0"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <!-- Row 2 -->
 
@@ -93,7 +94,7 @@
             android:layout_height="32.5dp"
             android:layout_column="0"
             android:layout_row="1"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView11"
@@ -101,7 +102,7 @@
             android:layout_height="32.5dp"
             android:layout_column="1"
             android:layout_row="1"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView21"
@@ -109,7 +110,7 @@
             android:layout_height="32.5dp"
             android:layout_column="2"
             android:layout_row="1"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView31"
@@ -117,7 +118,7 @@
             android:layout_height="32.5dp"
             android:layout_column="3"
             android:layout_row="1"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView41"
@@ -125,7 +126,7 @@
             android:layout_height="32.5dp"
             android:layout_column="4"
             android:layout_row="1"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView51"
@@ -133,7 +134,7 @@
             android:layout_height="32.5dp"
             android:layout_column="5"
             android:layout_row="1"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView61"
@@ -141,7 +142,7 @@
             android:layout_height="32.5dp"
             android:layout_column="6"
             android:layout_row="1"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <!-- Row 3 -->
 
@@ -151,7 +152,7 @@
             android:layout_height="32.5dp"
             android:layout_column="0"
             android:layout_row="2"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView12"
@@ -159,7 +160,7 @@
             android:layout_height="32.5dp"
             android:layout_column="1"
             android:layout_row="2"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView22"
@@ -167,7 +168,7 @@
             android:layout_height="32.5dp"
             android:layout_column="2"
             android:layout_row="2"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView32"
@@ -175,7 +176,7 @@
             android:layout_height="32.5dp"
             android:layout_column="3"
             android:layout_row="2"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView42"
@@ -183,7 +184,7 @@
             android:layout_height="32.5dp"
             android:layout_column="4"
             android:layout_row="2"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView52"
@@ -191,7 +192,7 @@
             android:layout_height="32.5dp"
             android:layout_column="5"
             android:layout_row="2"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView62"
@@ -199,7 +200,7 @@
             android:layout_height="32.5dp"
             android:layout_column="6"
             android:layout_row="2"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <!-- Row 4 -->
 
@@ -209,7 +210,7 @@
             android:layout_height="32.5dp"
             android:layout_column="0"
             android:layout_row="3"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView13"
@@ -217,7 +218,7 @@
             android:layout_height="32.5dp"
             android:layout_column="1"
             android:layout_row="3"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView23"
@@ -225,7 +226,7 @@
             android:layout_height="32.5dp"
             android:layout_column="2"
             android:layout_row="3"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView33"
@@ -233,7 +234,7 @@
             android:layout_height="32.5dp"
             android:layout_column="3"
             android:layout_row="3"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView43"
@@ -241,7 +242,7 @@
             android:layout_height="32.5dp"
             android:layout_column="4"
             android:layout_row="3"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView53"
@@ -249,7 +250,7 @@
             android:layout_height="32.5dp"
             android:layout_column="5"
             android:layout_row="3"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView63"
@@ -257,7 +258,7 @@
             android:layout_height="32.5dp"
             android:layout_column="6"
             android:layout_row="3"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <!-- Row 5 -->
 
@@ -267,7 +268,7 @@
             android:layout_height="32.5dp"
             android:layout_column="0"
             android:layout_row="4"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView14"
@@ -275,7 +276,7 @@
             android:layout_height="32.5dp"
             android:layout_column="1"
             android:layout_row="4"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView24"
@@ -283,7 +284,7 @@
             android:layout_height="32.5dp"
             android:layout_column="2"
             android:layout_row="4"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView34"
@@ -291,7 +292,7 @@
             android:layout_height="32.5dp"
             android:layout_column="3"
             android:layout_row="4"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView44"
@@ -299,7 +300,7 @@
             android:layout_height="32.5dp"
             android:layout_column="4"
             android:layout_row="4"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView54"
@@ -307,7 +308,7 @@
             android:layout_height="32.5dp"
             android:layout_column="5"
             android:layout_row="4"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView64"
@@ -315,7 +316,7 @@
             android:layout_height="32.5dp"
             android:layout_column="6"
             android:layout_row="4"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <!-- Row 6 -->
 
@@ -325,7 +326,7 @@
             android:layout_height="32.5dp"
             android:layout_column="0"
             android:layout_row="5"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView15"
@@ -333,7 +334,7 @@
             android:layout_height="32.5dp"
             android:layout_column="1"
             android:layout_row="5"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView25"
@@ -341,7 +342,7 @@
             android:layout_height="32.5dp"
             android:layout_column="2"
             android:layout_row="5"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView35"
@@ -349,7 +350,7 @@
             android:layout_height="32.5dp"
             android:layout_column="3"
             android:layout_row="5"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView45"
@@ -357,7 +358,7 @@
             android:layout_height="32.5dp"
             android:layout_column="4"
             android:layout_row="5"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView55"
@@ -365,7 +366,7 @@
             android:layout_height="32.5dp"
             android:layout_column="5"
             android:layout_row="5"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView65"
@@ -373,7 +374,7 @@
             android:layout_height="32.5dp"
             android:layout_column="6"
             android:layout_row="5"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <!-- Row 7 -->
 
@@ -383,7 +384,7 @@
             android:layout_height="32.5dp"
             android:layout_column="0"
             android:layout_row="6"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView16"
@@ -391,7 +392,7 @@
             android:layout_height="32.5dp"
             android:layout_column="1"
             android:layout_row="6"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView26"
@@ -399,7 +400,7 @@
             android:layout_height="32.5dp"
             android:layout_column="2"
             android:layout_row="6"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView36"
@@ -407,7 +408,7 @@
             android:layout_height="32.5dp"
             android:layout_column="3"
             android:layout_row="6"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView46"
@@ -415,7 +416,7 @@
             android:layout_height="32.5dp"
             android:layout_column="4"
             android:layout_row="6"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView56"
@@ -423,7 +424,7 @@
             android:layout_height="32.5dp"
             android:layout_column="5"
             android:layout_row="6"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView66"
@@ -431,7 +432,7 @@
             android:layout_height="32.5dp"
             android:layout_column="6"
             android:layout_row="6"
-            android:src="@drawable/blank" />
+            android:src="@drawable/blank" android:visibility="invisible" />
     </GridLayout>
 
     <ImageButton

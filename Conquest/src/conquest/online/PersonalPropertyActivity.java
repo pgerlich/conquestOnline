@@ -45,9 +45,14 @@ public class PersonalPropertyActivity extends Activity {
 	 * Add the structures to the property
 	 */
 	public void addStructuresToProperty(){
+		//Change image and set visible
 		for(int i = 0; i < structs.size(); i++){
 			grid[structs.get(i).getX()][structs.get(i).getY()].setImageResource(R.id.character_b);
+			grid[structs.get(i).getX()][structs.get(i).getY()].setVisibility(ImageView.VISIBLE);
 		}
+		
+		//Now make all of the blank spots visible
+		populateGridsAndAddListeners();
 	}
 	
 	/*
@@ -106,8 +111,10 @@ public class PersonalPropertyActivity extends Activity {
 		grid[5][6] = (ImageView) findViewById(R.id.imageView56);
 		grid[6][6] = (ImageView) findViewById(R.id.imageView66);
 
+		//Set visible and add listeners
 		for(int i = 0; i < height; i++ ) {
 			for (int j = 0; j < width; j++) {
+				grid[j][i].setVisibility(ImageView.VISIBLE);
 				addListenerToItem(grid[j][i], "(" + j + ", " + i + ")");
 			}
 		}
@@ -247,8 +254,7 @@ public class PersonalPropertyActivity extends Activity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			if ( success ) {
-				//Do we move this into the onPostExecute?
-				populateGridsAndAddListeners();
+				addStructuresToProperty();
 			} else {
 				//nah
 			}
