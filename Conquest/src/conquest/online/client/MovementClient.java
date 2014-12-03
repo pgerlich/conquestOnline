@@ -1,6 +1,7 @@
 package conquest.online.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
@@ -30,14 +31,14 @@ public class MovementClient implements Runnable {
 	//Name/purpose -- Name of the client/connection - 
 	public String name;
 	public String host;
-	public String test;
+	public String test = " ";
 	
 	//server responses
 	public LoginResponse loginResponse;
 	public RegistrationResponse regResponse;
 	public PropertyPurchaseResponse propResponse;
 	public UpdateStatsResponse upStatResponse;
-	public PropStructsResponse structsResponse;
+	public ArrayList<PropStructsResponse> structsResponse = new ArrayList<PropStructsResponse>(10);
 	
 	/**
 	 * Creates a connection client that connects to the specified host and ports.
@@ -66,7 +67,7 @@ public class MovementClient implements Runnable {
 		
 		//Add all the classes
 		@SuppressWarnings("rawtypes")
-		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class, PropStructsRequest.class, PropStructsResponse.class, java.util.ArrayList.class, AbstractStructure.class};
+		Class[] classes = new Class[]{AbstractStructure.class, LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class, PropStructsRequest.class, PropStructsResponse.class};
 		
 		//Bind ports and start her up
 		startClient();
@@ -96,7 +97,7 @@ public class MovementClient implements Runnable {
 	          }
 	          
 	          if (object instanceof PropStructsResponse){
-	        	  structsResponse = (PropStructsResponse) object;
+	        	  structsResponse.add((PropStructsResponse) object);
 	          }
 
 	       }

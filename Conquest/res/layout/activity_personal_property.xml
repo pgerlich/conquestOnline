@@ -475,4 +475,14 @@
         android:contentDescription="@string/mapDesc"
         android:onClick="goToMap" />
 
+    <ImageButton
+        android:id="@+id/chest_b"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/chest"
+        android:contentDescription="@string/mapDesc"
+        android:onClick="showChest" />
+
 </RelativeLayout>

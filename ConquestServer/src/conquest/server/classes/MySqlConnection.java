@@ -242,13 +242,11 @@ public class MySqlConnection {
 	 * @param reggy
 	 * @return
 	 */
-	public PropStructsResponse requestStructuresOnProperty(PropStructsRequest psr) {
+	public ArrayList<PropStructsResponse> requestStructuresOnProperty(PropStructsRequest psr) {
 		// Creating a statement
 		Statement stmt1;
 
-		PropStructsResponse response = new PropStructsResponse();
-		
-		response.structs = new ArrayList<AbstractStructure>(10);
+		ArrayList<PropStructsResponse> response = new ArrayList<PropStructsResponse>(10);
 
 		try {
 			stmt1 = con.createStatement();
@@ -262,8 +260,10 @@ public class MySqlConnection {
 			if (!isValid.next()) {
 				// Close connection
 				stmt1.close();
-				response.message = "Invalid request";
-				response.success = false;
+				PropStructsResponse nothing = new PropStructsResponse();
+				nothing.message = "Invalid request";
+				nothing.success = false;
+				response.add(nothing);
 				return response;
 			} else {
 				
@@ -276,10 +276,27 @@ public class MySqlConnection {
 					ResultSet structs = stmt1.executeQuery("select * from userStructures inner join structures on userStructures.structureID = structures.structureID where propertyID = '" + id + "'");
 					
 					while (structs.next()) {
-						AbstractStructure temp = new AbstractStructure(structs.getInt("structureID"), "test");
-						temp.setStats(structs.getString("name"), -1, structs.getInt("topX"), structs.getInt("topY"), structs.getInt("level"), structs.getInt("price"), structs.getInt("curHealth"), structs.getInt("maxHealth"), structs.getInt("defense"), structs.getInt("viewRadius"), true);
-						response.structs.add(temp);
+						PropStructsResponse thisResponse = new PropStructsResponse();
+						thisResponse.message = "Succesfully grabbed structures.";
+						thisResponse.success = true;
+						thisResponse.propertyID = structs.getString("structureID");
+						
+						AbstractStructure temp = new AbstractStructure();
+						temp.name = structs.getString("name");
+						temp.x = structs.getInt("topX");
+						temp.y = structs.getInt("topY");
+						temp.level = structs.getInt("level");
+						temp.cost = structs.getInt("price");
+						temp.curHealth = structs.getInt("curHealth");
+						temp.maxHealth = structs.getInt("maxHealth");
+						temp.defense = structs.getInt("defense");
+						temp.viewRadius = structs.getInt("viewRadius");
+						temp.enabled = true;
+						
+						thisResponse.struct = temp;
+						
 						System.out.println("added: " + structs.getString("name"));
+						response.add(thisResponse);
 					}
 					
 				}
@@ -288,16 +305,15 @@ public class MySqlConnection {
 
 			// Close connections
 			stmt1.close();
-
-			response.message = "Succesfully grabbed structures.";
-			response.success = true;
 			return response;
 		} catch (SQLException e) {
+			PropStructsResponse thisResponse = new PropStructsResponse();
 			System.out.println(e.getErrorCode()
 					+ " occured while trying to retrieve " + psr.user + "'s structs for property");
 			// e.printStackTrace();
-			response.message = e.getMessage();
-			response.success = false;
+			thisResponse.message = e.getMessage();
+			thisResponse.success = false;
+			response.add(thisResponse);
 			return response;
 		}
 	}

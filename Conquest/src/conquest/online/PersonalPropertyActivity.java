@@ -4,9 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import conquest.client.classes.AbstractStructure;
+import conquest.client.classes.PropStructsRequest;
+import conquest.client.classes.PropStructsResponse;
 import conquest.online.client.MovementClient;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +31,8 @@ public class PersonalPropertyActivity extends Activity {
 	public int width;
 	public int height;
 	
+	public StructsRequest SR;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,29 +44,44 @@ public class PersonalPropertyActivity extends Activity {
 		structs = new ArrayList<AbstractStructure>(10);
 		
 		//Grab structs w/ ASYNC task
-		StructsRequest SR = new StructsRequest(user.getUser(), user.getToken(), -1);
+		SR = new StructsRequest(user.getUser(), user.getToken(), -1);
 		SR.execute();
-
+		
+		GridItemSelect thing = new GridItemSelect();
+	    thing.show(getFragmentManager(), "test");
 	}
 	
 	/**
 	 * Add the structures to the property
 	 */
 	public void addStructuresToProperty(){
-		//Change image and set visible
-		for(int i = 0; i < structs.size(); i++){
-			grid[structs.get(i).getX()][structs.get(i).getY()].setImageResource(R.id.character_b);
-			grid[structs.get(i).getX()][structs.get(i).getY()].setVisibility(ImageView.VISIBLE);
+		
+		//Copy structs over from response
+		for(int i = 0; i < SR.structs.size(); i++) {
+			structs.add(SR.structs.get(i).struct);
 		}
 		
-		//Now make all of the blank spots visible
-		populateGridsAndAddListeners();
+		//Populate grid
+		populateGrids();
+		
+		//Change images and set visible for structures
+		for(int i = 0; i < structs.size(); i++){
+			grid[structs.get(i).x][structs.get(i).y].setImageResource(R.drawable.wall);
+		}
+		
+		//Set blanks visible and add listeners
+		for(int i = 0; i < height; i++ ) {
+			for (int j = 0; j < width; j++) {
+				grid[j][i].setVisibility(ImageView.VISIBLE);
+				addListenerToItem(grid[j][i], "(" + j + ", " + i + ")");
+			}
+		}
 	}
 	
 	/*
 	 * Populates the grid array and adds listeners
 	 */
-	public void populateGridsAndAddListeners(){
+	public void populateGrids(){
 		grid = new ImageView[width][height];
 		
 		grid[0][0] = (ImageView) findViewById(R.id.imageView00);
@@ -103,21 +126,13 @@ public class PersonalPropertyActivity extends Activity {
 		grid[4][5] = (ImageView) findViewById(R.id.imageView45);
 		grid[5][5] = (ImageView) findViewById(R.id.imageView55);
 		grid[6][5] = (ImageView) findViewById(R.id.imageView65);
-		grid[0][6] = (ImageView) findViewById(R.id.imageView05);
+		grid[0][6] = (ImageView) findViewById(R.id.imageView06);
 		grid[1][6] = (ImageView) findViewById(R.id.imageView16);
 		grid[2][6] = (ImageView) findViewById(R.id.imageView26);
 		grid[3][6] = (ImageView) findViewById(R.id.imageView36);
 		grid[4][6] = (ImageView) findViewById(R.id.imageView46);
 		grid[5][6] = (ImageView) findViewById(R.id.imageView56);
 		grid[6][6] = (ImageView) findViewById(R.id.imageView66);
-
-		//Set visible and add listeners
-		for(int i = 0; i < height; i++ ) {
-			for (int j = 0; j < width; j++) {
-				grid[j][i].setVisibility(ImageView.VISIBLE);
-				addListenerToItem(grid[j][i], "(" + j + ", " + i + ")");
-			}
-		}
 		
 	}
 	
@@ -143,6 +158,14 @@ public class PersonalPropertyActivity extends Activity {
 	public void goToSettings(){
     	Intent settings = new Intent(this, SettingsActivity.class);
     	startActivity(settings);
+	}
+	
+	/**
+	 * Show your chest
+	 */
+	public void showChest(View view){
+		//
+		toast("chest");
 	}
 		
 	
@@ -208,15 +231,15 @@ public class PersonalPropertyActivity extends Activity {
 		private final int propertyID;
 
 		public String message;
-		public ArrayList<AbstractStructure> structs;
+		public ArrayList<PropStructsResponse> structs = new ArrayList<PropStructsResponse>(10);
 		
 		StructsRequest(String user, String token, int propID) {
 			this.user = user;
 			this.token = token;
 			this.propertyID = propID;
-			structs = new ArrayList<AbstractStructure>(10);
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			
@@ -230,13 +253,17 @@ public class PersonalPropertyActivity extends Activity {
 				mc.requestStructs(user, token, propertyID);
 				
 				//Wait for a response from the server
-				while ( mc.structsResponse == null ) {
-					
+				while ( mc.structsResponse.size() == 0 ) {
+					try {
+					    Thread.sleep(500);                 //1000 milliseconds is one second.
+					} catch(InterruptedException ex) {
+					    Thread.currentThread().interrupt();
+					}
 				}
 
 				//If we succeeded!
-				if ( mc.structsResponse.success ) {
-					structs = mc.structsResponse.structs;
+				if ( mc.structsResponse.get(0).success ) {
+					structs = (ArrayList<PropStructsResponse>) mc.structsResponse.clone();
 					mc.close();
 					return true;
 				} else {
@@ -255,9 +282,21 @@ public class PersonalPropertyActivity extends Activity {
 		protected void onPostExecute(final Boolean success) {
 			if ( success ) {
 				addStructuresToProperty();
-			} else {
-				//nah
 			}
 		}
 	}
+	
+	public class GridItemSelect extends DialogFragment {
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+		    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		    builder.setItems(R.array.gridOptionsBlank, new DialogInterface.OnClickListener() {
+		               public void onClick(DialogInterface dialog, int which) {
+		               toast("bitches");
+		           }
+		    });
+		    return builder.create();
+		}
+	}
+
 }

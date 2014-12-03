@@ -9,8 +9,6 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.sun.xml.internal.fastinfoset.util.CharArray;
-
 import conquest.server.classes.AbstractStructure;
 import conquest.server.classes.LoginRequest;
 import conquest.server.classes.LoginResponse;
@@ -226,9 +224,19 @@ public class ConquestServer {
 	    	      if (obj instanceof PropStructsRequest){
 	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
 	    	    	  PropStructsRequest psr = (PropStructsRequest) obj;
-	    	    	  PropStructsResponse psres = myCon.requestStructuresOnProperty(psr);
-	    	    	  System.out.println(psres.message);
-	    	    	  con.sendUDP(psres);
+	    	    	  ArrayList<PropStructsResponse> psres = myCon.requestStructuresOnProperty(psr);
+	    	    	  System.out.println(psres.get(0).message);
+	    	    	  
+	    	    	  
+	    	    	  //Send each structure
+	    	    	  for(int i = 0; i < psres.size(); i++) {
+	    	    		  con.sendUDP(psres.get(i));
+	    	    	  }
+	    	    	  
+	    	      }
+	    	      
+	    	      if (obj instanceof PropStructsResponse){
+	    	    	  System.out.println("got response");
 	    	      }
 		       }
 		       
@@ -277,9 +285,9 @@ public class ConquestServer {
 		}
 	}
 	
-	@SuppressWarnings({ "unused", "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class, PropStructsRequest.class, PropStructsResponse.class, java.util.ArrayList.class, AbstractStructure.class};
+		Class[] classes = new Class[]{AbstractStructure.class, LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class, PropStructsRequest.class, PropStructsResponse.class};
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777, classes);
 		
 		try{

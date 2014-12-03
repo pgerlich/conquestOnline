@@ -1,9 +1,9 @@
 package conquest.client.classes;
 
-import java.util.ArrayList;
-
 public class PropStructsResponse {
+	public String propertyID;
+	public int numStructs;
 	public String message;
 	public boolean success;
-	public ArrayList<AbstractStructure> structs;
+	public AbstractStructure struct;
 }
