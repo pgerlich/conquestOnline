@@ -1,9 +1,7 @@
 package conquest.client.classes;
-import conquest.online.gameAssets.Attackable;
-import conquest.online.gameAssets.Visible;
-import map.Coordinate;
-import java.util.ArrayList;
-public abstract class AbstractStructure implements Visible, Attackable {
+
+
+public abstract class AbstractStructure  {
 
 	//Stats/Info
 	private String name;
@@ -20,7 +18,8 @@ public abstract class AbstractStructure implements Visible, Attackable {
 	private String picPath;
 	
 	//Images/location/ect.
-	private Coordinate coordinates;
+	private int x;
+	private int y;
 
 	public abstract void use();
 	
@@ -142,25 +141,33 @@ public abstract class AbstractStructure implements Visible, Attackable {
 		return maxHealth;
 	}
 	
+
 	/**
-	 * Draw on the screen??
+	 * Get x
 	 */
-	public void drawSelf(Coordinate c) {
-		// TODO Auto-generated method stub
+	public int getX() {
+		return x;
+	}
+	
+	/**
+	 * Get y
+	 */
+	public int getY() {
+		return y;
 	}
 
 	/**
-	 * Get coordinates of top left point
+	 * Set the x
 	 */
-	public Coordinate getCoordinate() {
-		return coordinates;
+	public void setX(int x) {
+		this.x = x;
 	}
-
+	
 	/**
-	 * Set the coordinates
+	 * Set the y
 	 */
-	public void setCoordinate(Coordinate c) {
-		coordinates = c;
+	public void setY(int y) {
+		this.y = y;
 	}
 	
 	/**

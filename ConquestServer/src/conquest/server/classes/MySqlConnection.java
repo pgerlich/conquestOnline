@@ -2,6 +2,7 @@ package conquest.server.classes;
 
 //Importing the sql library.
 import java.sql.*;
+import java.util.ArrayList;
 
 public class MySqlConnection {
 
@@ -246,6 +247,8 @@ public class MySqlConnection {
 		Statement stmt1;
 
 		PropStructsResponse response = new PropStructsResponse();
+		
+		response.structs = new ArrayList<AbstractStructure>(10);
 
 		try {
 			stmt1 = con.createStatement();
@@ -253,56 +256,45 @@ public class MySqlConnection {
 			// compare user and token
 			ResultSet isValid = stmt1
 					.executeQuery("select * from users where user = '"
-							+ psr.user + "' AND token = '" + psr");
+							+ psr.user + "' AND token = '" + psr.token + "'");
 
 			// If the credentials matched
-			if (isValid.next()) {
+			if (!isValid.next()) {
 				// Close connection
 				stmt1.close();
-				response.message = "Username " + reggy.username
-						+ " already in use.";
+				response.message = "Invalid request";
 				response.success = false;
 				return response;
 			} else {
-				// Create the user account
-				PreparedStatement st = con
-						.prepareStatement("INSERT INTO users(username, password, accountType, email, accountTypeCharacter) VALUES(?, ?, ?, ?, ?)");
-				st.setString(1, reggy.username);
-				st.setString(2, reggy.password);
-				st.setInt(3, reggy.accountType);
-				st.setString(4, reggy.email);
-				st.setString(5, reggy.accountTypeCharacter);
-				st.execute();
-
-				// Create the character
-				PreparedStatement st1 = con
-						.prepareStatement("INSERT INTO characters(username, type, maxHealth, attack, armor, speed, stealth, tech, level, exp, lat, lon, curHealth) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-				st1.setString(1, reggy.username);
-				st1.setString(2, reggy.accountTypeCharacter);
-				st1.setInt(3, 100);
-				st1.setInt(4, 100);
-				st1.setInt(5, 100);
-				st1.setInt(6, 100);
-				st1.setInt(7, 100);
-				st1.setInt(8, 100);
-				st1.setInt(9, 1);
-				st1.setInt(10, 0);
-				st1.setDouble(11, 0);
-				st1.setDouble(11, 0);
-				st1.setInt(12, 0);
-				st1.setInt(13, 100);
-				st1.execute();
+				
+				//Grab property ID
+				ResultSet getPID = stmt1.executeQuery("select * from properties WHERE owner = '" + psr.user + "'");
+				
+				//If we own a property
+				if ( getPID.next() ) {
+					int id = getPID.getInt("propertyID");
+					ResultSet structs = stmt1.executeQuery("select * from userStructures where propertyID = '" + id + "' inner join structures on userStructures.structureID = structures.structureID");
+					
+					while (structs.next()) {
+						AbstractStructure temp = new AbstractStructure(structs.getInt("structureID"), "test");
+						temp.setStats(structs.getString("name"), -1, structs.getInt("level"), structs.getInt("price"), structs.getInt("curHealth"), structs.getInt("maxHealth"), structs.getInt("defense"), structs.getInt("viewRadius"), true);
+						response.structs.add(temp);
+						System.out.println("added: " + structs.getString("name"));
+					}
+					
+				}
+				
 			}
 
 			// Close connections
 			stmt1.close();
 
-			response.message = reggy.username + " registered succesfully";
+			response.message = "Succesfully grabbed structures.";
 			response.success = true;
 			return response;
 		} catch (SQLException e) {
 			System.out.println(e.getErrorCode()
-					+ " occured while trying to register " + reggy.username);
+					+ " occured while trying to retrieve " + psr.user + "'s structs for property");
 			// e.printStackTrace();
 			response.message = e.getMessage();
 			response.success = false;

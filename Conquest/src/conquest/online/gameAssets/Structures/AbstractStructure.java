@@ -1,9 +1,7 @@
 package conquest.online.gameAssets.Structures;
-import conquest.online.gameAssets.Attackable;
-import conquest.online.gameAssets.Visible;
-import map.Coordinate;
+
 import java.util.ArrayList;
-public abstract class AbstractStructure implements Visible, Attackable {
+public class AbstractStructure  {
 
 	//Stats/Info
 	private String name;
@@ -20,9 +18,10 @@ public abstract class AbstractStructure implements Visible, Attackable {
 	private String picPath;
 	
 	//Images/location/ect.
-	private Coordinate coordinates;
+	private int x;
+	private int y;
 
-	public abstract void use();
+	//public abstract void use();
 	
 	/**
 	 * Instantiate an object
@@ -65,6 +64,15 @@ public abstract class AbstractStructure implements Visible, Attackable {
 		return id;
 	}
     
+//	//deep copy of floorplan provided
+//	//floor plan must include (0,0) to represent the starting grid block
+//	private void setFloorPlan(ArrayList<Coordinate> floor) {
+//		for(int i = 0; i < floor.size();  i++){
+//			this.floorPlan.add(new Coordinate(floor.get(i).getX(), floor.get(i).getY()));
+//		}
+//		
+//	}
+//	
 	/**
 	 * Set cost
 	 * @param cost
@@ -133,25 +141,33 @@ public abstract class AbstractStructure implements Visible, Attackable {
 		return maxHealth;
 	}
 	
+
 	/**
-	 * Draw on the screen??
+	 * Get x
 	 */
-	public void drawSelf(Coordinate c) {
-		// TODO Auto-generated method stub
+	public int getX() {
+		return x;
+	}
+	
+	/**
+	 * Get y
+	 */
+	public int getY() {
+		return y;
 	}
 
 	/**
-	 * Get coordinates of top left point
+	 * Set the x
 	 */
-	public Coordinate getCoordinate() {
-		return coordinates;
+	public void setX(int x) {
+		this.x = x;
 	}
-
+	
 	/**
-	 * Set the coordinates
+	 * Set the y
 	 */
-	public void setCoordinate(Coordinate c) {
-		coordinates = c;
+	public void setY(int y) {
+		this.y = y;
 	}
 	
 	/**
