@@ -1,5 +1,6 @@
 package conquest.online.gameAssets;
 
+<<<<<<< .merge_file_tjIoxG
 import java.util.ArrayList;
 
 import map.Coordinate;
@@ -11,22 +12,33 @@ import conquest.online.gameAssets.Structures.AbstractStructure;
 public class Property {
 	
 	//The property's ID
+=======
+import com.google.android.gms.maps.model.LatLng;
+
+public class Property {
+	
+	//The properties ID
+>>>>>>> .merge_file_kvqey1
 	private int id;
 	
 	//Latitude/longitude of this object
 	private LatLng location;
+<<<<<<< .merge_file_tjIoxG
 	
 	//2d array representing the property. 
 	protected String[][] land;
 	
 	//arrayList of structure objects the user owns
 	protected ArrayList<AbstractStructure> structureList; 
+=======
+>>>>>>> .merge_file_kvqey1
 
 	/**
 	 * makes a new property with the given ID/Location
 	 * @param id
 	 * @param location
 	 */
+<<<<<<< .merge_file_tjIoxG
 	public Property(int id, LatLng location, ArrayList<AbstractStructure> structures) {
 		this.id = id;
 		this.location = location;
@@ -134,6 +146,15 @@ public class Property {
 	
 	/**
 	 * Return this propety's ID
+=======
+	public Property(int id, LatLng location) {
+		this.id = id;
+		this.location = location;
+	}
+	
+	/**
+	 * Return this propeties ID
+>>>>>>> .merge_file_kvqey1
 	 * @return
 	 */
 	public int getId(){

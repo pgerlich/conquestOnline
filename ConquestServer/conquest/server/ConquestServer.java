@@ -11,7 +11,6 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.sun.xml.internal.fastinfoset.util.CharArray;
 
-import conquest.server.classes.KickAssert;
 import conquest.server.classes.LoginRequest;
 import conquest.server.classes.LoginResponse;
 import conquest.server.classes.LogoutRequest;
@@ -20,6 +19,8 @@ import conquest.server.classes.PropertyPurchaseRequest;
 import conquest.server.classes.PropertyPurchaseResponse;
 import conquest.server.classes.RegisterRequest;
 import conquest.server.classes.RegistrationResponse;
+import conquest.server.classes.UpdateStatsRequest;
+import conquest.server.classes.UpdateStatsResponse;
 import conquest.server.classes.User;
 
 /**
@@ -208,6 +209,15 @@ public class ConquestServer {
 	    	    	  LogoutRequest log = (LogoutRequest) obj;
 	    	    	  System.out.println(myCon.processLogout(log));
 	    	      }
+	    	      
+	    	      //Update stats request
+	    	      if (obj instanceof UpdateStatsRequest) {
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+	    	    	  UpdateStatsRequest update = (UpdateStatsRequest) obj;
+	    	    	  UpdateStatsResponse response = myCon.updateStats(update);
+	    	    	  System.out.println(response.message);
+	    	    	  con.sendUDP(update);
+	    	      }
 		       }
 		       
 		    });
@@ -230,10 +240,10 @@ public class ConquestServer {
 	 */
 	public void kickFromServer(User user) {
 		//Send them message saying they're disconnected and close connection
-		KickAssert kick = new KickAssert();
-		kick.message = "You have been kicked from the server.";
-		user.con.sendUDP(kick);
-		user.con.close();
+//		KickAssert kick = new KickAssert();
+//		kick.message = "You have been kicked from the server.";
+//		user.con.sendUDP(kick);
+//		user.con.close();
 		
 		LogoutRequest log = new LogoutRequest();
 		log.username = user.username;
@@ -257,7 +267,7 @@ public class ConquestServer {
 	
 	@SuppressWarnings({ "unused", "rawtypes" })
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class};
+		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class};
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777, classes);
 		
 		try{

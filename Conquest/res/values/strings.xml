@@ -35,14 +35,9 @@
     <string name="hello_world">Hello world!</string>
 
     <!-- Social Screen -->
-    <string name="social_screen">Social</string>
-    <string name="friend">Friends</string>
-    <string name="guild">Guild Members</string>
-    <string name="enemy">Enemies</string>
-    <string name="add_friend">Add Friend</string>
-    <string name="userEmail">User name/ Email</string>
-    <string name="title_activity_character">CharacterActivity</string>
-    <string name="title_activity_property">PropertyActivity</string>
+    <string name="socialAdd">Add</string>
+    <string name="title_activity_character">StatsActivity</string>
+    <string name="title_activity_property">StatsActivity</string>
 
     <!-- Character Screen -->
     <string name="itemPlace">Used to show what items a person has on him</string>
@@ -83,5 +78,6 @@
     <string name="title_section3">Section 3</string>
     <string name="title_activity_asd">ASD</string>
     <string name="title_activity_new_social">NewSocialActivity</string>
+    <string name="title_activity_personal_property">PersonalPropertyActivity</string>
 
 </resources>
