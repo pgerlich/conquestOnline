@@ -305,13 +305,13 @@ public class MySqlConnection {
 						}
 					} else if ( psr.location.equals("chest") ) {
 						
-						ResultSet structs = stmt1.executeQuery("select * from chest where propertyID = '" + id + "'");
+						ResultSet structs = stmt1.executeQuery("select * from chests where propertyID = '" + id + "'");
 						
 						//If we have a chest..
 						if (structs.next()) {
 							//For each item in our chest
 							for(int i = 1; i == 10; i++ ) {
-								//If we have an item here.
+								//If we have an item in this chest slot
 								if ( structs.getInt("struc" + i) != -1 ) {
 									//Create new response object
 									PropStructsResponse thisResponse = new PropStructsResponse();

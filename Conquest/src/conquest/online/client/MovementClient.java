@@ -150,6 +150,7 @@ public class MovementClient implements Runnable {
 		psr.user = username;
 		psr.token = token;
 		psr.propID = propertyID;
+		psr.location = location;
 		this.client.sendUDP(psr);
 	}
 	
