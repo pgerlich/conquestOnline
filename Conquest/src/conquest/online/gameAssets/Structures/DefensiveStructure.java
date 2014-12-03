@@ -1,25 +1,20 @@
 package conquest.online.gameAssets.Structures;
 
+
 public class DefensiveStructure extends AbstractStructure {
 
-	
 
-	public void levelUp() {
-		// TODO Auto-generated method stub
-		level++;
+	public DefensiveStructure(int id, String picPath) {
+		super(id, picPath);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void use() {
 		// TODO Auto-generated method stub
-		owned = true;
+		
 	}
 
-	@Override
-	public String getCost() {
-		// TODO Auto-generated method stub
-		return cost;
-	}
 
 
 }

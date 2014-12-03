@@ -1,4 +1,4 @@
-package conquest.online.gameAssets.Structures;
+package conquest.client.classes;
 import conquest.online.gameAssets.Attackable;
 import conquest.online.gameAssets.Visible;
 import map.Coordinate;
@@ -65,6 +65,15 @@ public abstract class AbstractStructure implements Visible, Attackable {
 		return id;
 	}
     
+//	//deep copy of floorplan provided
+//	//floor plan must include (0,0) to represent the starting grid block
+//	private void setFloorPlan(ArrayList<Coordinate> floor) {
+//		for(int i = 0; i < floor.size();  i++){
+//			this.floorPlan.add(new Coordinate(floor.get(i).getX(), floor.get(i).getY()));
+//		}
+//		
+//	}
+//	
 	/**
 	 * Set cost
 	 * @param cost

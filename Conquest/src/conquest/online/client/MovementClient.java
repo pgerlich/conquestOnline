@@ -37,6 +37,7 @@ public class MovementClient implements Runnable {
 	public RegistrationResponse regResponse;
 	public PropertyPurchaseResponse propResponse;
 	public UpdateStatsResponse upStatResponse;
+	public PropStructsResponse structsResponse;
 	
 	/**
 	 * Creates a connection client that connects to the specified host and ports.
@@ -65,7 +66,7 @@ public class MovementClient implements Runnable {
 		
 		//Add all the classes
 		@SuppressWarnings("rawtypes")
-		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class};
+		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class, PropStructsRequest.class, PropStructsResponse.class};
 		
 		//Bind ports and start her up
 		startClient();
@@ -93,6 +94,10 @@ public class MovementClient implements Runnable {
 	          if (object instanceof UpdateStatsResponse){
 	        	  upStatResponse = (UpdateStatsResponse) object;
 	          }
+	          
+	          if (object instanceof PropStructsResponse){
+	        	  structsResponse = (PropStructsResponse) object;
+	          }
 
 	       }
 	    });
@@ -105,7 +110,7 @@ public class MovementClient implements Runnable {
 	 */
 	public void startClient() throws IOException{
 		client.connect(5000, host, TCP, UDP);
-		//System.out.println("Succesfully connected to server " + host);
+		//System.out.println("Successfully connected to server " + host);
 	}
 	
 	public void close(){
@@ -139,8 +144,12 @@ public class MovementClient implements Runnable {
 		this.client.sendUDP(logout);
 	}
 	
-	public void regster() {
-		
+	public void requestStructs(String username, String token, int propertyID){
+		PropStructsRequest psr = new PropStructsRequest();
+		psr.user = username;
+		psr.token = token;
+		psr.propID = propertyID;
+		this.client.sendUDP(psr);
 	}
 	
 	public void purchaseProp(String usernameS, String tokenS, double latS, double lonS) {
@@ -198,32 +207,4 @@ public class MovementClient implements Runnable {
 	public void run() {
 		this.client.run();
 	}
-
-	/**
-	 * Tests for the logging in and out and registration
-	 */
-//	public static void main(String args[]) {
-//		@SuppressWarnings("rawtypes")
-//		Class[] classes = new Class[]{LoginRequest.class, RegisterRequest.class, LogoutRequest.class, LoginResponse.class, LogoutResponse.class};
-//		ConquestClient client = new ConquestClient("test", "proj-309-R12.cs.iastate.edu", 54555, 54777, classes);
-//
-//		
-//		RegisterRequest reggy = new RegisterRequest();
-//		reggy.username = "test1";
-//		reggy.password = "test";
-//		reggy.accountType = 0;
-//		reggy.email = "test1@test.com";
-//		reggy.accountTypeCharacter = 0;
-//		
-//		client.client.sendUDP(reggy);
-//		
-//		
-//		LogoutRequest log = new LogoutRequest();
-//		log.username = client.user.username;
-//		log.token = client.user.token;
-//		
-//		
-//		client.client.sendUDP(log);
-//	}
-
 }

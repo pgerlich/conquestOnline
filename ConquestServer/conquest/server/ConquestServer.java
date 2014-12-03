@@ -216,7 +216,16 @@ public class ConquestServer {
 	    	    	  UpdateStatsRequest update = (UpdateStatsRequest) obj;
 	    	    	  UpdateStatsResponse response = myCon.updateStats(update);
 	    	    	  System.out.println(response.message);
-	    	    	  con.sendUDP(update);
+	    	    	  con.sendUDP(response);
+	    	      }
+	    	      
+	    	      //Grab structures for a given property
+	    	      if (obj instanceof PropStructsRequest){
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+	    	    	  PropStructsRequest psr = (PropStructsRequest) obj;
+	    	    	  PropStructsResponse psres = myCon.requestStructuresOnProperty(psr);
+	    	    	  System.out.println(psres.message);
+	    	    	  con.sendUDP(psres);
 	    	      }
 		       }
 		       
@@ -267,7 +276,7 @@ public class ConquestServer {
 	
 	@SuppressWarnings({ "unused", "rawtypes" })
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class};
+		Class[] classes = new Class[]{LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class, PropStructsRequest.class, PropStructsResponse.class};
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777, classes);
 		
 		try{
@@ -300,6 +309,8 @@ public class ConquestServer {
 					System.out.println("#### List of commands ####");
 					System.out.println("## Kick user :: Kicks the user from the server ##");
 					System.out.println("## Help :: Displays this menu of commands ##");
+				} else if ( input.toLowerCase().contains("list") ) {
+					statistics();
 				} else {
 					System.out.println("Command " + input + " not recognized.");
 				}

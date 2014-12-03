@@ -1,13 +1,15 @@
 package conquest.online;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+import conquest.client.classes.AbstractStructure;
+import conquest.online.client.MovementClient;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -16,6 +18,10 @@ public class PersonalPropertyActivity extends Activity {
 	
 	//The double array of grid items
 	public ImageView[][] grid;
+	
+	//Arraylist of structures
+	public ArrayList<AbstractStructure> structs;
+	
 	public int width;
 	public int height;
 	
@@ -23,11 +29,18 @@ public class PersonalPropertyActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_personal_property);
+		UserSession user = new UserSession(getApplicationContext());
 		
 		width = height = 7;
 		
+		//Do we move this into the onPostExecute?
 		populateGridsAndAddListeners();
 		
+		structs = new ArrayList<AbstractStructure>(10);
+		
+		//Grab structs w/ ASYNC task
+		StructsRequest SR = new StructsRequest(user.getUser(), user.getToken(), -1);
+		SR.execute();
 	}
 	
 	/*
@@ -168,5 +181,69 @@ public class PersonalPropertyActivity extends Activity {
 
 		Toast toast = Toast.makeText(context, text, duration);
 		toast.show();
+	}
+	
+	/**
+	 * Represents an asynchronous login/registration task used to authenticate
+	 * the user.
+	 */
+	public class StructsRequest extends AsyncTask<Void, Void, Boolean> {
+
+		private final String user;
+		private final String token;
+		private final int propertyID;
+
+		public String message;
+		public ArrayList<AbstractStructure> structs;
+		
+		StructsRequest(String user, String token, int propID) {
+			this.user = user;
+			this.token = token;
+			this.propertyID = propID;
+			structs = new ArrayList<AbstractStructure>(10);
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			
+			try {
+				//Will throw I/O exception if it fails to connect
+				MovementClient mc = new MovementClient();
+				
+				//Have to start this on a new thread so it stays open and listends for responses
+				new Thread(mc).start();
+				
+				mc.requestStructs(user, token, propertyID);
+				
+				//Wait for a response from the server
+				while ( mc.structsResponse == null ) {
+					
+				}
+
+				//If we succeeded!
+				if ( mc.structsResponse.success ) {
+					structs = mc.structsResponse.structs;
+					mc.close();
+					return true;
+				} else {
+					message = mc.loginResponse.message;
+					mc.close();
+					return false;
+				}
+			} catch (IOException e) {
+				message = "Couldn't connect to server.";
+				return false;
+			}
+			
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			if ( success ) {
+				//Now populate your property
+			} else {
+				//nah
+			}
+		}
 	}
 }
