@@ -1,8 +1,8 @@
 package map;
 
 public class Coordinate {
-	private int x;
-	private int y;
+	public int x;
+	public int y;
 	
 	public Coordinate(int i, int j) {
 		// TODO Auto-generated constructor stub
