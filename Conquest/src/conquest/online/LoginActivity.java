@@ -43,14 +43,14 @@ import android.widget.TextView;
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
 	private UserLoginTask mAuthTask = null;
-	
-	
 
 	// UI references.
 	private AutoCompleteTextView mEmailView;
 	private EditText mPasswordView;
 	private View mProgressView;
 	private View mLoginFormView;
+	
+	public static Activity me;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +152,7 @@ import android.widget.TextView;
 	public void goToMap() {
     	Intent login = new Intent(this, MapActivity.class);
     	startActivity(login);
+    	finish();
 	}
 
 
@@ -307,19 +308,7 @@ import android.widget.TextView;
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			
-			//String IP = IPGrabber.getIPAddress(false);
-			
-//			if ( IP == null ) {
-//				IP = IPGrabber.getIPAddress(true);
-//			}
 
-			//Query the login script with their entered username/password
-//	        List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
-//	        postParams.add(new BasicNameValuePair("username", mUsername));
-//	        postParams.add(new BasicNameValuePair("password", mPassword));
-//	        postParams.add(new BasicNameValuePair("IP", IP));
-			
 			try {
 				//Will throw I/O exception if it fails to connect
 				MovementClient mc = new MovementClient();
@@ -331,10 +320,12 @@ import android.widget.TextView;
 				
 				//Wait for a response from the server
 				while ( mc.loginResponse == null ) {
-					
+					try {
+					    Thread.sleep(500);                 //1000 milliseconds is one second.
+					} catch(InterruptedException ex) {
+					    Thread.currentThread().interrupt();
+					}
 				}
-				
-//				JSONObject loginAttempt = JSONfunctions.getJSONfromURL("http://www.gerlichsoftwaresolutions.net/conquest/login.php", postParams);				
 				
 				//If we succeeded!
 				if ( mc.loginResponse.success ) {
@@ -352,31 +343,6 @@ import android.widget.TextView;
 				return false;
 			}
 			
-//			//Try and check if it succeeded
-//			try {
-//				String success = loginAttempt.getString("success");
-//				
-//				//Return true on success
-//				if ( success.equals("1") ) {
-//
-//					UserSession User = new UserSession(getApplicationContext());
-//					User.logIn(mUsername);
-//					
-//					return true;
-//					
-//				//Set error message and return false.
-//				} else {
-//					mPasswordView.setError(loginAttempt.getString("message"));
-//					return false;
-//				}
-//			
-//			//Off chance that some weird shit happens
-//			} catch (JSONException e) {
-//				//Something went wrong - typically JSON value doesn't exist (success).
-//				mPasswordView.setError("An error occured. Please try again later.");
-//				return false;
-//			}
-			
 		}
 
 		@Override
@@ -385,12 +351,14 @@ import android.widget.TextView;
 			showProgress(false);
 
 			if (success) {
-				//TODO: Navigate to the maps page.
-	        	finish();
+				//Finish main activity
+				if ( !MainActivity.me.equals(null) ) {
+					MainActivity.me.finish();
+				}
+				
 		        goToMap();
 			} else {
 				//Just focus on the error message.
-				//FIXME: Could do more focusing based on type of error. (Focus on user or pass)
 				mPasswordView.requestFocus();
 
 			}

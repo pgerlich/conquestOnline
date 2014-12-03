@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import conquest.client.classes.AbstractStructure;
-import conquest.client.classes.PropStructsRequest;
 import conquest.client.classes.PropStructsResponse;
 import conquest.online.client.MovementClient;
 import android.app.Activity;
@@ -46,9 +45,6 @@ public class PersonalPropertyActivity extends Activity {
 		//Grab structs w/ ASYNC task
 		SR = new StructsRequest(user.getUser(), user.getToken(), -1);
 		SR.execute();
-		
-		GridItemSelect thing = new GridItemSelect();
-	    thing.show(getFragmentManager(), "test");
 	}
 	
 	/**
@@ -64,16 +60,21 @@ public class PersonalPropertyActivity extends Activity {
 		//Populate grid
 		populateGrids();
 		
-		//Change images and set visible for structures
+		//Change image, set visible, add listener
 		for(int i = 0; i < structs.size(); i++){
 			grid[structs.get(i).x][structs.get(i).y].setImageResource(R.drawable.wall);
+			grid[structs.get(i).x][structs.get(i).y].setVisibility(ImageView.VISIBLE);
+			addListenerToItem(grid[structs.get(i).x][structs.get(i).y], "(" + structs.get(i).x + ", " + structs.get(i).y + ")", "structure");
 		}
 		
 		//Set blanks visible and add listeners
 		for(int i = 0; i < height; i++ ) {
 			for (int j = 0; j < width; j++) {
-				grid[j][i].setVisibility(ImageView.VISIBLE);
-				addListenerToItem(grid[j][i], "(" + j + ", " + i + ")");
+				//If it's not visible (I.e, it's not a structure)
+				if ( grid[j][i].getVisibility() != ImageView.VISIBLE ) {
+					grid[j][i].setVisibility(ImageView.VISIBLE);
+					addListenerToItem(grid[j][i], "(" + j + ", " + i + ")", "none");
+				}
 			}
 		}
 	}
@@ -140,12 +141,20 @@ public class PersonalPropertyActivity extends Activity {
 	 * Adds a listener to the given item
 	 * @param image
 	 */
-	public void addListenerToItem(ImageView image, final String location) {
+	public void addListenerToItem(ImageView image, final String location, final String gridType) {
 		
 		image.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				toast(location);
+				//Set different listener/dialog for structure
+				if ( gridType.equals("structure") ) {
+					GridItemSelectOccupied dialog = new GridItemSelectOccupied();
+					dialog.show(getFragmentManager(), location);
+				//Basic dialog for placing an item there
+				} else if ( gridType.equals("none") ) {
+					GridItemSelectBlank dialog = new GridItemSelectBlank();
+				    dialog.show(getFragmentManager(), location);
+				}
 				return false;
 			}
 		});
@@ -158,14 +167,6 @@ public class PersonalPropertyActivity extends Activity {
 	public void goToSettings(){
     	Intent settings = new Intent(this, SettingsActivity.class);
     	startActivity(settings);
-	}
-	
-	/**
-	 * Show your chest
-	 */
-	public void showChest(View view){
-		//
-		toast("chest");
 	}
 		
 	
@@ -255,7 +256,7 @@ public class PersonalPropertyActivity extends Activity {
 				//Wait for a response from the server
 				while ( mc.structsResponse.size() == 0 ) {
 					try {
-					    Thread.sleep(500);                 //1000 milliseconds is one second.
+					    Thread.sleep(500); 
 					} catch(InterruptedException ex) {
 					    Thread.currentThread().interrupt();
 					}
@@ -286,13 +287,84 @@ public class PersonalPropertyActivity extends Activity {
 		}
 	}
 	
-	public class GridItemSelect extends DialogFragment {
+	public class GridItemSelectBlank extends DialogFragment {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 		    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		    builder.setItems(R.array.gridOptionsBlank, new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int which) {
-		               toast("bitches");
+		            	   	switch(which) {
+		            	   	case 0:
+		            	   		StructureTypes sTypes = new StructureTypes();
+		            	   		sTypes.show(getFragmentManager(), "sTypes");
+		            	   		break;
+		            		   
+		            	   	case 1:
+		            	   		//cancel
+		            	   		break;
+		            	   		
+		            	   	}
+		       					
+		           }
+		    });
+		    return builder.create();
+		}
+	}
+	
+	public class StructureTypes extends DialogFragment {
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+		    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		    builder.setItems(R.array.gridOptionsStructures, new DialogInterface.OnClickListener() {
+		               public void onClick(DialogInterface dialog, int which) {
+		            	   	switch(which) {
+		            	   	case 0:
+		            	   		//offensive
+		            	   		break;
+		            		   
+		            	   	case 1:
+		            	   		//defensive
+		            	   		break;
+		            	   		
+		            	   	case 2:
+		            	   		//cancel
+		            	   		break;
+		            	   		
+		            	   	}
+		           }
+		    });
+		    return builder.create();
+		}
+	}
+	
+	
+	public class GridItemSelectOccupied extends DialogFragment {
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+		    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		    builder.setItems(R.array.gridOptionsOccupied, new DialogInterface.OnClickListener() {
+		               public void onClick(DialogInterface dialog, int which) {
+		            	   	switch(which) {
+		            	   	case 0:
+		            	   		//Upgrade
+		            	   		break;
+		            		   
+		            	   	case 1:
+		            	   		//Repair
+		            	   		break;
+		            	   		
+		            	   	case 2:
+		            	   		//View Stats
+		            	   		break;
+		            	   		
+		            	   	case 3:
+		            	   		//Store in chest
+		            	   		break;
+		            	   		
+		            	   	case 4:
+		            	   		//cancel
+		            	   		break;
+		            	   	}
 		           }
 		    });
 		    return builder.create();

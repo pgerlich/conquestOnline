@@ -47,9 +47,7 @@ public class MapActivity extends ActionBarActivity {
 	        	setContentView(R.layout.activity_map);
 	        	if(initMap())
 	        	{
-	        		//Toast.makeText(this, "RADYTOMAPPAP", Toast.LENGTH_SHORT).show();
 	        		mMap.setMyLocationEnabled(true);
-	        		//THIS CHANGES ZOOM/ECT. Took code from Initialize function -- setView();
 	        	}
 	        	else{
 	        		Toast.makeText(this, "CANTMAPBITCH", Toast.LENGTH_SHORT).show();
@@ -59,11 +57,7 @@ public class MapActivity extends ActionBarActivity {
 	    		//Display error message, close gracefully?
 	    	}
 	    	
-//	    	while ( user.getMaxHealth() == 0 ) {
-//	    		
-//	    	}
-//	    	
-//	    	updateHealth();
+	    	setView();
 		}
 		
 		
@@ -217,7 +211,9 @@ public class MapActivity extends ActionBarActivity {
     }
     
     private void setView(){
-		Location currentLoc=mLocationClient.getLastLocation();
+
+
+		Location currentLoc = mMap.getMyLocation();
 		if(currentLoc==null)
 		{
 			Toast.makeText(this, "can not find current location", Toast.LENGTH_SHORT).show();

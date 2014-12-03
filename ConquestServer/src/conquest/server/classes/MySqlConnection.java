@@ -283,6 +283,7 @@ public class MySqlConnection {
 						
 						AbstractStructure temp = new AbstractStructure();
 						temp.name = structs.getString("name");
+						temp.type = structs.getString("type");
 						temp.x = structs.getInt("topX");
 						temp.y = structs.getInt("topY");
 						temp.level = structs.getInt("level");

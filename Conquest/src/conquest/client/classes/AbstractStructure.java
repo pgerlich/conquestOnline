@@ -4,6 +4,7 @@ public class AbstractStructure  {
 
 	//Stats/Info
 	public String name;
+	public String type;
 	public int id;
 	public int imageID;
 	public int level;

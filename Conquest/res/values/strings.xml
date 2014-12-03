@@ -54,8 +54,26 @@
     <string name="title_activity_shop">ShopActivity</string>
     <string name="new_prop">Add New Property</string>
     <string name="title_activity_newproperty">PropertyActivity</string>
+    
+    <!-- Dialog text for blank spaces -->
     <string-array name="gridOptionsBlank">
-        <item>"Add Structure"</item>
+        <item>"Place Structure"</item>
+		<item>"Cancel"</item>
+    </string-array>
+    
+    <!-- Dialog text for structure types -->
+    <string-array name="gridOptionsStructures">
+        <item>"Offensive Structure"</item>
+        <item>"Defensive Structure"</item>
+		<item>"Cancel"</item>
+    </string-array>
+    
+     <!-- Dialog text for non-spaces -->
+    <string-array name="gridOptionsOccupied">
+        <item>"Upgrade"</item>
+        <item>"Repair"</item>
+		<item>"View Stats"</item>
+		<item>"Store in Chest"</item>
 		<item>"Cancel"</item>
     </string-array>
 
