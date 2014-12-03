@@ -15,6 +15,8 @@ import conquest.server.classes.LoginRequest;
 import conquest.server.classes.LoginResponse;
 import conquest.server.classes.LogoutRequest;
 import conquest.server.classes.MySqlConnection;
+import conquest.server.classes.PropStructsRequest;
+import conquest.server.classes.PropStructsResponse;
 import conquest.server.classes.PropertyPurchaseRequest;
 import conquest.server.classes.PropertyPurchaseResponse;
 import conquest.server.classes.RegisterRequest;
@@ -45,7 +47,7 @@ public class ConquestServer {
 	public String purpose;
 	
 	//Array of online users.
-	public ArrayList<User> usersConnected;
+	public static ArrayList<User> usersConnected;
 	
 	public MySqlConnection myCon;
 	
@@ -267,7 +269,7 @@ public class ConquestServer {
 		System.out.println(user.username + " kicked from server.");
 	}
 		
-	public void statistics(){
+	public static void statistics(){
 		System.out.println("# of users connected: " + usersConnected.size());
 		for ( int i = 0; i < usersConnected.size(); i++ ) {
 			System.out.println(usersConnected.get(i).toString());

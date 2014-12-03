@@ -1,17 +1,5 @@
 package conquest.online.gameAssets.Items;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.os.AsyncTask;
-import conquest.online.JSONfunctions;
-import conquest.online.gameAssets.Structures.DefensiveStructure;
-import conquest.online.gameAssets.Structures.OffensiveStructure;
 
 public abstract class AbstractItem {
 

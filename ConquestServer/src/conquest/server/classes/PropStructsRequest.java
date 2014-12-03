@@ -1,4 +1,4 @@
-package conquest.client.classes;
+package conquest.server.classes;
 
 public class PropStructsRequest {
 	public String user;

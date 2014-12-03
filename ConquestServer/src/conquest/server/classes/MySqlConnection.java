@@ -255,7 +255,7 @@ public class MySqlConnection {
 
 			// compare user and token
 			ResultSet isValid = stmt1
-					.executeQuery("select * from users where user = '"
+					.executeQuery("select * from users where username = '"
 							+ psr.user + "' AND token = '" + psr.token + "'");
 
 			// If the credentials matched
