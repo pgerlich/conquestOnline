@@ -191,6 +191,15 @@ public class PersonalPropertyActivity extends Activity {
 		startActivity(soc);
 	}
 	
+	/**
+	 * When user taps shop button, this function is called and takes user to Shop Screen
+	 * @param view
+	 */
+	public void toShop(View view) {
+		Intent shop = new Intent(this, ShopActivity.class);
+		startActivity(shop);
+	}
+	
 	public void shop(View view) {
 		Intent soc = new Intent(this, PersonalPropertyActivity.class);
 		startActivity(soc);

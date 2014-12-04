@@ -4,13 +4,13 @@ package conquest.online.gameAssets.Items;
 public abstract class AbstractItem {
 
 	String itemName;
-    String cost;
+    int cost;
     String picture;
     String description;
-    String id;
+    int id;
     boolean owned = false;
     
-    public void create(String name, String cost, String pic, String description, String id) {
+    public void create(String name, int cost, String pic, String description, int id) {
     	setCost(cost);
     	setPic(pic);
     	setDesc(description);
@@ -24,19 +24,19 @@ public abstract class AbstractItem {
     
     public abstract void use();
     
-    public String getCost() {
+    public int getCost() {
 		return cost;
 	}
     
-    public void setId(String id) {
+    public void setId(int id) {
     	this.id = id;
     }
     
-    public String getId() {
+    public int getId() {
     	return id;
     }
     
-    public void setCost(String cost) {
+    public void setCost(int cost) {
     	this.cost = cost;
     }
     

@@ -57,6 +57,17 @@ public class AbstractStructure  {
 	}
 	
 	/**
+	 * used to set values of items read from the shop
+	 */
+	public void create(String name, int cost, String pic, String description, int id) {
+    	setCost(cost);
+    	picPath = pic;
+    	setDes(description);
+    	setName(name);
+    	this.id = id;
+    }
+	
+	/**
 	 * Return the ID
 	 * @return
 	 */

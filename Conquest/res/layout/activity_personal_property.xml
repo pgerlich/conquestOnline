@@ -464,6 +464,16 @@
         android:background="@drawable/person_image"
         android:contentDescription="@string/mapDesc"
         android:onClick="myCharacter" />
+    
+     <ImageButton
+        android:id="@+id/shop_b"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/social_b"
+        android:background="@drawable/shop_image"
+        android:contentDescription="@string/mapDesc"
+        android:onClick="toShop" />
 
     <ImageButton
         android:id="@+id/back_b"
