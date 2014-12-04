@@ -834,7 +834,7 @@ public class ShopActivity extends ActionBarActivity {
 						String pic = requestShop.getString("fp" + i);
 						String des = requestShop.getString("fd" + i);
 						int id = Integer.parseInt(requestShop.getString("fi" + i));						
-						food[i].create(name,c,pic, des, id);
+						food[i].create(name, c, pic, des, id);  
 						
 						weapon[i] = new Weapon();
 						name = requestShop.getString("wn" + i);
@@ -995,8 +995,7 @@ public class ShopActivity extends ActionBarActivity {
 				if (ioc == 0)
 					mc.putChest(username, token, id);
 				if (ioc == 1)
-					mc.putInv(username, token, id);
-				
+					mc.putInv(username, token, id);				
 				
 				mc.close();
 			}
