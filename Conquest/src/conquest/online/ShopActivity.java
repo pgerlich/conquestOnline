@@ -963,19 +963,21 @@ public class ShopActivity extends ActionBarActivity {
 
 	// TODO - this adds the item to the player table so that we know they own
 	// this item THIS IS NEEDED FOR DS, and OS
-	public class useItem extends AsyncTask<Void, Void, Boolean> {
+	public class buyItem extends AsyncTask<Void, Void, Boolean> {
 
 		private final String username;
 		private final String token;
 		private final int id;
+		private final int ioc;
 		public String message;
 		public boolean success;
 
 		// Instantiate task
-		useItem(String username, String token, int i) {
+		buyItem(String username, String token, int i, int ioc) {
 			this.username = username;
 			this.token = token;
 			this.id = i;
+			this.ioc = ioc;
 
 			message = "";
 		}
@@ -990,8 +992,11 @@ public class ShopActivity extends ActionBarActivity {
 				//Have to start this on a new thread so it stays open and listends for responses
 				new Thread(mc).start();
 				
-				//Attempt to log the user out
-				mc.logout(username, token);
+				if (ioc == 0)
+					mc.putChest(username, token, id);
+				if (ioc == 1)
+					mc.putInv(username, token, id);
+				
 				
 				mc.close();
 			}

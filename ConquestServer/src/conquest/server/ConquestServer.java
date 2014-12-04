@@ -9,7 +9,10 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+
 import conquest.server.classes.AbstractStructure;
+import conquest.server.classes.InventoryChangeRequest;
+import conquest.server.classes.InventoryChangeResponse;
 import conquest.server.classes.LoginRequest;
 import conquest.server.classes.LoginResponse;
 import conquest.server.classes.LogoutRequest;
@@ -287,7 +290,7 @@ public class ConquestServer {
 	
 	@SuppressWarnings({ "rawtypes" })
 	public static void main(String args[]) {
-		Class[] classes = new Class[]{AbstractStructure.class, LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class, PropStructsRequest.class, PropStructsResponse.class};
+		Class[] classes = new Class[]{AbstractStructure.class, LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class, PropStructsRequest.class, PropStructsResponse.class, InventoryChangeRequest.class, InventoryChangeResponse.class};
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777, classes);
 		
 		try{

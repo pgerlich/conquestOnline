@@ -8,7 +8,22 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-import conquest.client.classes.*;
+import conquest.client.classes.AbstractStructure;
+import conquest.client.classes.ChestChangeRequest;
+import conquest.client.classes.ChestChangeResponse;
+import conquest.client.classes.InventoryChangeRequest;
+import conquest.client.classes.InventoryChangeResponse;
+import conquest.client.classes.LoginRequest;
+import conquest.client.classes.LoginResponse;
+import conquest.client.classes.LogoutRequest;
+import conquest.client.classes.PropStructsRequest;
+import conquest.client.classes.PropStructsResponse;
+import conquest.client.classes.PropertyPurchaseRequest;
+import conquest.client.classes.PropertyPurchaseResponse;
+import conquest.client.classes.RegisterRequest;
+import conquest.client.classes.RegistrationResponse;
+import conquest.client.classes.UpdateStatsRequest;
+import conquest.client.classes.UpdateStatsResponse;
 
 
 /**
@@ -38,6 +53,8 @@ public class MovementClient implements Runnable {
 	public RegistrationResponse regResponse;
 	public PropertyPurchaseResponse propResponse;
 	public UpdateStatsResponse upStatResponse;
+	public InventoryChangeResponse invChangeResponse;
+	public ChestChangeResponse chChangeResponse;
 	public ArrayList<PropStructsResponse> structsResponse = new ArrayList<PropStructsResponse>(10);
 	
 	/**
@@ -67,7 +84,7 @@ public class MovementClient implements Runnable {
 		
 		//Add all the classes
 		@SuppressWarnings("rawtypes")
-		Class[] classes = new Class[]{AbstractStructure.class, LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class, PropStructsRequest.class, PropStructsResponse.class};
+		Class[] classes = new Class[]{ChestChangeRequest.class, ChestChangeResponse.class, AbstractStructure.class, LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class, PropStructsRequest.class, PropStructsResponse.class, InventoryChangeResponse.class, InventoryChangeRequest.class};
 		
 		//Bind ports and start her up
 		startClient();
@@ -98,6 +115,14 @@ public class MovementClient implements Runnable {
 	          
 	          if (object instanceof PropStructsResponse){
 	        	  structsResponse.add((PropStructsResponse) object);
+	          }
+	          
+	          if (object instanceof InventoryChangeResponse){
+	        	  invChangeResponse = (InventoryChangeResponse) object;
+	          }
+	          
+	          if (object instanceof ChestChangeResponse) {
+	        	  chChangeResponse = (ChestChangeResponse) object;
 	          }
 
 	       }
@@ -190,6 +215,34 @@ public class MovementClient implements Runnable {
 		update.weapon2 = weapon2;
 		update.weapon3 = weapon3;
 		this.client.sendUDP(update);
+	}
+	
+	/**
+	 * This is called when a structure is being put into a chest
+	 * @param username
+	 * @param token
+	 * @param id
+	 */
+	public void putChest(String username, String token, int id) {
+		ChestChangeRequest invChange = new ChestChangeRequest();
+		invChange.user = username;
+		invChange.token = token;
+		invChange.id = id;
+		this.client.sendUDP(invChange);
+	}
+	
+	/**
+	 * This is called when a user is putting an item into their inventory
+	 * @param user
+	 * @param token
+	 * @param id
+	 */
+	public void putInv(String user, String token, int id) {
+		InventoryChangeRequest invChange = new InventoryChangeRequest();
+		invChange.user = user;
+		invChange.token = token;
+		invChange.id = id;
+		this.client.sendUDP(invChange);
 	}
 
 	/**
