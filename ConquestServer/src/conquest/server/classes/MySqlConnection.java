@@ -497,6 +497,109 @@ public class MySqlConnection {
 			return false;
 		}
 	}
+	
+	/**
+	 * this is used to process putting items into the inventory
+	 */
+	public InventoryChangeResponse putInv(InventoryChangeRequest change) {
+		Statement stmt1;
+		InventoryChangeResponse response = new InventoryChangeResponse();
+		
+		try {
+			stmt1 = con.createStatement();
+			
+			// compare user and token
+						ResultSet isValid = stmt1
+								.executeQuery("select * from users where username = '"
+										+ change.user + "' AND token = '"
+										+ change.token + "'");
+
+						// If the credentials matched
+						if (!isValid.next()) {
+							// Close connection
+							stmt1.close();
+							response.message = "Invalid Token. You are not logged in.";
+							response.success = false;
+							return response;
+						} else {
+							//TODO
+							PreparedStatement st = con.prepareStatement("UPDATE chest SET struc? = ? WHERE username = '"
+								+ change.user
+								+ "' AND token = '"
+								+ change.token + "'");
+							st.setInt(1, change.id);
+							st.execute();
+						}
+
+						// Close connections
+						stmt1.close();
+
+						response.message = "Chest placed succesfully";
+						response.success = true;
+						return response;
+			
+		} catch (SQLException e){
+			System.out.println(e.getErrorCode()
+					+ " occured while trying to purchase property for "
+					+ change.user);
+			// e.printStackTrace();
+			response.message = e.getMessage();
+			response.success = false;
+			return response;
+		}
+	}
+	
+	
+	/**
+	 * This is used to process the change chest request through the server
+	 */
+	public ChestChangeResponse putChest(ChestChangeRequest change) {
+		Statement stmt1;
+		ChestChangeResponse response = new ChestChangeResponse();
+		
+		try {
+			stmt1 = con.createStatement();
+			
+			// compare user and token
+						ResultSet isValid = stmt1
+								.executeQuery("select * from users where username = '"
+										+ change.user + "' AND token = '"
+										+ change.token + "'");
+
+						// If the credentials matched
+						if (!isValid.next()) {
+							// Close connection
+							stmt1.close();
+							response.message = "Invalid Token. You are not logged in.";
+							response.success = false;
+							return response;
+						} else {
+							//TODO
+							PreparedStatement st = con.prepareStatement("UPDATE chest SET struc? = ? WHERE username = '"
+								+ change.user
+								+ "' AND token = '"
+								+ change.token + "'");
+							st.setInt(1, change.id);
+							st.execute();
+						}
+
+						// Close connections
+						stmt1.close();
+
+						response.message = "Chest placed succesfully";
+						response.success = true;
+						return response;
+			
+		} catch (SQLException e){
+			System.out.println(e.getErrorCode()
+					+ " occured while trying to purchase property for "
+					+ change.user);
+			// e.printStackTrace();
+			response.message = e.getMessage();
+			response.success = false;
+			return response;
+		}
+	}
 
 	/**
 	 * This is used to process the update stats request through the server
@@ -525,8 +628,7 @@ public class MySqlConnection {
 			} else {
 
 				// Create the house
-				PreparedStatement st = con
-						.prepareStatement("UPDATE characters SET maxHealth = ?, curHealth = ?, attack = ?, armor = ?, money = ?, armor0 = ?, armor1 = ?, armor2 = ?, armor3 = ?, weapon0 = ?, weapon1 = ?, weapon2 = ?, weapon3 = ?, wins = ?, loses = ?, kills = ?, deaths = ?, guild = ?, lat = ?, lon = ?, speed = ?, stealth = ?, tech = ?, level = ?, exp = ? WHERE username = '"
+				PreparedStatement st = con.prepareStatement("UPDATE characters SET maxHealth = ?, curHealth = ?, attack = ?, armor = ?, money = ?, armor0 = ?, armor1 = ?, armor2 = ?, armor3 = ?, weapon0 = ?, weapon1 = ?, weapon2 = ?, weapon3 = ?, wins = ?, loses = ?, kills = ?, deaths = ?, guild = ?, lat = ?, lon = ?, speed = ?, stealth = ?, tech = ?, level = ?, exp = ? WHERE username = '"
 								+ update.username
 								+ "' AND token = '"
 								+ update.token + "'");

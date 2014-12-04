@@ -416,8 +416,8 @@ public class ShopActivity extends ActionBarActivity {
 					int attack = weapon[0].getAttack();
 					user.adjStats(0, 0, attack);
 					weapon[0].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							weapon[0].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							weapon[0].getId(), 1);
 					use.execute((Void) null);
 
 				} else {
@@ -438,8 +438,8 @@ public class ShopActivity extends ActionBarActivity {
 					int attack = weapon[1].getAttack();
 					user.adjStats(0, 0, attack);
 					weapon[1].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							weapon[1].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							weapon[1].getId(), 1);
 					use.execute((Void) null);
 
 				} else {
@@ -460,8 +460,8 @@ public class ShopActivity extends ActionBarActivity {
 					int attack = weapon[2].getAttack();
 					user.adjStats(0, 0, attack);
 					weapon[2].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							weapon[2].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							weapon[2].getId(), 1);
 					use.execute((Void) null);
 
 				} else {
@@ -482,8 +482,8 @@ public class ShopActivity extends ActionBarActivity {
 					int attack = weapon[3].getAttack();
 					user.adjStats(0, 0, attack);
 					weapon[3].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							weapon[3].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							weapon[3].getId(), 1);
 					use.execute((Void) null);
 
 				} else {
@@ -504,8 +504,8 @@ public class ShopActivity extends ActionBarActivity {
 					int health = armor[0].getArmor();
 					user.adjStats(0, health, 0);
 					armor[0].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							armor[0].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							armor[0].getId(), 1);
 					use.execute((Void) null);
 
 					adjStats incr = new adjStats(user.getUser(), user
@@ -530,8 +530,8 @@ public class ShopActivity extends ActionBarActivity {
 					int health = armor[1].getArmor();
 					user.adjStats(0, health, 0);
 					armor[1].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							armor[1].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							armor[1].getId(), 1);
 					use.execute((Void) null);
 
 					adjStats incr = new adjStats(user.getUser(), user
@@ -556,8 +556,8 @@ public class ShopActivity extends ActionBarActivity {
 					int health = armor[2].getArmor();
 					user.adjStats(0, health, 0);
 					armor[2].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							armor[2].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							armor[2].getId(), 1);
 					use.execute((Void) null);
 
 					adjStats incr = new adjStats(user.getUser(), user
@@ -582,8 +582,8 @@ public class ShopActivity extends ActionBarActivity {
 					int health = armor[3].getArmor();
 					user.adjStats(0, health, 0);
 					armor[3].use();
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							armor[3].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							armor[3].getId(), 1);
 					use.execute((Void) null);
 
 					adjStats incr = new adjStats(user.getUser(), user
@@ -607,8 +607,8 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(ds[0].getCost())) {
 					spendMoney(ds[0].getCost());
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							ds[0].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							ds[0].getId(), 0);
 					use.execute((Void) null);
 
 				} else {
@@ -626,8 +626,8 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(ds[1].getCost())) {
 					spendMoney(ds[1].getCost());
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							ds[1].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							ds[1].getId(), 0);
 					use.execute((Void) null);
 
 				} else {
@@ -644,8 +644,8 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(ds[2].getCost())) {
 					spendMoney(ds[2].getCost());
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							ds[2].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							ds[2].getId(), 0);
 					use.execute((Void) null);
 
 				} else {
@@ -663,8 +663,8 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(ds[3].getCost())) {
 					spendMoney(ds[3].getCost());
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							ds[3].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							ds[3].getId(), 0);
 					use.execute((Void) null);
 
 				} else {
@@ -682,8 +682,8 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(os[0].getCost())) {
 					spendMoney(os[0].getCost());
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							os[0].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							os[0].getId(), 0);
 					use.execute((Void) null);
 
 				} else {
@@ -701,8 +701,8 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(os[1].getCost())) {
 					spendMoney(os[1].getCost());
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							os[1].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							os[1].getId(), 0);
 					use.execute((Void) null);
 
 				} else {
@@ -720,8 +720,8 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(os[2].getCost())) {
 					spendMoney(os[2].getCost());
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							os[2].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							os[2].getId(), 0);
 					use.execute((Void) null);
 
 				} else {
@@ -738,8 +738,8 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(os[3].getCost())) {
 					spendMoney(os[3].getCost());
-					useItem use = new useItem(user.getUser(), user.getToken(),
-							os[3].getId());
+					buyItem use = new buyItem(user.getUser(), user.getToken(),
+							os[3].getId(), 0);
 					use.execute((Void) null);
 
 				} else {
