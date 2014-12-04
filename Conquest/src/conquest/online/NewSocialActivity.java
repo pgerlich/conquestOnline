@@ -222,6 +222,7 @@ public class NewSocialActivity extends Activity {
 		private final String myUser;
 		private final String otherUser;
 		private final String token;
+		@SuppressWarnings("unused")
 		private final String type;
 		public String message;
 

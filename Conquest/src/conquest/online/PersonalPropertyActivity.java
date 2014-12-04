@@ -28,6 +28,8 @@ public class PersonalPropertyActivity extends Activity {
 	public ArrayList<AbstractStructure> structs = new ArrayList<AbstractStructure>(10);
 	public ArrayList<AbstractStructure> chestItems = new ArrayList<AbstractStructure>(10);
 	
+	public CharSequence[] structures;
+	
 	public int width;
 	public int height;
 	
@@ -41,14 +43,14 @@ public class PersonalPropertyActivity extends Activity {
 		UserSession user = new UserSession(getApplicationContext());
 		
 		width = height = 7;
-
-		//Grab structs w/ ASYNC task
-		SR = new StructsRequest(user.getUser(), user.getToken(), "property", -1);
-		SR.execute();
 		
 		//Grab the chest items
 		grabChestItems = new StructsRequest(user.getUser(), user.getToken(), "chest", -1);
 		grabChestItems.execute();
+		
+		//Grab structs w/ ASYNC task
+		SR = new StructsRequest(user.getUser(), user.getToken(), "property", -1);
+		SR.execute();
 	}
 	
 	/**
@@ -191,15 +193,6 @@ public class PersonalPropertyActivity extends Activity {
 		startActivity(soc);
 	}
 	
-	/**
-	 * When user taps shop button, this function is called and takes user to Shop Screen
-	 * @param view
-	 */
-	public void toShop(View view) {
-		Intent shop = new Intent(this, ShopActivity.class);
-		startActivity(shop);
-	}
-	
 	public void shop(View view) {
 		Intent soc = new Intent(this, PersonalPropertyActivity.class);
 		startActivity(soc);
@@ -280,6 +273,7 @@ public class PersonalPropertyActivity extends Activity {
 				//If we succeeded!
 				if ( mc.structsResponse.get(0).success ) {
 					structs = (ArrayList<PropStructsResponse>) mc.structsResponse.clone();
+					this.message = mc.structsResponse.get(0).message;
 					mc.close();
 					return true;
 				} else {
@@ -300,7 +294,9 @@ public class PersonalPropertyActivity extends Activity {
 				if ( location.equals("property") ) {
 					addStructuresToProperty();
 				} else if ( location.equals("chest") ) {
-					//Load chest up
+					for(int i = 0; i < structs.size();i ++) {
+						chestItems.add(structs.get(i).struct);
+					}
 				}
 				
 			}
@@ -337,20 +333,63 @@ public class PersonalPropertyActivity extends Activity {
 		    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		    builder.setItems(R.array.gridOptionsStructures, new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int which) {
+		            	   structures = new CharSequence[chestItems.size()];
+		            	   
+		            	   boolean skip = false;
+
 		            	   	switch(which) {
 		            	   	case 0:
 		            	   		//offensive
+			            	   for(int i = 0; i < chestItems.size(); i++) {
+			            		   if ( chestItems.get(i).type.equals("offense") ) {
+			            			   structures[i] = (CharSequence) chestItems.get(i).name;
+			            		   }
+			            	   }
+			            	 
 		            	   		break;
 		            		   
 		            	   	case 1:
 		            	   		//defensive
+				            	   for(int i = 0; i < chestItems.size(); i++) {
+				            		   if ( chestItems.get(i).type.equals("defense") ) {
+				            			   structures[i] = (CharSequence) chestItems.get(i).name;
+				            		   }
+				            	   }
+				            	   
 		            	   		break;
 		            	   		
 		            	   	case 2:
 		            	   		//cancel
+		            	   		skip = true;
 		            	   		break;
 		            	   		
 		            	   	}
+		            	   	
+		            	   	if ( !skip ) {
+			            	    DisplayStructures structs = new DisplayStructures();
+		            	   		structs.show(getFragmentManager(), "chestItems");
+		            	   	}
+
+ 		           }
+		    });
+		    return builder.create();
+		}
+	}
+	
+	public class DisplayStructures extends DialogFragment {
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			
+		    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		    
+		    if ( structures[0] == null ) {
+		    	structures = new CharSequence[1];
+		    	structures[0] = (CharSequence) "None";
+		    }
+
+		    builder.setItems(structures, new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int which) {
+		            	 
 		           }
 		    });
 		    return builder.create();
@@ -362,6 +401,7 @@ public class PersonalPropertyActivity extends Activity {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 		    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		    
 		    builder.setItems(R.array.gridOptionsOccupied, new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int which) {
 		            	   	switch(which) {

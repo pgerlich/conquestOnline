@@ -300,7 +300,6 @@ public class MySqlConnection {
 							
 							thisResponse.struct = temp;
 							
-							System.out.println("added: " + structs.getString("name"));
 							response.add(thisResponse);
 						}
 					} else if ( psr.location.equals("chest") ) {
@@ -309,8 +308,11 @@ public class MySqlConnection {
 						
 						//If we have a chest..
 						if (structs.next()) {
+							ResultSet thisStruct;
+							
 							//For each item in our chest
-							for(int i = 1; i == 10; i++ ) {
+							for(int i = 0; i < 10; i++ ) {
+								i++;
 								//If we have an item in this chest slot
 								if ( structs.getInt("struc" + i) != -1 ) {
 									//Create new response object
@@ -320,27 +322,31 @@ public class MySqlConnection {
 									thisResponse.propertyID = structs.getString("propertyID");
 									
 									//Grab the info on this structure
-									ResultSet thisStruct = stmt1.executeQuery("select * from structures where structureID = 'struc" + i + "'");
-									if( thisStruct.next() ){
-										AbstractStructure temp = new AbstractStructure();
-										temp.name = structs.getString("name");
-										temp.imageID = structs.getInt("imageID");
-										temp.type = structs.getString("type");
-										temp.x = -1;
-										temp.y = -1;
-										temp.level = 1;
-										temp.cost = structs.getInt("price");
-										temp.curHealth = -1;
-										temp.maxHealth = structs.getInt("maxHealth");
-										temp.defense = structs.getInt("defense");
-										temp.viewRadius = structs.getInt("viewRadius");
-										temp.enabled = false;
-										
-										thisResponse.struct = temp;
-									}
+									thisStruct = stmt1.executeQuery("select * from structures where structureID = 'struc" + i + "'");
 									
+									System.out.println("added: " + thisStruct.getString("name"));
+									AbstractStructure temp = new AbstractStructure();
+									temp.name = thisStruct.getString("name");
+									temp.imageID = thisStruct.getInt("imageID");
+									temp.description = thisStruct.getString("description");
+									temp.type = thisStruct.getString("type");
+									temp.x = -1;
+									temp.y = -1;
+									temp.level = 1;
+									temp.cost = thisStruct.getInt("price");
+									temp.curHealth = -1;
+									temp.maxHealth = thisStruct.getInt("maxHealth");
+									temp.defense = thisStruct.getInt("defense");
+									temp.viewRadius = thisStruct.getInt("viewRadius");
+									temp.enabled = false;
+									
+									thisResponse.struct = temp;
+									
+									
+									thisStruct.close();
 									response.add(thisResponse);
 								}
+								i--;
 							}
 						}
 					}
@@ -357,7 +363,9 @@ public class MySqlConnection {
 			// e.printStackTrace();
 			thisResponse.message = e.getMessage();
 			thisResponse.success = false;
-			response.add(thisResponse);
+			if (response.size() == 0 ) {
+				response.add(thisResponse);	
+			}
 			return response;
 		}
 	}

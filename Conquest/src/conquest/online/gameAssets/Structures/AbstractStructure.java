@@ -1,6 +1,6 @@
 package conquest.online.gameAssets.Structures;
 
-import java.util.ArrayList;
+
 public class AbstractStructure  {
 
 	//Stats/Info

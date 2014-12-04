@@ -1,9 +1,11 @@
 package conquest.online.gameAssets.Items;
 public class Weapon extends AbstractEquipableItem {
 
-	
+	@SuppressWarnings("unused")
 	private int currentAmmo;
+	@SuppressWarnings("unused")
 	private int maxAmmo;
+	@SuppressWarnings("unused")
 	private int reloadDelay;
 	private int attack;
 	

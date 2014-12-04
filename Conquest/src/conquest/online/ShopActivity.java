@@ -172,6 +172,7 @@ public class ShopActivity extends ActionBarActivity {
 		osFourInfo = (TextView) findViewById(R.id.os_four_info);
 		message = (TextView) findViewById(R.id.error_message);
 		stats = (TextView) findViewById(R.id.stats);
+		@SuppressWarnings("unused")
 		String message;
 
 		// need to figure out how to set the background image to be read from
@@ -334,6 +335,7 @@ public class ShopActivity extends ActionBarActivity {
 	 */
 	public void createListeners() {
 		//TODO - go through and get rid of stuff we don't need, and make sure every button is doing the right thing when clicked.
+		@SuppressWarnings("unused")
 		boolean space = true;
 
 		foodTwo.setOnClickListener(new View.OnClickListener() {

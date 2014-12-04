@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import map.Coordinate;
-
 import conquest.online.gameAssets.Structures.AbstractStructure;
 
 public class Property {
