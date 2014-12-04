@@ -153,7 +153,7 @@ public class ConquestServer {
 		    	   
 		    	  //Login request
 		    	  if (obj instanceof LoginRequest) {
-		    		  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+		    		  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Login Request");
 		    		  
 		    		  //A new login request cast from object
 		    		  LoginRequest user = (LoginRequest) obj;
@@ -208,7 +208,7 @@ public class ConquestServer {
 	    	      }
 	    	      
 	    	      if (obj instanceof PropertyPurchaseRequest) {
-	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Property Purchase Request");
 	    	    	  PropertyPurchaseRequest prop = (PropertyPurchaseRequest) obj;
 	    	    	  PropertyPurchaseResponse response = myCon.propertyPurchase(prop);
 	    	    	  System.out.println(response.message);
@@ -217,14 +217,14 @@ public class ConquestServer {
 		    	      
 	    	      //Logout request
 	    	      if (obj instanceof LogoutRequest) {
-	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Logout Request");
 	    	    	  LogoutRequest log = (LogoutRequest) obj;
 	    	    	  System.out.println(myCon.processLogout(log));
 	    	      }
 	    	      
 	    	      //Update stats request
 	    	      if (obj instanceof UpdateStatsRequest) {
-	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Update Stats");
 	    	    	  UpdateStatsRequest update = (UpdateStatsRequest) obj;
 	    	    	  UpdateStatsResponse response = myCon.updateStats(update);
 	    	    	  System.out.println(response.message);
@@ -233,7 +233,7 @@ public class ConquestServer {
 	    	      
 	    	      //Updates the inventory by adding latest item
 	    	      if (obj instanceof InventoryChangeRequest) {
-	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Inventory Change");
 	    	    	  InventoryChangeRequest invChange = (InventoryChangeRequest) obj;
 	    	    	  InventoryChangeResponse response = myCon.putInv(invChange);
 	    	    	  System.out.println(response.message);
@@ -242,7 +242,7 @@ public class ConquestServer {
 	    	      
 	    	      //Updates the chest when user buys structures with the latest item
 	    	      if (obj instanceof ChestChangeRequest) {
-	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Chest Change");
 	    	    	  ChestChangeRequest chChange = (ChestChangeRequest) obj;
 	    	    	  ChestChangeResponse response = myCon.putChest(chChange);
 	    	    	  System.out.println(response.message);
@@ -251,7 +251,7 @@ public class ConquestServer {
 	    	      
 	    	      //Grab structures for a given property
 	    	      if (obj instanceof PropStructsRequest){
-	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": ");
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Retrieve Property Structs");
 	    	    	  PropStructsRequest psr = (PropStructsRequest) obj;
 	    	    	  ArrayList<PropStructsResponse> psres = myCon.requestStructuresOnProperty(psr);
 	    	    	  System.out.println(psres.get(0).message);
