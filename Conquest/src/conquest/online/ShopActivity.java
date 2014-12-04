@@ -827,36 +827,46 @@ public class ShopActivity extends ActionBarActivity {
 				if (success.equals("1")) {
 
 					for (int i = 0; i < 4; i++) {
+						
 						food[i] = new Food();
-						food[i].create(requestShop.getString("fn" + i),
-								Integer.parseInt(requestShop.getString("fc" + i)),
-								requestShop.getString("fp" + i),
-								requestShop.getString("fd" + i),
-								Integer.parseInt(requestShop.getString("fi" + i)));
+						String name = requestShop.getString("fn" + i);
+						int c = Integer.parseInt(requestShop.getString("fc" + i));
+						String pic = requestShop.getString("fp" + i);
+						String des = requestShop.getString("fd" + i);
+						int id = Integer.parseInt(requestShop.getString("fi" + i));						
+						food[i].create(name,c,pic, des, id);
+						
 						weapon[i] = new Weapon();
-						weapon[i].create(requestShop.getString("wn" + i),
-								Integer.parseInt(requestShop.getString("wc" + i)),
-								requestShop.getString("wp" + i),
-								requestShop.getString("wd" + i),
-								Integer.parseInt(requestShop.getString("wi" + i)));
+						name = requestShop.getString("wn" + i);
+						c = Integer.parseInt(requestShop.getString("wc" + i));
+						pic = requestShop.getString("wp" + i);
+						des = requestShop.getString("wd" + i);
+						id = Integer.parseInt(requestShop.getString("wi" + i));						
+						weapon[i].create(name, c, pic, des, id);
+						
 						armor[i] = new Armor();
-						armor[i].create(requestShop.getString("an" + i),
-								Integer.parseInt(requestShop.getString("ac" + i)),
-								requestShop.getString("ap" + i),
-								requestShop.getString("ad" + i),
-								Integer.parseInt(requestShop.getString("ai" + i)));
+						name = requestShop.getString("an" + i);
+						c = Integer.parseInt(requestShop.getString("ac" + i));
+						pic = requestShop.getString("ap" + i);
+						des = requestShop.getString("ad" + i);
+						id = Integer.parseInt(requestShop.getString("ai" + i));						
+						armor[i].create(name, c, pic, des, id);
+						
 						ds[i] = new AbstractStructure(Integer.parseInt(requestShop.getString("di" + i)), requestShop.getString("dp" + i));
-						ds[i].create(requestShop.getString("dn" + i),
-								Integer.parseInt(requestShop.getString("dc" + i)),
-								requestShop.getString("dp" + i),
-								requestShop.getString("dd" + i),
-								Integer.parseInt(requestShop.getString("di" + i)));
+						name = requestShop.getString("dn" + i);
+						c = Integer.parseInt(requestShop.getString("dc" + i));
+						pic = requestShop.getString("dp" + i);
+						des = requestShop.getString("dd" + i);
+						id = Integer.parseInt(requestShop.getString("di" + i));
+						ds[i].create(name, c, pic, des, id);
+						
 						os[i] = new AbstractStructure(Integer.parseInt(requestShop.getString("oi" + i)), requestShop.getString("op" + i));
-						os[i].create(requestShop.getString("on" + i),
-								Integer.parseInt(requestShop.getString("oc" + i)),
-								requestShop.getString("op" + i),
-								requestShop.getString("od" + i),
-								Integer.parseInt(requestShop.getString("oi" + i)));
+						name = requestShop.getString("on" + i);
+						c = Integer.parseInt(requestShop.getString("oc" + i));
+						pic = requestShop.getString("op" + i);
+						des = requestShop.getString("od" + i);
+						id = Integer.parseInt(requestShop.getString("oi" + i));
+						os[i].create(name, c, pic, des, id);
 					}
 
 					message = "success";
