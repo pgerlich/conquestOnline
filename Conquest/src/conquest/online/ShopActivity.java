@@ -90,10 +90,9 @@ public class ShopActivity extends ActionBarActivity {
 
 		user = new UserSession(getApplicationContext());
 		createStore();
-		// makes the buttons
-		createListeners();
+
 	}
-	
+
 	public void createStore() {
 
 		getShop shop = new getShop(user.getUser(), user.getToken());
@@ -104,6 +103,7 @@ public class ShopActivity extends ActionBarActivity {
 		ds = shop.ds;
 		os = shop.os;
 		populateStore();
+		// createListeners();
 	}
 
 	@Override
@@ -128,7 +128,8 @@ public class ShopActivity extends ActionBarActivity {
 	/**
 	 * this is to set all the images, names, descriptions, and costs.
 	 */
-	//TODO - double check that all stuff looks the way it should, color changes when necessary.
+	// TODO - double check that all stuff looks the way it should, color changes
+	// when necessary.
 	public void populateStore() {
 		foodOne = (ImageButton) findViewById(R.id.food_one);
 		foodTwo = (ImageButton) findViewById(R.id.food_two);
@@ -175,11 +176,10 @@ public class ShopActivity extends ActionBarActivity {
 		@SuppressWarnings("unused")
 		String message;
 
-		// need to figure out how to set the background image to be read from
-		// getPic String? maybe change it to be a drwable
-		stats.setText("Health:"+user.getCurHealth() + "/" + user.getMaxHealth() + ", Gold:" + 
-		user.getMoney() + ", Attack:" + user.getAttack() + ", Armor:" + user.getArmor());
-		
+		stats.setText("Health:" + user.getCurHealth() + "/"
+				+ user.getMaxHealth() + ", Gold:" + user.getMoney()
+				+ ", Attack:" + user.getAttack() + ", Armor:" + user.getArmor());
+
 		setImage(food[0].getPic(), foodOne);
 		foodOneInfo.setText(food[0].getName() + "-" + food[0].getDescription()
 				+ ":" + food[0].getCost());
@@ -330,429 +330,430 @@ public class ShopActivity extends ActionBarActivity {
 		}
 	}
 
-	/**
-	 * This method is to create all the button listeners for the shop
-	 */
-	public void createListeners() {
-		//TODO - go through and get rid of stuff we don't need, and make sure every button is doing the right thing when clicked.
-		@SuppressWarnings("unused")
-		boolean space = true;
-
-		foodTwo.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(food[0].getCost())) {
-					spendMoney(food[0].getCost());
-					int health = Integer.parseInt(food[0].getHealth());
-					user.adjStats(health, 0, 0);
-					
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-			}
-		});
-
-		foodOne.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(food[1].getCost())) {
-					spendMoney(food[1].getCost());
-					int health = Integer.parseInt(food[1].getHealth());
-					user.adjStats(health, 0, 0);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		foodThree.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(food[2].getCost())) {
-					spendMoney(food[2].getCost());
-					int health = Integer.parseInt(food[2].getHealth());
-					user.adjStats(health, 0, 0);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		foodFour.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(food[3].getCost())) {
-					spendMoney(food[3].getCost());
-					int health = Integer.parseInt(food[3].getHealth());
-					user.adjStats(health, 0, 0);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		weaponOne.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(weapon[0].getCost())) {
-					spendMoney(weapon[0].getCost());
-					int attack = weapon[0].getAttack();
-					user.adjStats(0, 0, attack);
-					weapon[0].use();
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							weapon[0].getId(), 1);
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		weaponTwo.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(weapon[1].getCost())) {
-					spendMoney(weapon[1].getCost());
-					int attack = weapon[1].getAttack();
-					user.adjStats(0, 0, attack);
-					weapon[1].use();
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							weapon[1].getId(), 1);
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		weaponThree.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(weapon[2].getCost())) {
-					spendMoney(weapon[2].getCost());
-					int attack = weapon[2].getAttack();
-					user.adjStats(0, 0, attack);
-					weapon[2].use();
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							weapon[2].getId(), 1);
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		weaponFour.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(weapon[3].getCost())) {
-					spendMoney(weapon[3].getCost());
-					int attack = weapon[3].getAttack();
-					user.adjStats(0, 0, attack);
-					weapon[3].use();
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							weapon[3].getId(), 1);
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		armorOne.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(armor[0].getCost()) && !armor[0].own()) {
-					spendMoney(armor[0].getCost());
-					int health = armor[0].getArmor();
-					user.adjStats(0, health, 0);
-					armor[0].use();
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							armor[0].getId(), 1);
-					use.execute((Void) null);
-
-					adjStats incr = new adjStats(user.getUser(), user
-							.getToken(), "armor", armor[0].getArmor());
-					incr.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		armorTwo.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(armor[1].getCost()) && !armor[1].own()) {
-					spendMoney(armor[1].getCost());
-					int health = armor[1].getArmor();
-					user.adjStats(0, health, 0);
-					armor[1].use();
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							armor[1].getId(), 1);
-					use.execute((Void) null);
-
-					adjStats incr = new adjStats(user.getUser(), user
-							.getToken(), "armor", armor[1].getArmor());
-					incr.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		armorThree.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(armor[2].getCost()) && !armor[2].own()) {
-					spendMoney(armor[2].getCost());
-					int health = armor[2].getArmor();
-					user.adjStats(0, health, 0);
-					armor[2].use();
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							armor[2].getId(), 1);
-					use.execute((Void) null);
-
-					adjStats incr = new adjStats(user.getUser(), user
-							.getToken(), "armor", armor[2].getArmor());
-					incr.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		armorFour.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(armor[3].getCost()) && !armor[3].own()) {
-					spendMoney(armor[3].getCost());
-					int health = armor[3].getArmor();
-					user.adjStats(0, health, 0);
-					armor[3].use();
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							armor[3].getId(), 1);
-					use.execute((Void) null);
-
-					adjStats incr = new adjStats(user.getUser(), user
-							.getToken(), "armor", armor[3].getArmor());
-					incr.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		// TODO - check if there is room, way to pick property? 
-		// need to add check to see if user owns a property or not (
-		dsOne.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(ds[0].getCost())) {
-					spendMoney(ds[0].getCost());
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							ds[0].getId(), 0);
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		dsTwo.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(ds[1].getCost())) {
-					spendMoney(ds[1].getCost());
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							ds[1].getId(), 0);
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-			}
-		});
-
-		dsThree.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(ds[2].getCost())) {
-					spendMoney(ds[2].getCost());
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							ds[2].getId(), 0);
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		dsFour.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(ds[3].getCost())) {
-					spendMoney(ds[3].getCost());
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							ds[3].getId(), 0);
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		osOne.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(os[0].getCost())) {
-					spendMoney(os[0].getCost());
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							os[0].getId(), 0);
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		osTwo.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(os[1].getCost())) {
-					spendMoney(os[1].getCost());
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							os[1].getId(), 0);
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-
-			}
-		});
-
-		osThree.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(os[2].getCost())) {
-					spendMoney(os[2].getCost());
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							os[2].getId(), 0);
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-			}
-		});
-
-		osFour.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				message.setVisibility(View.GONE);
-				if (checkBalance(os[3].getCost())) {
-					spendMoney(os[3].getCost());
-					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							os[3].getId(), 0);
-					use.execute((Void) null);
-
-				} else {
-					message.setVisibility(View.VISIBLE);
-				}
-				createStore();
-				populateStore();
-			}
-		});
-
-	}
+	// /**
+	// * This method is to create all the button listeners for the shop
+	// */
+	// public void createListeners() {
+	// //TODO - go through and get rid of stuff we don't need, and make sure
+	// every button is doing the right thing when clicked.
+	// @SuppressWarnings("unused")
+	// boolean space = true;
+	//
+	// foodTwo.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(food[0].getCost())) {
+	// spendMoney(food[0].getCost());
+	// int health = Integer.parseInt(food[0].getHealth());
+	// user.adjStats(health, 0, 0);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	// }
+	// });
+	//
+	// foodOne.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(food[1].getCost())) {
+	// spendMoney(food[1].getCost());
+	// int health = Integer.parseInt(food[1].getHealth());
+	// user.adjStats(health, 0, 0);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// foodThree.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(food[2].getCost())) {
+	// spendMoney(food[2].getCost());
+	// int health = Integer.parseInt(food[2].getHealth());
+	// user.adjStats(health, 0, 0);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// foodFour.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(food[3].getCost())) {
+	// spendMoney(food[3].getCost());
+	// int health = Integer.parseInt(food[3].getHealth());
+	// user.adjStats(health, 0, 0);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// weaponOne.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(weapon[0].getCost())) {
+	// spendMoney(weapon[0].getCost());
+	// int attack = weapon[0].getAttack();
+	// user.adjStats(0, 0, attack);
+	// weapon[0].use();
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// weapon[0].getId(), 1);
+	// use.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// weaponTwo.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(weapon[1].getCost())) {
+	// spendMoney(weapon[1].getCost());
+	// int attack = weapon[1].getAttack();
+	// user.adjStats(0, 0, attack);
+	// weapon[1].use();
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// weapon[1].getId(), 1);
+	// use.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// weaponThree.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(weapon[2].getCost())) {
+	// spendMoney(weapon[2].getCost());
+	// int attack = weapon[2].getAttack();
+	// user.adjStats(0, 0, attack);
+	// weapon[2].use();
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// weapon[2].getId(), 1);
+	// use.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// weaponFour.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(weapon[3].getCost())) {
+	// spendMoney(weapon[3].getCost());
+	// int attack = weapon[3].getAttack();
+	// user.adjStats(0, 0, attack);
+	// weapon[3].use();
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// weapon[3].getId(), 1);
+	// use.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// armorOne.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(armor[0].getCost()) && !armor[0].own()) {
+	// spendMoney(armor[0].getCost());
+	// int health = armor[0].getArmor();
+	// user.adjStats(0, health, 0);
+	// armor[0].use();
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// armor[0].getId(), 1);
+	// use.execute((Void) null);
+	//
+	// adjStats incr = new adjStats(user.getUser(), user
+	// .getToken(), "armor", armor[0].getArmor());
+	// incr.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// armorTwo.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(armor[1].getCost()) && !armor[1].own()) {
+	// spendMoney(armor[1].getCost());
+	// int health = armor[1].getArmor();
+	// user.adjStats(0, health, 0);
+	// armor[1].use();
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// armor[1].getId(), 1);
+	// use.execute((Void) null);
+	//
+	// adjStats incr = new adjStats(user.getUser(), user
+	// .getToken(), "armor", armor[1].getArmor());
+	// incr.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// armorThree.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(armor[2].getCost()) && !armor[2].own()) {
+	// spendMoney(armor[2].getCost());
+	// int health = armor[2].getArmor();
+	// user.adjStats(0, health, 0);
+	// armor[2].use();
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// armor[2].getId(), 1);
+	// use.execute((Void) null);
+	//
+	// adjStats incr = new adjStats(user.getUser(), user
+	// .getToken(), "armor", armor[2].getArmor());
+	// incr.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// armorFour.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(armor[3].getCost()) && !armor[3].own()) {
+	// spendMoney(armor[3].getCost());
+	// int health = armor[3].getArmor();
+	// user.adjStats(0, health, 0);
+	// armor[3].use();
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// armor[3].getId(), 1);
+	// use.execute((Void) null);
+	//
+	// adjStats incr = new adjStats(user.getUser(), user
+	// .getToken(), "armor", armor[3].getArmor());
+	// incr.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// // TODO - check if there is room, way to pick property?
+	// // need to add check to see if user owns a property or not (
+	// dsOne.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(ds[0].getCost())) {
+	// spendMoney(ds[0].getCost());
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// ds[0].getId(), 0);
+	// use.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// dsTwo.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(ds[1].getCost())) {
+	// spendMoney(ds[1].getCost());
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// ds[1].getId(), 0);
+	// use.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	// }
+	// });
+	//
+	// dsThree.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(ds[2].getCost())) {
+	// spendMoney(ds[2].getCost());
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// ds[2].getId(), 0);
+	// use.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// dsFour.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(ds[3].getCost())) {
+	// spendMoney(ds[3].getCost());
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// ds[3].getId(), 0);
+	// use.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// osOne.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(os[0].getCost())) {
+	// spendMoney(os[0].getCost());
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// os[0].getId(), 0);
+	// use.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// osTwo.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(os[1].getCost())) {
+	// spendMoney(os[1].getCost());
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// os[1].getId(), 0);
+	// use.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	//
+	// }
+	// });
+	//
+	// osThree.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(os[2].getCost())) {
+	// spendMoney(os[2].getCost());
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// os[2].getId(), 0);
+	// use.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	// }
+	// });
+	//
+	// osFour.setOnClickListener(new View.OnClickListener() {
+	// @Override
+	// public void onClick(View v) {
+	// message.setVisibility(View.GONE);
+	// if (checkBalance(os[3].getCost())) {
+	// spendMoney(os[3].getCost());
+	// buyItem use = new buyItem(user.getUser(), user.getToken(),
+	// os[3].getId(), 0);
+	// use.execute((Void) null);
+	//
+	// } else {
+	// message.setVisibility(View.VISIBLE);
+	// }
+	// createStore();
+	// populateStore();
+	// }
+	// });
+	//
+	// }
 
 	public boolean checkBalance(int i) {
 		// if balance is enough return true, else return false
@@ -771,14 +772,15 @@ public class ShopActivity extends ActionBarActivity {
 	public void spendMoney(int i) {
 		// take money away from user
 		// make another AsyncTask? maybe idk
-		adjStats spend = new adjStats(user.getUser(), user.getToken(),
-				"money", i);
+		adjStats spend = new adjStats(user.getUser(), user.getToken(), "money",
+				i);
 		spend.execute((Void) null);
 	}
-	
-	//TODO - When buying structures, check if there is room in the players structure to place item/ add item to inventory? not sure which
+
+	// TODO - When buying structures, check if there is room in the players
+	// structure to place item/ add item to inventory? not sure which
 	public boolean checkRoom(String id) {
-		
+
 		return true;
 	}
 
@@ -829,40 +831,48 @@ public class ShopActivity extends ActionBarActivity {
 				if (success.equals("1")) {
 
 					for (int i = 0; i < 4; i++) {
-						
+
 						food[i] = new Food();
 						String name = requestShop.getString("fn" + i);
-						int c = Integer.parseInt(requestShop.getString("fc" + i));
+						int c = Integer.parseInt(requestShop
+								.getString("fc" + i));
 						String pic = requestShop.getString("fp" + i);
 						String des = requestShop.getString("fd" + i);
-						int id = Integer.parseInt(requestShop.getString("fi" + i));						
-						food[i].create(name, c, pic, des, id);  
-						
+						int id = Integer.parseInt(requestShop.getString("fi"
+								+ i));
+						food[i].create(name, c, pic, des, id);
+
 						weapon[i] = new Weapon();
 						name = requestShop.getString("wn" + i);
 						c = Integer.parseInt(requestShop.getString("wc" + i));
 						pic = requestShop.getString("wp" + i);
 						des = requestShop.getString("wd" + i);
-						id = Integer.parseInt(requestShop.getString("wi" + i));						
+						id = Integer.parseInt(requestShop.getString("wi" + i));
 						weapon[i].create(name, c, pic, des, id);
-						
+
 						armor[i] = new Armor();
 						name = requestShop.getString("an" + i);
 						c = Integer.parseInt(requestShop.getString("ac" + i));
 						pic = requestShop.getString("ap" + i);
 						des = requestShop.getString("ad" + i);
-						id = Integer.parseInt(requestShop.getString("ai" + i));						
+						id = Integer.parseInt(requestShop.getString("ai" + i));
 						armor[i].create(name, c, pic, des, id);
-						
-						ds[i] = new AbstractStructure(Integer.parseInt(requestShop.getString("di" + i)), requestShop.getString("dp" + i));
+
+						ds[i] = new AbstractStructure(
+								Integer.parseInt(requestShop
+										.getString("di" + i)),
+								requestShop.getString("dp" + i));
 						name = requestShop.getString("dn" + i);
 						c = Integer.parseInt(requestShop.getString("dc" + i));
 						pic = requestShop.getString("dp" + i);
 						des = requestShop.getString("dd" + i);
 						id = Integer.parseInt(requestShop.getString("di" + i));
 						ds[i].create(name, c, pic, des, id);
-						
-						os[i] = new AbstractStructure(Integer.parseInt(requestShop.getString("oi" + i)), requestShop.getString("op" + i));
+
+						os[i] = new AbstractStructure(
+								Integer.parseInt(requestShop
+										.getString("oi" + i)),
+								requestShop.getString("op" + i));
 						name = requestShop.getString("on" + i);
 						c = Integer.parseInt(requestShop.getString("oc" + i));
 						pic = requestShop.getString("op" + i);
@@ -899,6 +909,69 @@ public class ShopActivity extends ActionBarActivity {
 		protected void onCancelled() {
 			// on cancel
 		}
+	}
+
+	public class getInv extends AsyncTask<Void, Void, Boolean> {
+		private final String username;
+		private final String token;
+		public String ioc;
+		public String location;
+		public String message;
+
+		getInv(String username, String token, String ioc) {
+			this.username = username;
+			this.token = token;
+			this.ioc = ioc;
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			List<NameValuePair> postParams = new ArrayList<NameValuePair>(3);
+			postParams.add(new BasicNameValuePair("user", username));
+			postParams.add(new BasicNameValuePair("token", token));
+			postParams.add(new BasicNameValuePair("ioc", ioc));
+
+			JSONObject getSlot = JSONfunctions
+					.getJSONfromURL(
+							"http://proj-309-R12.cs.iastate.edu/functions/shop/getSlot.php",
+							postParams);
+			// Try and check if it succeeded
+			try {
+				String success = getSlot.getString("success");
+
+				// Return true on success
+				if (success.equals("1")) {
+					location = getSlot.getString("location");
+
+					message = "success";
+					return true;
+
+					// Set error message and return false.
+				} else {
+					message = getSlot.getString("message");
+					return false;
+				}
+
+				// Off chance that some weird shit happens
+			} catch (JSONException e) {
+				// Something went wrong - typically JSON value doesn't exist
+				// (success).
+				message = "An error occured. Please try again later.";
+				return false;
+			}
+
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+
+		}
+
+		@Override
+		protected void onCancelled() {
+			//
+		}
+
 	}
 
 	public class getMoney extends AsyncTask<Void, Void, Boolean> {
@@ -986,40 +1059,43 @@ public class ShopActivity extends ActionBarActivity {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			
-			try { 
-				//TODO - takes the id given, and puts that id into the userStructures table.
+
+			try {
+				// TODO - takes the id given, and puts that id into the
+				// userStructures table.
 				MovementClient mc = new MovementClient();
-				
-				//Have to start this on a new thread so it stays open and listends for responses
+
+				// Have to start this on a new thread so it stays open and
+				// listends for responses
 				new Thread(mc).start();
-				
+
 				if (ioc == 0)
 					mc.putChest(username, token, id);
 				if (ioc == 1)
-					mc.putInv(username, token, id);				
-				
+					mc.putInv(username, token, id);
+
 				mc.close();
+			} catch (Exception e) {
+				// Idk why this would happen - only happens if it couldn't
+				// connect to server.
 			}
-			catch (Exception e) {
-				//Idk why this would happen - only happens if it couldn't connect to server.
-			}
-			
+
 			return true;
 		}
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
-			//Nothing needs to go here
+			// Nothing needs to go here
 		}
 
 		@Override
 		protected void onCancelled() {
-			//Nothing needs to go here
+			// Nothing needs to go here
 		}
 	}
 
-	//The idea is that it uses PHP to get the stat value, adjust it here, and then put it back directly into the server?
+	// The idea is that it uses PHP to get the stat value, adjust it here, and
+	// then put it back directly into the server?
 	public class adjStats extends AsyncTask<Void, Void, Boolean> {
 
 		private final String username;
@@ -1039,20 +1115,13 @@ public class ShopActivity extends ActionBarActivity {
 		private int weapon1;
 		private int weapon2;
 		private int weapon3;
-		/* Dont use these here yet, maybe can in the future, not sure
-		private int wins;
-		private int loses;
-		private int kills;
-		private int deaths;
-		private String guild;
-		private double lat;
-		private double lon;
-		private int speed;
-		private int stealth;
-		private int tech;
-		private int level;
-		private int exp;
-		*/
+		/*
+		 * Dont use these here yet, maybe can in the future, not sure private
+		 * int wins; private int loses; private int kills; private int deaths;
+		 * private String guild; private double lat; private double lon; private
+		 * int speed; private int stealth; private int tech; private int level;
+		 * private int exp;
+		 */
 		public String message;
 		public boolean success;
 
@@ -1061,7 +1130,7 @@ public class ShopActivity extends ActionBarActivity {
 			this.username = username;
 			this.token = token;
 			this.attribute = attribute;
-			this.amount = amount;	
+			this.amount = amount;
 
 			message = "";
 		}
@@ -1077,9 +1146,9 @@ public class ShopActivity extends ActionBarActivity {
 					.getJSONfromURL(
 							"http://proj-309-R12.cs.iastate.edu/functions/character/requestStats.php",
 							postParams);
-			
+
 			try {
-				
+
 				String success = getStats.getString("success");
 
 				// Return true on success
@@ -1097,22 +1166,23 @@ public class ShopActivity extends ActionBarActivity {
 					weapon1 = getStats.getInt("weapon1");
 					weapon2 = getStats.getInt("weapon2");
 					weapon3 = getStats.getInt("weapon3");
-					
-					/* dont know why we would need to get these here? maybe we could use this in the future
-					wins = getStats.getInt("wins");
-					loses = getStats.getInt("stats");
-					kills = getStats.getInt("kills");
-					deaths = getStats.getInt("deaths");
-					guild = getStats.getString("guild");
-					lat = getStats.getDouble("lat");
-					lon = getStats.getDouble("lon");
-					speed = getStats.getInt("speed");
-					stealth = getStats.getInt("stealth");
-					tech = getStats.getInt("tech");
-					level = getStats.getInt("level");
-					exp = getStats.getInt("exp");
-					*/
-					
+
+					/*
+					 * dont know why we would need to get these here? maybe we
+					 * could use this in the future wins =
+					 * getStats.getInt("wins"); loses =
+					 * getStats.getInt("stats"); kills =
+					 * getStats.getInt("kills"); deaths =
+					 * getStats.getInt("deaths"); guild =
+					 * getStats.getString("guild"); lat =
+					 * getStats.getDouble("lat"); lon =
+					 * getStats.getDouble("lon"); speed =
+					 * getStats.getInt("speed"); stealth =
+					 * getStats.getInt("stealth"); tech =
+					 * getStats.getInt("tech"); level =
+					 * getStats.getInt("level"); exp = getStats.getInt("exp");
+					 */
+
 					if (attribute.equals("maxHealth")) {
 						maxHealth += amount;
 					}
@@ -1123,58 +1193,62 @@ public class ShopActivity extends ActionBarActivity {
 						curHealth += amount;
 					}
 					if (attribute.equals("attack")) {
-						attack +=  amount;
+						attack += amount;
 					}
 					if (attribute.equals("armor")) {
 						armor += amount;
 					}
 					if (attribute.equals("armor4")) {
-						//need to move 1-3 down and then make the newest one 3
+						// need to move 1-3 down and then make the newest one 3
 						armor0 = armor1;
 						armor1 = armor2;
 						armor2 = armor3;
 						armor3 = amount;
 					}
 					if (attribute.equals("weapon4")) {
-						//need to move 1-3 down and make the newest one 3
+						// need to move 1-3 down and make the newest one 3
 						weapon0 = weapon1;
 						weapon1 = weapon2;
 						weapon2 = weapon3;
 						weapon3 = amount;
 					}
-										
+
 					MovementClient mc = new MovementClient();
-					
-					//Have to start this on a new thread so it stays open and listens for responses
+
+					// Have to start this on a new thread so it stays open and
+					// listens for responses
 					new Thread(mc).start();
-				
-					//Attempt to update the stats of the user to the character table.
-					mc.updateStats(username, token, maxHealth, curHealth, attack, armor, money, armor0, armor1, armor2, armor3, weapon0, weapon1, weapon2, weapon3);
-					
+
+					// Attempt to update the stats of the user to the character
+					// table.
+					mc.updateStats(username, token, maxHealth, curHealth,
+							attack, armor, money, armor0, armor1, armor2,
+							armor3, weapon0, weapon1, weapon2, weapon3);
+
 					mc.close();
-					
+
 					message = "success";
 					return true;
 				} else {
 					message = getStats.getString("message");
 					return false;
 				}
+			} catch (Exception e) {
+				// Idk why this would happen - only happens if it couldn't
+				// connect to server.
 			}
-			catch (Exception e) {
-				//Idk why this would happen - only happens if it couldn't connect to server.
-			}
-			
+
 			return true;
 		}
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
-			//Nothing needs to go here
+			// Nothing needs to go here
 		}
 
 		@Override
 		protected void onCancelled() {
-			//Nothing needs to go here
+			// Nothing needs to go here
 		}
 	}
 
