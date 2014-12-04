@@ -523,7 +523,7 @@ public class MySqlConnection {
 							return response;
 						} else {
 							//TODO
-							PreparedStatement st = con.prepareStatement("UPDATE chest SET struc? = ? WHERE username = '"
+							PreparedStatement st = con.prepareStatement("UPDATE inventories SET struc? = ? WHERE username = '"
 								+ change.user
 								+ "' AND token = '"
 								+ change.token + "'");
@@ -575,7 +575,7 @@ public class MySqlConnection {
 							return response;
 						} else {
 							//TODO
-							PreparedStatement st = con.prepareStatement("UPDATE chest SET struc? = ? WHERE username = '"
+							PreparedStatement st = con.prepareStatement("UPDATE chests SET struc? = ? WHERE username = '"
 								+ change.user
 								+ "' AND token = '"
 								+ change.token + "'");
