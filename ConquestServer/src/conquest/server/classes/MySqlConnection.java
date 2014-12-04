@@ -324,24 +324,24 @@ public class MySqlConnection {
 									//Grab the info on this structure
 									thisStruct = stmt1.executeQuery("select * from structures where structureID = 'struc" + i + "'");
 									
-									System.out.println("added: " + thisStruct.getString("name"));
-									AbstractStructure temp = new AbstractStructure();
-									temp.name = thisStruct.getString("name");
-									temp.imageID = thisStruct.getInt("imageID");
-									temp.description = thisStruct.getString("description");
-									temp.type = thisStruct.getString("type");
-									temp.x = -1;
-									temp.y = -1;
-									temp.level = 1;
-									temp.cost = thisStruct.getInt("price");
-									temp.curHealth = -1;
-									temp.maxHealth = thisStruct.getInt("maxHealth");
-									temp.defense = thisStruct.getInt("defense");
-									temp.viewRadius = thisStruct.getInt("viewRadius");
-									temp.enabled = false;
-									
-									thisResponse.struct = temp;
-									
+									if ( thisStruct.next() ) {
+										System.out.println("added: " + thisStruct.getString("name"));
+										AbstractStructure temp = new AbstractStructure();
+										temp.name = thisStruct.getString("name");
+										temp.imageID = thisStruct.getInt("imageID");
+										temp.description = thisStruct.getString("description");
+										temp.type = thisStruct.getString("type");
+										temp.x = -1;
+										temp.y = -1;
+										temp.level = 1;
+										temp.cost = thisStruct.getInt("price");
+										temp.curHealth = -1;
+										temp.maxHealth = thisStruct.getInt("maxHealth");
+										temp.defense = thisStruct.getInt("defense");
+										temp.viewRadius = thisStruct.getInt("viewRadius");
+										temp.enabled = false;
+										thisResponse.struct = temp;
+									}
 									
 									thisStruct.close();
 									response.add(thisResponse);

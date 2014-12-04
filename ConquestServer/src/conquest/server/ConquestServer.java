@@ -53,7 +53,7 @@ public class ConquestServer {
 	// Array of online users.
 	public static ArrayList<User> usersConnected;
 
-	public MySqlConnection myCon;
+	public static MySqlConnection myCon;
 
 	/**
 	 * Creates a connection client that connects to the specified host and
@@ -288,7 +288,7 @@ public class ConquestServer {
 	 * @param user
 	 * @return
 	 */
-	public void kickFromServer(User user) {
+	public static void kickFromServer(User user) {
 		// Send them message saying they're disconnected and close connection
 		// KickAssert kick = new KickAssert();
 		// kick.message = "You have been kicked from the server.";
@@ -311,11 +311,11 @@ public class ConquestServer {
 	public static void statistics() {
 		System.out.println("# of users connected: " + usersConnected.size());
 		for (int i = 0; i < usersConnected.size(); i++) {
-			System.out.println(usersConnected.get(i).toString());
+			System.out.println("Username:" + usersConnected.get(i).username + " -- Last Activity: " usersConnected.get(i).);
 		}
 	}
 
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "static-access" })
 	public static void main(String args[]) {
 		Class[] classes = new Class[] { AbstractStructure.class,
 				LoginRequest.class, LoginResponse.class, LogoutRequest.class,
@@ -356,14 +356,34 @@ public class ConquestServer {
 
 				} else if (input.toLowerCase().contains("help")) {
 					System.out.println("#### List of commands ####");
-					System.out
-							.println("## Kick user :: Kicks the user from the server ##");
-					System.out
-							.println("## online :: Display current users online and info ##");
-					System.out
-							.println("## Help :: Displays this menu of commands ##");
+					System.out.println("## Kick user :: Kicks the user from the server ##");
+					System.out.println("## Shutdown :: Shut down the server gracefully ##");
+					System.out.println("## online :: Display current users online and info ##");
+					System.out.println("## Help :: Displays this menu of commands ##");
 				} else if (input.toLowerCase().contains("online")) {
 					statistics();
+				} else if (input.toLowerCase().contains("shutdown")) {
+					for(int i = 0; i < usersConnected.size(); i++) {
+						kickFromServer(usersConnected.get(i));
+					}
+					
+					System.out.println("All users kicked..");
+					
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						//
+					}
+					
+					System.out.println("Shutting down.");
+					
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						//
+					}
+					
+					System.exit(0);
 				} else {
 					System.out.println("Command " + input + " not recognized.");
 				}

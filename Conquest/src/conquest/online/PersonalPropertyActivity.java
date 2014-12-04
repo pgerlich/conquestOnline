@@ -268,7 +268,7 @@ public class PersonalPropertyActivity extends Activity {
 					} catch(InterruptedException ex) {
 					    Thread.currentThread().interrupt();
 					}
-				}
+				} 
 
 				//If we succeeded!
 				if ( mc.structsResponse.get(0).success ) {
