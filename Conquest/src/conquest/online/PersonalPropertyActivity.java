@@ -396,6 +396,15 @@ public class PersonalPropertyActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * Go to shop activity
+	 * @param view
+	 */
+	public void toShop(View view) {
+		Intent shop = new Intent(this, ShopActivity.class);
+		startActivity(shop);
+	}
+	
 	
 	public class GridItemSelectOccupied extends DialogFragment {
 		@Override
