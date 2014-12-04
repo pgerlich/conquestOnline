@@ -311,7 +311,7 @@ public class ConquestServer {
 	public static void statistics() {
 		System.out.println("# of users connected: " + usersConnected.size());
 		for (int i = 0; i < usersConnected.size(); i++) {
-			System.out.println("Username:" + usersConnected.get(i).username + " -- Last Activity: " usersConnected.get(i).);
+			System.out.println("--- Username: " + usersConnected.get(i).username + " ---");
 		}
 	}
 

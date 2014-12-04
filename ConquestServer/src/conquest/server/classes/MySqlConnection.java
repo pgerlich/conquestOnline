@@ -313,8 +313,10 @@ public class MySqlConnection {
 							//For each item in our chest
 							for(int i = 0; i < 10; i++ ) {
 								i++;
+								System.out.println("pre: " + i);
 								//If we have an item in this chest slot
 								if ( structs.getInt("struc" + i) != -1 ) {
+									System.out.println("Comparing item " + i);
 									//Create new response object
 									PropStructsResponse thisResponse = new PropStructsResponse();
 									thisResponse.message = "Succesfully grabbed structures.";
@@ -343,7 +345,7 @@ public class MySqlConnection {
 										thisResponse.struct = temp;
 									}
 									
-									thisStruct.close();
+									System.out.println("finished" + i);
 									response.add(thisResponse);
 								}
 								i--;
@@ -358,7 +360,7 @@ public class MySqlConnection {
 			return response;
 		} catch (SQLException e) {
 			PropStructsResponse thisResponse = new PropStructsResponse();
-			System.out.println(e.getErrorCode()
+			System.out.println(e.getMessage()
 					+ " occured while trying to retrieve " + psr.user + "'s structs for property");
 			// e.printStackTrace();
 			thisResponse.message = e.getMessage();
