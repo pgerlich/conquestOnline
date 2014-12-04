@@ -225,13 +225,9 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 
 		Location currentLoc = mMap.getMyLocation();
 		
-		if(currentLoc==null)
+		if(currentLoc!=null)
 		{
-			Toast.makeText(this, "can not find current location", Toast.LENGTH_SHORT).show();
-		}
-		else
-		{
-			Toast.makeText(this, "find current location", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this, "find current location", Toast.LENGTH_SHORT).show();
 			float zoom = 18;
 			LatLng ll= new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
 			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
