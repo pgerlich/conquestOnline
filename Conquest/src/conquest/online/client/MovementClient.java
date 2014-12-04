@@ -84,7 +84,14 @@ public class MovementClient implements Runnable {
 		
 		//Add all the classes
 		@SuppressWarnings("rawtypes")
-		Class[] classes = new Class[]{ChestChangeRequest.class, ChestChangeResponse.class, AbstractStructure.class, LoginRequest.class, LoginResponse.class, LogoutRequest.class, RegisterRequest.class, RegistrationResponse.class, PropertyPurchaseRequest.class, PropertyPurchaseResponse.class, UpdateStatsRequest.class, UpdateStatsResponse.class, PropStructsRequest.class, PropStructsResponse.class, InventoryChangeResponse.class, InventoryChangeRequest.class};
+		Class[] classes = new Class[]{ AbstractStructure.class,
+				LoginRequest.class, LoginResponse.class, LogoutRequest.class,
+				RegisterRequest.class, RegistrationResponse.class,
+				PropertyPurchaseRequest.class, PropertyPurchaseResponse.class,
+				UpdateStatsRequest.class, UpdateStatsResponse.class,
+				PropStructsRequest.class, PropStructsResponse.class,
+				InventoryChangeRequest.class, InventoryChangeResponse.class,
+				ChestChangeRequest.class, ChestChangeResponse.class };
 		
 		//Bind ports and start her up
 		startClient();
