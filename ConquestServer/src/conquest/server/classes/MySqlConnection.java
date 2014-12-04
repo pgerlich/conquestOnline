@@ -308,14 +308,19 @@ public class MySqlConnection {
 						
 						//If we have a chest..
 						if (structs.next()) {
-							ResultSet thisStruct;
+							int[] structIDs = new int[10];
 							
 							//For each item in our chest
 							for(int i = 0; i < 10; i++ ) {
-								i++;
+								structIDs[i] = structs.getInt("struc" + ++i);
+								i--;
+							}
+							
+							for(int i = 0; i < 10; i++){
+								
 								System.out.println("pre: " + i);
 								//If we have an item in this chest slot
-								if ( structs.getInt("struc" + i) != -1 ) {
+								if ( structIDs[i] != -1 ) {
 									System.out.println("Comparing item " + i);
 									//Create new response object
 									PropStructsResponse thisResponse = new PropStructsResponse();
@@ -324,7 +329,7 @@ public class MySqlConnection {
 									thisResponse.propertyID = structs.getString("propertyID");
 									
 									//Grab the info on this structure
-									thisStruct = stmt1.executeQuery("select * from structures where structureID = 'struc" + i + "'");
+									ResultSet thisStruct = stmt1.executeQuery("select * from structures where structureID = '" + structIDs[i] + "'");
 									
 									if ( thisStruct.next() ) {
 										System.out.println("added: " + thisStruct.getString("name"));
@@ -348,7 +353,6 @@ public class MySqlConnection {
 									System.out.println("finished" + i);
 									response.add(thisResponse);
 								}
-								i--;
 							}
 						}
 					}

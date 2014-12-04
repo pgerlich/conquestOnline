@@ -251,7 +251,7 @@ public class ConquestServer {
 	    	      
 	    	      //Grab structures for a given property
 	    	      if (obj instanceof PropStructsRequest){
-	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Retrieve Property Structs");
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Retrieve Property Structs (" + ((PropStructsRequest)obj).location + ")" );
 	    	    	  PropStructsRequest psr = (PropStructsRequest) obj;
 	    	    	  ArrayList<PropStructsResponse> psres = myCon.requestStructuresOnProperty(psr);
 	    	    	  System.out.println(psres.get(0).message);
@@ -302,8 +302,11 @@ public class ConquestServer {
 		// Log them out as far as the database is concerned
 		myCon.processLogout(log);
 
-		// Remove them from the list of logged in users
-		usersConnected.remove(user);
+		for(int i = 0; i < usersConnected.size(); i++) {
+			if ( usersConnected.get(i).username.equals(user.username) ) {
+				usersConnected.remove(i);
+			}
+		}
 
 		System.out.println(user.username + " kicked from server.");
 	}
@@ -375,7 +378,7 @@ public class ConquestServer {
 						//
 					}
 					
-					System.out.println("Shutting down.");
+					System.out.println("Shutting down...");
 					
 					try {
 						Thread.sleep(500);
