@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdate;
@@ -29,7 +30,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import conquest.online.gameAssets.Property;
 
-public class MapActivity extends ActionBarActivity {
+public class MapActivity extends ActionBarActivity implements
+GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener {
 	
 	private UserSession user;
 	private static final int GPS_ERRORDIALOG_REQUEST = 9001;
@@ -49,6 +51,9 @@ public class MapActivity extends ActionBarActivity {
 	        	if(initMap())
 	        	{
 	        		mMap.setMyLocationEnabled(true);
+	        		mLocationClient = new LocationClient(this, this, this);
+	        		mLocationClient.connect();
+	        		
 	        	}
 	        	else{
 	        		Toast.makeText(this, "CANTMAPBITCH", Toast.LENGTH_SHORT).show();
@@ -198,29 +203,35 @@ public class MapActivity extends ActionBarActivity {
     	if (mMap == null){
     		SupportMapFragment mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
     		mMap=mapFrag.getMap();
-    		//Draw();
+    	
+    		
     		
     	}
     	return (mMap!=null);
     }
     
     //draws all properties found in database
-    public void Draw()
+    public void Draw(Location currentLoc)
     {
-    	//getNearbyProperties gnp = new getNearbyProperties(user.getUser(), user.getToken(),);
+    	
+    	getNearbyProperties gnp = new getNearbyProperties(user.getUser(), user.getToken(),currentLoc.getLatitude()+"",currentLoc.getLongitude()+"");
+    	gnp.execute();
+    	
+    	Toast.makeText(this, "NO WAY", Toast.LENGTH_SHORT).show();
     }
     
     private void setView(){
 
 
 		Location currentLoc = mMap.getMyLocation();
+		
 		if(currentLoc==null)
 		{
 			Toast.makeText(this, "can not find current location", Toast.LENGTH_SHORT).show();
 		}
 		else
 		{
-			//Toast.makeText(this, "find current location", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "find current location", Toast.LENGTH_SHORT).show();
 			float zoom = 18;
 			LatLng ll= new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
 			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
@@ -308,12 +319,17 @@ public class MapActivity extends ActionBarActivity {
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
-//			if ( success ) {
-//				listPeople("friends");
-//				toast(message);
-//			} else {
-//				toas  t(message);
-//			}
+			/*if ( success ) {
+				
+				for(int i=0;i<propertyList.size();i++)
+				{
+					//draw all properties
+				}
+				
+			} else {
+				//error msg
+			}
+			*/
 		}
 
 
@@ -321,5 +337,33 @@ public class MapActivity extends ActionBarActivity {
 		protected void onCancelled() {
 			//Nothing
 		}
+	}
+
+	@Override
+	public void onConnectionFailed(ConnectionResult arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onConnected(Bundle arg0) {
+		Toast.makeText(this, "connected to location services", Toast.LENGTH_SHORT).show();
+		Location currentLoc=mLocationClient.getLastLocation();
+		
+		float zoom = 18;
+		LatLng ll= new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
+		CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
+		mMap.animateCamera(update);
+		//Draw(currentLoc);
+		
+    	
+	}
+
+
+	@Override
+	public void onDisconnected() {
+		// TODO Auto-generated method stub
+		
 	}
 }
