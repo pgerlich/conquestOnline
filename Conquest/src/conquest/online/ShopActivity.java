@@ -91,7 +91,7 @@ public class ShopActivity extends ActionBarActivity {
 		user = new UserSession(getApplicationContext());
 		updateShop();
 		
-		createListeners();
+		//createListeners();
 
 	}
 
