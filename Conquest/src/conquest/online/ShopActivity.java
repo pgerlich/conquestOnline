@@ -102,7 +102,7 @@ public class ShopActivity extends ActionBarActivity {
 		os = shop.os;
 		// Need to make sure that arrays are set correctly.
 		// TODO - MAke sure to uncomment to populate.
-		// populateStore();
+		populateStore();
 		// createListeners();
 	}
 
