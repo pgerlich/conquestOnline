@@ -100,8 +100,10 @@ public class ShopActivity extends ActionBarActivity {
 		weapon = shop.weapon;
 		armor = shop.armor;
 		ds = shop.ds;
-		os = shop.os;		
-		populateStore();
+		os = shop.os;	
+		//Need to make sure that arrays are set correctly.
+		//TODO - MAke sure to uncomment to populate.
+		//populateStore();
 		// createListeners();
 	}
 
@@ -895,6 +897,7 @@ public class ShopActivity extends ActionBarActivity {
 						os[i].create(name, c, pic, des, id);
 					}
 
+					//Need to make sure that all arrays are made right
 					message = "success";
 					return true;
 
