@@ -37,6 +37,8 @@ public class PersonalPropertyActivity extends Activity {
 	public StructsRequest SR;
 	public StructsRequest grabChestItems;
 	
+	public View progressView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,6 +50,9 @@ public class PersonalPropertyActivity extends Activity {
 				
 		//Populate grid w/ image views
  		populateGrids();
+ 		
+ 		//Animate progress bar
+ 		progressView.animate();
 		
 		//Now add the listeners
 		addListeners();
@@ -65,6 +70,9 @@ public class PersonalPropertyActivity extends Activity {
 	 * Refresh the property screen with items
 	 */
 	public void refreshProperty(){
+		
+		//Hide progress view
+		progressView.setVisibility(View.INVISIBLE);
 		
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j < height; j++) {
@@ -116,6 +124,8 @@ public class PersonalPropertyActivity extends Activity {
 				grid[j][i] = new GridItem(null,null);
 			}
 		}
+		
+		progressView = findViewById(R.id.propertyProgressBar);
 		
 		grid[0][0].image = (ImageView) findViewById(R.id.imageView00);
 		grid[1][0].image = (ImageView) findViewById(R.id.imageView10);
