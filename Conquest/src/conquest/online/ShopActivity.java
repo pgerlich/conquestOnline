@@ -91,7 +91,6 @@ public class ShopActivity extends ActionBarActivity {
 		user = new UserSession(getApplicationContext());
 		shop = new getShop(user.getUser(), user.getToken());
 		shop.execute((Void) null);
-		createStore();
 
 	}
 
