@@ -73,6 +73,7 @@ public class ShopActivity extends ActionBarActivity {
 	public TextView osFourInfo;
 	public TextView message;
 	public TextView stats;
+	public getShop shop;
 
 	private UserSession user;
 	int gold;
@@ -88,19 +89,18 @@ public class ShopActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_shop);
 
 		user = new UserSession(getApplicationContext());
+		shop = new getShop(user.getUser(), user.getToken());
+		shop.execute((Void) null);
 		createStore();
 
 	}
 
-	public void createStore() {
-
-		getShop shop = new getShop(user.getUser(), user.getToken());
-		shop.execute((Void) null);
+	public void createStore() {		
 		food = shop.food;
 		weapon = shop.weapon;
 		armor = shop.armor;
 		ds = shop.ds;
-		os = shop.os;
+		os = shop.os;		
 		populateStore();
 		// createListeners();
 	}
@@ -755,10 +755,20 @@ public class ShopActivity extends ActionBarActivity {
 	// }
 
 	public boolean checkBalance(int i) {
-		// if balance is enough return true, else return false
+		//TODO
+		//if balance is enough return true, else return false
 		getMoney mon = new getMoney(user.getUser(), user.getToken());
 		mon.execute((Void) null);
-		gold = Integer.parseInt(mon.gold);
+		
+		while (mon == null) {			
+			try {
+				Thread.sleep(150);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+			}
+		}
+		
+		gold = mon.gold;
 
 		if (i == gold) {
 			// has enough gold to buy.
@@ -817,11 +827,16 @@ public class ShopActivity extends ActionBarActivity {
 			postParams.add(new BasicNameValuePair("token", token));
 
 			// change to shop, not get friends
-			JSONObject requestShop = JSONfunctions
-					.getJSONfromURL(
-							"http://proj-309-R12.cs.iastate.edu/functions/shop/getItems.php",
-							postParams);
+			JSONObject requestShop = JSONfunctions.getJSONfromURL("http://proj-309-R12.cs.iastate.edu/functions/shop/getItems.php",	postParams);
 
+			while (requestShop == null) {			
+				try {
+					Thread.sleep(150);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+				}
+			}
+			
 			// Try and check if it succeeded
 			try {
 				String success = requestShop.getString("success");
@@ -902,6 +917,7 @@ public class ShopActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			// dont know what to put here
+			createStore();
 		}
 
 		@Override
@@ -934,6 +950,14 @@ public class ShopActivity extends ActionBarActivity {
 					.getJSONfromURL(
 							"http://proj-309-R12.cs.iastate.edu/functions/shop/getSlot.php",
 							postParams);
+			while (getSlot == null) {			
+				try {
+					Thread.sleep(150);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+				}
+			}
+			
 			// Try and check if it succeeded
 			try {
 				String success = getSlot.getString("success");
@@ -977,7 +1001,7 @@ public class ShopActivity extends ActionBarActivity {
 
 		private final String username;
 		private final String token;
-		public String gold;
+		public int gold;
 		public String message;
 
 		getMoney(String username, String token) {
@@ -997,13 +1021,21 @@ public class ShopActivity extends ActionBarActivity {
 							"http://proj-309-R12.cs.iastate.edu/functions/shop/getMoney.php",
 							postParams);
 
+			while (getMoney == null) {			
+				try {
+					Thread.sleep(150);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+				}
+			}
+			
 			// Try and check if it succeeded
 			try {
 				String success = getMoney.getString("success");
 
 				// Return true on success
 				if (success.equals("1")) {
-					gold = getMoney.getString("gold");
+					gold = getMoney.getInt("money");
 
 					message = "success";
 					return true;
