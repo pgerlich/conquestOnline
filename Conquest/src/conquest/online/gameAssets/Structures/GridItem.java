@@ -1,15 +1,16 @@
 package conquest.online.gameAssets.Structures;
 
+import android.widget.ImageView;
+
 public class GridItem {
 	
-	public int x;
-	public int y;
-	public int imageID;
 	
-	public GridItem(int x, int y, int imageID){
-		this.x = x;
-		this.y = y;
-		this.imageID = imageID;
+	public ImageView image;
+	public conquest.client.classes.AbstractStructure struct;
+	
+	public GridItem(ImageView image, conquest.client.classes.AbstractStructure struct){
+		this.image = image;
+		this.struct = struct;
 	}
 
 }

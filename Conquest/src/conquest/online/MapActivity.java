@@ -51,6 +51,8 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	        	if(initMap())
 	        	{
 	        		mMap.setMyLocationEnabled(true);
+	        		mMap.setIndoorEnabled(false);
+	        		mMap.setBuildingsEnabled(false);
 	        		mLocationClient = new LocationClient(this, this, this);
 	        		mLocationClient.connect();
 	        		
