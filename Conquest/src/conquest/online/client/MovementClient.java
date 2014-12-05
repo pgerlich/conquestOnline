@@ -229,12 +229,14 @@ public class MovementClient implements Runnable {
 	 * @param username
 	 * @param token
 	 * @param id
+	 * @param location 
 	 */
-	public void putChest(String username, String token, int id) {
+	public void putChest(String username, String token, int id, String location) {
 		ChestChangeRequest invChange = new ChestChangeRequest();
 		invChange.user = username;
 		invChange.token = token;
 		invChange.id = id;
+		invChange.location = location;
 		this.client.sendUDP(invChange);
 	}
 	
@@ -244,11 +246,12 @@ public class MovementClient implements Runnable {
 	 * @param token
 	 * @param id
 	 */
-	public void putInv(String user, String token, int id) {
+	public void putInv(String user, String token, int id, String location) {
 		InventoryChangeRequest invChange = new InventoryChangeRequest();
 		invChange.user = user;
 		invChange.token = token;
 		invChange.id = id;
+		invChange.location = location;
 		this.client.sendUDP(invChange);
 	}
 
