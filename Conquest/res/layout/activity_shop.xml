@@ -2,12 +2,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:weightSum="1" >
 
     <ScrollView
         android:id="@+id/scrollViewShop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight=".8"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -32,7 +34,7 @@
                     <ImageButton
                         android:id="@+id/food_one"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -50,7 +52,7 @@
                     <ImageButton
                         android:id="@+id/food_two"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -68,7 +70,7 @@
                     <ImageButton
                         android:id="@+id/food_three"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -86,7 +88,7 @@
                     <ImageButton
                         android:id="@+id/food_four"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -114,7 +116,7 @@
                     <ImageButton
                         android:id="@+id/weapon_one"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -132,7 +134,7 @@
                     <ImageButton
                         android:id="@+id/weapon_two"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -151,7 +153,7 @@
                     <ImageButton
                         android:id="@+id/weapon_three"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -169,7 +171,7 @@
                     <ImageButton
                         android:id="@+id/weapon_four"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -197,7 +199,7 @@
                     <ImageButton
                         android:id="@+id/armor_one"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -215,7 +217,7 @@
                     <ImageButton
                         android:id="@+id/armor_two"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -233,7 +235,7 @@
                     <ImageButton
                         android:id="@+id/armor_three"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -251,7 +253,7 @@
                     <ImageButton
                         android:id="@+id/armor_four"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -279,7 +281,7 @@
                     <ImageButton
                         android:id="@+id/ds_one"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -297,7 +299,7 @@
                     <ImageButton
                         android:id="@+id/ds_two"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -315,7 +317,7 @@
                     <ImageButton
                         android:id="@+id/ds_three"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -333,7 +335,7 @@
                     <ImageButton
                         android:id="@+id/ds_four"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -361,7 +363,7 @@
                     <ImageButton
                         android:id="@+id/os_one"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -379,7 +381,7 @@
                     <ImageButton
                         android:id="@+id/os_two"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -397,7 +399,7 @@
                     <ImageButton
                         android:id="@+id/os_three"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -415,7 +417,7 @@
                     <ImageButton
                         android:id="@+id/os_four"
                         android:layout_width="fill_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="160dp"
                         android:contentDescription="@string/shopItem" />
 
                     <TextView
@@ -430,13 +432,14 @@
     <TextView
         android:id="@+id/error_message"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_weight=".1" />
 
     <TextView
         android:id="@+id/stats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+       	android:layout_weight="0.1"
+        android:layout_gravityCenter="true" />
 
 </LinearLayout>
