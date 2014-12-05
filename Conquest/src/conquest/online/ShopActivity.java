@@ -74,6 +74,7 @@ public class ShopActivity extends ActionBarActivity {
 	public TextView osFourInfo;
 	public TextView message;
 	public TextView stats;
+	public getShop shop;
 
 	private UserSession user;
 	int gold;
@@ -89,28 +90,18 @@ public class ShopActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_shop);
 
 		user = new UserSession(getApplicationContext());
+		shop = new getShop(user.getUser(), user.getToken());
+		shop.execute((Void) null);
 		createStore();
 
 	}
 
-	public void createStore() {
-
-		getShop shop = new getShop(user.getUser(), user.getToken());
-		shop.execute((Void) null);
-		while (shop == null) {			
-			try {
-				Thread.sleep(150);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-			}
-		}
-		
+	public void createStore() {		
 		food = shop.food;
 		weapon = shop.weapon;
 		armor = shop.armor;
 		ds = shop.ds;
-		os = shop.os;
-		
+		os = shop.os;		
 		populateStore();
 		// createListeners();
 	}
@@ -927,6 +918,7 @@ public class ShopActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			// dont know what to put here
+			createStore();
 		}
 
 		@Override
