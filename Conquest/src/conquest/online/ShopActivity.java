@@ -966,9 +966,21 @@ public class ShopActivity extends ActionBarActivity {
 
 				// Return true on success
 				if (success.equals("1")) {
-					location = getSlot.getString("location");
+					for (int i = 1; i <= 10; i ++) {
+						if (ioc.equals("chests"))
+							if (getSlot.getString("struc" + i).equals(null)) {
+								location = getSlot.getString("struc" + i);
+								message = "success";
+								return true;
+							}
+						if (ioc.equals("inventories"))
+							if (getSlot.getString("item" + i).equals(null)) {
+								location = getSlot.getString("item" + i);
+								message = "success";
+							}
+					}
 
-					message = "success";
+					message = "no open slots";
 					return true;
 
 					// Set error message and return false.
