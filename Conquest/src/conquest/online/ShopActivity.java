@@ -89,21 +89,24 @@ public class ShopActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_shop);
 
 		user = new UserSession(getApplicationContext());
-		shop = new getShop(user.getUser(), user.getToken());
-		shop.execute((Void) null);
+		updateShop();
+		
+		createListeners();
 
 	}
 
+	public void updateShop() {
+		shop = new getShop(user.getUser(), user.getToken());
+		shop.execute((Void) null);
+	}
+	
 	public void createStore() {
 		food = shop.food;
 		weapon = shop.weapon;
 		armor = shop.armor;
 		ds = shop.ds;
 		os = shop.os;
-		// Need to make sure that arrays are set correctly.
-		// TODO - MAke sure to uncomment to populate.
 		populateStore();
-		// createListeners();
 	}
 
 	@Override
@@ -352,8 +355,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 			}
 		});
 
@@ -369,8 +371,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -387,8 +388,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -405,8 +405,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -429,8 +428,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -453,8 +451,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -477,8 +474,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -501,8 +497,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -529,8 +524,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -557,8 +551,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -585,8 +578,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -613,8 +605,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -636,8 +627,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -657,8 +647,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 			}
 		});
 
@@ -677,8 +666,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -698,8 +686,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -719,8 +706,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -740,8 +726,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 
 			}
 		});
@@ -761,8 +746,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 			}
 		});
 
@@ -781,8 +765,7 @@ public class ShopActivity extends ActionBarActivity {
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
-				createStore();
-				populateStore();
+				updateShop();
 			}
 		});
 
