@@ -31,36 +31,6 @@ public class MySqlConnection {
 	}
 
 	/**
-	 * Just runs a test script
-	 * 
-	 * @throws SQLException
-	 */
-	public void test() {
-		// Creating a statement
-		Statement stmt1;
-		try {
-			stmt1 = con.createStatement();
-
-			// Basic test statement
-			ResultSet rs1 = stmt1
-					.executeQuery("select u.username from users u");
-			// PreparedStatement set =
-			// conn1.prepareStatement("Update Student set Classification = ? , CreditHours = ?, GPA = ? where StudentID = ?");
-
-			// Go through all the students
-			while (rs1.next()) {
-				System.out.println(rs1.getString(1));
-			}
-
-			// Close connections
-			stmt1.close();
-		} catch (SQLException e) {
-			// System.out.println("Some error occured in test.");
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Processe a login request and log the user in.
 	 * 
 	 * @param user
@@ -110,6 +80,12 @@ public class MySqlConnection {
 		} catch (SQLException e) {
 			System.out.println(e.getErrorCode()
 					+ "  occured while attempting to login " + user.user);
+			
+			//Let us know it timed out
+			if ( e.getErrorCode() == 0 ) {
+				connected = false;
+			}
+			
 			System.out.println(e.getMessage());
 			// e.printStackTrace();
 			return null;
@@ -156,6 +132,12 @@ public class MySqlConnection {
 			return logout.username + " logged out succesfully";
 		} catch (SQLException e) {
 			// System.out.println("Some error occured in test.");
+			
+			//Let us know it timed out
+			if ( e.getErrorCode() == 0 ) {
+				connected = false;
+			}
+			
 			e.printStackTrace();
 			return "Something went wrong.";
 		}
@@ -229,6 +211,13 @@ public class MySqlConnection {
 		} catch (SQLException e) {
 			System.out.println(e.getErrorCode()
 					+ " occured while trying to register " + reggy.username);
+			
+			//Let us know it timed out
+			if ( e.getErrorCode() == 0 ) {
+				connected = false;
+			}
+			
+			
 			// e.printStackTrace();
 			response.message = e.getMessage();
 			response.success = false;
@@ -365,9 +354,16 @@ public class MySqlConnection {
 			// e.printStackTrace();
 			thisResponse.message = e.getMessage();
 			thisResponse.success = false;
+			
 			if (response.size() == 0 ) {
 				response.add(thisResponse);	
 			}
+			
+			//Let us know it timed out
+			if ( e.getErrorCode() == 0 ) {
+				connected = false;
+			}
+			
 			return response;
 		}
 	}
@@ -446,6 +442,12 @@ public class MySqlConnection {
 					+ " occured while trying to purchase property for "
 					+ prop.username);
 			// e.printStackTrace();
+			
+			//Let us know it timed out
+			if ( e.getErrorCode() == 0 ) {
+				connected = false;
+			}
+			
 			response.message = e.getMessage();
 			response.success = false;
 			return response;
@@ -599,6 +601,12 @@ public class MySqlConnection {
 					+ " occured while trying to purchase property for "
 					+ change.user);
 			// e.printStackTrace();
+			
+			//Let us know it timed out
+			if ( e.getErrorCode() == 0 ) {
+				connected = false;
+			}
+			
 			response.message = e.getMessage();
 			response.success = false;
 			return response;
@@ -676,6 +684,12 @@ public class MySqlConnection {
 					+ " occured while trying to purchase property for "
 					+ update.username);
 			// e.printStackTrace();
+			
+			//Let us know it timed out
+			if ( e.getErrorCode() == 0 ) {
+				connected = false;
+			}
+			
 			response.message = e.getMessage();
 			response.success = false;
 			return response;

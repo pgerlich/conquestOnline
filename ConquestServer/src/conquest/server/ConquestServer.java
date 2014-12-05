@@ -151,6 +151,11 @@ public class ConquestServer {
 		   server.addListener(new Listener() {
 		       public void received (Connection con, Object obj) {
 		    	   
+		    	   //If for some reason our connection died or timed out
+		    	   if ( myCon.connected == false ) {
+		    		   myCon.connected = myCon.connect();
+		    	   }
+		    	   
 		    	  //Login request
 		    	  if (obj instanceof LoginRequest) {
 		    		  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Login Request");

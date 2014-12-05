@@ -56,5 +56,13 @@
         android:onClick="addPlayer"
         android:text="@string/socialAdd" />
 
+    <ProgressBar
+        android:id="@+id/socialProgressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="visible" />
 
 </RelativeLayout>

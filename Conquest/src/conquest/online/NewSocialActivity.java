@@ -49,6 +49,8 @@ public class NewSocialActivity extends Activity {
 	public static ArrayList<String> friends;
 	public static ArrayList<String> guilds;
 	public static ArrayList<String> enemies;
+	
+	public View progressView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
