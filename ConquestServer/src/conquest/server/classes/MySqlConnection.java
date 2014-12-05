@@ -533,10 +533,7 @@ public class MySqlConnection {
 							return response;
 						} else {
 							//TODO
-							PreparedStatement st = con.prepareStatement("UPDATE inventories SET struc? = ? WHERE username = '"
-								+ change.user
-								+ "' AND token = '"
-								+ change.token + "'");
+							PreparedStatement st = con.prepareStatement("UPDATE inventories SET '" + change.location + "' = ? WHERE username = '" + change.user + "'");
 							st.setInt(1, change.id);
 							st.execute();
 						}
@@ -585,10 +582,7 @@ public class MySqlConnection {
 							return response;
 						} else {
 							//TODO
-							PreparedStatement st = con.prepareStatement("UPDATE chests SET struc? = ? WHERE username = '"
-								+ change.user
-								+ "' AND token = '"
-								+ change.token + "'");
+							PreparedStatement st = con.prepareStatement("UPDATE chests SET '" + change.location + "' = ? WHERE propertyId = '" + change.pId + "'");
 							st.setInt(1, change.id);
 							st.execute();
 						}

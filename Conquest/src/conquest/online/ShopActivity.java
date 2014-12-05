@@ -423,7 +423,7 @@ public class ShopActivity extends ActionBarActivity {
 					user.adjStats(0, 0, attack);
 					weapon[0].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							weapon[0].getId(), 1, slot.location);
+							weapon[0].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
 				} else {
@@ -447,7 +447,7 @@ public class ShopActivity extends ActionBarActivity {
 					user.adjStats(0, 0, attack);
 					weapon[1].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							weapon[1].getId(), 1, slot.location);
+							weapon[1].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
 				} else {
@@ -471,7 +471,7 @@ public class ShopActivity extends ActionBarActivity {
 					user.adjStats(0, 0, attack);
 					weapon[2].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							weapon[2].getId(), 1, slot.location);
+							weapon[2].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
 				} else {
@@ -495,7 +495,7 @@ public class ShopActivity extends ActionBarActivity {
 					user.adjStats(0, 0, attack);
 					weapon[3].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							weapon[3].getId(), 1, slot.location);
+							weapon[3].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
 				} else {
@@ -519,7 +519,7 @@ public class ShopActivity extends ActionBarActivity {
 					user.adjStats(0, health, 0);
 					armor[0].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							armor[0].getId(), 1, slot.location);
+							armor[0].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
 					adjStats incr = new adjStats(user.getUser(), user
@@ -547,7 +547,7 @@ public class ShopActivity extends ActionBarActivity {
 					user.adjStats(0, health, 0);
 					armor[1].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							armor[1].getId(), 1, slot.location);
+							armor[1].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
 					adjStats incr = new adjStats(user.getUser(), user
@@ -575,7 +575,7 @@ public class ShopActivity extends ActionBarActivity {
 					user.adjStats(0, health, 0);
 					armor[2].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							armor[2].getId(), 1, slot.location);
+							armor[2].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
 					adjStats incr = new adjStats(user.getUser(), user
@@ -603,7 +603,7 @@ public class ShopActivity extends ActionBarActivity {
 					user.adjStats(0, health, 0);
 					armor[3].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							armor[3].getId(), 1, slot.location);
+							armor[3].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
 					adjStats incr = new adjStats(user.getUser(), user
@@ -630,7 +630,7 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(ds[0].getCost())) {
 					spendMoney(ds[0].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							ds[0].getId(), 0, slot.location);
+							ds[0].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 
 				} else {
@@ -651,7 +651,7 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(ds[1].getCost())) {
 					spendMoney(ds[1].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							ds[1].getId(), 0, slot.location);
+							ds[1].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 
 				} else {
@@ -671,7 +671,7 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(ds[2].getCost())) {
 					spendMoney(ds[2].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							ds[2].getId(), 0, slot.location);
+							ds[2].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 
 				} else {
@@ -692,7 +692,7 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(ds[3].getCost())) {
 					spendMoney(ds[3].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							ds[3].getId(), 0, slot.location);
+							ds[3].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 
 				} else {
@@ -713,7 +713,7 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(os[0].getCost())) {
 					spendMoney(os[0].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							os[0].getId(), 0, slot.location);
+							os[0].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 
 				} else {
@@ -734,7 +734,7 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(os[1].getCost())) {
 					spendMoney(os[1].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							os[1].getId(), 0, slot.location);
+							os[1].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 
 				} else {
@@ -755,7 +755,7 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(os[2].getCost())) {
 					spendMoney(os[2].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							os[2].getId(), 0, slot.location);
+							os[2].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 
 				} else {
@@ -775,7 +775,7 @@ public class ShopActivity extends ActionBarActivity {
 				if (checkBalance(os[3].getCost())) {
 					spendMoney(os[3].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
-							os[3].getId(), 0, slot.location);
+							os[3].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 
 				} else {
@@ -967,6 +967,7 @@ public class ShopActivity extends ActionBarActivity {
 	public class getInv extends AsyncTask<Void, Void, Boolean> {
 		private final String username;
 		private final String token;
+		public int pId;
 		public String ioc;
 		public String location;
 		public String message;
@@ -1007,6 +1008,7 @@ public class ShopActivity extends ActionBarActivity {
 						if (ioc.equals("chests"))
 							if (getSlot.getString("struc" + i).equals(null)) {
 								location = getSlot.getString("struc" + i);
+								pId = getSlot.getInt("propertyId");
 								message = "success";
 								return true;
 							}
@@ -1126,16 +1128,18 @@ public class ShopActivity extends ActionBarActivity {
 		private final String token;
 		private final int id;
 		private final int ioc;
+		private final int pId;
 		public String location;
 		public String message;
 		public boolean success;
 
 		// Instantiate task
-		buyItem(String username, String token, int i, int ioc, String location) {
+		buyItem(String username, String token, int i, int ioc, String location, int pId) {
 			this.username = username;
 			this.token = token;
 			this.id = i;
 			this.ioc = ioc;
+			this.pId = pId;
 
 			message = "";
 		}
@@ -1153,9 +1157,9 @@ public class ShopActivity extends ActionBarActivity {
 				new Thread(mc).start();
 
 				if (ioc == 0)
-					mc.putChest(username, token, id, location);
+					mc.putChest(username, token, id, pId, location);
 				if (ioc == 1)
-					mc.putInv(username, token, id, location);
+					mc.putInv(username, token, id, pId, location);
 
 				mc.close();
 			} catch (Exception e) {
