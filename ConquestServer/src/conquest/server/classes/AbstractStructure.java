@@ -6,6 +6,7 @@ public class AbstractStructure  {
 	public String name;
 	public String type;
 	public int id;
+	public int index;
 	public int imageID;
 	public int level;
 	public int cost;

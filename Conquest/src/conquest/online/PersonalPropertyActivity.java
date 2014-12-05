@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import conquest.client.classes.AbstractStructure;
 import conquest.client.classes.PropStructsResponse;
 import conquest.online.client.MovementClient;
+import conquest.online.gameAssets.Structures.GridItem;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -22,7 +23,7 @@ import android.widget.Toast;
 public class PersonalPropertyActivity extends Activity {
 	
 	//The double array of grid items
-	public ImageView[][] grid;
+	public GridItem[][] grid;
 	
 	//Arraylist of structures
 	public ArrayList<AbstractStructure> structs = new ArrayList<AbstractStructure>(10);
@@ -42,45 +43,62 @@ public class PersonalPropertyActivity extends Activity {
 		setContentView(R.layout.activity_personal_property);
 		UserSession user = new UserSession(getApplicationContext());
 		
+		//set width and height manually for now
 		width = height = 7;
+				
+		//Populate grid w/ image views
+ 		populateGrids();
+		
+		//Now add the listeners
+		addListeners();
 		
 		//Grab the chest items
 		grabChestItems = new StructsRequest(user.getUser(), user.getToken(), "chest", -1);
 		grabChestItems.execute();
 		
-		//Grab structs w/ ASYNC task
+		//Grab structs on property
 		SR = new StructsRequest(user.getUser(), user.getToken(), "property", -1);
 		SR.execute();
 	}
 	
 	/**
-	 * Add the structures to the property
+	 * Refresh the property screen with items
 	 */
-	public void addStructuresToProperty(){
+	public void refreshProperty(){
 		
-		//Copy structs over from response
-		for(int i = 0; i < SR.structs.size(); i++) {
-			structs.add(SR.structs.get(i).struct);
+		for(int i = 0; i < width; i++) {
+			for(int j = 0; j < height; j++) {
+				grid[j][i].image.setVisibility(ImageView.INVISIBLE);
+			}
 		}
 		
-		//Populate grid
-		populateGrids();
-		
-		//Change image, set visible, add listener
+		//Change image, set visible, and set struct
 		for(int i = 0; i < structs.size(); i++){
-			grid[structs.get(i).x][structs.get(i).y].setImageResource(R.drawable.wall);
-			grid[structs.get(i).x][structs.get(i).y].setVisibility(ImageView.VISIBLE);
-			addListenerToItem(grid[structs.get(i).x][structs.get(i).y], "(" + structs.get(i).x + ", " + structs.get(i).y + ")", "structure");
+			grid[structs.get(i).x][structs.get(i).y].struct = structs.get(i);
+			grid[structs.get(i).x][structs.get(i).y].image.setImageResource(R.drawable.wall);
+			grid[structs.get(i).x][structs.get(i).y].image.setVisibility(ImageView.VISIBLE);
 		}
+		
+		//Set blanks visible
+		for(int i = 0; i < height; i++ ) {
+			for (int j = 0; j < width; j++) {
+				//If it's not visible (I.e, it's not a structure)
+				if ( grid[j][i].image.getVisibility() != ImageView.VISIBLE ) {
+					grid[j][i].image.setVisibility(ImageView.VISIBLE);
+				}
+			}
+		}		
+	}
+	
+	/**
+	 * Add the listeners initially
+	 */
+	public void addListeners(){
 		
 		//Set blanks visible and add listeners
 		for(int i = 0; i < height; i++ ) {
 			for (int j = 0; j < width; j++) {
-				//If it's not visible (I.e, it's not a structure)
-				if ( grid[j][i].getVisibility() != ImageView.VISIBLE ) {
-					grid[j][i].setVisibility(ImageView.VISIBLE);
-					addListenerToItem(grid[j][i], "(" + j + ", " + i + ")", "none");
-				}
+				addListenerToItem(grid[j][i]);
 			}
 		}
 	}
@@ -89,57 +107,63 @@ public class PersonalPropertyActivity extends Activity {
 	 * Populates the grid array and adds listeners
 	 */
 	public void populateGrids(){
-		grid = new ImageView[width][height];
+		grid = new GridItem[width][height];
 		
-		grid[0][0] = (ImageView) findViewById(R.id.imageView00);
-		grid[1][0] = (ImageView) findViewById(R.id.imageView10);
-		grid[2][0] = (ImageView) findViewById(R.id.imageView20);
-		grid[3][0] = (ImageView) findViewById(R.id.imageView30);
-		grid[4][0] = (ImageView) findViewById(R.id.imageView40);
-		grid[5][0] = (ImageView) findViewById(R.id.imageView50);
-		grid[6][0] = (ImageView) findViewById(R.id.imageView60);
-		grid[0][1] = (ImageView) findViewById(R.id.imageView01);
-		grid[1][1] = (ImageView) findViewById(R.id.imageView11);
-		grid[2][1] = (ImageView) findViewById(R.id.imageView21);
-		grid[3][1] = (ImageView) findViewById(R.id.imageView31);
-		grid[4][1] = (ImageView) findViewById(R.id.imageView41);
-		grid[5][1] = (ImageView) findViewById(R.id.imageView51);
-		grid[6][1] = (ImageView) findViewById(R.id.imageView61);
-		grid[0][2] = (ImageView) findViewById(R.id.imageView02);
-		grid[1][2] = (ImageView) findViewById(R.id.imageView12);
-		grid[2][2] = (ImageView) findViewById(R.id.imageView22);
-		grid[3][2] = (ImageView) findViewById(R.id.imageView32);
-		grid[4][2] = (ImageView) findViewById(R.id.imageView42);
-		grid[5][2] = (ImageView) findViewById(R.id.imageView52);
-		grid[6][2] = (ImageView) findViewById(R.id.imageView62);
-		grid[0][3] = (ImageView) findViewById(R.id.imageView03);
-		grid[1][3] = (ImageView) findViewById(R.id.imageView13);
-		grid[2][3] = (ImageView) findViewById(R.id.imageView23);
-		grid[3][3] = (ImageView) findViewById(R.id.imageView33);
-		grid[4][3] = (ImageView) findViewById(R.id.imageView43);
-		grid[5][3] = (ImageView) findViewById(R.id.imageView53);
-		grid[6][3] = (ImageView) findViewById(R.id.imageView63);
-		grid[0][4] = (ImageView) findViewById(R.id.imageView04);
-		grid[1][4] = (ImageView) findViewById(R.id.imageView14);
-		grid[2][4] = (ImageView) findViewById(R.id.imageView24);
-		grid[3][4] = (ImageView) findViewById(R.id.imageView34);
-		grid[4][4] = (ImageView) findViewById(R.id.imageView44);
-		grid[5][4] = (ImageView) findViewById(R.id.imageView54);
-		grid[6][4] = (ImageView) findViewById(R.id.imageView64);
-		grid[0][5] = (ImageView) findViewById(R.id.imageView05);
-		grid[1][5] = (ImageView) findViewById(R.id.imageView15);
-		grid[2][5] = (ImageView) findViewById(R.id.imageView25);
-		grid[3][5] = (ImageView) findViewById(R.id.imageView35);
-		grid[4][5] = (ImageView) findViewById(R.id.imageView45);
-		grid[5][5] = (ImageView) findViewById(R.id.imageView55);
-		grid[6][5] = (ImageView) findViewById(R.id.imageView65);
-		grid[0][6] = (ImageView) findViewById(R.id.imageView06);
-		grid[1][6] = (ImageView) findViewById(R.id.imageView16);
-		grid[2][6] = (ImageView) findViewById(R.id.imageView26);
-		grid[3][6] = (ImageView) findViewById(R.id.imageView36);
-		grid[4][6] = (ImageView) findViewById(R.id.imageView46);
-		grid[5][6] = (ImageView) findViewById(R.id.imageView56);
-		grid[6][6] = (ImageView) findViewById(R.id.imageView66);
+		for(int i = 0; i < width; i++) {
+			for(int j = 0; j < height; j++) {
+				grid[j][i] = new GridItem(null,null);
+			}
+		}
+		
+		grid[0][0].image = (ImageView) findViewById(R.id.imageView00);
+		grid[1][0].image = (ImageView) findViewById(R.id.imageView10);
+		grid[2][0].image = (ImageView) findViewById(R.id.imageView20);
+		grid[3][0].image = (ImageView) findViewById(R.id.imageView30);
+		grid[4][0].image = (ImageView) findViewById(R.id.imageView40);
+		grid[5][0].image = (ImageView) findViewById(R.id.imageView50);
+		grid[6][0].image = (ImageView) findViewById(R.id.imageView60);
+		grid[0][1].image = (ImageView) findViewById(R.id.imageView01);
+		grid[1][1].image = (ImageView) findViewById(R.id.imageView11);
+		grid[2][1].image = (ImageView) findViewById(R.id.imageView21);
+		grid[3][1].image = (ImageView) findViewById(R.id.imageView31);
+		grid[4][1].image = (ImageView) findViewById(R.id.imageView41);
+		grid[5][1].image = (ImageView) findViewById(R.id.imageView51);
+		grid[6][1].image = (ImageView) findViewById(R.id.imageView61);
+		grid[0][2].image = (ImageView) findViewById(R.id.imageView02);
+		grid[1][2].image = (ImageView) findViewById(R.id.imageView12);
+		grid[2][2].image = (ImageView) findViewById(R.id.imageView22);
+		grid[3][2].image = (ImageView) findViewById(R.id.imageView32);
+		grid[4][2].image = (ImageView) findViewById(R.id.imageView42);
+		grid[5][2].image = (ImageView) findViewById(R.id.imageView52);
+		grid[6][2].image = (ImageView) findViewById(R.id.imageView62);
+		grid[0][3].image = (ImageView) findViewById(R.id.imageView03);
+		grid[1][3].image = (ImageView) findViewById(R.id.imageView13);
+		grid[2][3].image = (ImageView) findViewById(R.id.imageView23);
+		grid[3][3].image = (ImageView) findViewById(R.id.imageView33);
+		grid[4][3].image = (ImageView) findViewById(R.id.imageView43);
+		grid[5][3].image = (ImageView) findViewById(R.id.imageView53);
+		grid[6][3].image = (ImageView) findViewById(R.id.imageView63);
+		grid[0][4].image = (ImageView) findViewById(R.id.imageView04);
+		grid[1][4].image = (ImageView) findViewById(R.id.imageView14);
+		grid[2][4].image = (ImageView) findViewById(R.id.imageView24);
+		grid[3][4].image = (ImageView) findViewById(R.id.imageView34);
+		grid[4][4].image = (ImageView) findViewById(R.id.imageView44);
+		grid[5][4].image = (ImageView) findViewById(R.id.imageView54);
+		grid[6][4].image = (ImageView) findViewById(R.id.imageView64);
+		grid[0][5].image = (ImageView) findViewById(R.id.imageView05);
+		grid[1][5].image = (ImageView) findViewById(R.id.imageView15);
+		grid[2][5].image = (ImageView) findViewById(R.id.imageView25);
+		grid[3][5].image = (ImageView) findViewById(R.id.imageView35);
+		grid[4][5].image = (ImageView) findViewById(R.id.imageView45);
+		grid[5][5].image = (ImageView) findViewById(R.id.imageView55);
+		grid[6][5].image = (ImageView) findViewById(R.id.imageView65);
+		grid[0][6].image = (ImageView) findViewById(R.id.imageView06);
+		grid[1][6].image = (ImageView) findViewById(R.id.imageView16);
+		grid[2][6].image = (ImageView) findViewById(R.id.imageView26);
+		grid[3][6].image = (ImageView) findViewById(R.id.imageView36);
+		grid[4][6].image = (ImageView) findViewById(R.id.imageView46);
+		grid[5][6].image = (ImageView) findViewById(R.id.imageView56);
+		grid[6][6].image = (ImageView) findViewById(R.id.imageView66);
 		
 	}
 	
@@ -147,19 +171,19 @@ public class PersonalPropertyActivity extends Activity {
 	 * Adds a listener to the given item
 	 * @param image
 	 */
-	public void addListenerToItem(ImageView image, final String location, final String gridType) {
+	public void addListenerToItem(final GridItem item) {
 		
-		image.setOnLongClickListener(new View.OnLongClickListener() {
+		item.image.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
 				//Set different listener/dialog for structure
-				if ( gridType.equals("structure") ) {
-					GridItemSelectOccupied dialog = new GridItemSelectOccupied();
-					dialog.show(getFragmentManager(), location);
-				//Basic dialog for placing an item there
-				} else if ( gridType.equals("none") ) {
+				if ( item.struct == null ) {
 					GridItemSelectBlank dialog = new GridItemSelectBlank();
-				    dialog.show(getFragmentManager(), location);
+				    dialog.show(getFragmentManager(), null);
+				//Basic dialog for placing an item there
+				} else {
+					GridItemSelectOccupied dialog = new GridItemSelectOccupied();
+					dialog.show(getFragmentManager(), null);
 				}
 				return false;
 			}
@@ -239,7 +263,7 @@ public class PersonalPropertyActivity extends Activity {
 		private final int propertyID;
 
 		public String message;
-		public ArrayList<PropStructsResponse> structs = new ArrayList<PropStructsResponse>(10);
+		public ArrayList<PropStructsResponse> structures = new ArrayList<PropStructsResponse>(10);
 		
 		StructsRequest(String user, String token, String location, int propID) {
 			this.user = user;
@@ -272,7 +296,7 @@ public class PersonalPropertyActivity extends Activity {
 
 				//If we succeeded!
 				if ( mc.structsResponse.get(0).success ) {
-					structs = (ArrayList<PropStructsResponse>) mc.structsResponse.clone();
+					structures = (ArrayList<PropStructsResponse>) mc.structsResponse.clone();
 					this.message = mc.structsResponse.get(0).message;
 					mc.close();
 					return true;
@@ -292,10 +316,17 @@ public class PersonalPropertyActivity extends Activity {
 		protected void onPostExecute(final Boolean success) {
 			if ( success ) {
 				if ( location.equals("property") ) {
-					addStructuresToProperty();
+					//Copy structs over from response
+					structs = new ArrayList<AbstractStructure>(10);
+					for(int i = 0; i < SR.structures.size(); i++) {
+						structs.add(SR.structures.get(i).struct);
+					}
+					refreshProperty();
 				} else if ( location.equals("chest") ) {
-					for(int i = 0; i < structs.size();i ++) {
-						chestItems.add(structs.get(i).struct);
+					//Copy structs over from response
+					chestItems = new ArrayList<AbstractStructure>(10);
+					for(int i = 0; i < structures.size();i ++) {
+						chestItems.add(structures.get(i).struct);
 					}
 				}
 				
@@ -333,7 +364,7 @@ public class PersonalPropertyActivity extends Activity {
 		    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		    builder.setItems(R.array.gridOptionsStructures, new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int which) {
-		            	   structures = new CharSequence[chestItems.size()];
+		            	   ArrayList<CharSequence> temp = new ArrayList<CharSequence>(10);
 		            	   
 		            	   boolean skip = false;
 
@@ -342,7 +373,7 @@ public class PersonalPropertyActivity extends Activity {
 		            	   		//offensive
 			            	   for(int i = 0; i < chestItems.size(); i++) {
 			            		   if ( chestItems.get(i).type.equals("offense") ) {
-			            			   structures[i] = (CharSequence) chestItems.get(i).name;
+			            			   temp.add((CharSequence) chestItems.get(i).name);
 			            		   }
 			            	   }
 			            	 
@@ -352,7 +383,7 @@ public class PersonalPropertyActivity extends Activity {
 		            	   		//defensive
 				            	   for(int i = 0; i < chestItems.size(); i++) {
 				            		   if ( chestItems.get(i).type.equals("defense") ) {
-				            			   structures[i] = (CharSequence) chestItems.get(i).name;
+				            			   temp.add((CharSequence) chestItems.get(i).name);
 				            		   }
 				            	   }
 				            	   
@@ -365,7 +396,16 @@ public class PersonalPropertyActivity extends Activity {
 		            	   		
 		            	   	}
 		            	   	
+		            	   	if ( temp.size() > 0 ) {
+		            	   		temp.add((CharSequence) "Cancel");
+		            	   	}
+		            	   	
 		            	   	if ( !skip ) {
+		            	   		structures = new CharSequence[temp.size()];
+		            	   		//Copy from array list
+		            	   		for(int i = 0; i < temp.size(); i++) {
+		            	   			structures[i] = temp.get(i);
+		            	   		}
 			            	    DisplayStructures structs = new DisplayStructures();
 		            	   		structs.show(getFragmentManager(), "chestItems");
 		            	   	}
@@ -389,7 +429,7 @@ public class PersonalPropertyActivity extends Activity {
 
 		    builder.setItems(structures, new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int which) {
-		            	 
+		            	 toast((String) structures[which]);
 		           }
 		    });
 		    return builder.create();

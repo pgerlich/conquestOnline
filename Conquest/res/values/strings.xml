@@ -73,7 +73,7 @@
         <item>"Upgrade"</item>
         <item>"Repair"</item>
 		<item>"View Stats"</item>
-		<item>"Store in Chest"</item>
+		<item>"Destroy"</item>
 		<item>"Cancel"</item>
     </string-array>
 
