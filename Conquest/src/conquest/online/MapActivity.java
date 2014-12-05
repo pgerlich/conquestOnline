@@ -344,7 +344,6 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 
 	@Override
 	public void onConnected(Bundle arg0) {
-		Toast.makeText(this, "connected to location services", Toast.LENGTH_SHORT).show();
 		Location currentLoc=mLocationClient.getLastLocation();
 		
 		float zoom = 18;
