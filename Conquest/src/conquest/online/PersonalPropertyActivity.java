@@ -98,7 +98,9 @@ public class PersonalPropertyActivity extends Activity {
 		//Set blanks visible and add listeners
 		for(int i = 0; i < height; i++ ) {
 			for (int j = 0; j < width; j++) {
-				addListenerToItem(grid[j][i]);
+				grid[i][j].x = j;
+				grid[i][j].y = i;
+				addListenerToItem(grid[i][j]);
 			}
 		}
 	}
@@ -178,7 +180,7 @@ public class PersonalPropertyActivity extends Activity {
 			public boolean onLongClick(View v) {
 				//Set different listener/dialog for structure
 				if ( item.struct == null ) {
-					GridItemSelectBlank dialog = new GridItemSelectBlank();
+					GridItemSelectBlank dialog = new GridItemSelectBlank(item);
 				    dialog.show(getFragmentManager(), null);
 				//Basic dialog for placing an item there
 				} else {
@@ -335,6 +337,13 @@ public class PersonalPropertyActivity extends Activity {
 	}
 	
 	public class GridItemSelectBlank extends DialogFragment {
+		
+		public GridItem i;
+		
+		public GridItemSelectBlank(GridItem i){
+			this.i = i;
+		}
+		
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 		    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -342,7 +351,7 @@ public class PersonalPropertyActivity extends Activity {
 		               public void onClick(DialogInterface dialog, int which) {
 		            	   	switch(which) {
 		            	   	case 0:
-		            	   		StructureTypes sTypes = new StructureTypes();
+		            	   		StructureTypes sTypes = new StructureTypes(i);
 		            	   		sTypes.show(getFragmentManager(), "sTypes");
 		            	   		break;
 		            		   
@@ -359,54 +368,49 @@ public class PersonalPropertyActivity extends Activity {
 	}
 	
 	public class StructureTypes extends DialogFragment {
+		
+		public GridItem i;
+		
+		public StructureTypes(GridItem i){
+			this.i = i;
+		}
+		
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 		    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		    builder.setItems(R.array.gridOptionsStructures, new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int which) {
-		            	   ArrayList<CharSequence> temp = new ArrayList<CharSequence>(10);
+		            	   ArrayList<AbstractStructure> temp = new ArrayList<AbstractStructure>(10);
 		            	   
-		            	   boolean skip = false;
-
 		            	   	switch(which) {
 		            	   	case 0:
 		            	   		//offensive
 			            	   for(int i = 0; i < chestItems.size(); i++) {
 			            		   if ( chestItems.get(i).type.equals("offense") ) {
-			            			   temp.add((CharSequence) chestItems.get(i).name);
+			            			   temp.add(chestItems.get(i));
 			            		   }
 			            	   }
-			            	 
 		            	   		break;
 		            		   
 		            	   	case 1:
 		            	   		//defensive
-				            	   for(int i = 0; i < chestItems.size(); i++) {
-				            		   if ( chestItems.get(i).type.equals("defense") ) {
-				            			   temp.add((CharSequence) chestItems.get(i).name);
-				            		   }
-				            	   }
-				            	   
+			            	   for(int i = 0; i < chestItems.size(); i++) {
+			            		   if ( chestItems.get(i).type.equals("defense") ) {
+			            			   temp.add(chestItems.get(i));
+			            		   }
+			            	   }
 		            	   		break;
 		            	   		
 		            	   	case 2:
 		            	   		//cancel
-		            	   		skip = true;
 		            	   		break;
 		            	   		
 		            	   	}
 		            	   	
-		            	   	if ( temp.size() > 0 ) {
-		            	   		temp.add((CharSequence) "Cancel");
-		            	   	}
-		            	   	
-		            	   	if ( !skip ) {
-		            	   		structures = new CharSequence[temp.size()];
-		            	   		//Copy from array list
-		            	   		for(int i = 0; i < temp.size(); i++) {
-		            	   			structures[i] = temp.get(i);
-		            	   		}
-			            	    DisplayStructures structs = new DisplayStructures();
+		            	   	if ( temp.size() == 0 ){
+		            	   		toast("No structures of this type available.");
+		            	   	} else {
+			            	    DisplayStructures structs = new DisplayStructures(temp, i);
 		            	   		structs.show(getFragmentManager(), "chestItems");
 		            	   	}
 
@@ -417,21 +421,55 @@ public class PersonalPropertyActivity extends Activity {
 	}
 	
 	public class DisplayStructures extends DialogFragment {
+		
+		public GridItem it;
+		public ArrayList<AbstractStructure> structs;
+		
+		public DisplayStructures(ArrayList<AbstractStructure> structs, GridItem it){
+			this.structs = structs;
+			this.it = it;
+	   		
+	   		structures = new CharSequence[structs.size() + 1];
+	   		
+	   		//Copy from array list
+	   		for(int i = 0; i < structs.size(); i++) {
+	   			structures[i] = structs.get(i).name;
+	   		}
+	   		
+	   		structures[structs.size()] = (CharSequence) "Cancel";
+		}
+		
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			
 		    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		    
-		    if ( structures[0] == null ) {
-		    	structures = new CharSequence[1];
-		    	structures[0] = (CharSequence) "None";
-		    }
-
 		    builder.setItems(structures, new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int which) {
-		            	 toast((String) structures[which]);
+		        	   AbstractStructure temp = structs.get(which);
+		        	   
+		        	   //Set position and health
+		        	   temp.x = it.x;
+		        	   temp.y = it.y;
+		        	   temp.curHealth = temp.maxHealth;
+		        	   
+		        	   //Remove item from chest
+		        	   chestItems.remove(temp);
+		        	   
+		        	   //Add to structs
+		        	   structs.add(temp);
+		        	   
+		        	   //Make invisible, set struct, make visible
+		        	   it.image.setVisibility(ImageView.INVISIBLE);
+		        	   it.struct = temp;
+		        	   it.image.setImageResource(R.drawable.wall);
+		        	   it.image.setVisibility(ImageView.VISIBLE);
+		        	   
+		               toast((String) structures[which] + " Placed");
 		           }
 		    });
+		    
+		    
 		    return builder.create();
 		}
 	}
