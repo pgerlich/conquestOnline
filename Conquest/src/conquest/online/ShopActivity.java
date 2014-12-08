@@ -32,6 +32,7 @@ import conquest.online.gameAssets.Structures.AbstractStructure;
 public class ShopActivity extends ActionBarActivity {
 
 	// Find all the buttons for the listeners here
+	public int i = 0;
 	public ImageButton foodOne;
 	public ImageButton foodTwo;
 	public ImageButton foodThree;
@@ -77,7 +78,7 @@ public class ShopActivity extends ActionBarActivity {
 	public getShop shop;
 
 	private UserSession user;
-	int gold;
+	public int gold;
 	Food[] food = new Food[4];
 	Weapon[] weapon = new Weapon[4];
 	Armor[] armor = new Armor[4];
@@ -90,9 +91,8 @@ public class ShopActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_shop);
 
 		user = new UserSession(getApplicationContext());
+		user.updateAllStats();
 		updateShop();
-		
-		//createListeners();
 
 	}
 
@@ -102,12 +102,16 @@ public class ShopActivity extends ActionBarActivity {
 	}
 	
 	public void createStore() {
+		
 		food = shop.food;
 		weapon = shop.weapon;
 		armor = shop.armor;
 		ds = shop.ds;
 		os = shop.os;
 		populateStore();
+		if (i == 0)
+			createListeners();
+		i++;
 	}
 
 	@Override
@@ -316,8 +320,8 @@ public class ShopActivity extends ActionBarActivity {
 	 */
 	public void setImage(String pic, ImageButton view) {
 		
-		Drawable d = Drawable.createFromPath(pic);
-		view.setBackground(d);
+		//Drawable d = Drawable.createFromPath(pic);
+		view.setImageResource(R.drawable.placeholder);
 		
 //		try {
 //			d = Drawable.createFromStream(getAssets().open(pic), null);
@@ -790,18 +794,17 @@ public class ShopActivity extends ActionBarActivity {
 		// if balance is enough return true, else return false
 		getMoney mon = new getMoney(user.getUser(), user.getToken());
 		mon.execute((Void) null);
-
-		while (mon == null) {
+		
+		while (mon == null) {			
 			try {
 				Thread.sleep(150);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+			}
+			catch (InterruptedException e) {
+				
 			}
 		}
 
-		gold = mon.gold;
-
-		if (i == gold) {
+		if (i <= mon.gold) {
 			// has enough gold to buy.
 			return true;
 		} else {
@@ -953,6 +956,7 @@ public class ShopActivity extends ActionBarActivity {
 		protected void onPostExecute(final Boolean success) {
 			// dont know what to put here
 			createStore();
+			
 		}
 
 		@Override

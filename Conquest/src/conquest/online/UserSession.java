@@ -77,7 +77,8 @@ public class UserSession {
 	 * @param speed
 	 * @param tech
 	 */
-	public void setBaseStats(int attack, int armor, int stealth, int speed, int tech) {
+	public void setBaseStats(int money, int attack, int armor, int stealth, int speed, int tech) {
+		edit.putInt("money", money);
 		edit.putInt("attack", attack);
 		edit.putInt("armor", armor);
 		edit.putInt("stealth", stealth);
@@ -340,6 +341,7 @@ public class UserSession {
 		
 		public int attack;
 		public int armor;
+		public int money;
 		public int speed;
 		public int tech;
 		public int stealth;
@@ -372,6 +374,7 @@ public class UserSession {
 					
 					maxHealth = stats.getInt("maxHealth");
 					curHealth = stats.getInt("curHealth");
+					money = stats.getInt("money");
 					attack = stats.getInt("attack");
 					armor = stats.getInt("armor");
 					stealth = stats.getInt("stealth");
@@ -404,7 +407,7 @@ public class UserSession {
 			if ( success ) {
 				setLevel(level);
 				setExp(level);
-				setBaseStats(attack, armor, stealth, speed, tech);
+				setBaseStats(money, attack, armor, stealth, speed, tech);
 				setCurHealth(curHealth);
 				setMaxHealth(maxHealth);
 				setLocation(location);
