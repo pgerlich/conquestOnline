@@ -14,6 +14,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -314,24 +315,36 @@ public class ShopActivity extends ActionBarActivity {
 	 * @param view
 	 */
 	public void setImage(String pic, ImageButton view) {
-		AssetManager man = getAssets();
-		InputStream open = null;
-		try {
-			open = man.open("placeholder.PNG");
-			Bitmap bitmap = BitmapFactory.decodeStream(open);
-			// Assign the bitmap to an ImageView in this layout
-			view.setImageBitmap(bitmap);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (open != null) {
-				try {
-					open.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		
+		Drawable d = Drawable.createFromPath(pic);
+		view.setBackground(d);
+		
+//		try {
+//			d = Drawable.createFromStream(getAssets().open(pic), null);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		
+//		AssetManager man = getAssets();
+//		InputStream open = null;
+//		try {
+//			open = man.open("placeholder.PNG");
+//			Bitmap bitmap = BitmapFactory.decodeStream(open);
+//			// Assign the bitmap to an ImageView in this layout
+//			view.setImageBitmap(bitmap);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} finally {
+//			if (open != null) {
+//				try {
+//					open.close();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
 	}
 
 	/**
@@ -351,7 +364,7 @@ public class ShopActivity extends ActionBarActivity {
 					spendMoney(food[0].getCost());
 					int health = Integer.parseInt(food[0].getHealth());
 					user.adjStats(health, 0, 0);
-
+					
 				} else {
 					message.setVisibility(View.VISIBLE);
 				}
@@ -418,8 +431,9 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[0].getCost()) && !weapon[0].own() && slot.location != null) {
 					spendMoney(weapon[0].getCost());
-					int attack = weapon[0].getAttack();
-					user.adjStats(0, 0, attack);
+//This is if we want to adjust the attack when they buy the weapon or when they equip it.
+//					int attack = weapon[0].getAttack();
+//					user.adjStats(0, 0, attack);
 					weapon[0].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							weapon[0].getId(), 1, slot.location, slot.pId);
@@ -441,8 +455,8 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[1].getCost()) && !weapon[1].own() && slot.location != null) {
 					spendMoney(weapon[1].getCost());
-					int attack = weapon[1].getAttack();
-					user.adjStats(0, 0, attack);
+//					int attack = weapon[1].getAttack();
+//					user.adjStats(0, 0, attack);
 					weapon[1].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							weapon[1].getId(), 1, slot.location, slot.pId);
@@ -464,8 +478,8 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[2].getCost()) && !weapon[2].own() && slot.location != null) {
 					spendMoney(weapon[2].getCost());
-					int attack = weapon[2].getAttack();
-					user.adjStats(0, 0, attack);
+//					int attack = weapon[2].getAttack();
+//					user.adjStats(0, 0, attack);
 					weapon[2].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							weapon[2].getId(), 1, slot.location, slot.pId);
@@ -487,8 +501,8 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[3].getCost()) && !weapon[3].own() && slot.location != null) {
 					spendMoney(weapon[3].getCost());
-					int attack = weapon[3].getAttack();
-					user.adjStats(0, 0, attack);
+//					int attack = weapon[3].getAttack();
+//					user.adjStats(0, 0, attack);
 					weapon[3].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							weapon[3].getId(), 1, slot.location, slot.pId);
@@ -510,16 +524,16 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[0].getCost()) && !armor[0].own() && slot.location != null) {
 					spendMoney(armor[0].getCost());
-					int health = armor[0].getArmor();
-					user.adjStats(0, health, 0);
+//					int health = armor[0].getArmor();
+//					user.adjStats(0, health, 0);
 					armor[0].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							armor[0].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
-					adjStats incr = new adjStats(user.getUser(), user
-							.getToken(), "armor", armor[0].getArmor());
-					incr.execute((Void) null);
+//					adjStats incr = new adjStats(user.getUser(), user
+//							.getToken(), "armor", armor[0].getArmor());
+//					incr.execute((Void) null);
 
 				} else {
 					message.setVisibility(View.VISIBLE);
@@ -537,16 +551,16 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[1].getCost()) && !armor[1].own() && slot.location != null) {
 					spendMoney(armor[1].getCost());
-					int health = armor[1].getArmor();
-					user.adjStats(0, health, 0);
+//					int health = armor[1].getArmor();
+//					user.adjStats(0, health, 0);
 					armor[1].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							armor[1].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
-					adjStats incr = new adjStats(user.getUser(), user
-							.getToken(), "armor", armor[1].getArmor());
-					incr.execute((Void) null);
+//					adjStats incr = new adjStats(user.getUser(), user
+//							.getToken(), "armor", armor[1].getArmor());
+//					incr.execute((Void) null);
 
 				} else {
 					message.setVisibility(View.VISIBLE);
@@ -564,16 +578,16 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);				
 				if (checkBalance(armor[2].getCost()) && !armor[2].own() && slot.location != null) {
 					spendMoney(armor[2].getCost());
-					int health = armor[2].getArmor();
-					user.adjStats(0, health, 0);
+//					int health = armor[2].getArmor();
+//					user.adjStats(0, health, 0);
 					armor[2].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							armor[2].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
-					adjStats incr = new adjStats(user.getUser(), user
-							.getToken(), "armor", armor[2].getArmor());
-					incr.execute((Void) null);
+//					adjStats incr = new adjStats(user.getUser(), user
+//							.getToken(), "armor", armor[2].getArmor());
+//					incr.execute((Void) null);
 
 				} else {
 					message.setVisibility(View.VISIBLE);
@@ -591,16 +605,16 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[3].getCost()) && !armor[3].own() && slot.location != null) {
 					spendMoney(armor[3].getCost());
-					int health = armor[3].getArmor();
-					user.adjStats(0, health, 0);
+//					int health = armor[3].getArmor();
+//					user.adjStats(0, health, 0);
 					armor[3].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							armor[3].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
-					adjStats incr = new adjStats(user.getUser(), user
-							.getToken(), "armor", armor[3].getArmor());
-					incr.execute((Void) null);
+//					adjStats incr = new adjStats(user.getUser(), user
+//							.getToken(), "armor", armor[3].getArmor());
+//					incr.execute((Void) null);
 
 				} else {
 					message.setVisibility(View.VISIBLE);
