@@ -511,14 +511,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					toast("sleeping");
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[0].getCost()) && !weapon[0].own()
 						&& slot.location != null) {
@@ -547,13 +540,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[1].getCost()) && !weapon[1].own()
 						&& slot.location != null) {
@@ -580,13 +567,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[2].getCost()) && !weapon[2].own()
 						&& slot.location != null) {
@@ -614,13 +595,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[3].getCost()) && !weapon[3].own()
 						&& slot.location != null) {
@@ -647,13 +622,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[0].getCost()) && !armor[0].own()
 						&& slot.location != null) {
@@ -684,13 +653,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[1].getCost()) && !armor[1].own()
 						&& slot.location != null) {
@@ -721,13 +684,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[2].getCost()) && !armor[2].own()
 						&& slot.location != null) {
@@ -758,13 +715,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[3].getCost()) && !armor[3].own()
 						&& slot.location != null) {
@@ -796,13 +747,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(ds[0].getCost()) && slot.location != null) {
 					toast("working");
@@ -825,13 +770,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(ds[1].getCost()) && slot.location != null) {
 					toast("working");
@@ -854,13 +793,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(ds[2].getCost()) && slot.location != null) {
 					toast("working");
@@ -883,13 +816,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(ds[3].getCost()) && slot.location != null) {
 					toast("working");
@@ -912,13 +839,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(os[0].getCost()) && slot.location != null) {
 					toast("working");
@@ -941,13 +862,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(os[1].getCost()) && slot.location != null) {
 					toast("working");
@@ -970,13 +885,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(os[2].getCost()) && slot.location != null) {
 					toast("working");
@@ -999,13 +908,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				while (slot.sleep) {
-					try {
-						Thread.sleep(150);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+				
 				message.setVisibility(View.GONE);
 				if (checkBalance(os[3].getCost()) && slot.location != null) {
 					toast("working");
@@ -1324,14 +1227,14 @@ public class ShopActivity extends ActionBarActivity {
 					for (int i = 1; i <= 10; i++) {
 						if (ioc.equals("chests"))
 							if (getSlot.getInt("struc" + i) == -1) {
-								location = getSlot.getString("struc" + i);
+								location = "struc" + i;
 								pId = getSlot.getInt("propertyId");
 								message = "success";
 								return true;
 							}
 						if (ioc.equals("inventories"))
 							if (getSlot.getInt("item" + i) == -1) {
-								location = getSlot.getString("item" + i);
+								location = "item" + i;
 								message = "success";
 							}
 					}
