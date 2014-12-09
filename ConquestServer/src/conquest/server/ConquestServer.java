@@ -308,6 +308,7 @@ public class ConquestServer {
 	    	    	  //Now send this all back
 	    	    	  for(int i = 0; i < response.size(); i++) {
 	    	    		  con.sendUDP(response.get(i));
+	    	    		  System.out.println("Sent user " response.get(i).user);
 	    	    	  }
 	    	      }
 	    	    
