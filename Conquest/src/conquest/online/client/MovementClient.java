@@ -154,6 +154,13 @@ public class MovementClient implements Runnable {
 		
 	}
 	
+	public void findPerson(PersonNearYou person) {
+		for(int i = 0; i < personResponse.size(); i++) {
+			PersonNearYou thisPerson = personResponse.get(i);
+			if ( thisPerson.user.equals()))
+		}
+	}
+	
 	/**
 	 * Start up the client and bind it to the ports and server.
 	 * @throws IOException 
