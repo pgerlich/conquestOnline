@@ -1421,14 +1421,6 @@ public class ShopActivity extends ActionBarActivity {
 		private int curHealth;
 		private int armor;
 		private int money;
-		private int armor0;
-		private int armor1;
-		private int armor2;
-		private int armor3;
-		private int weapon0;
-		private int weapon1;
-		private int weapon2;
-		private int weapon3;
 		private int gpm;
 		/*
 		 * Dont use these here yet, maybe can in the future, not sure private
@@ -1476,14 +1468,6 @@ public class ShopActivity extends ActionBarActivity {
 					attack = getStats.getInt("attack");
 					armor = getStats.getInt("armor");
 					money = getStats.getInt("money");
-					armor0 = getStats.getInt("armor0");
-					armor1 = getStats.getInt("armor1");
-					armor2 = getStats.getInt("armor2");
-					armor3 = getStats.getInt("armor3");
-					weapon0 = getStats.getInt("weapon0");
-					weapon1 = getStats.getInt("weapon1");
-					weapon2 = getStats.getInt("weapon2");
-					weapon3 = getStats.getInt("weapon3");
 					gpm = getStats.getInt("gpm");
 
 					/*
@@ -1517,20 +1501,7 @@ public class ShopActivity extends ActionBarActivity {
 					if (attribute.equals("armor")) {
 						armor += amount;
 					}
-					if (attribute.equals("armor4")) {
-						// need to move 1-3 down and then make the newest one 3
-						armor0 = armor1;
-						armor1 = armor2;
-						armor2 = armor3;
-						armor3 = amount;
-					}
-					if (attribute.equals("weapon4")) {
-						// need to move 1-3 down and make the newest one 3
-						weapon0 = weapon1;
-						weapon1 = weapon2;
-						weapon2 = weapon3;
-						weapon3 = amount;
-					}
+	
 					if (attribute.equals("gpm")) {
 						gpm += amount;
 					}
@@ -1544,8 +1515,7 @@ public class ShopActivity extends ActionBarActivity {
 					// Attempt to update the stats of the user to the character
 					// table.
 					mc.updateStats(username, token, maxHealth, curHealth,
-							attack, armor, money, armor0, armor1, armor2,
-							armor3, weapon0, weapon1, weapon2, weapon3, gpm);
+							attack, armor, money, gpm);
 
 					mc.close();
 					

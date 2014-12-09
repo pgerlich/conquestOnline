@@ -878,7 +878,7 @@ public class MySqlConnection {
 			} else {
 
 				// Create the house
-				PreparedStatement st = con.prepareStatement("UPDATE characters SET maxHealth = ?, curHealth = ?, attack = ?, armor = ?, money = ?, armor0 = ?, armor1 = ?, armor2 = ?, armor3 = ?, weapon0 = ?, weapon1 = ?, weapon2 = ?, weapon3 = ?, wins = ?, loses = ?, kills = ?, deaths = ?, guild = ?, lat = ?, lon = ?, speed = ?, stealth = ?, tech = ?, level = ?, exp = ?, gpm = ? WHERE username = '"
+				PreparedStatement st = con.prepareStatement("UPDATE characters SET maxHealth = ?, curHealth = ?, attack = ?, armor = ?, money = ?, gpm = ? WHERE username = '"
 								+ update.username
 								+ "' AND token = '"
 								+ update.token + "'");
@@ -887,27 +887,7 @@ public class MySqlConnection {
 				st.setInt(2, update.attack);
 				st.setInt(3, update.armor);
 				st.setInt(4, update.money);
-				st.setInt(5, update.armor0);
-				st.setInt(6, update.armor1);
-				st.setInt(7, update.armor2);
-				st.setInt(8, update.armor3);
-				st.setInt(9, update.weapon0);
-				st.setInt(10, update.weapon1);
-				st.setInt(11, update.weapon2);
-				st.setInt(12, update.weapon3);
-				st.setInt(13, update.wins);
-				st.setInt(14, update.loses);
-				st.setInt(15, update.kills);
-				st.setInt(16, update.deaths);
-				st.setString(17, update.guild);
-				st.setDouble(18, update.lat);
-				st.setDouble(19, update.lon);
-				st.setInt(20, update.speed);
-				st.setInt(21, update.stealth);
-				st.setInt(22, update.tech);
-				st.setInt(23, update.level);
-				st.setInt(24, update.exp);
-				st.setInt(25, update.gpm);
+				st.setInt(5, update.gpm);
 				
 				st.execute();
 			}
