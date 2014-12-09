@@ -1,7 +1,8 @@
 package conquest.online;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -213,8 +213,8 @@ public class ShopActivity extends ActionBarActivity {
 				+ user.getMaxHealth() + ", Gold:" + user.getMoney()
 				+ ", Attack:" + user.getAttack() + ", Armor:" + user.getArmor());
 
-		// setImage(food[0].getPic(), foodOne);
-		foodOne.setBackgroundResource(R.drawable.food);
+		setImage(food[0].getPic(), foodOne);
+		//foodOne.setBackgroundResource(R.drawable.food);
 		foodOneInfo.setText(food[0].getName() + "-" + food[0].getDescription()
 				+ ":" + food[0].getCost());
 		if (!checkBalance(food[0].getCost())) {
@@ -374,7 +374,7 @@ public class ShopActivity extends ActionBarActivity {
 		if (!checkBalance(stock[2].getCost())) {
 			sThreeInfo.setTextColor(Color.RED);
 		}
-		// setImage(stock[3].getPic(), sFour);
+		//setImage(stock[3].getPic(), sFour);
 		sFour.setBackgroundResource(R.drawable.stock);
 		sFourInfo.setText(stock[3].getName() + "-" + stock[3].getDescription()
 				+ ":" + stock[3].getCost());
@@ -393,6 +393,21 @@ public class ShopActivity extends ActionBarActivity {
 	 * @param view
 	 */
 	public void setImage(String pic, ImageButton view) {
+		
+		URL url;
+		String location = "http://proj-309-R12.cs.iastate.edu/images/shop/" + pic;
+		try {
+			url = new URL(location);
+			Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+			view.setImageBitmap(bmp);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 		// TODO - THIS IS NEXT!! WOOHOOO
 		// Drawable d = Drawable.createFromPath(pic);
@@ -404,24 +419,24 @@ public class ShopActivity extends ActionBarActivity {
 		// e.printStackTrace();
 		// }
 
-		AssetManager man = getAssets();
-		InputStream open = null;
-		try {
-			open = man.open(pic);
-			Bitmap bitmap = BitmapFactory.decodeStream(open);
-			// Assign the bitmap to an ImageView in this layout
-			view.setImageBitmap(bitmap);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (open != null) {
-				try {
-					open.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+//		AssetManager man = getAssets();
+//		InputStream open = null;
+//		try {
+//			open = man.open(pic);
+//			Bitmap bitmap = BitmapFactory.decodeStream(open);
+//			// Assign the bitmap to an ImageView in this layout
+//			view.setImageBitmap(bitmap);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} finally {
+//			if (open != null) {
+//				try {
+//					open.close();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
 	}
 
 	public void fixStats() {
