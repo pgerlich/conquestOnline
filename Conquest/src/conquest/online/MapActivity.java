@@ -35,6 +35,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 //import com.google.android.gms.c
 
+import conquest.client.classes.PersonNearYou;
 import conquest.online.client.MovementClient;
 import conquest.online.gameAssets.Property;
 
@@ -52,6 +53,8 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	//http://developer.android.com/reference/com/google/android/gms/maps/model/MarkerOptions.html
 	private MarkerOptions characterMarkerOptions;
 	private Marker characterMarker;
+	
+	private ArrayList<Marker> characters;
 	
 	public MoveCharacter currentMove;
 	
@@ -76,9 +79,6 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	        		mLocationClient.connect();
 	        		
 	        		currentMove = new MoveCharacter(user.getUser(), user.getToken());
-	        		
-	        		characterMarkerOptions = new MarkerOptions();
-	        		//characterMarker.anchor(0, 0);		//bitmap start position (should probably be center of image)
 	        		
 	                mMap.setOnMapClickListener(new OnMapClickListener() {
 						@Override
@@ -199,6 +199,12 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	
 
 	
+	
+	
+	
+	
+	
+	
 	public class MoveCharacter extends AsyncTask<LatLng, LatLng, Boolean>{
 		
 		private String username;
@@ -266,9 +272,6 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		protected void onPostExecute(final Boolean success) {
 			//end of execution
 		}
-		
-		
-		
 		/**
 		 * takes in a start and destination LatLng and outputs a vector to be added to position every cycle.
 		 * @param p1
@@ -299,6 +302,111 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		}
 		
 	}
+		
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		public class MarkCharacters extends AsyncTask<Void, MarkerOptions, Boolean>{
+			@Override
+			protected Boolean doInBackground(Void... params) {
+				// asynchronous Task
+				MovementClient mc;
+				PersonNearYou p;
+				MarkerOptions m;
+				try {
+					mc = new MovementClient();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					return false;
+				}
+								
+				for(int i = 0; i < mc.personResponse.size(); i++){
+					p = mc.personResponse.get(i);
+					m = new MarkerOptions();
+					m.alpha((float)p.maxHealth / (float)p.curHealth);
+					m.title(p.user);
+					m.position(new LatLng(p.x, p.y));
+					publishProgress(m);
+		        }
+				
+				return true;
+			}
+			
+			@Override
+			protected void onProgressUpdate(MarkerOptions... progress) {
+				//every time there is a new location
+		        	characters.add(mMap.addMarker(progress[0]));
+		     }
+			
+			@Override
+		    protected void onCancelled() {
+		        this.cancel(true);
+		    }
+			
+			@Override
+			protected void onPostExecute(final Boolean success) {
+				//end of execution
+				
+			}
+
+		
+		}
+		
+		
+		
+		
+		
+		
+		
+		public class moveCharacters extends AsyncTask<ArrayList<Marker>, MarkerOptions, Boolean>{
+			@Override
+			protected Boolean doInBackground(ArrayList<Marker>... params) {
+				// asynchronous Task
+				MovementClient mc;
+				PersonNearYou p;
+				MarkerOptions m;
+				try {
+					mc = new MovementClient();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					return false;
+				}
+				
+				
+				return true;
+			}
+			
+			@Override
+			protected void onProgressUpdate(MarkerOptions... progress) {
+				//every time there is a new location
+		        for(int i = 0; i < progress.length; i++){
+		        	mMap.addMarker(progress[0]);
+		        }
+		     }
+			
+			@Override
+		    protected void onCancelled() {
+		        this.cancel(true);
+		    }
+			
+			@Override
+			protected void onPostExecute(final Boolean success) {
+				//end of execution
+				
+			}
+
+		
+		}
+		
+		
 	
 	
 	
@@ -529,8 +637,10 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		CameraUpdate update = CameraUpdateFactory.newLatLngZoom(playerLoc, zoom);
 		mMap.animateCamera(update);
 		//Draw(currentLoc);
-		characterMarkerOptions.position(playerLoc);
-		characterMarker = mMap.addMarker(characterMarkerOptions);
+		//characterMarkerOptions.position(playerLoc);
+		//characterMarker = mMap.addMarker(characterMarkerOptions);
+		MarkCharacters asyncMark = new MarkCharacters();
+		asyncMark.execute();
 		
 	}
 
