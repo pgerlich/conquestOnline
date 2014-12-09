@@ -283,8 +283,8 @@ public class ConquestServer {
 	    	      }
 	    	      
 	    	      if (obj instanceof StructPlaceRequest){
-	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Retrieve Property Structs (" + ((PropStructsRequest)obj).location + ")" );
-	    	    	  StructPlaceRequest SPR = new StructPlaceRequest();
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Struct Placement" );
+	    	    	  StructPlaceRequest SPR = (StructPlaceRequest) obj;
 	    	    	  StructPlaceResponse SPRes = myCon.placeStructure(SPR);
 	    	    	  System.out.println(SPRes.message);
 	    	    	  con.sendUDP(SPRes);

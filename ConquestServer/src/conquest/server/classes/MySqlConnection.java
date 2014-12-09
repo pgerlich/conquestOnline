@@ -605,8 +605,7 @@ public class MySqlConnection {
 	 * @param reggy
 	 * @return
 	 */
-	public StructPlaceResponse placeStructure(
-			StructPlaceRequest SPR) {
+	public StructPlaceResponse placeStructure(StructPlaceRequest SPR) {
 
 		Statement stmt1;
 
@@ -616,13 +615,11 @@ public class MySqlConnection {
 			stmt1 = con.createStatement();
 
 			// compare user and token
-			ResultSet isValid = stmt1
-					.executeQuery("select * from users where username = '"
-							+ SPR.username + "' AND token = '" + SPR.token
-							+ "'");
+			ResultSet isValid = stmt1.executeQuery("select * from users where username = '" + SPR.username + "' AND token = '" + SPR.token + "'");
+			System.out.println("select * from users where username = '" + SPR.username + "' AND token = '" + SPR.token + "'");
 
 			// If the credentials matched
-			if (!isValid.next()) {
+			if ( !isValid.next() ) {
 				// Close connection
 				stmt1.close();
 				response.message = "Invalid Token. You are not logged in.";
@@ -632,7 +629,7 @@ public class MySqlConnection {
 
 				// Place the item on the property
 				PreparedStatement st = con
-						.prepareStatement("INSERT INTO userStructres(propertyID, structureID, topX, topY, curHealth, enabled, level, maxHealth, attack, defense, viewRadius, attackRadius, splashRadius) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+						.prepareStatement("INSERT INTO userStructures(propertyID, structureID, topX, topY, curHealth, enabled, level, maxHealth, attack, defense, viewRadius, attackRadius, splashRadius) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				st.setInt(1, SPR.propertyID);
 				st.setInt(2, SPR.struct.id);
 				st.setInt(3, SPR.struct.x);
