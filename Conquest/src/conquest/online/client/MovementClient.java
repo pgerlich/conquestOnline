@@ -286,7 +286,7 @@ public class MovementClient implements Runnable {
 	 * @param propertyID
 	 * @param strctID
 	 */
-	public void placeOnProeprty(String user, String token, int propertyID, AbstractStructure struct) {
+	public void placeOnProperty(String user, String token, int propertyID, AbstractStructure struct) {
 		StructPlaceRequest SPR = new StructPlaceRequest();
 		SPR.username = user;
 		SPR.token = token;

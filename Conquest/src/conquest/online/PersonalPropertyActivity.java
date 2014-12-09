@@ -31,19 +31,25 @@ public class PersonalPropertyActivity extends Activity {
 	
 	public CharSequence[] structures;
 	
+	//Dimensions/info on property
 	public int width;
 	public int height;
+	public int propID;
 	
+	//Structures and chest items
 	public StructsRequest SR;
 	public StructsRequest grabChestItems;
 	
+	//progress view
 	public View progressView;
 	
+	//user session info
+	public UserSession user;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_personal_property);
-		UserSession user = new UserSession(getApplicationContext());
+		user = new UserSession(getApplicationContext());
 		
 		//set width and height manually for now
 		width = height = 7;
@@ -307,6 +313,10 @@ public class PersonalPropertyActivity extends Activity {
 					    Thread.currentThread().interrupt();
 					}
 				} 
+				
+				if ( location.equals("property") ) {
+					propID = Integer.valueOf(mc.structsResponse.get(0).propertyID);
+				}
 
 				//If we succeeded!
 				if ( mc.structsResponse.get(0).success ) {
@@ -352,6 +362,77 @@ public class PersonalPropertyActivity extends Activity {
 					}
 				}
 				
+			}
+		}
+	}
+	
+	
+	/**
+	 * Represents an asynchronous login/registration task used to authenticate
+	 * the user.
+	 */
+	public class PlaceStructRequest extends AsyncTask<Void, Void, Boolean> {
+
+		private final String user;
+		private final String token;
+		private final int propertyID;
+		private final AbstractStructure struct;
+
+		public String message;
+		
+		PlaceStructRequest(String user, String token, int propertyID, AbstractStructure struct) {
+			this.user = user;
+			this.token = token;
+			this.propertyID = propertyID;
+			this.struct = struct;
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			
+			try {
+				//Will throw I/O exception if it fails to connect
+				MovementClient mc = new MovementClient();
+				
+				//Have to start this on a new thread so it stays open and listends for responses
+				new Thread(mc).start();
+				
+				mc.placeOnProperty(user, token, propertyID, struct);
+				
+				//Wait for a response from the server
+				while ( mc.placeResponse == null ) {
+					try {
+					    Thread.sleep(500); 
+					} catch(InterruptedException ex) {
+					    Thread.currentThread().interrupt();
+					}
+				} 
+
+				//If we succeeded!
+				if ( mc.placeResponse.success ) {
+					message = mc.placeResponse.message;
+					
+					mc.close();
+					return true;
+				} else {
+					message = mc.placeResponse.message;
+					
+					mc.close();
+					return false;
+				}
+			} catch (IOException e) {
+				message = "Couldn't connect to server.";
+				return false;
+			}
+			
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			if ( success ) {
+				toast("yes");
+			} else {
+				toast("no");
 			}
 		}
 	}
@@ -478,6 +559,10 @@ public class PersonalPropertyActivity extends Activity {
 		        	   
 		        	   //Add to structs
 		        	   structs.add(temp);
+		        	   
+		        	   //Place the structure in DB/do uddates
+		        	   PlaceStructRequest PSR = new PlaceStructRequest(user.getUser(), user.getToken(), propID, temp);
+		        	   PSR.execute();
 		        	   
 		        	   //Make invisible, set struct, make visible
 		        	   it.image.setVisibility(ImageView.INVISIBLE);
