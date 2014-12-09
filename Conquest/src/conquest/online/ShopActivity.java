@@ -1,5 +1,7 @@
 package conquest.online;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -81,7 +86,7 @@ public class ShopActivity extends ActionBarActivity {
 	public TextView message;
 	public TextView stats;
 	public getShop shop;
-	//public getMoney mon;
+	// public getMoney mon;
 
 	private UserSession user;
 	public int gold;
@@ -107,8 +112,8 @@ public class ShopActivity extends ActionBarActivity {
 		shop = new getShop(user.getUser(), user.getToken());
 		shop.execute((Void) null);
 
-		//mon = new getMoney(user.getUser(), user.getToken());
-		//mon.execute((Void) null);
+		// mon = new getMoney(user.getUser(), user.getToken());
+		// mon.execute((Void) null);
 	}
 
 	public void createStore() {
@@ -119,9 +124,9 @@ public class ShopActivity extends ActionBarActivity {
 		ds = shop.ds;
 		os = shop.os;
 		stock = shop.stock;
-		
+
 		if (i == 0) {
-			populateStore();			
+			populateStore();
 		}
 		i++;
 	}
@@ -376,7 +381,7 @@ public class ShopActivity extends ActionBarActivity {
 		if (!checkBalance(stock[3].getCost())) {
 			sFourInfo.setTextColor(Color.RED);
 		}
-		
+
 		createListeners();
 	}
 
@@ -389,9 +394,9 @@ public class ShopActivity extends ActionBarActivity {
 	 */
 	public void setImage(String pic, ImageButton view) {
 
-		//TODO - THIS IS NEXT!! WOOHOOO
+		// TODO - THIS IS NEXT!! WOOHOOO
 		// Drawable d = Drawable.createFromPath(pic);
-		view.setImageResource(R.drawable.placeholder);
+		// view.setImageResource(R.drawable.placeholder);
 
 		// try {
 		// d = Drawable.createFromStream(getAssets().open(pic), null);
@@ -399,24 +404,24 @@ public class ShopActivity extends ActionBarActivity {
 		// e.printStackTrace();
 		// }
 
-		// AssetManager man = getAssets();
-		// InputStream open = null;
-		// try {
-		// open = man.open("placeholder.PNG");
-		// Bitmap bitmap = BitmapFactory.decodeStream(open);
-		// // Assign the bitmap to an ImageView in this layout
-		// view.setImageBitmap(bitmap);
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// } finally {
-		// if (open != null) {
-		// try {
-		// open.close();
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// }
+		AssetManager man = getAssets();
+		InputStream open = null;
+		try {
+			open = man.open(pic);
+			Bitmap bitmap = BitmapFactory.decodeStream(open);
+			// Assign the bitmap to an ImageView in this layout
+			view.setImageBitmap(bitmap);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (open != null) {
+				try {
+					open.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void fixStats() {
@@ -442,7 +447,9 @@ public class ShopActivity extends ActionBarActivity {
 					spendMoney(food[0].getCost());
 					int health = food[0].getHealth();
 					user.adjStats(health, 0, 0);
+					
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -461,6 +468,7 @@ public class ShopActivity extends ActionBarActivity {
 					int health = food[1].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -479,6 +487,7 @@ public class ShopActivity extends ActionBarActivity {
 					int health = food[2].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -497,6 +506,7 @@ public class ShopActivity extends ActionBarActivity {
 					int health = food[3].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -517,12 +527,13 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(weapon[0].getCost());
-	
+
 					weapon[0].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							weapon[0].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -543,12 +554,13 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(weapon[1].getCost());
-			
+
 					weapon[1].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							weapon[1].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -569,13 +581,13 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(weapon[2].getCost());
-		
+
 					weapon[2].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							weapon[2].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 					updateShop();
-					toast("tried");
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -596,12 +608,13 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(weapon[3].getCost());
-			
+
 					weapon[3].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							weapon[3].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -622,13 +635,14 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(armor[0].getCost());
-	
+
 					armor[0].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							armor[0].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -649,13 +663,14 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(armor[1].getCost());
-			
+
 					armor[1].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							armor[1].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -676,13 +691,14 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(armor[2].getCost());
-			
+
 					armor[2].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							armor[2].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -703,13 +719,14 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(armor[3].getCost());
-		
+
 					armor[3].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							armor[3].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -734,6 +751,7 @@ public class ShopActivity extends ActionBarActivity {
 							ds[0].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -757,6 +775,7 @@ public class ShopActivity extends ActionBarActivity {
 							ds[1].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -780,6 +799,7 @@ public class ShopActivity extends ActionBarActivity {
 							ds[2].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -803,6 +823,7 @@ public class ShopActivity extends ActionBarActivity {
 							ds[3].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -826,6 +847,7 @@ public class ShopActivity extends ActionBarActivity {
 							os[0].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -849,6 +871,7 @@ public class ShopActivity extends ActionBarActivity {
 							os[1].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -872,6 +895,7 @@ public class ShopActivity extends ActionBarActivity {
 							os[2].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -895,6 +919,7 @@ public class ShopActivity extends ActionBarActivity {
 							os[3].getId(), 0, slot.location, slot.pId);
 					use.execute((Void) null);
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -912,6 +937,7 @@ public class ShopActivity extends ActionBarActivity {
 					spendMoney(stock[0].getCost());
 					addGPM(stock[0].getGpm());
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -929,6 +955,7 @@ public class ShopActivity extends ActionBarActivity {
 					spendMoney(stock[1].getCost());
 					addGPM(stock[1].getGpm());
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -946,6 +973,7 @@ public class ShopActivity extends ActionBarActivity {
 					spendMoney(stock[2].getCost());
 					addGPM(stock[2].getGpm());
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -963,6 +991,7 @@ public class ShopActivity extends ActionBarActivity {
 					spendMoney(stock[3].getCost());
 					addGPM(stock[3].getGpm());
 					updateShop();
+					toast("Successfully purchased!");
 				} else {
 					message.setVisibility(View.VISIBLE);
 					toast("Sorry, cannot purchase item at this time");
@@ -974,7 +1003,7 @@ public class ShopActivity extends ActionBarActivity {
 
 	public boolean checkBalance(int i) {
 		// if balance is enough return true, else return false
-		
+
 		if (i <= user.getMoney()) {
 			// has enough gold to buy.
 			return true;
@@ -990,7 +1019,7 @@ public class ShopActivity extends ActionBarActivity {
 				i);
 		spend.execute((Void) null);
 	}
-	
+
 	public void sleepThread() {
 		toast("sleeping");
 		try {
@@ -1000,13 +1029,15 @@ public class ShopActivity extends ActionBarActivity {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Displays the message on the screen
+	 * 
 	 * @param message
 	 */
 	public void toast(String message) {
-		//Toast an error message if it exists. Will close and leave page if it doesn't
+		// Toast an error message if it exists. Will close and leave page if it
+		// doesn't
 		Context context = getApplicationContext();
 		CharSequence text = message;
 		int duration = Toast.LENGTH_SHORT;
@@ -1247,7 +1278,7 @@ public class ShopActivity extends ActionBarActivity {
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
-			
+
 		}
 
 		@Override
@@ -1270,8 +1301,8 @@ public class ShopActivity extends ActionBarActivity {
 		public boolean success;
 
 		// Instantiate task
-		buyItem(String username, String token, int id, int ioc, String location,
-				int pId) {
+		buyItem(String username, String token, int id, int ioc,
+				String location, int pId) {
 			this.username = username;
 			this.token = token;
 			this.id = id;
@@ -1398,7 +1429,7 @@ public class ShopActivity extends ActionBarActivity {
 					mc.updateStats(username, token, curHealth, money, gpm);
 
 					mc.close();
-					
+
 					user.updateAllStats();
 
 					message = "success";
