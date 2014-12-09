@@ -27,7 +27,6 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
@@ -53,9 +52,8 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	//http://developer.android.com/reference/com/google/android/gms/maps/model/MarkerOptions.html
 	private MarkerOptions characterMarkerOptions;
 	private Marker characterMarker;
-	private MovementClient mc;
 	
-	public MoveCharacter currentMove = new MoveCharacter();
+	public MoveCharacter currentMove;
 	
 	//Will be used as the reference to the map dispayed
 	public GoogleMap mMap;
@@ -77,13 +75,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	        		mLocationClient = new LocationClient(this, this, this);
 	        		mLocationClient.connect();
 	        		
-	        		try {
-						mc = new MovementClient();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	        		
+	        		currentMove = new MoveCharacter(user.getUser(), user.getToken());
 	        		
 	        		characterMarkerOptions = new MarkerOptions();
 	        		//characterMarker.anchor(0, 0);		//bitmap start position (should probably be center of image)
@@ -98,7 +90,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 								currentMove.cancel(true);
 							}
 							//else{
-								currentMove = new MoveCharacter();
+								currentMove = new MoveCharacter(user.getUser(), user.getToken());
 								currentMove.execute(user.getLocation(), targetLocation);
 							//}
 						}
@@ -209,9 +201,24 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	
 	public class MoveCharacter extends AsyncTask<LatLng, LatLng, Boolean>{
 		
+		private String username;
+		private String token;
+		
+		MoveCharacter(String user, String token){
+			this.username = user;
+			this.token = token;
+		}
+		
 		@Override
 		protected Boolean doInBackground(LatLng... params) {
 			// asynchronous Task
+			MovementClient mc;
+			try {
+				mc = new MovementClient();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				return false;
+			}
 			
 			LatLng current = params[0];
 			LatLng destination = params[1];
@@ -223,9 +230,10 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 			do{
 				current = new LatLng(current.latitude + moveVector.latitude, current.longitude + moveVector.longitude);
 				publishProgress(current);
-				
+				mc.updateLocation(username, token, current);
 				direction = getMovementVector(current, destination);
 				if (this.isCancelled()) break;
+				
 				try {
 				    Thread.sleep(100);                 //10 times/second
 				} catch(InterruptedException ex) {
@@ -242,8 +250,6 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 			//every time there is a new location
 	        user.setLocation(progress[0]);
 	        characterMarker.setPosition(progress[0]);
-	        mc.updateLocation(user.getUser(), user.getToken(), progress[0]);
-	       
 	     }
 		
 		@Override
@@ -442,7 +448,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 					for (int i = 0 ; i < numPeople; i++) {
 						int propertyID = requestProps.getInt("property"+i+"id");
 						double propertyLat = Double.parseDouble(requestProps.getString("property"+i+"lat"));
-						double propertyLon = Double.parseDouble(requestProps.getString("property"+i+"id"));
+						double propertyLon = Double.parseDouble(requestProps.getString("property"+i+"lon"));
 						LatLng location = new LatLng(propertyLat, propertyLon);
 						Property p = new Property(propertyID, location);
 						propertyList.add(p);
@@ -476,7 +482,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 				
 				for(int i=0;i<propertyList.size();i++)
 				{
-					LatLng ll= new LatLng(propertyList.get(i).getLatitude(), propertyList.get(i).getLatitude());
+					LatLng ll= new LatLng(propertyList.get(i).getLatitude(), propertyList.get(i).getLongitude());
 					GroundOverlayOptions blah = new GroundOverlayOptions()
 			        .image(BitmapDescriptorFactory.fromResource(R.drawable.prop_grid))
 			        .position(ll, 50f, 50f)

@@ -239,6 +239,13 @@ public class ConquestServer {
 	    	    	  con.sendUDP(response);
 	    	      }
 	    	      
+	    	      //Update Location request
+	    	      if(obj instanceof UpdateLatLongRequest){
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Update Location");
+	    	    	  UpdateLatLongRequest updateLocation = (UpdateLatLongRequest) obj;
+	    	    	  myCon.updateLoc(updateLocation);
+	    	      }
+	    	      
 	    	      //Updates the inventory by adding latest item
 	    	      if (obj instanceof InventoryChangeRequest) {
 	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Inventory Change");
