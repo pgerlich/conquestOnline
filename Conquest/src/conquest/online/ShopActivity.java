@@ -1453,7 +1453,7 @@ public class ShopActivity extends ActionBarActivity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			List<NameValuePair> postParams = new ArrayList<NameValuePair>(2);
-			postParams.add(new BasicNameValuePair("username", username));
+			postParams.add(new BasicNameValuePair("user", username));
 			postParams.add(new BasicNameValuePair("token", token));
 
 			// change to shop, not get friends
@@ -1555,6 +1555,7 @@ public class ShopActivity extends ActionBarActivity {
 					message = "success";
 					return true;
 				} else {
+					toast("FAILED TO UPDATE STATS");
 					message = getStats.getString("message");
 					return false;
 				}

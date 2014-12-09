@@ -73,6 +73,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	        	setContentView(R.layout.activity_map);
 	        	if(initMap())
 	        	{
+	        		characters = new ArrayList<Marker>();
 	        		mMap.setMyLocationEnabled(true);
 	        		mMap.setIndoorEnabled(false);
 	        		mMap.setBuildingsEnabled(false);
