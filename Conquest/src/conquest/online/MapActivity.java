@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 //import com.google.android.gms.c
 
 import conquest.client.classes.PersonNearYou;
+import conquest.client.classes.PersonNearYouRequest;
 import conquest.online.client.MovementClient;
 import conquest.online.gameAssets.Property;
 
@@ -315,6 +317,12 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		
 		
 		public class MarkCharacters extends AsyncTask<Void, MarkerOptions, Boolean>{
+			private LatLng loc;
+			
+			public MarkCharacters(LatLng l){
+				this.loc = l;
+			}
+			
 			@Override
 			protected Boolean doInBackground(Void... params) {
 				// asynchronous Task
@@ -327,7 +335,16 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 					// TODO Auto-generated catch block
 					return false;
 				}
-								
+				
+				mc.RequestNearbyPeople(loc.latitude, loc.longitude);
+				
+				while(mc.personResponse.size() == 0){
+						try {
+						    Thread.sleep(500);                 //1000 milliseconds is one second.
+						} catch(InterruptedException ex) {
+						    Thread.currentThread().interrupt();
+						}
+					}
 				for(int i = 0; i < mc.personResponse.size(); i++){
 					p = mc.personResponse.get(i);
 					m = new MarkerOptions();
@@ -343,7 +360,8 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 			@Override
 			protected void onProgressUpdate(MarkerOptions... progress) {
 				//every time there is a new location
-		        	characters.add(mMap.addMarker(progress[0]));
+				Marker a = mMap.addMarker(progress[0]);
+				characters.add(a);
 		     }
 			
 			@Override
@@ -354,7 +372,8 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 			@Override
 			protected void onPostExecute(final Boolean success) {
 				//end of execution
-				
+				MoveCharacters m = new MoveCharacters();
+				m.execute();
 			}
 
 		
@@ -366,7 +385,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		
 		
 		
-		public class moveCharacters extends AsyncTask<ArrayList<Marker>, MarkerOptions, Boolean>{
+		public class MoveCharacters extends AsyncTask<ArrayList<Marker>, MarkerOptions, Boolean>{
 			@Override
 			protected Boolean doInBackground(ArrayList<Marker>... params) {
 				// asynchronous Task
@@ -639,7 +658,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		//Draw(currentLoc);
 		//characterMarkerOptions.position(playerLoc);
 		//characterMarker = mMap.addMarker(characterMarkerOptions);
-		MarkCharacters asyncMark = new MarkCharacters();
+		MarkCharacters asyncMark = new MarkCharacters(playerLoc);
 		asyncMark.execute();
 		
 	}
