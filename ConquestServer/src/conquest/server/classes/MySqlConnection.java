@@ -820,8 +820,10 @@ public class MySqlConnection {
 							return response;
 						} else {
 							//TODO
-							PreparedStatement st = con.prepareStatement("UPDATE chests SET '" + change.location + "' = ? WHERE propertyId = '" + change.pId + "'");
-							st.setInt(1, change.id);
+							PreparedStatement st = con.prepareStatement("UPDATE chests SET ? = ? WHERE propertyId = ?");
+							st.setString(1, change.location);
+							st.setInt(2, change.id);
+							st.setInt(3, change.pId);
 							st.execute();
 						}
 

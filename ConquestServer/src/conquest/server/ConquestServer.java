@@ -228,13 +228,14 @@ public class ConquestServer {
 	    	      if (obj instanceof LogoutRequest) {
 	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Logout Request");
 	    	    	  LogoutRequest log = (LogoutRequest) obj;
-	    	    	  System.out.println(myCon.processLogout(log));
+	    	    	  //System.out.println(myCon.processLogout(log));
 	    	    	  
 	    	    	  //Remove from connected
 	    	    	  User thisUser = findUser(log.username);
 	    	    	  
+	    	    	  //Kick them from servers
 	    	    	  if ( thisUser != null ) {
-	    	    		  usersConnected.remove(thisUser);  
+	    	    		  kickFromServer(thisUser);
 	    	    	  }
 	    	    	  
 	    	      }
