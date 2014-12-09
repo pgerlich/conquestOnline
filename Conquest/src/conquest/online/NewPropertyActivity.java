@@ -126,9 +126,6 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 						NewPropertyActivity.this.mMap.addGroundOverlay(blah);
 						finalLL =ll;
 						
-						
-
-						
 					}
 				});
 				

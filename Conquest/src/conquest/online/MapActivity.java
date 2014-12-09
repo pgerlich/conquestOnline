@@ -9,8 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
-import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -27,8 +25,11 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -77,9 +78,9 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	        		characterMarkerOptions = new MarkerOptions();
 	        		//characterMarker.anchor(0, 0);		//bitmap start position (should probably be center of image)
 	        		
-	                mMap.setOnMapLongClickListener(new OnMapLongClickListener() {
+	                mMap.setOnMapClickListener(new OnMapClickListener() {
 						@Override
-						public void onMapLongClick(LatLng targetLocation) {
+						public void onMapClick(LatLng targetLocation) {
 							
 							//TODO Move from Current Position to future Position
 
@@ -243,6 +244,8 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 			//end of execution
 		}
 		
+		
+		
 		/**
 		 * takes in a start and destination LatLng and outputs a vector to be added to position every cycle.
 		 * @param p1
@@ -343,9 +346,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
     	if (mMap == null){
     		SupportMapFragment mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
     		mMap=mapFrag.getMap();
-    	
-    		
-    		
+
     	}
     	return (mMap!=null);
     }
@@ -459,17 +460,22 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
-			/*if ( success ) {
+			if ( success ) {
 				
 				for(int i=0;i<propertyList.size();i++)
 				{
-					//draw all properties
+					LatLng ll= new LatLng(propertyList.get(i).getLatitude(), propertyList.get(i).getLatitude());
+					GroundOverlayOptions blah = new GroundOverlayOptions()
+			        .image(BitmapDescriptorFactory.fromResource(R.drawable.prop_grid))
+			        .position(ll, 50f, 50f)
+			        .transparency((float) 0.5);
+					MapActivity.this.mMap.addGroundOverlay(blah);
 				}
 				
 			} else {
 				//error msg
 			}
-			*/
+			
 		}
 
 
