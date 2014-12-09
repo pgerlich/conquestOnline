@@ -289,7 +289,7 @@ public class ConquestServer {
 	    	      }
 	    	      
 	    	      if (obj instanceof PersonNearYouRequest){
-	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Struct Placement" );
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Person Near You" );
 	    	    	  PersonNearYouRequest PNYR = (PersonNearYouRequest) obj;
 	    	    	  ArrayList<PersonNearYou> response = myCon.requestNearbyPeople(PNYR);
 	    	    	  
@@ -400,7 +400,7 @@ public class ConquestServer {
 				PropStructsRequest.class, PropStructsResponse.class,
 				InventoryChangeRequest.class, InventoryChangeResponse.class,
 				ChestChangeRequest.class, ChestChangeResponse.class, StructPlaceRequest.class, 
-				StructPlaceResponse.class, UpdateLatLongRequest.class };
+				StructPlaceResponse.class, UpdateLatLongRequest.class, PersonNearYouRequest.class };
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777,
 				classes);
 
