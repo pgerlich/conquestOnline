@@ -944,9 +944,7 @@ public class MySqlConnection {
 	public void updateLoc(UpdateLatLongRequest updateLocation) {
 		
 		String statement = "UPDATE characters SET lat = ?, lon = ? WHERE username = ?";
-		
-		ArrayList<PersonNearYou> response = new ArrayList<PersonNearYou>(10);
-		
+
 		try {
 			Statement stmt1 = con.createStatement();
 			ResultSet isValid = stmt1.executeQuery("SELECT * FROM users WHERE username = '" + updateLocation.username + "' AND token = '" + updateLocation.token + "'");
