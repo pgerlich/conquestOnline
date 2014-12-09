@@ -550,8 +550,8 @@ public class PersonalPropertyActivity extends Activity {
 		        	   AbstractStructure temp = structs.get(which);
 		        	   
 		        	   //Set position and health
-		        	   temp.x = it.x;
-		        	   temp.y = it.y;
+		        	   temp.x = it.y;
+		        	   temp.y = it.x;
 		        	   temp.curHealth = temp.maxHealth;
 		        	   
 		        	   //Remove item from chest
