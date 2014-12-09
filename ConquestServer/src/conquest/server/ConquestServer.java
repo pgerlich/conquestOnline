@@ -295,7 +295,7 @@ public class ConquestServer {
 	    	    	  
 	    	    	  //Send them back over
 	    	    	  for(int i = 0; i < response.size(); i++ ) {
-	    	    		  System.out.println(response.get(i).user);
+	    	    		  //System.out.println(response.get(i).user);
 	    	    		  con.sendUDP(response.get(i));
 	    	    	  }
 	    	      }
