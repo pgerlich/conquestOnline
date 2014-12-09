@@ -1013,6 +1013,7 @@ public class ShopActivity extends ActionBarActivity {
 	}
 	
 	public void sleepThread() {
+		toast("sleeping");
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
@@ -1460,6 +1461,9 @@ public class ShopActivity extends ActionBarActivity {
 					.getJSONfromURL(
 							"http://proj-309-R12.cs.iastate.edu/functions/character/requestStats.php",
 							postParams);
+			while (getStats == null) {
+				sleepThread();
+			}
 
 			try {
 
@@ -1566,7 +1570,7 @@ public class ShopActivity extends ActionBarActivity {
 		protected void onPostExecute(final Boolean success) {
 			// Nothing needs to go here
 			fixStats();
-			toast("FIXED: " + attribute + "  by: " + amount);
+			toast("Changed: " + attribute + " By: " + amount);
 		}
 
 		@Override
