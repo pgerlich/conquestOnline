@@ -879,9 +879,9 @@ public class MySqlConnection {
 
 				// Create the house
 				PreparedStatement st = con.prepareStatement("UPDATE characters SET curHealth = ?, money = ?, gpm = ? WHERE username = '" + update.username + "'");
-				st.setInt(0, update.curHealth);
-				st.setInt(1, update.money);
-				st.setInt(2, update.gpm);
+				st.setInt(1, update.curHealth);
+				st.setInt(2, update.money);
+				st.setInt(3, update.gpm);
 				
 				st.execute();
 			}
