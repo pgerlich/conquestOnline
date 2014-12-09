@@ -295,13 +295,14 @@ public class ConquestServer {
 	    	      if (obj instanceof UpdateLatLongRequest) {
 	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Update Lat/Long location" );
 	    	    	  UpdateLatLongRequest ULLR = (UpdateLatLongRequest) obj;
-	    	    	  
-	    	    	  
+	    	    	   
 	    	    	  User thisUser = findUser(ULLR.username);
 	    	    	  
-	    	    	  //Update the users location on our side
-	    	    	  thisUser.latitude = ULLR.Lat;
-	    	    	  thisUser.longitude = ULLR.Lng;
+	    	    	  if ( thisUser != null ) {
+		    	    	  //Update the users location on our side
+		    	    	  thisUser.latitude = ULLR.Lat;
+		    	    	  thisUser.longitude = ULLR.Lng;
+	    	    	  }
 	    	    	  
 	    	    	  ArrayList<PersonNearYou> response = myCon.updateLoc(ULLR);
 	    	    	  
