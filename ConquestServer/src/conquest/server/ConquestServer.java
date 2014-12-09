@@ -338,7 +338,7 @@ public class ConquestServer {
 				UpdateStatsRequest.class, UpdateStatsResponse.class,
 				PropStructsRequest.class, PropStructsResponse.class,
 				InventoryChangeRequest.class, InventoryChangeResponse.class,
-				ChestChangeRequest.class, ChestChangeResponse.class };
+				ChestChangeRequest.class, ChestChangeResponse.class, StructPlaceRequest.class, StructPlaceResponse.class };
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777,
 				classes);
 

@@ -272,12 +272,12 @@ public class MovementClient implements Runnable {
 	 * @param propertyID
 	 * @param strctID
 	 */
-	public void placeOnProeprty(String user, String token, int propertyID, int strctID) {
+	public void placeOnProeprty(String user, String token, int propertyID, AbstractStructure struct) {
 		StructPlaceRequest SPR = new StructPlaceRequest();
 		SPR.username = user;
 		SPR.token = token;
 		SPR.propertyID = propertyID;
-		SPR.structID = strctID;
+		SPR.struct = struct;
 		this.client.sendUDP(SPR);
 	}
 

@@ -308,8 +308,15 @@ public class PersonalPropertyActivity extends Activity {
 
 				//If we succeeded!
 				if ( mc.structsResponse.get(0).success ) {
-					structures = (ArrayList<PropStructsResponse>) mc.structsResponse.clone();
 					this.message = mc.structsResponse.get(0).message;
+					
+					//Basically, if there was only one item then it failed/there are no structures on the property
+					if ( mc.structsResponse.size() == 0 ) {
+						mc.structsResponse.remove(0);
+					}
+					
+					structures = (ArrayList<PropStructsResponse>) mc.structsResponse.clone();
+					
 					mc.close();
 					return true;
 				} else {
