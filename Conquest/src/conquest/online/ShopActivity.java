@@ -436,7 +436,7 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[0].getCost())) {
 					spendMoney(food[0].getCost());
-					int health = Integer.parseInt(food[0].getHealth());
+					int health = food[0].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
 				} else {
@@ -452,7 +452,7 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[1].getCost())) {
 					spendMoney(food[1].getCost());
-					int health = Integer.parseInt(food[1].getHealth());
+					int health = food[1].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
 				} else {
@@ -468,7 +468,7 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[2].getCost())) {
 					spendMoney(food[2].getCost());
-					int health = Integer.parseInt(food[2].getHealth());
+					int health = food[2].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
 				} else {
@@ -484,7 +484,7 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[3].getCost())) {
 					spendMoney(food[3].getCost());
-					int health = Integer.parseInt(food[3].getHealth());
+					int health = food[3].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
 				} else {
@@ -1014,7 +1014,9 @@ public class ShopActivity extends ActionBarActivity {
 						String des = requestShop.getString("fd" + i);
 						int id = Integer.parseInt(requestShop.getString("fi"
 								+ i));
+						int health = requestShop.getInt("fh" + i);
 						food[i].create(name, c, pic, des, id);
+						food[i].setHealth(health);
 
 						weapon[i] = new Weapon();
 						name = requestShop.getString("wn" + i);
