@@ -76,6 +76,7 @@ public class ShopActivity extends ActionBarActivity {
 	public TextView message;
 	public TextView stats;
 	public getShop shop;
+	public getMoney mon;
 
 	private UserSession user;
 	public int gold;
@@ -88,8 +89,8 @@ public class ShopActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_shop);
-
+		setContentView(R.layout.activity_shop);	
+		
 		user = new UserSession(getApplicationContext());
 		user.updateAllStats();
 		updateShop();
@@ -99,6 +100,9 @@ public class ShopActivity extends ActionBarActivity {
 	public void updateShop() {
 		shop = new getShop(user.getUser(), user.getToken());
 		shop.execute((Void) null);
+		
+		mon = new getMoney(user.getUser(), user.getToken());
+		mon.execute((Void) null);
 	}
 	
 	public void createStore() {
@@ -136,7 +140,6 @@ public class ShopActivity extends ActionBarActivity {
 	/**
 	 * this is to set all the images, names, descriptions, and costs.
 	 */
-	// TODO - double check that all stuff looks the way it should, color changes
 	// when necessary.
 	public void populateStore() {
 		
@@ -326,7 +329,6 @@ public class ShopActivity extends ActionBarActivity {
 //		try {
 //			d = Drawable.createFromStream(getAssets().open(pic), null);
 //		} catch (IOException e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 		
@@ -355,7 +357,6 @@ public class ShopActivity extends ActionBarActivity {
 	 * This method is to create all the button listeners for the shop
 	 */
 	public void createListeners() {
-		// TODO - go through and get rid of stuff we don't need, and make sure
 		// every button is doing the right thing when clicked.
 		@SuppressWarnings("unused")
 		boolean space = true;
@@ -628,7 +629,6 @@ public class ShopActivity extends ActionBarActivity {
 			}
 		});
 
-		// TODO - check if there is room, way to pick property?
 		// need to add check to see if user owns a property or not (
 		dsOne.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -790,19 +790,7 @@ public class ShopActivity extends ActionBarActivity {
 	}
 
 	public boolean checkBalance(int i) {
-		// TODO
 		// if balance is enough return true, else return false
-		getMoney mon = new getMoney(user.getUser(), user.getToken());
-		mon.execute((Void) null);
-		
-		while (mon == null) {			
-			try {
-				Thread.sleep(150);
-			}
-			catch (InterruptedException e) {
-				
-			}
-		}
 
 		if (i <= mon.gold) {
 			// has enough gold to buy.
@@ -818,13 +806,6 @@ public class ShopActivity extends ActionBarActivity {
 		adjStats spend = new adjStats(user.getUser(), user.getToken(), "money",
 				i);
 		spend.execute((Void) null);
-	}
-
-	// TODO - When buying structures, check if there is room in the players
-	// structure to place item/ add item to inventory? not sure which
-	public boolean checkRoom(String id) {
-
-		return true;
 	}
 
 	// need to update this to get information for the shop, not register
@@ -870,7 +851,6 @@ public class ShopActivity extends ActionBarActivity {
 				try {
 					Thread.sleep(150);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 				}
 			}
 
@@ -995,7 +975,6 @@ public class ShopActivity extends ActionBarActivity {
 				try {
 					Thread.sleep(150);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 				}
 			}
 
@@ -1007,14 +986,14 @@ public class ShopActivity extends ActionBarActivity {
 				if (success.equals("1")) {
 					for (int i = 1; i <= 10; i++) {
 						if (ioc.equals("chests"))
-							if (getSlot.getString("struc" + i).equals(null)) {
+							if (getSlot.getInt("struc" + i) == -1) {
 								location = getSlot.getString("struc" + i);
 								pId = getSlot.getInt("propertyId");
 								message = "success";
 								return true;
 							}
 						if (ioc.equals("inventories"))
-							if (getSlot.getString("item" + i).equals(null)) {
+							if (getSlot.getInt("item" + i) == -1) {
 								location = getSlot.getString("item" + i);
 								message = "success";
 							}
@@ -1079,7 +1058,6 @@ public class ShopActivity extends ActionBarActivity {
 				try {
 					Thread.sleep(150);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 				}
 			}
 
@@ -1121,7 +1099,6 @@ public class ShopActivity extends ActionBarActivity {
 		}
 	}
 
-	// TODO - this adds the item to the player table so that we know they own
 	// this item THIS IS NEEDED FOR DS, and OS
 	public class buyItem extends AsyncTask<Void, Void, Boolean> {
 
@@ -1149,7 +1126,6 @@ public class ShopActivity extends ActionBarActivity {
 		protected Boolean doInBackground(Void... params) {
 
 			try {
-				// TODO - takes the id given, and puts that id into the
 				// userStructures table.
 				MovementClient mc = new MovementClient();
 
