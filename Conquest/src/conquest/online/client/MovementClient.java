@@ -146,7 +146,10 @@ public class MovementClient implements Runnable {
 	          }
 	          
 	          if (object instanceof PersonNearYou){
-	        	  personResponse.add((PersonNearYou) object);
+	        	  //don't add duplicates
+	        	  if ( !containsPerson((PersonNearYou) object) ){
+	        		  personResponse.add((PersonNearYou) object);  
+	        	  }
 	          }
 
 	       }
@@ -154,11 +157,15 @@ public class MovementClient implements Runnable {
 		
 	}
 	
-	public void findPerson(PersonNearYou person) {
+	public boolean containsPerson(PersonNearYou person) {
 		for(int i = 0; i < personResponse.size(); i++) {
 			PersonNearYou thisPerson = personResponse.get(i);
-			if ( thisPerson.user.equals()))
+			if ( thisPerson.user.equals(person.user) ) {
+				return true;
+			}
 		}
+		
+		return false;
 	}
 	
 	/**
