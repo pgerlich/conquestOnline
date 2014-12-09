@@ -15,7 +15,10 @@ public class AbstractStructure  {
 	public int maxHealth;
 	public boolean enabled;
 	public int defense;
+	public int attack;
 	public int viewRadius;
+	public int attackRadius;
+	public int splashRadius;
 	public String picPath;
 	
 	//Images/location/ect.

@@ -184,7 +184,7 @@ public class MySqlConnection {
 
 				// Create the character
 				PreparedStatement st1 = con
-						.prepareStatement("INSERT INTO characters(username, type, maxHealth, attack, armor, speed, stealth, tech, level, exp, lat, lon, curHealth) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+						.prepareStatement("INSERT INTO characters(username, type, maxHealth, attack, armor, speed, stealth, tech, level, exp, lat, lon, curHealth, money) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				st1.setString(1, reggy.username);
 				st1.setString(2, reggy.accountTypeCharacter);
 				st1.setInt(3, 100);
@@ -199,7 +199,13 @@ public class MySqlConnection {
 				st1.setDouble(11, 0);
 				st1.setInt(12, 0);
 				st1.setInt(13, 100);
+				st1.setInt(14, 50);
 				st1.execute();
+				
+				//Make inventory
+				PreparedStatement st2 = con.prepareStatement("INSERT INTO inventories(username, item1, item2, item3, item4, item5, item6, item6, item8, item9, item10) VALUES(?, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1)");
+				st2.setString(1, reggy.username);
+				st2.execute();
 			}
 
 			// Close connections
@@ -343,6 +349,14 @@ public class MySqlConnection {
 					}
 				}
 			}
+			
+			if (response.size() == 0 ) {
+				PropStructsResponse thisResponse = new PropStructsResponse();
+				thisResponse.message = "No structures on property";
+				thisResponse.success = false;
+				response.add(thisResponse);	
+			}
+
 
 			// Close connections
 			stmt1.close();
@@ -398,37 +412,60 @@ public class MySqlConnection {
 				response.success = false;
 				return response;
 			} else {
-
-				// Create the house
-				PreparedStatement st = con
-						.prepareStatement("INSERT INTO houses(topX, topY, currentHealth, maxHealth, computerLevel, computerCapacity, computerCurrent, safeLevel, safeCapacity, safeCurrent) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-				st.setInt(1, 0);
-				st.setInt(2, 0);
-				st.setInt(3, 0);
-				st.setInt(4, 100);
-				st.setInt(5, 1);
-				st.setInt(6, 100);
-				st.setInt(7, 0);
-				st.setInt(8, 1);
-				st.setInt(9, 100);
-				st.setInt(10, 0);
-				st.execute();
+//
+				//FIXME UNCOMMENT AND ADD HOUSE SHIT
+//				// Create the house
+//				PreparedStatement st = con
+//						.prepareStatement("INSERT INTO houses(topX, topY, currentHealth, maxHealth, computerLevel, computerCapacity, computerCurrent, safeLevel, safeCapacity, safeCurrent) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+//				st.setInt(1, 0);
+//				st.setInt(2, 0);
+//				st.setInt(3, 0);
+//				st.setInt(4, 100);
+//				st.setInt(5, 1);
+//				st.setInt(6, 100);
+//				st.setInt(7, 0);
+//				st.setInt(8, 1);
+//				st.setInt(9, 100);
+//				st.setInt(10, 0);
+//				st.execute();
 
 				// NEED TO GET HOUSE ID
 				// NEED TO CHANGE PROPERTY TO STORE AT ADDRESS
 
 				// Create the property
 				PreparedStatement st1 = con
-						.prepareStatement("INSERT INTO properties(houseID, owner, numResidents, maxResidents, locLat, locLon, height, width) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-				st1.setInt(1, 0);
-				st1.setString(2, prop.username);
-				st1.setInt(3, 1);
-				st1.setInt(4, 10);
-				st1.setString(5, "" + prop.lat);
-				st1.setString(6, "" + prop.lon);
+						.prepareStatement("INSERT INTO properties(owner, numResidents, maxResidents, locLat, locLon, height, width) VALUES(?, ?, ?, ?, ?, ?, ?)");
+				//st1.setInt(1, 0);
+				st1.setString(1, prop.username);
+				st1.setInt(2, 1);
+				st1.setInt(3, 10);
+				st1.setString(4, "" + prop.lat);
+				st1.setString(5, "" + prop.lon);
+				st1.setInt(6, 10);
 				st1.setInt(7, 10);
-				st1.setInt(8, 10);
 				st1.execute();
+				
+				//Create the chest - grab property ID
+				ResultSet propID = stmt1.executeQuery("SELECT * FROM properties WHERE locLat = " + prop.lat + " AND locLon = " + prop.lon);
+				System.out.println("SELECT * FROM properties WHERE locLat = " + prop.lat + " AND locLon = " + prop.lon);
+				
+				
+				//Grab property ID from entry
+				int propertyID = 0;
+				if ( propID.next() ) {
+					propertyID = propID.getInt("propertyID");
+				}
+				
+				//Create the chest
+				PreparedStatement st2 = con.prepareStatement("INSERT INTO chests(propertyID, struc1, struc2, struc3, struc4, struc5, struc6, struc7, struc8, struc9, struc10) VALUE(?, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1)");
+				st2.setInt(1, propertyID);
+				st2.execute();
+				
+				//Add the user to residence table
+				PreparedStatement st3 = con.prepareStatement("INSERT INTO residents(propertyID, username) VALUES(?, ?)");
+				st3.setInt(1, propertyID);
+				st3.setString(2, prop.username);
+				
 			}
 
 			// Close connections
@@ -441,6 +478,97 @@ public class MySqlConnection {
 			System.out.println(e.getErrorCode()
 					+ " occured while trying to purchase property for "
 					+ prop.username);
+			// e.printStackTrace();
+			
+			//Let us know it timed out
+			if ( e.getErrorCode() == 0 ) {
+				connected = false;
+			}
+			
+			response.message = e.getMessage();
+			response.success = false;
+			return response;
+		}
+	}
+	
+	/**
+	 * Register the user to the system.
+	 * 
+	 * @param reggy
+	 * @return
+	 */
+	public StructPlaceResponse placeStructure(
+			StructPlaceRequest SPR) {
+
+		Statement stmt1;
+
+		StructPlaceResponse response = new StructPlaceResponse();
+
+		try {
+			stmt1 = con.createStatement();
+
+			// compare user and token
+			ResultSet isValid = stmt1
+					.executeQuery("select * from users where username = '"
+							+ SPR.username + "' AND token = '" + SPR.token
+							+ "'");
+
+			// If the credentials matched
+			if (!isValid.next()) {
+				// Close connection
+				stmt1.close();
+				response.message = "Invalid Token. You are not logged in.";
+				response.success = false;
+				return response;
+			} else {
+
+				// Place the item on the property
+				PreparedStatement st = con
+						.prepareStatement("INSERT INTO userStructres(propertyID, structureID, topX, topY, curHealth, enabled, level, maxHealth, attack, defense, viewRadius, attackRadius, splashRadius) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+				st.setInt(1, SPR.propertyID);
+				st.setInt(2, SPR.struct.id);
+				st.setInt(3, SPR.struct.x);
+				st.setInt(4, SPR.struct.y);
+				st.setInt(5, SPR.struct.curHealth);
+				st.setInt(6, 1);
+				st.setInt(7, SPR.struct.level);
+				st.setInt(8, SPR.struct.maxHealth);
+				st.setInt(9, SPR.struct.attack);
+				st.setInt(10, SPR.struct.defense);
+				st.setInt(11, SPR.struct.viewRadius);
+				st.setInt(12, SPR.struct.attackRadius);
+				st.setInt(13, SPR.struct.splashRadius);
+				st.execute();
+
+				
+				ResultSet grabFromChest = stmt1.executeQuery("SELECT * FROM chests WHERE propertyID = " + SPR.propertyID);
+			
+				//If we have a chest
+				if ( grabFromChest.next() ){ 
+					
+					//Grab the chest items
+					for(int i = 1; i < 11; i++) {
+						if ( grabFromChest.getInt("struc" + i ) == SPR.struct.id ) {
+							String location = "struc" + i;
+							PreparedStatement st2 = con.prepareStatement("UPDATE chests SET " + location + " = -1 WHERE propertyID = " + SPR.propertyID);
+							st2.execute();
+							break;
+						}
+					}
+					
+				}
+			}
+
+			// Close connections
+			stmt1.close();
+
+			response.message = "Structure placed succesfully.";
+			response.success = true;
+			return response;
+		} catch (SQLException e) {
+			System.out.println(e.getErrorCode()
+					+ " occured while trying to place structure for "
+					+ SPR.username);
 			// e.printStackTrace();
 			
 			//Let us know it timed out
