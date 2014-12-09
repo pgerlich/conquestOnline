@@ -208,7 +208,7 @@ public class ShopActivity extends ActionBarActivity {
 				+ ", Attack:" + user.getAttack() + ", Armor:" + user.getArmor());
 
 		// setImage(food[0].getPic(), foodOne);
-		foodOne.setImageResource(R.drawable.bread);
+		foodOne.setBackgroundResource(R.drawable.bread);
 		foodOneInfo.setText(food[0].getName() + "-" + food[0].getDescription()
 				+ ":" + food[0].getCost());
 		if (!checkBalance(food[0].getCost())) {
@@ -243,7 +243,7 @@ public class ShopActivity extends ActionBarActivity {
 			weaponOneInfo.setTextColor(Color.RED);
 		}
 		// setImage(weapon[1].getPic(), weaponTwo);
-		weaponTwo.setImageResource(R.drawable.arrow);
+		weaponTwo.setImageResource(R.drawable.knife);
 		weaponTwoInfo.setText(weapon[1].getName() + "-"
 				+ weapon[1].getDescription() + ":" + weapon[1].getCost());
 		if (!checkBalance(weapon[1].getCost())) {
@@ -355,7 +355,7 @@ public class ShopActivity extends ActionBarActivity {
 			sOneInfo.setTextColor(Color.RED);
 		}
 		// setImage(stock[1].getPic(), sTwo);
-		osTwo.setImageResource(R.drawable.shop_image);
+		sTwo.setImageResource(R.drawable.shop_image);
 		sTwoInfo.setText(stock[1].getName() + "-" + stock[1].getDescription()
 				+ ":" + stock[1].getCost());
 		if (!checkBalance(stock[1].getCost())) {
