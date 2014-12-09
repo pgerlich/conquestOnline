@@ -101,7 +101,7 @@ public class MovementClient implements Runnable {
 				PropStructsRequest.class, PropStructsResponse.class,
 				InventoryChangeRequest.class, InventoryChangeResponse.class,
 				ChestChangeRequest.class, ChestChangeResponse.class, StructPlaceRequest.class,
-				StructPlaceResponse.class, UpdateLatLongRequest.class, PersonNearYouRequest.class };
+				StructPlaceResponse.class, UpdateLatLongRequest.class, PersonNearYouRequest.class, PersonNearYou.class };
 		
 		//Bind ports and start her up
 		startClient();

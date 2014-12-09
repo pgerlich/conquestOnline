@@ -206,7 +206,7 @@ public class ConquestServer {
 			    		  response.success = true;
 			    		  response.message = "Logged in succesfully";
 			    		  
-			    		  System.out.println(user.user + " Logged in succesfully");
+			    		  System.out.println(user.user + " logged in succesfully");
 			    		  
 			    		  //Send back the user object w/ token
 			    		  con.sendUDP(response);
@@ -401,7 +401,7 @@ public class ConquestServer {
 				PropStructsRequest.class, PropStructsResponse.class,
 				InventoryChangeRequest.class, InventoryChangeResponse.class,
 				ChestChangeRequest.class, ChestChangeResponse.class, StructPlaceRequest.class, 
-				StructPlaceResponse.class, UpdateLatLongRequest.class, PersonNearYouRequest.class };
+				StructPlaceResponse.class, UpdateLatLongRequest.class, PersonNearYouRequest.class, PersonNearYou.class };
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777,
 				classes);
 
