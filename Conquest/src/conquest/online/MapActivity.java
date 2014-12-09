@@ -1,5 +1,6 @@
 package conquest.online;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 //import com.google.android.gms.c
 
+import conquest.online.client.MovementClient;
 import conquest.online.gameAssets.Property;
 
 public class MapActivity extends ActionBarActivity implements
@@ -51,6 +53,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	//http://developer.android.com/reference/com/google/android/gms/maps/model/MarkerOptions.html
 	private MarkerOptions characterMarkerOptions;
 	private Marker characterMarker;
+	private MovementClient mc;
 	
 	public MoveCharacter currentMove = new MoveCharacter();
 	
@@ -73,6 +76,13 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	 
 	        		mLocationClient = new LocationClient(this, this, this);
 	        		mLocationClient.connect();
+	        		
+	        		try {
+						mc = new MovementClient();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	        		
 	        		
 	        		characterMarkerOptions = new MarkerOptions();
@@ -202,6 +212,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		@Override
 		protected Boolean doInBackground(LatLng... params) {
 			// asynchronous Task
+			
 			LatLng current = params[0];
 			LatLng destination = params[1];
 			
@@ -231,6 +242,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 			//every time there is a new location
 	        user.setLocation(progress[0]);
 	        characterMarker.setPosition(progress[0]);
+	        mc.updateLocation(user.getUser(), user.getToken(), progress[0]);
 	       
 	     }
 		

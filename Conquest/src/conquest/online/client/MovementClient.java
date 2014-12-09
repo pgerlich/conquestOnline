@@ -7,6 +7,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.google.android.gms.maps.model.LatLng;
 
 import conquest.client.classes.AbstractStructure;
 import conquest.client.classes.ChestChangeRequest;
@@ -26,6 +27,7 @@ import conquest.client.classes.StructPlaceRequest;
 import conquest.client.classes.StructPlaceResponse;
 import conquest.client.classes.UpdateStatsRequest;
 import conquest.client.classes.UpdateStatsResponse;
+import conquest.client.classes.UpdateLatLongRequest;
 
 
 /**
@@ -59,6 +61,7 @@ public class MovementClient implements Runnable {
 	public ChestChangeResponse chChangeResponse;
 	public ArrayList<PropStructsResponse> structsResponse = new ArrayList<PropStructsResponse>(10);
 	public StructPlaceResponse placeResponse;
+	public UpdateLatLongRequest locRequest;
 	
 	/**
 	 * Creates a connection client that connects to the specified host and ports.
@@ -95,7 +98,7 @@ public class MovementClient implements Runnable {
 				PropStructsRequest.class, PropStructsResponse.class,
 				InventoryChangeRequest.class, InventoryChangeResponse.class,
 				ChestChangeRequest.class, ChestChangeResponse.class, StructPlaceRequest.class,
-				StructPlaceResponse.class };
+				StructPlaceResponse.class, UpdateLatLongRequest.class};
 		
 		//Bind ports and start her up
 		startClient();
@@ -183,6 +186,17 @@ public class MovementClient implements Runnable {
 		logout.token = token;
 		
 		this.client.sendUDP(logout);
+	}
+	
+	
+	public void updateLocation(String user, String token, LatLng loc){
+		UpdateLatLongRequest ullr = new UpdateLatLongRequest();
+		ullr.username = user;
+		ullr.token = token;
+		ullr.Lat = loc.latitude;
+		ullr.Lng = loc.longitude;
+		
+		this.client.sendUDP(ullr);
 	}
 	
 	public void requestStructs(String username, String token, int propertyID, String location){

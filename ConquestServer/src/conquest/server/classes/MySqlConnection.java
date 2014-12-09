@@ -829,4 +829,30 @@ public class MySqlConnection {
 
 	}
 
+	
+	
+	
+	public void updateLoc(UpdateLatLongRequest updateLocation) {
+		// TODO Auto-generated method stub
+		String statement = "UPDATE characters SET lat = ?, loc = ?  "
+						+ "WHERE username = '"
+						+ updateLocation.username
+						+ "' AND token = '"
+						+ updateLocation.token + "'";
+		
+		PreparedStatement st;
+		try {
+			st = con.prepareStatement(statement);
+			st.setDouble(0, updateLocation.Lat);
+			st.setDouble(1, updateLocation.Lng);
+			st.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+
+	}
+
 }
