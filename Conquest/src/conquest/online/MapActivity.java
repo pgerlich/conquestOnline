@@ -220,6 +220,8 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 				return false;
 			}
 			
+			int i=0;
+			
 			LatLng current = params[0];
 			LatLng destination = params[1];
 			
@@ -228,9 +230,12 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 			
 			
 			do{
+				i++;
 				current = new LatLng(current.latitude + moveVector.latitude, current.longitude + moveVector.longitude);
-				publishProgress(current);
-				mc.updateLocation(username, token, current);
+				//publishProgress(current);
+				if(i % 5 == 0){
+					mc.updateLocation(username, token, current);
+				}
 				direction = getMovementVector(current, destination);
 				if (this.isCancelled()) break;
 				
