@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -73,13 +72,14 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	        	setContentView(R.layout.activity_map);
 	        	if(initMap())
 	        	{
-	        		characters = new ArrayList<Marker>();
 	        		mMap.setMyLocationEnabled(true);
 	        		mMap.setIndoorEnabled(false);
 	        		mMap.setBuildingsEnabled(false);
 	 
 	        		mLocationClient = new LocationClient(this, this, this);
 	        		mLocationClient.connect();
+	        		
+	        		characters = new ArrayList<Marker>();
 	        		
 	        		currentMove = new MoveCharacter(user.getUser(), user.getToken());
 	        		
@@ -241,7 +241,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 			do{
 				i++;
 				current = new LatLng(current.latitude + moveVector.latitude, current.longitude + moveVector.longitude);
-				//publishProgress(current);
+				publishProgress(current);
 				if(i % 5 == 0){
 					mc.updateLocation(username, token, current);
 				}
@@ -317,52 +317,53 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		
 		
 		
-		public class MarkCharacters extends AsyncTask<Void, MarkerOptions, Boolean>{
+		public class MarkCharacters extends AsyncTask<Void, ArrayList<MarkerOptions>, Boolean>{
 			private LatLng loc;
-			
+			private ArrayList<MarkerOptions> markerOptions;
 			public MarkCharacters(LatLng l){
 				this.loc = l;
 			}
 			
+			@SuppressWarnings("unchecked")
 			@Override
 			protected Boolean doInBackground(Void... params) {
 				// asynchronous Task
 				MovementClient mc;
 				PersonNearYou p;
 				MarkerOptions m;
+				markerOptions = new ArrayList<MarkerOptions>();
 				try {
 					mc = new MovementClient();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					return false;
 				}
+
+					if(this.isCancelled()){return false;}
+					mc.RequestNearbyPeople(loc.latitude, loc.longitude);
 				
-				mc.RequestNearbyPeople(loc.latitude, loc.longitude);
-				
-				while(mc.personResponse.size() == 0){
+					while(mc.personResponse.size() == 0){
 						try {
-						    Thread.sleep(500);                 //1000 milliseconds is one second.
+					    	Thread.sleep(100);                 //1000 milliseconds is one second.
 						} catch(InterruptedException ex) {
-						    Thread.currentThread().interrupt();
+					    	Thread.currentThread().interrupt();
 						}
 					}
-				for(int i = 0; i < mc.personResponse.size(); i++){
-					p = mc.personResponse.get(i);
-					m = new MarkerOptions();
-					m.alpha((float)p.maxHealth / (float)p.curHealth);
-					m.title(p.user);
-					m.position(new LatLng(p.x, p.y));
-					publishProgress(m);
-		        }
-				
+					for(int i = 0; i < mc.personResponse.size(); i++){
+						p = mc.personResponse.get(i);
+						m = new MarkerOptions();
+						m.alpha((float)p.maxHealth / (float)p.curHealth);
+						m.title(p.user);
+						m.position(new LatLng(p.x, p.y));
+						markerOptions.add(m);
+		        	}
 				return true;
 			}
 			
 			@Override
-			protected void onProgressUpdate(MarkerOptions... progress) {
+			protected void onProgressUpdate(ArrayList<MarkerOptions>... progress) {
 				//every time there is a new location
-				Marker a = mMap.addMarker(progress[0]);
-				characters.add(a);
+				
 		     }
 			
 			@Override
@@ -372,58 +373,28 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 			
 			@Override
 			protected void onPostExecute(final Boolean success) {
-				//end of execution
-				MoveCharacters m = new MoveCharacters();
-				m.execute();
+				if(success){
+					update(markerOptions);
+				}
 			}
 
 		
 		}
 		
-		
-		
-		
-		
-		
-		
-		public class MoveCharacters extends AsyncTask<ArrayList<Marker>, MarkerOptions, Boolean>{
-			@Override
-			protected Boolean doInBackground(ArrayList<Marker>... params) {
-				// asynchronous Task
-				MovementClient mc;
-				PersonNearYou p;
-				MarkerOptions m;
-				try {
-					mc = new MovementClient();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					return false;
-				}
-				
-				
-				return true;
+		public void update(ArrayList<MarkerOptions> newOptions){
+			
+			for(int i = 0; i < characters.size(); i++){
+				characters.get(i).remove();
+			}
+			for(int i = 0; i < newOptions.size(); i++){
+				Marker a = mMap.addMarker(newOptions.get(i));
+				characters.add(a);
 			}
 			
-			@Override
-			protected void onProgressUpdate(MarkerOptions... progress) {
-				//every time there is a new location
-		        for(int i = 0; i < progress.length; i++){
-		        	mMap.addMarker(progress[0]);
-		        }
-		     }
+			MarkCharacters asyncMark = new MarkCharacters(user.getLocation());
+			asyncMark.execute();
 			
-			@Override
-		    protected void onCancelled() {
-		        this.cancel(true);
-		    }
 			
-			@Override
-			protected void onPostExecute(final Boolean success) {
-				//end of execution
-				
-			}
-
-		
 		}
 		
 		
@@ -474,6 +445,12 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		}
 	}
 	
+	
+	
+	
+	
+	
+	
     //method used to check if device is connected to google play services
     public boolean servicesOK()
     {
@@ -493,6 +470,8 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
     	return false;
     }
     
+    
+    
     private boolean initMap() {
     	if (mMap == null){
     		SupportMapFragment mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -501,6 +480,8 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
     	}
     	return (mMap!=null);
     }
+    
+    
     
     //draws all properties found in database
     public void Draw(Location currentLoc)
@@ -511,6 +492,8 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
     	
     	Toast.makeText(this, "NO WAY", Toast.LENGTH_SHORT).show();
     }
+    
+    
     
     private void setView(){
 
@@ -657,10 +640,11 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		CameraUpdate update = CameraUpdateFactory.newLatLngZoom(playerLoc, zoom);
 		mMap.animateCamera(update);
 		//Draw(currentLoc);
-		//characterMarkerOptions.position(playerLoc);
-		//characterMarker = mMap.addMarker(characterMarkerOptions);
-		MarkCharacters asyncMark = new MarkCharacters(playerLoc);
-		asyncMark.execute();
+		MarkerOptions m = new MarkerOptions();
+		m.position(playerLoc);
+		characterMarker = mMap.addMarker(m);
+		//MarkCharacters asyncMark = new MarkCharacters(playerLoc);
+		//asyncMark.execute();
 		
 	}
 
