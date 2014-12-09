@@ -66,9 +66,12 @@ public class MySqlConnection {
 				st.execute();
 				
 				//Grab the lat/lon of the user
-				ResultSet getUserInfo = stmt1.executeQuery("SELECT * FROM users WHERE username = " + user.user);
-				thisUser.latitude = getUserInfo.getDouble("lat");
-				thisUser.longitude = getUserInfo.getDouble("lon");
+				ResultSet res = stmt1.executeQuery("SELECT * FROM characters WHERE username = '" + user.user + "'");
+				
+				if ( res.next() ) {
+					thisUser.latitude = res.getDouble("lat");
+					thisUser.longitude = res.getDouble("lon");
+				}
 
 				// Output sucess message to server command line
 				System.out.println(user.user + " Logged in");
@@ -929,31 +932,40 @@ public class MySqlConnection {
 		}
 
 	}
-
 	
 	
-	
+	/**
+	 * Update the users location in the DB
+	 * @param updateLocation
+	 */
 	public void updateLoc(UpdateLatLongRequest updateLocation) {
-		// TODO Auto-generated method stub
-		String statement = "UPDATE characters SET lat = ?, loc = ?  "
-						+ "WHERE username = '"
-						+ updateLocation.username
-						+ "' AND token = '"
-						+ updateLocation.token + "'";
 		
-		PreparedStatement st;
+		String statement = "UPDATE characters SET lat = ?, lon = ? WHERE username = ?";
+		
 		try {
-			st = con.prepareStatement(statement);
-			st.setDouble(0, updateLocation.Lat);
-			st.setDouble(1, updateLocation.Lng);
-			st.execute();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Statement stmt1 = con.createStatement();
+			ResultSet isValid = stmt1.executeQuery("SELECT * FROM users WHERE username = '" + updateLocation.username + "' AND token = '" + updateLocation.token + "'");
+			
+			//If valid user/token
+			if ( isValid.next() ) {
+				
+				PreparedStatement st;
+				try {
+					st = con.prepareStatement(statement);
+					st.setDouble(1, updateLocation.Lat);
+					st.setDouble(2, updateLocation.Lng);
+					st.setString(3, updateLocation.username);
+					st.execute();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		} catch (SQLException e1) {
+			//Nothing
 		}
 		
-		
-
 	}
 
 }

@@ -19,6 +19,7 @@ import conquest.server.classes.LoginRequest;
 import conquest.server.classes.LoginResponse;
 import conquest.server.classes.LogoutRequest;
 import conquest.server.classes.MySqlConnection;
+import conquest.server.classes.PersonNearYou;
 import conquest.server.classes.PropStructsRequest;
 import conquest.server.classes.PropStructsResponse;
 import conquest.server.classes.PropertyPurchaseRequest;
@@ -279,9 +280,56 @@ public class ConquestServer {
 	    	    	  System.out.println(SPRes.message);
 	    	    	  con.sendUDP(SPRes);
 	    	      }
+	    	      
+	    	      if (obj instanceof UpdateLatLongRequest) {
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Update Lat/Long location" );
+	    	    	  UpdateLatLongRequest ULLR = (UpdateLatLongRequest) obj;
+	    	    	  
+	    	    	  
+	    	    	  User thisUser = findUser(ULLR.username);
+	    	    	  
+	    	    	  //Update the users location on our side
+	    	    	  thisUser.latitude = ULLR.Lat;
+	    	    	  thisUser.longitude = ULLR.Lng;
+	    	    	  
+	    	    	  myCon.updateLoc(ULLR);
+	    	      }
+	    	    
 		       }
 		       
 		    });
+	}
+	
+	/**
+	 * Sends all people within 1 mile of you to all users connect
+	 */
+	public void sendOutUserLocations(){
+		
+		//For each connected User
+		for(int i = 0; i < usersConnected.size(); i++ ) {
+			User thisUser = usersConnected.get(i);
+			ArrayList<PersonNearYou> nearThisPerson = myCon.requestNearbyPeople(thisUser.latitude, thisUser.longitude);
+			
+			//Send each person near them
+			for (int j = 0; j < nearThisPerson.size(); j++ ) {
+				thisUser.con.sendUDP(nearThisPerson.get(j));
+			}
+		}
+	}
+	
+	/**
+	 * Return user of the connection
+	 * @param con
+	 * @return
+	 */
+	public User findUser(Connection con){
+		for (int i = 0; i < usersConnected.size(); i++) {
+			if ( usersConnected.get(i).con.equals(con) ) {
+				return usersConnected.get(i);
+			}
+		}
+		
+		return null;
 	}
 
 	public User findUser(String username) {
