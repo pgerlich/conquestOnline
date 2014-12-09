@@ -73,9 +73,6 @@ public class MySqlConnection {
 					thisUser.longitude = res.getDouble("lon");
 				}
 
-				// Output sucess message to server command line
-				System.out.println(user.user + " Logged in");
-
 				// Close connections
 				stmt1.close();
 
@@ -650,9 +647,12 @@ public class MySqlConnection {
 				//If we have a chest
 				if ( grabFromChest.next() ){ 
 					
+					System.out.println("have chest");
+					
 					//Grab the chest items
 					for(int i = 1; i < 11; i++) {
 						if ( grabFromChest.getInt("struc" + i ) == SPR.struct.id ) {
+							System.out.println("Removed from chest");
 							String location = "struc" + i;
 							PreparedStatement st2 = con.prepareStatement("UPDATE chests SET " + location + " = -1 WHERE propertyID = " + SPR.propertyID);
 							st2.execute();
@@ -660,6 +660,8 @@ public class MySqlConnection {
 						}
 					}
 					
+				} else {
+					System.out.println("no chest");
 				}
 			}
 

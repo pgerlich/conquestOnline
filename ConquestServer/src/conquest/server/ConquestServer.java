@@ -202,6 +202,8 @@ public class ConquestServer {
 			    		  response.success = true;
 			    		  response.message = "Logged in succesfully";
 			    		  
+			    		  System.out.println(user.user + " Logged in succesfully");
+			    		  
 			    		  //Send back the user object w/ token
 			    		  con.sendUDP(response);
 			    		  }
