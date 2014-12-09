@@ -24,7 +24,7 @@ public class PersonalPropertyActivity extends Activity {
 	
 	//The double array of grid items
 	public GridItem[][] grid;
-	
+	//
 	//Arraylist of structures
 	public ArrayList<AbstractStructure> structs = new ArrayList<AbstractStructure>(10);
 	public ArrayList<AbstractStructure> chestItems = new ArrayList<AbstractStructure>(10);
