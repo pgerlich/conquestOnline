@@ -224,7 +224,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
     {
     	
     	getNearbyProperties gnp = new getNearbyProperties(user.getUser(), user.getToken(),currentLoc.getLatitude()+"",currentLoc.getLongitude()+"");
-    	//gnp.execute();
+    	gnp.execute();
     	
     	Toast.makeText(this, "NO WAY", Toast.LENGTH_SHORT).show();
     }
@@ -359,7 +359,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		LatLng ll= new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
 		CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
 		mMap.animateCamera(update);
-		Draw(currentLoc);
+		//Draw(currentLoc);
 		
     	
 	}
