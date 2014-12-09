@@ -772,7 +772,7 @@ public class MySqlConnection {
 							return response;
 						} else {
 							//TODO
-							PreparedStatement st = con.prepareStatement("UPDATE inventories SET '" + change.location + "' = ? WHERE username = '" + change.user + "'");
+							PreparedStatement st = con.prepareStatement("UPDATE inventories SET " + change.location + " = ? WHERE username = '" + change.user + "'");
 							st.setInt(1, change.id);
 							st.execute();
 						}
