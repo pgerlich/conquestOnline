@@ -80,11 +80,13 @@ public class PersonalPropertyActivity extends Activity {
 			}
 		}
 		
-		//Change image, set visible, and set struct
-		for(int i = 0; i < structs.size(); i++){
-			grid[structs.get(i).x][structs.get(i).y].struct = structs.get(i);
-			grid[structs.get(i).x][structs.get(i).y].image.setImageResource(R.drawable.wall);
-			grid[structs.get(i).x][structs.get(i).y].image.setVisibility(ImageView.VISIBLE);
+		if ( structs != null ) {
+			//Change image, set visible, and set struct
+			for(int i = 0; i < structs.size(); i++){
+				grid[structs.get(i).x][structs.get(i).y].struct = structs.get(i);
+				grid[structs.get(i).x][structs.get(i).y].image.setImageResource(R.drawable.wall);
+				grid[structs.get(i).x][structs.get(i).y].image.setVisibility(ImageView.VISIBLE);
+			}
 		}
 		
 		//Set blanks visible
@@ -310,17 +312,18 @@ public class PersonalPropertyActivity extends Activity {
 				if ( mc.structsResponse.get(0).success ) {
 					this.message = mc.structsResponse.get(0).message;
 					
-					//Basically, if there was only one item then it failed/there are no structures on the property
-					if ( mc.structsResponse.size() == 0 ) {
-						mc.structsResponse.remove(0);
-					}
-					
 					structures = (ArrayList<PropStructsResponse>) mc.structsResponse.clone();
 					
 					mc.close();
 					return true;
 				} else {
-					message = mc.loginResponse.message;
+					message = mc.structsResponse.get(0).message;
+					
+					if ( mc.structsResponse.get(0).message.equals("none") ){
+						mc.close();
+						return true;
+					}
+					
 					mc.close();
 					return false;
 				}

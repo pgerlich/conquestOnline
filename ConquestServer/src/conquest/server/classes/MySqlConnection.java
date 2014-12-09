@@ -352,7 +352,11 @@ public class MySqlConnection {
 			
 			if (response.size() == 0 ) {
 				PropStructsResponse thisResponse = new PropStructsResponse();
-				thisResponse.message = "No structures on property";
+				if ( psr.location.equals("property") ) {
+					thisResponse.message = "none";
+				} else if ( psr.location.equals("chest") ) {
+					thisResponse.message = "none";
+				}
 				thisResponse.success = false;
 				response.add(thisResponse);	
 			}
