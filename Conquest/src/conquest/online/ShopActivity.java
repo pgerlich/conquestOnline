@@ -98,8 +98,6 @@ public class ShopActivity extends ActionBarActivity {
 		user = new UserSession(getApplicationContext());
 		user.updateAllStats();
 		updateShop();
-		
-		createStore();
 
 	}
 
@@ -120,9 +118,11 @@ public class ShopActivity extends ActionBarActivity {
 		os = shop.os;
 		stock = shop.stock;
 		populateStore();
-		//if (i == 0)
-		createListeners();
-		//i++;
+		if (i == 0) {
+			createListeners();
+			populateStore();
+		}
+		i++;
 	}
 
 	@Override
@@ -1072,7 +1072,7 @@ public class ShopActivity extends ActionBarActivity {
 		protected void onPostExecute(final Boolean success) {
 			// dont know what to put here
 			//TODO - only update when first open
-			//createStore();
+			createStore();
 			
 		}
 
