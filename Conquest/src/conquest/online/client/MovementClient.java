@@ -17,6 +17,7 @@ import conquest.client.classes.InventoryChangeResponse;
 import conquest.client.classes.LoginRequest;
 import conquest.client.classes.LoginResponse;
 import conquest.client.classes.LogoutRequest;
+import conquest.client.classes.PersonNearYou;
 import conquest.client.classes.PropStructsRequest;
 import conquest.client.classes.PropStructsResponse;
 import conquest.client.classes.PropertyPurchaseRequest;
@@ -60,6 +61,7 @@ public class MovementClient implements Runnable {
 	public InventoryChangeResponse invChangeResponse;
 	public ChestChangeResponse chChangeResponse;
 	public ArrayList<PropStructsResponse> structsResponse = new ArrayList<PropStructsResponse>(10);
+	public ArrayList<PersonNearYou> personResponse = new ArrayList<PersonNearYou>(10);
 	public StructPlaceResponse placeResponse;
 	public UpdateLatLongRequest locRequest;
 	
@@ -141,6 +143,10 @@ public class MovementClient implements Runnable {
 	          
 	          if (object instanceof StructPlaceResponse){
 	        	  placeResponse = (StructPlaceResponse) object;
+	          }
+	          
+	          if (object instanceof PersonNearYou){
+	        	  personResponse.add((PersonNearYou) object);
 	          }
 
 	       }
