@@ -316,10 +316,10 @@ public class MovementClient implements Runnable {
 		this.client.sendUDP(SPR);
 	}
 	
-	public void RequestNearbyPeople(double lat, double long) {
+	public void RequestNearbyPeople(double lat, double lon) {
 		PersonNearYouRequest PNYR = new PersonNearYouRequest();
 		PNYR.lat = lat;
-		PNYR.lon = long;
+		PNYR.lon = lon;
 		this.client.sendUDP(PNYR);
 	}
 
