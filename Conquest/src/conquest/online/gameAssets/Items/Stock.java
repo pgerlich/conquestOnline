@@ -2,7 +2,7 @@ package conquest.online.gameAssets.Items;
 
 public class Stock extends AbstractItem {
 	
-	private double gpm;
+	private int gpm;
 
 	@Override
 	public void use() {
@@ -10,11 +10,11 @@ public class Stock extends AbstractItem {
 		
 	}
 	
-	public void setGpm(double gpm) {
+	public void setGpm(int gpm) {
 		this.gpm = gpm;
 	}
 	
-	public double getGpm() {
+	public int getGpm() {
 		return gpm;
 	}
 

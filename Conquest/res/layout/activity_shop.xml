@@ -426,6 +426,91 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
+                
+                
+            </LinearLayout>
+            
+            <!-- Tab 6 -->
+            
+            <LinearLayout
+                android:id="@+id/tab6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="4" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/s_one"
+                        android:layout_width="fill_parent"
+                        android:layout_height="160dp"
+                        android:contentDescription="@string/shopItem" />
+
+                    <TextView
+                        android:id="@+id/s_one_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/s_two"
+                        android:layout_width="fill_parent"
+                        android:layout_height="160dp"
+                        android:contentDescription="@string/shopItem" />
+
+                    <TextView
+                        android:id="@+id/s_two_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/s_three"
+                        android:layout_width="fill_parent"
+                        android:layout_height="160dp"
+                        android:contentDescription="@string/shopItem" />
+
+                    <TextView
+                        android:id="@+id/s_three_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/s_four"
+                        android:layout_width="fill_parent"
+                        android:layout_height="160dp"
+                        android:contentDescription="@string/shopItem" />
+
+                    <TextView
+                        android:id="@+id/s_four_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
