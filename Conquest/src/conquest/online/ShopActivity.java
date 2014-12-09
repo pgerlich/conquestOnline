@@ -8,6 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import conquest.online.client.MovementClient;
 import conquest.online.gameAssets.Items.Armor;
 import conquest.online.gameAssets.Items.Food;
@@ -214,161 +216,161 @@ public class ShopActivity extends ActionBarActivity {
 			foodOneInfo.setTextColor(Color.RED);
 		}
 		// setImage(food[1].getPic(), foodTwo);
-		foodTwo.setImageResource(R.drawable.food);
+		foodTwo.setBackgroundResource(R.drawable.food);
 		foodTwoInfo.setText(food[1].getName() + "-" + food[1].getDescription()
 				+ ":" + food[1].getCost());
 		if (!checkBalance(food[1].getCost())) {
 			foodTwoInfo.setTextColor(Color.RED);
 		}
 		// setImage(food[2].getPic(), foodThree);
-		foodThree.setImageResource(R.drawable.food);
+		foodThree.setBackgroundResource(R.drawable.food);
 		foodThreeInfo.setText(food[2].getName() + "-"
 				+ food[2].getDescription() + ":" + food[2].getCost());
 		if (!checkBalance(food[2].getCost())) {
 			foodThreeInfo.setTextColor(Color.RED);
 		}
 		// setImage(food[3].getPic(), foodFour);
-		foodFour.setImageResource(R.drawable.food);
+		foodFour.setBackgroundResource(R.drawable.food);
 		foodFourInfo.setText(food[3].getName() + "-" + food[3].getDescription()
 				+ ":" + food[3].getCost());
 		if (!checkBalance(food[3].getCost())) {
 			foodFourInfo.setTextColor(Color.RED);
 		}
 		// setImage(weapon[0].getPic(), weaponOne);
-		weaponOne.setImageResource(R.drawable.weapon);
+		weaponOne.setBackgroundResource(R.drawable.weapon);
 		weaponOneInfo.setText(weapon[0].getName() + "-"
 				+ weapon[0].getDescription() + ":" + weapon[0].getCost());
 		if (!checkBalance(weapon[0].getCost())) {
 			weaponOneInfo.setTextColor(Color.RED);
 		}
 		// setImage(weapon[1].getPic(), weaponTwo);
-		weaponTwo.setImageResource(R.drawable.weapon);
+		weaponTwo.setBackgroundResource(R.drawable.weapon);
 		weaponTwoInfo.setText(weapon[1].getName() + "-"
 				+ weapon[1].getDescription() + ":" + weapon[1].getCost());
 		if (!checkBalance(weapon[1].getCost())) {
 			weaponTwoInfo.setTextColor(Color.RED);
 		}
 		// setImage(weapon[2].getPic(), weaponThree);
-		weaponThree.setImageResource(R.drawable.weapon);
+		weaponThree.setBackgroundResource(R.drawable.weapon);
 		weaponThreeInfo.setText(weapon[2].getName() + "-"
 				+ weapon[2].getDescription() + ":" + weapon[2].getCost());
 		if (!checkBalance(weapon[2].getCost())) {
 			weaponThreeInfo.setTextColor(Color.RED);
 		}
 		// setImage(weapon[3].getPic(), weaponFour);
-		weaponFour.setImageResource(R.drawable.weapon);
+		weaponFour.setBackgroundResource(R.drawable.weapon);
 		weaponFourInfo.setText(weapon[3].getName() + "-"
 				+ weapon[3].getDescription() + ":" + weapon[3].getCost());
 		if (!checkBalance(weapon[3].getCost())) {
 			weaponFourInfo.setTextColor(Color.RED);
 		}
 		// setImage(armor[0].getPic(), armorOne);
-		armorOne.setImageResource(R.drawable.armor);
+		armorOne.setBackgroundResource(R.drawable.armor);
 		armorOneInfo.setText(armor[0].getName() + "-"
 				+ armor[0].getDescription() + ":" + armor[0].getCost());
 		if (!checkBalance(armor[0].getCost())) {
 			armorOneInfo.setTextColor(Color.RED);
 		}
 		// setImage(armor[1].getPic(), armorTwo);
-		armorTwo.setImageResource(R.drawable.armor);
+		armorTwo.setBackgroundResource(R.drawable.armor);
 		armorTwoInfo.setText(armor[1].getName() + "-"
 				+ armor[1].getDescription() + ":" + armor[1].getCost());
 		if (!checkBalance(armor[1].getCost())) {
 			armorTwoInfo.setTextColor(Color.RED);
 		}
 		// setImage(armor[2].getPic(), armorThree);
-		armorThree.setImageResource(R.drawable.armor);
+		armorThree.setBackgroundResource(R.drawable.armor);
 		armorThreeInfo.setText(armor[2].getName() + "-"
 				+ armor[2].getDescription() + ":" + armor[2].getCost());
 		if (!checkBalance(armor[2].getCost())) {
 			armorThreeInfo.setTextColor(Color.RED);
 		}
 		// setImage(armor[3].getPic(), armorFour);
-		armorFour.setImageResource(R.drawable.armor);
+		armorFour.setBackgroundResource(R.drawable.armor);
 		armorFourInfo.setText(armor[3].getName() + "-"
 				+ armor[3].getDescription() + ":" + armor[3].getCost());
 		if (!checkBalance(armor[3].getCost())) {
 			armorFourInfo.setTextColor(Color.RED);
 		}
 		// setImage(ds[0].getPic(), dsOne);
-		dsOne.setImageResource(R.drawable.wall);
+		dsOne.setBackgroundResource(R.drawable.wall);
 		dsOneInfo.setText(ds[0].getName() + "-" + ds[0].getDes() + ":"
 				+ ds[0].getCost());
 		if (!checkBalance(ds[0].getCost())) {
 			dsOneInfo.setTextColor(Color.RED);
 		}
 		// setImage(ds[1].getPic(), dsTwo);
-		dsTwo.setImageResource(R.drawable.wall);
+		dsTwo.setBackgroundResource(R.drawable.wall);
 		dsTwoInfo.setText(ds[1].getName() + "-" + ds[1].getDes() + ":"
 				+ ds[1].getCost());
 		if (!checkBalance(ds[1].getCost())) {
 			dsTwoInfo.setTextColor(Color.RED);
 		}
 		// setImage(ds[2].getPic(), dsThree);
-		dsThree.setImageResource(R.drawable.wall);
+		dsThree.setBackgroundResource(R.drawable.wall);
 		dsThreeInfo.setText(ds[2].getName() + "-" + ds[2].getDes() + ":"
 				+ ds[2].getCost());
 		if (!checkBalance(ds[2].getCost())) {
 			dsThreeInfo.setTextColor(Color.RED);
 		}
 		// setImage(ds[3].getPic(), dsFour);
-		dsFour.setImageResource(R.drawable.wall);
+		dsFour.setBackgroundResource(R.drawable.wall);
 		dsFourInfo.setText(ds[3].getName() + "-" + ds[3].getDes() + ":"
 				+ ds[3].getCost());
 		if (!checkBalance(ds[3].getCost())) {
 			dsFourInfo.setTextColor(Color.RED);
 		}
 		// setImage(os[0].getPic(), osOne);
-		osOne.setImageResource(R.drawable.turret);
+		osOne.setBackgroundResource(R.drawable.turret);
 		osOneInfo.setText(os[0].getName() + "-" + os[0].getDes() + ":"
 				+ os[0].getCost());
 		if (!checkBalance(os[0].getCost())) {
 			osOneInfo.setTextColor(Color.RED);
 		}
 		// setImage(os[1].getPic(), osTwo);
-		osTwo.setImageResource(R.drawable.turret);
+		osTwo.setBackgroundResource(R.drawable.turret);
 		osTwoInfo.setText(os[1].getName() + "-" + os[1].getDes() + ":"
 				+ os[1].getCost());
 		if (!checkBalance(os[1].getCost())) {
 			osTwoInfo.setTextColor(Color.RED);
 		}
 		// setImage(os[2].getPic(), osThree);
-		osThree.setImageResource(R.drawable.turret);
+		osThree.setBackgroundResource(R.drawable.turret);
 		osThreeInfo.setText(os[2].getName() + "-" + os[2].getDes() + ":"
 				+ os[2].getCost());
 		if (!checkBalance(os[2].getCost())) {
 			osThreeInfo.setTextColor(Color.RED);
 		}
 		// setImage(os[3].getPic(), osFour);
-		osFour.setImageResource(R.drawable.turret);
+		osFour.setBackgroundResource(R.drawable.turret);
 		osFourInfo.setText(os[3].getName() + "-" + os[3].getDes() + ":"
 				+ os[3].getCost());
 		if (!checkBalance(os[3].getCost())) {
 			osFourInfo.setTextColor(Color.RED);
 		}
 		// setImage(stock[0].getPic(), sOne);
-		sOne.setImageResource(R.drawable.stock);
+		sOne.setBackgroundResource(R.drawable.stock);
 		sOneInfo.setText(stock[0].getName() + "-" + stock[0].getDescription()
 				+ ":" + stock[0].getCost());
 		if (!checkBalance(stock[0].getCost())) {
 			sOneInfo.setTextColor(Color.RED);
 		}
 		// setImage(stock[1].getPic(), sTwo);
-		sTwo.setImageResource(R.drawable.stock);
+		sTwo.setBackgroundResource(R.drawable.stock);
 		sTwoInfo.setText(stock[1].getName() + "-" + stock[1].getDescription()
 				+ ":" + stock[1].getCost());
 		if (!checkBalance(stock[1].getCost())) {
 			sTwoInfo.setTextColor(Color.RED);
 		}
 		// setImage(stock[2].getPic(), sThree);
-		sThree.setImageResource(R.drawable.stock);
+		sThree.setBackgroundResource(R.drawable.stock);
 		sThreeInfo.setText(stock[2].getName() + "-" + stock[2].getDescription()
 				+ ":" + stock[2].getCost());
 		if (!checkBalance(stock[2].getCost())) {
 			sThreeInfo.setTextColor(Color.RED);
 		}
 		// setImage(stock[3].getPic(), sFour);
-		sFour.setImageResource(R.drawable.stock);
+		sFour.setBackgroundResource(R.drawable.stock);
 		sFourInfo.setText(stock[3].getName() + "-" + stock[3].getDescription()
 				+ ":" + stock[3].getCost());
 		if (!checkBalance(stock[3].getCost())) {
@@ -435,12 +437,14 @@ public class ShopActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[0].getCost())) {
+					toast("working");
 					spendMoney(food[0].getCost());
 					int health = food[0].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -451,12 +455,14 @@ public class ShopActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[1].getCost())) {
+					toast("working");
 					spendMoney(food[1].getCost());
 					int health = food[1].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -467,12 +473,14 @@ public class ShopActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[2].getCost())) {
+					toast("working");
 					spendMoney(food[2].getCost());
 					int health = food[2].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -483,12 +491,14 @@ public class ShopActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[3].getCost())) {
+					toast("working");
 					spendMoney(food[3].getCost());
 					int health = food[3].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -497,12 +507,22 @@ public class ShopActivity extends ActionBarActivity {
 		weaponOne.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				toast("CLICK");
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					toast("sleeping");
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[0].getCost()) && !weapon[0].own()
 						&& slot.location != null) {
+					toast("working");
 					spendMoney(weapon[0].getCost());
 					// This is if we want to adjust the attack when they buy the
 					// weapon or when they equip it.
@@ -515,6 +535,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -526,9 +547,17 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[1].getCost()) && !weapon[1].own()
 						&& slot.location != null) {
+					toast("working");
 					spendMoney(weapon[1].getCost());
 					// int attack = weapon[1].getAttack();
 					// user.adjStats(0, 0, attack);
@@ -539,6 +568,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -550,9 +580,17 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[2].getCost()) && !weapon[2].own()
 						&& slot.location != null) {
+					toast("working");
 					spendMoney(weapon[2].getCost());
 					// int attack = weapon[2].getAttack();
 					// user.adjStats(0, 0, attack);
@@ -561,8 +599,10 @@ public class ShopActivity extends ActionBarActivity {
 							weapon[2].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 					updateShop();
+					toast("tried");
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -574,9 +614,17 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[3].getCost()) && !weapon[3].own()
 						&& slot.location != null) {
+					toast("working");
 					spendMoney(weapon[3].getCost());
 					// int attack = weapon[3].getAttack();
 					// user.adjStats(0, 0, attack);
@@ -587,6 +635,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -598,9 +647,17 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[0].getCost()) && !armor[0].own()
 						&& slot.location != null) {
+					toast("working");
 					spendMoney(armor[0].getCost());
 					// int health = armor[0].getArmor();
 					// user.adjStats(0, health, 0);
@@ -615,6 +672,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -626,9 +684,17 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[1].getCost()) && !armor[1].own()
 						&& slot.location != null) {
+					toast("working");
 					spendMoney(armor[1].getCost());
 					// int health = armor[1].getArmor();
 					// user.adjStats(0, health, 0);
@@ -643,6 +709,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -654,9 +721,17 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[2].getCost()) && !armor[2].own()
 						&& slot.location != null) {
+					toast("working");
 					spendMoney(armor[2].getCost());
 					// int health = armor[2].getArmor();
 					// user.adjStats(0, health, 0);
@@ -671,6 +746,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -682,9 +758,17 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[3].getCost()) && !armor[3].own()
 						&& slot.location != null) {
+					toast("working");
 					spendMoney(armor[3].getCost());
 					// int health = armor[3].getArmor();
 					// user.adjStats(0, health, 0);
@@ -699,6 +783,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -711,8 +796,16 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
-				if (checkBalance(ds[0].getCost())) {
+				if (checkBalance(ds[0].getCost()) && slot.location != null) {
+					toast("working");
 					spendMoney(ds[0].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							ds[0].getId(), 0, slot.location, slot.pId);
@@ -720,6 +813,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -731,8 +825,16 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
-				if (checkBalance(ds[1].getCost())) {
+				if (checkBalance(ds[1].getCost()) && slot.location != null) {
+					toast("working");
 					spendMoney(ds[1].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							ds[1].getId(), 0, slot.location, slot.pId);
@@ -740,6 +842,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -751,8 +854,16 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
-				if (checkBalance(ds[2].getCost())) {
+				if (checkBalance(ds[2].getCost()) && slot.location != null) {
+					toast("working");
 					spendMoney(ds[2].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							ds[2].getId(), 0, slot.location, slot.pId);
@@ -760,6 +871,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -771,8 +883,16 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
-				if (checkBalance(ds[3].getCost())) {
+				if (checkBalance(ds[3].getCost()) && slot.location != null) {
+					toast("working");
 					spendMoney(ds[3].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							ds[3].getId(), 0, slot.location, slot.pId);
@@ -780,6 +900,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -791,8 +912,16 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
-				if (checkBalance(os[0].getCost())) {
+				if (checkBalance(os[0].getCost()) && slot.location != null) {
+					toast("working");
 					spendMoney(os[0].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							os[0].getId(), 0, slot.location, slot.pId);
@@ -800,6 +929,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -811,8 +941,16 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
-				if (checkBalance(os[1].getCost())) {
+				if (checkBalance(os[1].getCost()) && slot.location != null) {
+					toast("working");
 					spendMoney(os[1].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							os[1].getId(), 0, slot.location, slot.pId);
@@ -820,6 +958,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -831,8 +970,16 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
-				if (checkBalance(os[2].getCost())) {
+				if (checkBalance(os[2].getCost()) && slot.location != null) {
+					toast("working");
 					spendMoney(os[2].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							os[2].getId(), 0, slot.location, slot.pId);
@@ -840,6 +987,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -851,8 +999,16 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
+				while (slot.sleep) {
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				message.setVisibility(View.GONE);
-				if (checkBalance(os[3].getCost())) {
+				if (checkBalance(os[3].getCost()) && slot.location != null) {
+					toast("working");
 					spendMoney(os[3].getCost());
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							os[3].getId(), 0, slot.location, slot.pId);
@@ -860,6 +1016,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -870,11 +1027,13 @@ public class ShopActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				message.setVisibility(View.GONE);
 				if (checkBalance(stock[0].getCost())) {
+					toast("working");
 					spendMoney(stock[0].getCost());
 					addGPM(stock[0].getGpm());
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -885,11 +1044,13 @@ public class ShopActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				message.setVisibility(View.GONE);
 				if (checkBalance(stock[1].getCost())) {
+					toast("working");
 					spendMoney(stock[1].getCost());
 					addGPM(stock[1].getGpm());
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -900,11 +1061,13 @@ public class ShopActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				message.setVisibility(View.GONE);
 				if (checkBalance(stock[2].getCost())) {
+					toast("working");
 					spendMoney(stock[2].getCost());
 					addGPM(stock[2].getGpm());
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -915,11 +1078,13 @@ public class ShopActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				message.setVisibility(View.GONE);
 				if (checkBalance(stock[3].getCost())) {
+					toast("working");
 					spendMoney(stock[3].getCost());
 					addGPM(stock[3].getGpm());
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
+					toast("no");
 				}
 
 			}
@@ -928,7 +1093,7 @@ public class ShopActivity extends ActionBarActivity {
 
 	public boolean checkBalance(int i) {
 		// if balance is enough return true, else return false
-
+		
 		if (i <= user.getMoney()) {
 			// has enough gold to buy.
 			return true;
@@ -943,6 +1108,20 @@ public class ShopActivity extends ActionBarActivity {
 		adjStats spend = new adjStats(user.getUser(), user.getToken(), "money",
 				i);
 		spend.execute((Void) null);
+	}
+	
+	/**
+	 * Displays the message on the screen
+	 * @param message
+	 */
+	public void toast(String message) {
+		//Toast an error message if it exists. Will close and leave page if it doesn't
+		Context context = getApplicationContext();
+		CharSequence text = message;
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
 	}
 
 	public void addGPM(int d) {
@@ -1091,6 +1270,7 @@ public class ShopActivity extends ActionBarActivity {
 		protected void onPostExecute(final Boolean success) {
 			// dont know what to put here
 			// TODO - only update when first open
+			toast("got store");
 			createStore();
 		}
 
@@ -1107,11 +1287,13 @@ public class ShopActivity extends ActionBarActivity {
 		public String ioc;
 		public String location;
 		public String message;
+		public boolean sleep;
 
 		getInv(String username, String token, String ioc) {
 			this.username = username;
 			this.token = token;
 			this.ioc = ioc;
+			sleep = true;
 		}
 
 		@Override
@@ -1175,7 +1357,8 @@ public class ShopActivity extends ActionBarActivity {
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
-
+			toast("LOCATION:" + location);
+			sleep = false;
 		}
 
 		@Override
@@ -1306,6 +1489,7 @@ public class ShopActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			// Nothing needs to go here
+			toast(username + token + id + pId + location);
 		}
 
 		@Override
@@ -1472,6 +1656,7 @@ public class ShopActivity extends ActionBarActivity {
 		protected void onPostExecute(final Boolean success) {
 			// Nothing needs to go here
 			fixStats();
+			toast("FIXED:" + attribute + "by: " + amount);
 		}
 
 		@Override

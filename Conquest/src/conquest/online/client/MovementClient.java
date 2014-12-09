@@ -101,7 +101,7 @@ public class MovementClient implements Runnable {
 				PropStructsRequest.class, PropStructsResponse.class,
 				InventoryChangeRequest.class, InventoryChangeResponse.class,
 				ChestChangeRequest.class, ChestChangeResponse.class, StructPlaceRequest.class,
-				StructPlaceResponse.class, UpdateLatLongRequest.class};
+				StructPlaceResponse.class, UpdateLatLongRequest.class, PersonNearYouRequest.class };
 		
 		//Bind ports and start her up
 		startClient();
@@ -247,9 +247,8 @@ public class MovementClient implements Runnable {
 	 * @param attack
 	 * @param armor
 	 * @param money
-	 * @param gpm 
 	 */
-	public void updateStats(String username, String token, int maxHealth, int curHealth, int attack, int armor, int money, int armor0, int armor1, int armor2, int armor3, int weapon0, int weapon1, int weapon2, int weapon3, int gpm) {
+	public void updateStats(String username, String token, int maxHealth, int curHealth, int attack, int armor, int money, int armor0, int armor1, int armor2, int armor3, int weapon0, int weapon1, int weapon2, int weapon3) {
 		UpdateStatsRequest update = new UpdateStatsRequest();
 		update.username = username;
 		update.token = token;
@@ -265,7 +264,6 @@ public class MovementClient implements Runnable {
 		update.weapon1 = weapon1;
 		update.weapon2 = weapon2;
 		update.weapon3 = weapon3;
-		update.gpm = gpm;
 		this.client.sendUDP(update);
 	}
 	
