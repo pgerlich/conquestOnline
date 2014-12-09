@@ -879,7 +879,7 @@ public class MySqlConnection {
 			} else {
 
 				// Create the house
-				PreparedStatement st = con.prepareStatement("UPDATE characters SET maxHealth = ?, curHealth = ?, attack = ?, armor = ?, money = ?, armor0 = ?, armor1 = ?, armor2 = ?, armor3 = ?, weapon0 = ?, weapon1 = ?, weapon2 = ?, weapon3 = ?, wins = ?, loses = ?, kills = ?, deaths = ?, guild = ?, lat = ?, lon = ?, speed = ?, stealth = ?, tech = ?, level = ?, exp = ? WHERE username = '"
+				PreparedStatement st = con.prepareStatement("UPDATE characters SET maxHealth = ?, curHealth = ?, attack = ?, armor = ?, money = ?, armor0 = ?, armor1 = ?, armor2 = ?, armor3 = ?, weapon0 = ?, weapon1 = ?, weapon2 = ?, weapon3 = ?, wins = ?, loses = ?, kills = ?, deaths = ?, guild = ?, lat = ?, lon = ?, speed = ?, stealth = ?, tech = ?, level = ?, exp = ?, gpm = ? WHERE username = '"
 								+ update.username
 								+ "' AND token = '"
 								+ update.token + "'");
@@ -907,8 +907,8 @@ public class MySqlConnection {
 				st.setInt(21, update.stealth);
 				st.setInt(22, update.tech);
 				st.setInt(23, update.level);
-				st.setInt(24, update.exp);		
-				
+				st.setInt(24, update.exp);
+				st.setInt(25, update.gpm);				
 				st.execute();
 			}
 
