@@ -83,7 +83,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		double lat = add.getLatitude();
 		double lng = add.getLongitude();
 		gotoLocation(lat, lng, 15);
-		makeMark(locality, lat, lng);
+		//makeMark(locality, lat, lng);
 		
 	
 	}
