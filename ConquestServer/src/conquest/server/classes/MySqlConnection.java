@@ -64,6 +64,11 @@ public class MySqlConnection {
 				st.setString(2, thisUser.token);
 				st.setString(3, user.user);
 				st.execute();
+				
+				//Grab the lat/lon of the user
+				ResultSet getUserInfo = stmt1.executeQuery("SELECT * FROM users WHERE username = " + user.user);
+				thisUser.latitude = getUserInfo.getDouble("lat");
+				thisUser.longitude = getUserInfo.getDouble("lon");
 
 				// Output sucess message to server command line
 				System.out.println(user.user + " Logged in");
@@ -184,7 +189,7 @@ public class MySqlConnection {
 
 				// Create the character
 				PreparedStatement st1 = con
-						.prepareStatement("INSERT INTO characters(username, type, maxHealth, attack, armor, speed, stealth, tech, level, exp, lat, lon, curHealth, money) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+						.prepareStatement("INSERT INTO characters(username, type, maxHealth, attack, armor, speed, stealth, tech, level, exp, lat, lon, curHealth, money, gpm) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				st1.setString(1, reggy.username);
 				st1.setString(2, reggy.accountTypeCharacter);
 				st1.setInt(3, 100);
@@ -200,6 +205,7 @@ public class MySqlConnection {
 				st1.setInt(12, 0);
 				st1.setInt(13, 100);
 				st1.setInt(14, 50);
+				st1.setInt(15, 1);
 				st1.execute();
 				
 				//Make inventory
@@ -385,7 +391,102 @@ public class MySqlConnection {
 			return response;
 		}
 	}
+	 
+	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+	/*::  This function converts decimal degrees to radians             :*/
+	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+	private double deg2rad(double deg) {
+	  return (deg * Math.PI / 180.0);
+	}
+	 
+	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+	/*::  This function converts radians to decimal degrees             :*/
+	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+	private double rad2deg(double rad) {
+	  return (rad * 180 / Math.PI);
+	
+	}
 
+	
+	public double calcDistance(double lat1, double lon1, double lat2, double lon2) {
+		  double theta = lon1 - lon2;
+		  double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+		  dist = Math.acos(dist);
+		  dist = rad2deg(dist);
+		  dist = dist * 60 * 1.1515;
+
+		  return (dist);
+		}
+
+
+	/**
+	 * return properties structures
+	 * 
+	 * @param reggy
+	 * @return
+	 */
+	public ArrayList<PersonNearYou> requestNearbyPeople(double lat, double lon) {
+		// Creating a statement
+		Statement stmt1;
+
+		ArrayList<PersonNearYou> response = new ArrayList<PersonNearYou>(10);
+
+		try {
+			stmt1 = con.createStatement();
+
+				//Grab property ID
+				ResultSet getPeople = stmt1.executeQuery("select * from characters");
+				
+				while( getPeople.next() ) {
+					double lat2 = getPeople.getDouble("lat");
+					double lon2 = getPeople.getDouble("lon");
+					double distance = calcDistance(lat, lon, lat2, lon2);
+					if ( distance <= 1 ) {
+						PersonNearYou temp = new PersonNearYou();
+						temp.nearPeople = true;
+						temp.user = getPeople.getString("username");
+						temp.level = getPeople.getInt("level");
+						temp.myClass = getPeople.getString("type");
+						temp.curHealth = getPeople.getInt("curHealth");
+						temp.maxHealth = getPeople.getInt("maxHealth");
+						temp.x = getPeople.getDouble("lat");
+						temp.y = getPeople.getDouble("lon");
+						response.add(temp);
+					}	
+				}
+				
+				//Let em know there were no people
+				if ( response.size() == 0 ) {
+					PersonNearYou temp = new PersonNearYou();
+					temp.nearPeople = false;
+					response.add(temp);
+				}
+
+			// Close connections
+			stmt1.close();
+			return response;
+		} catch (SQLException e) {
+			PropStructsResponse thisResponse = new PropStructsResponse();
+			System.out.println(e.getMessage()
+					+ " occured while trying to find people");
+			// e.printStackTrace();
+			thisResponse.message = e.getMessage();
+			thisResponse.success = false;
+			
+			PersonNearYou temp = new PersonNearYou();
+			temp.nearPeople = false;
+			response.add(temp);
+			
+			//Let us know it timed out
+			if ( e.getErrorCode() == 0 ) {
+				connected = false;
+			}
+			
+			return response;
+		}
+	}
+
+	
 	/**
 	 * Register the user to the system.
 	 * 
