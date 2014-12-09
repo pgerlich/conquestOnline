@@ -9,6 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
+import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -25,8 +27,12 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+//import com.google.android.gms.c
 
 import conquest.online.gameAssets.Property;
 
@@ -36,10 +42,20 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	private UserSession user;
 	private static final int GPS_ERRORDIALOG_REQUEST = 9001;
 	
+	//calculated so that user with speed 1 has a speed of 6.9 mph --just above the average running speed.
+	private static final double SPEED_FACTOR = 1.0 / 360000.0;
+	public boolean moving = false;
+	
+	//used to represent the user's character *note we can set this to a bitmap see link below*
+	//http://developer.android.com/reference/com/google/android/gms/maps/model/MarkerOptions.html
+	private MarkerOptions characterMarkerOptions;
+	private Marker characterMarker;
+	
+	public MoveCharacter currentMove = new MoveCharacter();
+	
 	//Will be used as the reference to the map dispayed
 	public GoogleMap mMap;
 	public LocationClient mLocationClient;
-	
 	//test wtf
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +69,29 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	        		mMap.setMyLocationEnabled(true);
 	        		mMap.setIndoorEnabled(false);
 	        		mMap.setBuildingsEnabled(false);
+	 
 	        		mLocationClient = new LocationClient(this, this, this);
 	        		mLocationClient.connect();
+	        		
+	        		
+	        		characterMarkerOptions = new MarkerOptions();
+	        		//characterMarker.anchor(0, 0);		//bitmap start position (should probably be center of image)
+	        		
+	                mMap.setOnMapLongClickListener(new OnMapLongClickListener() {
+						@Override
+						public void onMapLongClick(LatLng targetLocation) {
+							
+							//TODO Move from Current Position to future Position
+
+							if(currentMove.getStatus() == AsyncTask.Status.RUNNING ){
+								currentMove.cancel(true);
+							}
+							//else{
+								currentMove = new MoveCharacter();
+								currentMove.execute(user.getLocation(), targetLocation);
+							//}
+						}
+	                });
 	        		
 	        	}
 	        	else{
@@ -69,6 +106,9 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		}
 		
 		
+
+
+
 	/**
 	 * Go to the settings
 	 */
@@ -147,6 +187,97 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
     	startActivity(main);
 	}
 	
+
+	
+	public class MoveCharacter extends AsyncTask<LatLng, LatLng, Boolean>{
+		
+		@Override
+		protected Boolean doInBackground(LatLng... params) {
+			// asynchronous Task
+			LatLng current = params[0];
+			LatLng destination = params[1];
+			
+			LatLng moveVector = getUnitMovementVector(current, destination);
+			LatLng direction;
+			
+			
+			do{
+				current = new LatLng(current.latitude + moveVector.latitude, current.longitude + moveVector.longitude);
+				publishProgress(current);
+				
+				direction = getMovementVector(current, destination);
+				if (this.isCancelled()) break;
+				try {
+				    Thread.sleep(100);                 //10 times/second
+				} catch(InterruptedException ex) {
+				    Thread.currentThread().interrupt();
+				}
+				
+			}while(moveVector.latitude * direction.latitude >= 0 && moveVector.longitude * direction.longitude >= 0);
+			//^^ while movement vector and vector currently pointing to destination point in the same direction
+			return true;
+		}
+		
+		@Override
+		protected void onProgressUpdate(LatLng... progress) {
+			//every time there is a new location
+	        user.setLocation(progress[0]);
+	        characterMarker.setPosition(progress[0]);
+	       
+	     }
+		
+		@Override
+	    protected void onCancelled() {
+	        this.cancel(true);
+	    }
+		
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			//end of execution
+		}
+		
+		/**
+		 * takes in a start and destination LatLng and outputs a vector to be added to position every cycle.
+		 * @param p1
+		 * @param p2
+		 * @return
+		 */
+		protected LatLng getUnitMovementVector(LatLng p1, LatLng p2) {
+			double Lat = p2.latitude - p1.latitude;
+			double Lon = p2.longitude - p1.longitude;
+			double vectorMagnitude = Math.sqrt(Math.pow(Lat, 2) + Math.pow(Lon, 2));
+			int speed = user.getSpeed();
+			Lat = (Lat / vectorMagnitude) * speed * SPEED_FACTOR;//SPEED_FACTOR = 1.0 / 360000.0 
+			Lon = (Lon / vectorMagnitude) * speed * SPEED_FACTOR;
+			return new LatLng(Lat, Lon);
+		}
+		
+		
+		/**
+		 * Used when only the direction of the vector is needed because it takes less processing power.
+		 * @param p1
+		 * @param p2
+		 * @return
+		 */
+		protected LatLng getMovementVector(LatLng p1, LatLng p2){
+			double Lat = p2.latitude - p1.latitude;
+			double Lon = p2.longitude - p1.longitude;
+			return new LatLng(Lat, Lon);
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Represents an asynchronous task run on a different thread.
 	 */
@@ -224,21 +355,25 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
     
     private void setView(){
 
-
-		Location currentLoc = mMap.getMyLocation();
+		LatLng playerLoc = user.getLocation();
 		
-		if(currentLoc!=null)
+		if(playerLoc != null)
 		{
-//			Toast.makeText(this, "find current location", Toast.LENGTH_SHORT).show();
 			float zoom = 18;
-			LatLng ll= new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
-			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
+			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(playerLoc, zoom);
 			mMap.animateCamera(update);
 			//makeMark("Property", ll.latitude, ll.longitude);
 		}
     }
 
 
+    
+    
+    
+    
+    
+    
+    
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
@@ -346,17 +481,24 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 
 	@Override
 	public void onConnected(Bundle arg0) {
-		Location currentLoc=mLocationClient.getLastLocation();
 		
+		LatLng playerLoc = user.getLocation();
+		
+		//if the user's character is in the middle of the pacific ocean (is a new character) set their position to user's
+		if(playerLoc.latitude == 0.0 && playerLoc.longitude == 0.0){
+			Location currentLoc = mLocationClient.getLastLocation();
+			new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
+		}
 		float zoom = 18;
-		LatLng ll= new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
-		CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
+		CameraUpdate update = CameraUpdateFactory.newLatLngZoom(playerLoc, zoom);
 		mMap.animateCamera(update);
 		//Draw(currentLoc);
+		characterMarkerOptions.position(playerLoc);
+		characterMarker = mMap.addMarker(characterMarkerOptions);
 		
-    	
 	}
 
+	
 
 	@Override
 	public void onDisconnected() {
