@@ -444,7 +444,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -462,7 +462,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -480,7 +480,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -498,7 +498,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -507,11 +507,10 @@ public class ShopActivity extends ActionBarActivity {
 		weaponOne.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				toast("CLICK");
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[0].getCost()) && !weapon[0].own()
 						&& slot.location != null) {
@@ -528,7 +527,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -540,7 +539,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[1].getCost()) && !weapon[1].own()
 						&& slot.location != null) {
@@ -555,7 +554,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -567,7 +566,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[2].getCost()) && !weapon[2].own()
 						&& slot.location != null) {
@@ -583,7 +582,7 @@ public class ShopActivity extends ActionBarActivity {
 					toast("tried");
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -595,7 +594,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(weapon[3].getCost()) && !weapon[3].own()
 						&& slot.location != null) {
@@ -610,7 +609,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -622,7 +621,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[0].getCost()) && !armor[0].own()
 						&& slot.location != null) {
@@ -641,7 +640,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -653,7 +652,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[1].getCost()) && !armor[1].own()
 						&& slot.location != null) {
@@ -672,7 +671,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -684,7 +683,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[2].getCost()) && !armor[2].own()
 						&& slot.location != null) {
@@ -703,7 +702,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -715,7 +714,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"inventories");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(armor[3].getCost()) && !armor[3].own()
 						&& slot.location != null) {
@@ -734,7 +733,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -747,7 +746,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(ds[0].getCost()) && slot.location != null) {
 					toast("working");
@@ -758,7 +757,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -770,7 +769,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(ds[1].getCost()) && slot.location != null) {
 					toast("working");
@@ -781,7 +780,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -793,7 +792,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(ds[2].getCost()) && slot.location != null) {
 					toast("working");
@@ -804,7 +803,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -816,7 +815,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(ds[3].getCost()) && slot.location != null) {
 					toast("working");
@@ -827,7 +826,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -839,7 +838,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(os[0].getCost()) && slot.location != null) {
 					toast("working");
@@ -850,7 +849,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -862,7 +861,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(os[1].getCost()) && slot.location != null) {
 					toast("working");
@@ -873,7 +872,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -885,7 +884,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(os[2].getCost()) && slot.location != null) {
 					toast("working");
@@ -896,7 +895,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -908,7 +907,7 @@ public class ShopActivity extends ActionBarActivity {
 				getInv slot = new getInv(user.getUser(), user.getToken(),
 						"chests");
 				slot.execute((Void) null);
-				
+				sleepThread();
 				message.setVisibility(View.GONE);
 				if (checkBalance(os[3].getCost()) && slot.location != null) {
 					toast("working");
@@ -919,7 +918,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -936,7 +935,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -953,7 +952,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -970,7 +969,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -987,7 +986,7 @@ public class ShopActivity extends ActionBarActivity {
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
-					toast("no");
+					toast("Sorry, cannot purchase item at this time");
 				}
 
 			}
@@ -1011,6 +1010,15 @@ public class ShopActivity extends ActionBarActivity {
 		adjStats spend = new adjStats(user.getUser(), user.getToken(), "money",
 				i);
 		spend.execute((Void) null);
+	}
+	
+	public void sleepThread() {
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -1172,8 +1180,7 @@ public class ShopActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			// dont know what to put here
-			// TODO - only update when first open
-			toast("got store");
+			toast("Successfully loaded store");
 			createStore();
 		}
 
@@ -1228,7 +1235,7 @@ public class ShopActivity extends ActionBarActivity {
 						if (ioc.equals("chests"))
 							if (getSlot.getInt("struc" + i) == -1) {
 								location = "struc" + i;
-								pId = getSlot.getInt("propertyId");
+								pId = getSlot.getInt("propertyID");
 								message = "success";
 								return true;
 							}
@@ -1260,8 +1267,7 @@ public class ShopActivity extends ActionBarActivity {
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
-			toast("LOCATION:" + location);
-			sleep = false;
+			
 		}
 
 		@Override
@@ -1353,13 +1359,14 @@ public class ShopActivity extends ActionBarActivity {
 		public boolean success;
 
 		// Instantiate task
-		buyItem(String username, String token, int i, int ioc, String location,
+		buyItem(String username, String token, int id, int ioc, String location,
 				int pId) {
 			this.username = username;
 			this.token = token;
-			this.id = i;
+			this.id = id;
 			this.ioc = ioc;
 			this.pId = pId;
+			this.location = location;
 
 			message = "";
 		}
@@ -1392,7 +1399,6 @@ public class ShopActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			// Nothing needs to go here
-			toast(username + token + id + pId + location);
 		}
 
 		@Override
@@ -1540,6 +1546,7 @@ public class ShopActivity extends ActionBarActivity {
 					mc.close();
 					
 					user.updateAllStats();
+					toast("YAY");
 
 					message = "success";
 					return true;
@@ -1559,7 +1566,7 @@ public class ShopActivity extends ActionBarActivity {
 		protected void onPostExecute(final Boolean success) {
 			// Nothing needs to go here
 			fixStats();
-			toast("FIXED:" + attribute + "by: " + amount);
+			toast("FIXED: " + attribute + "  by: " + amount);
 		}
 
 		@Override
