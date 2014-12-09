@@ -425,7 +425,7 @@ public class MySqlConnection {
 	 * @param reggy
 	 * @return
 	 */
-	public ArrayList<PersonNearYou> requestNearbyPeople(double lat, double lon) {
+	public ArrayList<PersonNearYou> requestNearbyPeople(PersonNearYouRequest PNYR) {
 		// Creating a statement
 		Statement stmt1;
 
@@ -433,15 +433,18 @@ public class MySqlConnection {
 
 		try {
 			stmt1 = con.createStatement();
+			
+			double lat = PNYR.lat;
+			double lon = PNYR.lon;
 
 				//Grab property ID
-				ResultSet getPeople = stmt1.executeQuery("select * from characters");
+				ResultSet getPeople = stmt1.executeQuery("select * from characters inner join users on users.username = characters.username");
 				
 				while( getPeople.next() ) {
 					double lat2 = getPeople.getDouble("lat");
 					double lon2 = getPeople.getDouble("lon");
 					double distance = calcDistance(lat, lon, lat2, lon2);
-					if ( distance <= 1 ) {
+					if ( distance <= 1 && getPeople.getInt("LoggedIn") == 1) {
 						PersonNearYou temp = new PersonNearYou();
 						temp.nearPeople = true;
 						temp.user = getPeople.getString("username");
@@ -938,7 +941,7 @@ public class MySqlConnection {
 	 * Update the users location in the DB
 	 * @param updateLocation
 	 */
-	public ArrayList<PersonNearYou> updateLoc(UpdateLatLongRequest updateLocation) {
+	public void updateLoc(UpdateLatLongRequest updateLocation) {
 		
 		String statement = "UPDATE characters SET lat = ?, lon = ? WHERE username = ?";
 		
@@ -950,9 +953,7 @@ public class MySqlConnection {
 			
 			//If valid user/token
 			if ( isValid.next() ) {
-				
-				response = requestNearbyPeople(updateLocation.Lat, updateLocation.Lng);
-				
+
 				PreparedStatement st;
 				try {
 					st = con.prepareStatement(statement);
@@ -969,8 +970,6 @@ public class MySqlConnection {
 		} catch (SQLException e1) {
 			//Nothing
 		}
-		
-		return response;
 		
 	}
 

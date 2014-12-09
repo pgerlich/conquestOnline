@@ -18,6 +18,7 @@ import conquest.client.classes.LoginRequest;
 import conquest.client.classes.LoginResponse;
 import conquest.client.classes.LogoutRequest;
 import conquest.client.classes.PersonNearYou;
+import conquest.client.classes.PersonNearYouRequest;
 import conquest.client.classes.PropStructsRequest;
 import conquest.client.classes.PropStructsResponse;
 import conquest.client.classes.PropertyPurchaseRequest;
@@ -313,6 +314,13 @@ public class MovementClient implements Runnable {
 		SPR.propertyID = propertyID;
 		SPR.struct = struct;
 		this.client.sendUDP(SPR);
+	}
+	
+	public void RequestNearbyPeople(double lat, double long) {
+		PersonNearYouRequest PNYR = new PersonNearYouRequest();
+		PNYR.lat = lat;
+		PNYR.lon = long;
+		this.client.sendUDP(PNYR);
 	}
 
 	/**

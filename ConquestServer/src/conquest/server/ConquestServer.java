@@ -20,6 +20,7 @@ import conquest.server.classes.LoginResponse;
 import conquest.server.classes.LogoutRequest;
 import conquest.server.classes.MySqlConnection;
 import conquest.server.classes.PersonNearYou;
+import conquest.server.classes.PersonNearYouRequest;
 import conquest.server.classes.PropStructsRequest;
 import conquest.server.classes.PropStructsResponse;
 import conquest.server.classes.PropertyPurchaseRequest;
@@ -284,6 +285,17 @@ public class ConquestServer {
 	    	    	  
 	    	      }
 	    	      
+	    	      if (obj instanceof PersonNearYouRequest){
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Struct Placement" );
+	    	    	  PersonNearYouRequest PNYR = (PersonNearYouRequest) obj;
+	    	    	  ArrayList<PersonNearYou> response = myCon.requestNearbyPeople(PNYR);
+	    	    	  
+	    	    	  //Send them back over
+	    	    	  for(int i = 0; i < response.size(); i++ ) {
+	    	    		  con.sendUDP(response.get(i));
+	    	    	  }
+	    	      }
+	    	      
 	    	      if (obj instanceof StructPlaceRequest){
 	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Struct Placement" );
 	    	    	  StructPlaceRequest SPR = (StructPlaceRequest) obj;
@@ -304,35 +316,13 @@ public class ConquestServer {
 		    	    	  thisUser.longitude = ULLR.Lng;
 	    	    	  }
 	    	    	  
-	    	    	  ArrayList<PersonNearYou> response = myCon.updateLoc(ULLR);
-	    	    	  
-	    	    	  //Now send this all back
-	    	    	  for(int i = 0; i < response.size(); i++) {
-	    	    		  con.sendUDP(response.get(i));
-	    	    		  System.out.println("Sent user " + response.get(i).user);
-	    	    	  }
+	    	    	   myCon.updateLoc(ULLR);
+
 	    	      }
 	    	    
 		       }
 		       
 		    });
-	}
-	
-	/**
-	 * Sends all people within 1 mile of you to all users connect
-	 */
-	public void sendOutUserLocations(){
-		
-		//For each connected User
-		for(int i = 0; i < usersConnected.size(); i++ ) {
-			User thisUser = usersConnected.get(i);
-			ArrayList<PersonNearYou> nearThisPerson = myCon.requestNearbyPeople(thisUser.latitude, thisUser.longitude);
-			
-			//Send each person near them
-			for (int j = 0; j < nearThisPerson.size(); j++ ) {
-				thisUser.con.sendUDP(nearThisPerson.get(j));
-			}
-		}
 	}
 	
 	/**
