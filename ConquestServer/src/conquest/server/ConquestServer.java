@@ -20,6 +20,7 @@ import conquest.server.classes.LoginResponse;
 import conquest.server.classes.LogoutRequest;
 import conquest.server.classes.MySqlConnection;
 import conquest.server.classes.PersonNearYou;
+import conquest.server.classes.PersonNearYouRequest;
 import conquest.server.classes.PropStructsRequest;
 import conquest.server.classes.PropStructsResponse;
 import conquest.server.classes.PropertyPurchaseRequest;
@@ -202,6 +203,8 @@ public class ConquestServer {
 			    		  response.success = true;
 			    		  response.message = "Logged in succesfully";
 			    		  
+			    		  System.out.println(user.user + " Logged in succesfully");
+			    		  
 			    		  //Send back the user object w/ token
 			    		  con.sendUDP(response);
 			    		  }
@@ -228,13 +231,14 @@ public class ConquestServer {
 	    	      if (obj instanceof LogoutRequest) {
 	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Logout Request");
 	    	    	  LogoutRequest log = (LogoutRequest) obj;
-	    	    	  System.out.println(myCon.processLogout(log));
+	    	    	  //System.out.println(myCon.processLogout(log));
 	    	    	  
 	    	    	  //Remove from connected
 	    	    	  User thisUser = findUser(log.username);
 	    	    	  
+	    	    	  //Kick them from servers
 	    	    	  if ( thisUser != null ) {
-	    	    		  usersConnected.remove(thisUser);  
+	    	    		  kickFromServer(thisUser);
 	    	    	  }
 	    	    	  
 	    	      }
@@ -281,9 +285,20 @@ public class ConquestServer {
 	    	    	  
 	    	      }
 	    	      
+	    	      if (obj instanceof PersonNearYouRequest){
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Struct Placement" );
+	    	    	  PersonNearYouRequest PNYR = (PersonNearYouRequest) obj;
+	    	    	  ArrayList<PersonNearYou> response = myCon.requestNearbyPeople(PNYR);
+	    	    	  
+	    	    	  //Send them back over
+	    	    	  for(int i = 0; i < response.size(); i++ ) {
+	    	    		  con.sendUDP(response.get(i));
+	    	    	  }
+	    	      }
+	    	      
 	    	      if (obj instanceof StructPlaceRequest){
-	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Retrieve Property Structs (" + ((PropStructsRequest)obj).location + ")" );
-	    	    	  StructPlaceRequest SPR = new StructPlaceRequest();
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Struct Placement" );
+	    	    	  StructPlaceRequest SPR = (StructPlaceRequest) obj;
 	    	    	  StructPlaceResponse SPRes = myCon.placeStructure(SPR);
 	    	    	  System.out.println(SPRes.message);
 	    	    	  con.sendUDP(SPRes);
@@ -292,42 +307,22 @@ public class ConquestServer {
 	    	      if (obj instanceof UpdateLatLongRequest) {
 	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Update Lat/Long location" );
 	    	    	  UpdateLatLongRequest ULLR = (UpdateLatLongRequest) obj;
-	    	    	  
-	    	    	  
+	    	    	   
 	    	    	  User thisUser = findUser(ULLR.username);
 	    	    	  
-	    	    	  //Update the users location on our side
-	    	    	  thisUser.latitude = ULLR.Lat;
-	    	    	  thisUser.longitude = ULLR.Lng;
-	    	    	  
-	    	    	  ArrayList<PersonNearYou> response = myCon.updateLoc(ULLR);
-	    	    	  
-	    	    	  //Now send this all back
-	    	    	  for(int i = 0; i < response.size(); i++) {
-	    	    		  con.sendUDP(response.get(i));
+	    	    	  if ( thisUser != null ) {
+		    	    	  //Update the users location on our side
+		    	    	  thisUser.latitude = ULLR.Lat;
+		    	    	  thisUser.longitude = ULLR.Lng;
 	    	    	  }
+	    	    	  
+	    	    	   myCon.updateLoc(ULLR);
+
 	    	      }
 	    	    
 		       }
 		       
 		    });
-	}
-	
-	/**
-	 * Sends all people within 1 mile of you to all users connect
-	 */
-	public void sendOutUserLocations(){
-		
-		//For each connected User
-		for(int i = 0; i < usersConnected.size(); i++ ) {
-			User thisUser = usersConnected.get(i);
-			ArrayList<PersonNearYou> nearThisPerson = myCon.requestNearbyPeople(thisUser.latitude, thisUser.longitude);
-			
-			//Send each person near them
-			for (int j = 0; j < nearThisPerson.size(); j++ ) {
-				thisUser.con.sendUDP(nearThisPerson.get(j));
-			}
-		}
 	}
 	
 	/**

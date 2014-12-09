@@ -73,9 +73,6 @@ public class MySqlConnection {
 					thisUser.longitude = res.getDouble("lon");
 				}
 
-				// Output sucess message to server command line
-				System.out.println(user.user + " Logged in");
-
 				// Close connections
 				stmt1.close();
 
@@ -428,7 +425,7 @@ public class MySqlConnection {
 	 * @param reggy
 	 * @return
 	 */
-	public ArrayList<PersonNearYou> requestNearbyPeople(double lat, double lon) {
+	public ArrayList<PersonNearYou> requestNearbyPeople(PersonNearYouRequest PNYR) {
 		// Creating a statement
 		Statement stmt1;
 
@@ -436,15 +433,18 @@ public class MySqlConnection {
 
 		try {
 			stmt1 = con.createStatement();
+			
+			double lat = PNYR.lat;
+			double lon = PNYR.lon;
 
 				//Grab property ID
-				ResultSet getPeople = stmt1.executeQuery("select * from characters");
+				ResultSet getPeople = stmt1.executeQuery("select * from characters inner join users on users.username = characters.username");
 				
 				while( getPeople.next() ) {
 					double lat2 = getPeople.getDouble("lat");
 					double lon2 = getPeople.getDouble("lon");
 					double distance = calcDistance(lat, lon, lat2, lon2);
-					if ( distance <= 1 ) {
+					if ( distance <= 1 && getPeople.getInt("LoggedIn") == 1) {
 						PersonNearYou temp = new PersonNearYou();
 						temp.nearPeople = true;
 						temp.user = getPeople.getString("username");
@@ -605,8 +605,7 @@ public class MySqlConnection {
 	 * @param reggy
 	 * @return
 	 */
-	public StructPlaceResponse placeStructure(
-			StructPlaceRequest SPR) {
+	public StructPlaceResponse placeStructure(StructPlaceRequest SPR) {
 
 		Statement stmt1;
 
@@ -616,13 +615,10 @@ public class MySqlConnection {
 			stmt1 = con.createStatement();
 
 			// compare user and token
-			ResultSet isValid = stmt1
-					.executeQuery("select * from users where username = '"
-							+ SPR.username + "' AND token = '" + SPR.token
-							+ "'");
-
+			ResultSet isValid = stmt1.executeQuery("select * from users where username = '" + SPR.username + "' AND token = '" + SPR.token + "'");
+			
 			// If the credentials matched
-			if (!isValid.next()) {
+			if ( !isValid.next() ) {
 				// Close connection
 				stmt1.close();
 				response.message = "Invalid Token. You are not logged in.";
@@ -632,7 +628,7 @@ public class MySqlConnection {
 
 				// Place the item on the property
 				PreparedStatement st = con
-						.prepareStatement("INSERT INTO userStructres(propertyID, structureID, topX, topY, curHealth, enabled, level, maxHealth, attack, defense, viewRadius, attackRadius, splashRadius) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+						.prepareStatement("INSERT INTO userStructures(propertyID, structureID, topX, topY, curHealth, enabled, level, maxHealth, attack, defense, viewRadius, attackRadius, splashRadius) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				st.setInt(1, SPR.propertyID);
 				st.setInt(2, SPR.struct.id);
 				st.setInt(3, SPR.struct.x);
@@ -654,9 +650,12 @@ public class MySqlConnection {
 				//If we have a chest
 				if ( grabFromChest.next() ){ 
 					
+					System.out.println("have chest");
+					
 					//Grab the chest items
 					for(int i = 1; i < 11; i++) {
 						if ( grabFromChest.getInt("struc" + i ) == SPR.struct.id ) {
+							System.out.println("Removed from chest");
 							String location = "struc" + i;
 							PreparedStatement st2 = con.prepareStatement("UPDATE chests SET " + location + " = -1 WHERE propertyID = " + SPR.propertyID);
 							st2.execute();
@@ -664,6 +663,8 @@ public class MySqlConnection {
 						}
 					}
 					
+				} else {
+					System.out.println("no chest");
 				}
 			}
 
@@ -820,8 +821,10 @@ public class MySqlConnection {
 							return response;
 						} else {
 							//TODO
-							PreparedStatement st = con.prepareStatement("UPDATE chests SET '" + change.location + "' = ? WHERE propertyId = '" + change.pId + "'");
-							st.setInt(1, change.id);
+							PreparedStatement st = con.prepareStatement("UPDATE chests SET ? = ? WHERE propertyId = ?");
+							st.setString(1, change.location);
+							st.setInt(2, change.id);
+							st.setInt(3, change.pId);
 							st.execute();
 						}
 
@@ -938,7 +941,7 @@ public class MySqlConnection {
 	 * Update the users location in the DB
 	 * @param updateLocation
 	 */
-	public ArrayList<PersonNearYou> updateLoc(UpdateLatLongRequest updateLocation) {
+	public void updateLoc(UpdateLatLongRequest updateLocation) {
 		
 		String statement = "UPDATE characters SET lat = ?, lon = ? WHERE username = ?";
 		
@@ -950,9 +953,7 @@ public class MySqlConnection {
 			
 			//If valid user/token
 			if ( isValid.next() ) {
-				
-				response = requestNearbyPeople(updateLocation.Lat, updateLocation.Lng);
-				
+
 				PreparedStatement st;
 				try {
 					st = con.prepareStatement(statement);
@@ -969,8 +970,6 @@ public class MySqlConnection {
 		} catch (SQLException e1) {
 			//Nothing
 		}
-		
-		return response;
 		
 	}
 
