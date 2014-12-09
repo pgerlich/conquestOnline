@@ -249,14 +249,11 @@ public class MovementClient implements Runnable {
 	 * @param money
 	 * @param gpm 
 	 */
-	public void updateStats(String username, String token, int maxHealth, int curHealth, int attack, int armor, int money, int gpm) {
+	public void updateStats(String username, String token, int curHealth, int money, int gpm) {
 		UpdateStatsRequest update = new UpdateStatsRequest();
 		update.username = username;
 		update.token = token;
-		update.maxHealth = maxHealth;
 		update.curHealth = curHealth;
-		update.armor = armor;
-		update.attack = attack;
 		update.gpm = gpm;
 		this.client.sendUDP(update);
 	}

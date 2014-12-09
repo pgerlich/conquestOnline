@@ -389,6 +389,7 @@ public class ShopActivity extends ActionBarActivity {
 	 */
 	public void setImage(String pic, ImageButton view) {
 
+		//TODO - THIS IS NEXT!! WOOHOOO
 		// Drawable d = Drawable.createFromPath(pic);
 		view.setImageResource(R.drawable.placeholder);
 
@@ -516,10 +517,7 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(weapon[0].getCost());
-					// This is if we want to adjust the attack when they buy the
-					// weapon or when they equip it.
-					// int attack = weapon[0].getAttack();
-					// user.adjStats(0, 0, attack);
+	
 					weapon[0].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							weapon[0].getId(), 1, slot.location, slot.pId);
@@ -545,8 +543,7 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(weapon[1].getCost());
-					// int attack = weapon[1].getAttack();
-					// user.adjStats(0, 0, attack);
+			
 					weapon[1].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							weapon[1].getId(), 1, slot.location, slot.pId);
@@ -572,8 +569,7 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(weapon[2].getCost());
-					// int attack = weapon[2].getAttack();
-					// user.adjStats(0, 0, attack);
+		
 					weapon[2].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							weapon[2].getId(), 1, slot.location, slot.pId);
@@ -600,8 +596,7 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(weapon[3].getCost());
-					// int attack = weapon[3].getAttack();
-					// user.adjStats(0, 0, attack);
+			
 					weapon[3].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							weapon[3].getId(), 1, slot.location, slot.pId);
@@ -627,16 +622,12 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(armor[0].getCost());
-					// int health = armor[0].getArmor();
-					// user.adjStats(0, health, 0);
+	
 					armor[0].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							armor[0].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
-					// adjStats incr = new adjStats(user.getUser(), user
-					// .getToken(), "armor", armor[0].getArmor());
-					// incr.execute((Void) null);
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
@@ -658,16 +649,12 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(armor[1].getCost());
-					// int health = armor[1].getArmor();
-					// user.adjStats(0, health, 0);
+			
 					armor[1].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							armor[1].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
-					// adjStats incr = new adjStats(user.getUser(), user
-					// .getToken(), "armor", armor[1].getArmor());
-					// incr.execute((Void) null);
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
@@ -689,16 +676,12 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(armor[2].getCost());
-					// int health = armor[2].getArmor();
-					// user.adjStats(0, health, 0);
+			
 					armor[2].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							armor[2].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
-					// adjStats incr = new adjStats(user.getUser(), user
-					// .getToken(), "armor", armor[2].getArmor());
-					// incr.execute((Void) null);
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
@@ -720,16 +703,12 @@ public class ShopActivity extends ActionBarActivity {
 						&& slot.location != null) {
 					toast("working");
 					spendMoney(armor[3].getCost());
-					// int health = armor[3].getArmor();
-					// user.adjStats(0, health, 0);
+		
 					armor[3].use();
 					buyItem use = new buyItem(user.getUser(), user.getToken(),
 							armor[3].getId(), 1, slot.location, slot.pId);
 					use.execute((Void) null);
 
-					// adjStats incr = new adjStats(user.getUser(), user
-					// .getToken(), "armor", armor[3].getArmor());
-					// incr.execute((Void) null);
 					updateShop();
 				} else {
 					message.setVisibility(View.VISIBLE);
@@ -1278,75 +1257,6 @@ public class ShopActivity extends ActionBarActivity {
 
 	}
 
-	/* public class getMoney extends AsyncTask<Void, Void, Boolean> {
-
-		private final String username;
-		private final String token;
-		public int gold;
-		public String message;
-
-		getMoney(String username, String token) {
-			this.username = username;
-			this.token = token;
-		}
-
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			// Query the login script with their entered username/password
-			List<NameValuePair> postParams = new ArrayList<NameValuePair>(2);
-			postParams.add(new BasicNameValuePair("user", username));
-			postParams.add(new BasicNameValuePair("token", token));
-
-			JSONObject getMoney = JSONfunctions
-					.getJSONfromURL(
-							"http://proj-309-R12.cs.iastate.edu/functions/shop/getMoney.php",
-							postParams);
-
-			while (getMoney == null) {
-				try {
-					Thread.sleep(150);
-				} catch (InterruptedException e) {
-				}
-			}
-
-			// Try and check if it succeeded
-			try {
-				String success = getMoney.getString("success");
-
-				// Return true on success
-				if (success.equals("1")) {
-					gold = getMoney.getInt("money");
-
-					message = "success";
-					return true;
-
-					// Set error message and return false.
-				} else {
-					message = getMoney.getString("message");
-					return false;
-				}
-
-				// Off chance that some weird shit happens
-			} catch (JSONException e) {
-				// Something went wrong - typically JSON value doesn't exist
-				// (success).
-				message = "An error occured. Please try again later.";
-				return false;
-			}
-
-		}
-
-		@Override
-		protected void onPostExecute(final Boolean success) {
-
-		}
-
-		@Override
-		protected void onCancelled() {
-			//
-		}
-	} */
-
 	// this item THIS IS NEEDED FOR DS, and OS
 	public class buyItem extends AsyncTask<Void, Void, Boolean> {
 
@@ -1463,45 +1373,16 @@ public class ShopActivity extends ActionBarActivity {
 
 				// Return true on success
 				if (success.equals("1")) {
-					maxHealth = getStats.getInt("maxHealth");
 					curHealth = getStats.getInt("curHealth");
-					attack = getStats.getInt("attack");
-					armor = getStats.getInt("armor");
 					money = getStats.getInt("money");
 					gpm = getStats.getInt("gpm");
 
-					/*
-					 * dont know why we would need to get these here? maybe we
-					 * could use this in the future wins =
-					 * getStats.getInt("wins"); loses =
-					 * getStats.getInt("stats"); kills =
-					 * getStats.getInt("kills"); deaths =
-					 * getStats.getInt("deaths"); guild =
-					 * getStats.getString("guild"); lat =
-					 * getStats.getDouble("lat"); lon =
-					 * getStats.getDouble("lon"); speed =
-					 * getStats.getInt("speed"); stealth =
-					 * getStats.getInt("stealth"); tech =
-					 * getStats.getInt("tech"); level =
-					 * getStats.getInt("level"); exp = getStats.getInt("exp");
-					 */
-
-					if (attribute.equals("maxHealth")) {
-						maxHealth += amount;
-					}
 					if (attribute.equals("money")) {
 						money -= amount;
 					}
 					if (attribute.equals("curHealth")) {
 						curHealth += amount;
 					}
-					if (attribute.equals("attack")) {
-						attack += amount;
-					}
-					if (attribute.equals("armor")) {
-						armor += amount;
-					}
-	
 					if (attribute.equals("gpm")) {
 						gpm += amount;
 					}
@@ -1514,13 +1395,11 @@ public class ShopActivity extends ActionBarActivity {
 
 					// Attempt to update the stats of the user to the character
 					// table.
-					mc.updateStats(username, token, maxHealth, curHealth,
-							attack, armor, money, gpm);
+					mc.updateStats(username, token, curHealth, money, gpm);
 
 					mc.close();
 					
 					user.updateAllStats();
-					toast("YAY");
 
 					message = "success";
 					return true;

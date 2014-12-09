@@ -878,16 +878,10 @@ public class MySqlConnection {
 			} else {
 
 				// Create the house
-				PreparedStatement st = con.prepareStatement("UPDATE characters SET maxHealth = ?, curHealth = ?, attack = ?, armor = ?, money = ?, gpm = ? WHERE username = '"
-								+ update.username
-								+ "' AND token = '"
-								+ update.token + "'");
-				st.setInt(0, update.maxHealth);
-				st.setInt(1, update.curHealth);
-				st.setInt(2, update.attack);
-				st.setInt(3, update.armor);
-				st.setInt(4, update.money);
-				st.setInt(5, update.gpm);
+				PreparedStatement st = con.prepareStatement("UPDATE characters SET curHealth = ?, money = ?, gpm = ? WHERE username = '" + update.username + "'");
+				st.setInt(0, update.curHealth);
+				st.setInt(1, update.money);
+				st.setInt(2, update.gpm);
 				
 				st.execute();
 			}
