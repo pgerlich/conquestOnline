@@ -1,17 +1,19 @@
 package conquest.online.gameAssets.Items;
 
 public class Food extends AbstractItem {
-	private String health;
+	private int health;
 	@Override
 	public void use() {
 		// TODO Auto-generated method stub
 	}
 	
-	public void setHealth(String health) {
+	public void setHealth(int health) {
 		this.health = health;
 	}
 	
-	public String getHealth() {
+	public int getHealth() {
 		return health;
 	}
+
+
 }

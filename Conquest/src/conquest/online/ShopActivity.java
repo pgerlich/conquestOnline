@@ -79,7 +79,7 @@ public class ShopActivity extends ActionBarActivity {
 	public TextView message;
 	public TextView stats;
 	public getShop shop;
-	public getMoney mon;
+	//public getMoney mon;
 
 	private UserSession user;
 	public int gold;
@@ -105,8 +105,8 @@ public class ShopActivity extends ActionBarActivity {
 		shop = new getShop(user.getUser(), user.getToken());
 		shop.execute((Void) null);
 
-		mon = new getMoney(user.getUser(), user.getToken());
-		mon.execute((Void) null);
+		//mon = new getMoney(user.getUser(), user.getToken());
+		//mon.execute((Void) null);
 	}
 
 	public void createStore() {
@@ -117,10 +117,9 @@ public class ShopActivity extends ActionBarActivity {
 		ds = shop.ds;
 		os = shop.os;
 		stock = shop.stock;
-		populateStore();
+		
 		if (i == 0) {
-			createListeners();
-			populateStore();
+			populateStore();			
 		}
 		i++;
 	}
@@ -208,84 +207,84 @@ public class ShopActivity extends ActionBarActivity {
 				+ ", Attack:" + user.getAttack() + ", Armor:" + user.getArmor());
 
 		// setImage(food[0].getPic(), foodOne);
-		foodOne.setBackgroundResource(R.drawable.bread);
+		foodOne.setBackgroundResource(R.drawable.food);
 		foodOneInfo.setText(food[0].getName() + "-" + food[0].getDescription()
 				+ ":" + food[0].getCost());
 		if (!checkBalance(food[0].getCost())) {
 			foodOneInfo.setTextColor(Color.RED);
 		}
 		// setImage(food[1].getPic(), foodTwo);
-		foodTwo.setImageResource(R.drawable.cupcake);
+		foodTwo.setImageResource(R.drawable.food);
 		foodTwoInfo.setText(food[1].getName() + "-" + food[1].getDescription()
 				+ ":" + food[1].getCost());
 		if (!checkBalance(food[1].getCost())) {
 			foodTwoInfo.setTextColor(Color.RED);
 		}
 		// setImage(food[2].getPic(), foodThree);
-		foodThree.setImageResource(R.drawable.chicken);
+		foodThree.setImageResource(R.drawable.food);
 		foodThreeInfo.setText(food[2].getName() + "-"
 				+ food[2].getDescription() + ":" + food[2].getCost());
 		if (!checkBalance(food[2].getCost())) {
 			foodThreeInfo.setTextColor(Color.RED);
 		}
 		// setImage(food[3].getPic(), foodFour);
-		foodFour.setImageResource(R.drawable.sandwich);
+		foodFour.setImageResource(R.drawable.food);
 		foodFourInfo.setText(food[3].getName() + "-" + food[3].getDescription()
 				+ ":" + food[3].getCost());
 		if (!checkBalance(food[3].getCost())) {
 			foodFourInfo.setTextColor(Color.RED);
 		}
 		// setImage(weapon[0].getPic(), weaponOne);
-		weaponOne.setImageResource(R.drawable.sword);
+		weaponOne.setImageResource(R.drawable.weapon);
 		weaponOneInfo.setText(weapon[0].getName() + "-"
 				+ weapon[0].getDescription() + ":" + weapon[0].getCost());
 		if (!checkBalance(weapon[0].getCost())) {
 			weaponOneInfo.setTextColor(Color.RED);
 		}
 		// setImage(weapon[1].getPic(), weaponTwo);
-		weaponTwo.setImageResource(R.drawable.knife);
+		weaponTwo.setImageResource(R.drawable.weapon);
 		weaponTwoInfo.setText(weapon[1].getName() + "-"
 				+ weapon[1].getDescription() + ":" + weapon[1].getCost());
 		if (!checkBalance(weapon[1].getCost())) {
 			weaponTwoInfo.setTextColor(Color.RED);
 		}
 		// setImage(weapon[2].getPic(), weaponThree);
-		weaponThree.setImageResource(R.drawable.pistol);
+		weaponThree.setImageResource(R.drawable.weapon);
 		weaponThreeInfo.setText(weapon[2].getName() + "-"
 				+ weapon[2].getDescription() + ":" + weapon[2].getCost());
 		if (!checkBalance(weapon[2].getCost())) {
 			weaponThreeInfo.setTextColor(Color.RED);
 		}
 		// setImage(weapon[3].getPic(), weaponFour);
-		weaponFour.setImageResource(R.drawable.rifle);
+		weaponFour.setImageResource(R.drawable.weapon);
 		weaponFourInfo.setText(weapon[3].getName() + "-"
 				+ weapon[3].getDescription() + ":" + weapon[3].getCost());
 		if (!checkBalance(weapon[3].getCost())) {
 			weaponFourInfo.setTextColor(Color.RED);
 		}
 		// setImage(armor[0].getPic(), armorOne);
-		armorOne.setImageResource(R.drawable.boot_holder);
+		armorOne.setImageResource(R.drawable.armor);
 		armorOneInfo.setText(armor[0].getName() + "-"
 				+ armor[0].getDescription() + ":" + armor[0].getCost());
 		if (!checkBalance(armor[0].getCost())) {
 			armorOneInfo.setTextColor(Color.RED);
 		}
 		// setImage(armor[1].getPic(), armorTwo);
-		armorTwo.setImageResource(R.drawable.chest_holder);
+		armorTwo.setImageResource(R.drawable.armor);
 		armorTwoInfo.setText(armor[1].getName() + "-"
 				+ armor[1].getDescription() + ":" + armor[1].getCost());
 		if (!checkBalance(armor[1].getCost())) {
 			armorTwoInfo.setTextColor(Color.RED);
 		}
 		// setImage(armor[2].getPic(), armorThree);
-		armorThree.setImageResource(R.drawable.helmet_holder);
+		armorThree.setImageResource(R.drawable.armor);
 		armorThreeInfo.setText(armor[2].getName() + "-"
 				+ armor[2].getDescription() + ":" + armor[2].getCost());
 		if (!checkBalance(armor[2].getCost())) {
 			armorThreeInfo.setTextColor(Color.RED);
 		}
 		// setImage(armor[3].getPic(), armorFour);
-		armorFour.setImageResource(R.drawable.leg_holder);
+		armorFour.setImageResource(R.drawable.armor);
 		armorFourInfo.setText(armor[3].getName() + "-"
 				+ armor[3].getDescription() + ":" + armor[3].getCost());
 		if (!checkBalance(armor[3].getCost())) {
@@ -320,61 +319,63 @@ public class ShopActivity extends ActionBarActivity {
 			dsFourInfo.setTextColor(Color.RED);
 		}
 		// setImage(os[0].getPic(), osOne);
-		osOne.setImageResource(R.drawable.rifle);
+		osOne.setImageResource(R.drawable.turret);
 		osOneInfo.setText(os[0].getName() + "-" + os[0].getDes() + ":"
 				+ os[0].getCost());
 		if (!checkBalance(os[0].getCost())) {
 			osOneInfo.setTextColor(Color.RED);
 		}
 		// setImage(os[1].getPic(), osTwo);
-		osTwo.setImageResource(R.drawable.rifle);
+		osTwo.setImageResource(R.drawable.turret);
 		osTwoInfo.setText(os[1].getName() + "-" + os[1].getDes() + ":"
 				+ os[1].getCost());
 		if (!checkBalance(os[1].getCost())) {
 			osTwoInfo.setTextColor(Color.RED);
 		}
 		// setImage(os[2].getPic(), osThree);
-		osThree.setImageResource(R.drawable.rifle);
+		osThree.setImageResource(R.drawable.turret);
 		osThreeInfo.setText(os[2].getName() + "-" + os[2].getDes() + ":"
 				+ os[2].getCost());
 		if (!checkBalance(os[2].getCost())) {
 			osThreeInfo.setTextColor(Color.RED);
 		}
 		// setImage(os[3].getPic(), osFour);
-		osFour.setImageResource(R.drawable.rifle);
+		osFour.setImageResource(R.drawable.turret);
 		osFourInfo.setText(os[3].getName() + "-" + os[3].getDes() + ":"
 				+ os[3].getCost());
 		if (!checkBalance(os[3].getCost())) {
 			osFourInfo.setTextColor(Color.RED);
 		}
 		// setImage(stock[0].getPic(), sOne);
-		sOne.setImageResource(R.drawable.shop_image);
+		sOne.setImageResource(R.drawable.stock);
 		sOneInfo.setText(stock[0].getName() + "-" + stock[0].getDescription()
 				+ ":" + stock[0].getCost());
 		if (!checkBalance(stock[0].getCost())) {
 			sOneInfo.setTextColor(Color.RED);
 		}
 		// setImage(stock[1].getPic(), sTwo);
-		sTwo.setImageResource(R.drawable.shop_image);
+		sTwo.setImageResource(R.drawable.stock);
 		sTwoInfo.setText(stock[1].getName() + "-" + stock[1].getDescription()
 				+ ":" + stock[1].getCost());
 		if (!checkBalance(stock[1].getCost())) {
 			sTwoInfo.setTextColor(Color.RED);
 		}
 		// setImage(stock[2].getPic(), sThree);
-		sThree.setImageResource(R.drawable.shop_image);
+		sThree.setImageResource(R.drawable.stock);
 		sThreeInfo.setText(stock[2].getName() + "-" + stock[2].getDescription()
 				+ ":" + stock[2].getCost());
 		if (!checkBalance(stock[2].getCost())) {
 			sThreeInfo.setTextColor(Color.RED);
 		}
 		// setImage(stock[3].getPic(), sFour);
-		sFour.setImageResource(R.drawable.shop_image);
+		sFour.setImageResource(R.drawable.stock);
 		sFourInfo.setText(stock[3].getName() + "-" + stock[3].getDescription()
 				+ ":" + stock[3].getCost());
 		if (!checkBalance(stock[3].getCost())) {
 			sFourInfo.setTextColor(Color.RED);
 		}
+		
+		createListeners();
 	}
 
 	/**
@@ -435,7 +436,7 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[0].getCost())) {
 					spendMoney(food[0].getCost());
-					int health = Integer.parseInt(food[0].getHealth());
+					int health = food[0].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
 				} else {
@@ -451,7 +452,7 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[1].getCost())) {
 					spendMoney(food[1].getCost());
-					int health = Integer.parseInt(food[1].getHealth());
+					int health = food[1].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
 				} else {
@@ -467,7 +468,7 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[2].getCost())) {
 					spendMoney(food[2].getCost());
-					int health = Integer.parseInt(food[2].getHealth());
+					int health = food[2].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
 				} else {
@@ -483,7 +484,7 @@ public class ShopActivity extends ActionBarActivity {
 				message.setVisibility(View.GONE);
 				if (checkBalance(food[3].getCost())) {
 					spendMoney(food[3].getCost());
-					int health = Integer.parseInt(food[3].getHealth());
+					int health = food[3].getHealth();
 					user.adjStats(health, 0, 0);
 					updateShop();
 				} else {
@@ -928,7 +929,7 @@ public class ShopActivity extends ActionBarActivity {
 	public boolean checkBalance(int i) {
 		// if balance is enough return true, else return false
 
-		if (i <= mon.gold) {
+		if (i <= user.getMoney()) {
 			// has enough gold to buy.
 			return true;
 		} else {
@@ -1013,7 +1014,9 @@ public class ShopActivity extends ActionBarActivity {
 						String des = requestShop.getString("fd" + i);
 						int id = Integer.parseInt(requestShop.getString("fi"
 								+ i));
+						int health = requestShop.getInt("fh" + i);
 						food[i].create(name, c, pic, des, id);
+						food[i].setHealth(health);
 
 						weapon[i] = new Weapon();
 						name = requestShop.getString("wn" + i);
@@ -1057,9 +1060,11 @@ public class ShopActivity extends ActionBarActivity {
 						name = requestShop.getString("sn" + i);
 						c = requestShop.getInt("sc" + i);
 						pic = requestShop.getString("sp" + i);
+						int gpm = requestShop.getInt("sg" + i);
 						des = requestShop.getString("sd" + i);
 						id = Integer.parseInt(requestShop.getString("si" + i));
 						stock[i].create(name, c, pic, des, id);
+						stock[i].setGpm(gpm);
 					}
 
 					// Need to make sure that all arrays are made right
@@ -1087,7 +1092,6 @@ public class ShopActivity extends ActionBarActivity {
 			// dont know what to put here
 			// TODO - only update when first open
 			createStore();
-
 		}
 
 		@Override
@@ -1181,7 +1185,7 @@ public class ShopActivity extends ActionBarActivity {
 
 	}
 
-	public class getMoney extends AsyncTask<Void, Void, Boolean> {
+	/* public class getMoney extends AsyncTask<Void, Void, Boolean> {
 
 		private final String username;
 		private final String token;
@@ -1248,7 +1252,7 @@ public class ShopActivity extends ActionBarActivity {
 		protected void onCancelled() {
 			//
 		}
-	}
+	} */
 
 	// this item THIS IS NEEDED FOR DS, and OS
 	public class buyItem extends AsyncTask<Void, Void, Boolean> {
@@ -1331,6 +1335,7 @@ public class ShopActivity extends ActionBarActivity {
 		private int weapon1;
 		private int weapon2;
 		private int weapon3;
+		private int gpm;
 		/*
 		 * Dont use these here yet, maybe can in the future, not sure private
 		 * int wins; private int loses; private int kills; private int deaths;
@@ -1382,6 +1387,7 @@ public class ShopActivity extends ActionBarActivity {
 					weapon1 = getStats.getInt("weapon1");
 					weapon2 = getStats.getInt("weapon2");
 					weapon3 = getStats.getInt("weapon3");
+					gpm = getStats.getInt("gpm");
 
 					/*
 					 * dont know why we would need to get these here? maybe we
@@ -1428,6 +1434,9 @@ public class ShopActivity extends ActionBarActivity {
 						weapon2 = weapon3;
 						weapon3 = amount;
 					}
+					if (attribute.equals("gpm")) {
+						gpm += amount;
+					}
 
 					MovementClient mc = new MovementClient();
 
@@ -1439,9 +1448,11 @@ public class ShopActivity extends ActionBarActivity {
 					// table.
 					mc.updateStats(username, token, maxHealth, curHealth,
 							attack, armor, money, armor0, armor1, armor2,
-							armor3, weapon0, weapon1, weapon2, weapon3);
+							armor3, weapon0, weapon1, weapon2, weapon3, gpm);
 
 					mc.close();
+					
+					user.updateAllStats();
 
 					message = "success";
 					return true;

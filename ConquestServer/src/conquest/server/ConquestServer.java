@@ -140,13 +140,16 @@ public class ConquestServer {
 	public void registerClasses(@SuppressWarnings("rawtypes") Class[] classes) {
 		// This serializes classes (Breaks them down and reassembles??)
 		Kryo kryo = server.getKryo();
+		
+		System.out.print("Registering classes: ");
 
 		// Add each class
 		for (int i = 0; i < classes.length; i++) {
 			kryo.register(classes[i]);
-			System.out.println("Registered class: "
-					+ classes[i].getSimpleName());
+			System.out.print(classes[i].getSimpleName() + ", ");
 		}
+		
+		System.out.println(" ...");
 	}
 
 	/**

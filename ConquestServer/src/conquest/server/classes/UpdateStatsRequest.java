@@ -16,6 +16,7 @@ public class UpdateStatsRequest {
 	public int weapon1;
 	public int weapon2;
 	public int weapon3;
+	public int gpm;
 	public int wins;
 	public int loses;
 	public int kills;
