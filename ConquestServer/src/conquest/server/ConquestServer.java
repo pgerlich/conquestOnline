@@ -402,7 +402,7 @@ public class ConquestServer {
 				InventoryChangeRequest.class, InventoryChangeResponse.class,
 				ChestChangeRequest.class, ChestChangeResponse.class, StructPlaceRequest.class, 
 				StructPlaceResponse.class, UpdateLatLongRequest.class, PersonNearYouRequest.class, PersonNearYou.class };
-		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777,
+		ConquestServer test = new ConquestServer("Conquest Main", 54555, 54777,
 				classes);
 
 		try {
