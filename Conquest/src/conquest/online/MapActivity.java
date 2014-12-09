@@ -175,6 +175,13 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		String display = "Health: " + currentHealth + "/" + maxHealth + " %" + percentHealth;
 		health.setText(display);
 	}
+	/**
+	 * When user taps the newPropbutton it takes you to the new property screen
+	 */
+	public void addNewProp(View view) {
+		Intent newProp = new Intent(this, NewPropertyActivity.class);
+		startActivity(newProp);
+	}
 
 	
 	

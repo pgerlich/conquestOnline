@@ -60,6 +60,15 @@
         android:background="@drawable/house_building"
         android:onClick="goHome"
         android:contentDescription="@string/mapDesc" />
+     <ImageButton
+        android:id="@+id/newProp_b"
+        android:layout_height="30dp"
+        android:layout_width="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/home_b"
+        android:background="@drawable/prop_grid"
+        android:onClick="addNewProp"
+        android:contentDescription="@string/mapDesc" />
 
     <TextView
         android:id="@+id/playerHealthView"

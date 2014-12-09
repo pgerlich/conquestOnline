@@ -25,6 +25,8 @@ import conquest.server.classes.PropertyPurchaseRequest;
 import conquest.server.classes.PropertyPurchaseResponse;
 import conquest.server.classes.RegisterRequest;
 import conquest.server.classes.RegistrationResponse;
+import conquest.server.classes.StructPlaceRequest;
+import conquest.server.classes.StructPlaceResponse;
 import conquest.server.classes.UpdateStatsRequest;
 import conquest.server.classes.UpdateStatsResponse;
 import conquest.server.classes.User;
@@ -269,8 +271,12 @@ public class ConquestServer {
 	    	    	  
 	    	      }
 	    	      
-	    	      if (obj instanceof PropStructsResponse){
-	    	    	  System.out.println("got response");
+	    	      if (obj instanceof StructPlaceRequest){
+	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Retrieve Property Structs (" + ((PropStructsRequest)obj).location + ")" );
+	    	    	  StructPlaceRequest SPR = new StructPlaceRequest();
+	    	    	  StructPlaceResponse SPRes = myCon.placeStructure(SPR);
+	    	    	  System.out.println(SPRes.message);
+	    	    	  con.sendUDP(SPRes);
 	    	      }
 		       }
 		       
@@ -332,7 +338,7 @@ public class ConquestServer {
 				UpdateStatsRequest.class, UpdateStatsResponse.class,
 				PropStructsRequest.class, PropStructsResponse.class,
 				InventoryChangeRequest.class, InventoryChangeResponse.class,
-				ChestChangeRequest.class, ChestChangeResponse.class };
+				ChestChangeRequest.class, ChestChangeResponse.class, StructPlaceRequest.class, StructPlaceResponse.class };
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777,
 				classes);
 

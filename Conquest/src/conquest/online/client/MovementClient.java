@@ -22,6 +22,8 @@ import conquest.client.classes.PropertyPurchaseRequest;
 import conquest.client.classes.PropertyPurchaseResponse;
 import conquest.client.classes.RegisterRequest;
 import conquest.client.classes.RegistrationResponse;
+import conquest.client.classes.StructPlaceRequest;
+import conquest.client.classes.StructPlaceResponse;
 import conquest.client.classes.UpdateStatsRequest;
 import conquest.client.classes.UpdateStatsResponse;
 
@@ -56,6 +58,7 @@ public class MovementClient implements Runnable {
 	public InventoryChangeResponse invChangeResponse;
 	public ChestChangeResponse chChangeResponse;
 	public ArrayList<PropStructsResponse> structsResponse = new ArrayList<PropStructsResponse>(10);
+	public StructPlaceResponse placeResponse;
 	
 	/**
 	 * Creates a connection client that connects to the specified host and ports.
@@ -91,7 +94,8 @@ public class MovementClient implements Runnable {
 				UpdateStatsRequest.class, UpdateStatsResponse.class,
 				PropStructsRequest.class, PropStructsResponse.class,
 				InventoryChangeRequest.class, InventoryChangeResponse.class,
-				ChestChangeRequest.class, ChestChangeResponse.class };
+				ChestChangeRequest.class, ChestChangeResponse.class, StructPlaceRequest.class,
+				StructPlaceResponse.class };
 		
 		//Bind ports and start her up
 		startClient();
@@ -130,6 +134,10 @@ public class MovementClient implements Runnable {
 	          
 	          if (object instanceof ChestChangeResponse) {
 	        	  chChangeResponse = (ChestChangeResponse) object;
+	          }
+	          
+	          if (object instanceof StructPlaceResponse){
+	        	  placeResponse = (StructPlaceResponse) object;
 	          }
 
 	       }
@@ -255,6 +263,22 @@ public class MovementClient implements Runnable {
 		invChange.pId = pId;
 		invChange.location = location;
 		this.client.sendUDP(invChange);
+	}
+	
+	/**
+	 * Places an item from your chest on to your property
+	 * @param user
+	 * @param token
+	 * @param propertyID
+	 * @param strctID
+	 */
+	public void placeOnProeprty(String user, String token, int propertyID, AbstractStructure struct) {
+		StructPlaceRequest SPR = new StructPlaceRequest();
+		SPR.username = user;
+		SPR.token = token;
+		SPR.propertyID = propertyID;
+		SPR.struct = struct;
+		this.client.sendUDP(SPR);
 	}
 
 	/**
