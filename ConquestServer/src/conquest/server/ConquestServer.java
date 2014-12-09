@@ -229,6 +229,14 @@ public class ConquestServer {
 	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Logout Request");
 	    	    	  LogoutRequest log = (LogoutRequest) obj;
 	    	    	  System.out.println(myCon.processLogout(log));
+	    	    	  
+	    	    	  //Remove from connected
+	    	    	  User thisUser = findUser(log.username);
+	    	    	  
+	    	    	  if ( thisUser != null ) {
+	    	    		  usersConnected.remove(thisUser);  
+	    	    	  }
+	    	    	  
 	    	      }
 	    	      
 	    	      //Update stats request
@@ -292,7 +300,12 @@ public class ConquestServer {
 	    	    	  thisUser.latitude = ULLR.Lat;
 	    	    	  thisUser.longitude = ULLR.Lng;
 	    	    	  
-	    	    	  myCon.updateLoc(ULLR);
+	    	    	  ArrayList<PersonNearYou> response = myCon.updateLoc(ULLR);
+	    	    	  
+	    	    	  //Now send this all back
+	    	    	  for(int i = 0; i < response.size(); i++) {
+	    	    		  con.sendUDP(response.get(i));
+	    	    	  }
 	    	      }
 	    	    
 		       }
@@ -374,7 +387,8 @@ public class ConquestServer {
 	public static void statistics() {
 		System.out.println("# of users connected: " + usersConnected.size());
 		for (int i = 0; i < usersConnected.size(); i++) {
-			System.out.println("--- Username: " + usersConnected.get(i).username + " ---");
+			User thisUser = usersConnected.get(i);
+			System.out.println("-- Username: " + thisUser.username + ", Lat: " + thisUser.latitude + ", Lon: " + thisUser.longitude + " ---");
 		}
 	}
 

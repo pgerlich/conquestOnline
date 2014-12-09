@@ -938,9 +938,11 @@ public class MySqlConnection {
 	 * Update the users location in the DB
 	 * @param updateLocation
 	 */
-	public void updateLoc(UpdateLatLongRequest updateLocation) {
+	public ArrayList<PersonNearYou> updateLoc(UpdateLatLongRequest updateLocation) {
 		
 		String statement = "UPDATE characters SET lat = ?, lon = ? WHERE username = ?";
+		
+		ArrayList<PersonNearYou> response = new ArrayList<PersonNearYou>(10);
 		
 		try {
 			Statement stmt1 = con.createStatement();
@@ -948,6 +950,8 @@ public class MySqlConnection {
 			
 			//If valid user/token
 			if ( isValid.next() ) {
+				
+				response = requestNearbyPeople(updateLocation.Lat, updateLocation.Lng);
 				
 				PreparedStatement st;
 				try {
@@ -965,6 +969,8 @@ public class MySqlConnection {
 		} catch (SQLException e1) {
 			//Nothing
 		}
+		
+		return response;
 		
 	}
 
