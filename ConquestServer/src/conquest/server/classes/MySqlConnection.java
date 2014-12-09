@@ -277,7 +277,7 @@ public class MySqlConnection {
 							PropStructsResponse thisResponse = new PropStructsResponse();
 							thisResponse.message = "Succesfully grabbed structures.";
 							thisResponse.success = true;
-							thisResponse.propertyID = structs.getString("structureID");
+							thisResponse.propertyID = structs.getString("propertyID");
 							
 							AbstractStructure temp = new AbstractStructure();
 							temp.name = structs.getString("name");
