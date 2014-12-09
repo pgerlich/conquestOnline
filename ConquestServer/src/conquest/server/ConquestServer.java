@@ -30,6 +30,7 @@ import conquest.server.classes.StructPlaceResponse;
 import conquest.server.classes.UpdateStatsRequest;
 import conquest.server.classes.UpdateStatsResponse;
 import conquest.server.classes.User;
+import conquest.server.classes.UpdateLatLongRequest;
 
 /**
  * This is a connection client. See the constructor for more details.
@@ -338,7 +339,8 @@ public class ConquestServer {
 				UpdateStatsRequest.class, UpdateStatsResponse.class,
 				PropStructsRequest.class, PropStructsResponse.class,
 				InventoryChangeRequest.class, InventoryChangeResponse.class,
-				ChestChangeRequest.class, ChestChangeResponse.class, StructPlaceRequest.class, StructPlaceResponse.class };
+				ChestChangeRequest.class, ChestChangeResponse.class, StructPlaceRequest.class, 
+				StructPlaceResponse.class, UpdateLatLongRequest.class };
 		ConquestServer test = new ConquestServer("ConquestTest", 54555, 54777,
 				classes);
 
