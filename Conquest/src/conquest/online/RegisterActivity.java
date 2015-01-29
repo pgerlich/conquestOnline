@@ -79,9 +79,6 @@ public class RegisterActivity extends ActionBarActivity {
 			//Execute background process - try and register account
 			RegistrationProcess register = new RegistrationProcess(username, password, email, classChosen);
 			register.execute((Void) null);
-
-			toast(register.message);
-
 		} else if (!password.equals(confirmPass)) {
 			toast("Passwords did not match!");
 		} else {
@@ -185,9 +182,9 @@ public class RegisterActivity extends ActionBarActivity {
 					
 				}
 				
-				
 				message = mc.regResponse.message;
 				success = mc.regResponse.success;
+				
 				mc.close();
 				return success;
 
@@ -200,6 +197,7 @@ public class RegisterActivity extends ActionBarActivity {
 
 		@Override
 		protected void onPostExecute(final Boolean success) {
+			toast(message);
 			
 			if (success) {
 				finish();

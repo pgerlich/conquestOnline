@@ -24,7 +24,6 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main); 
     }
 
-    
     /** Called when the user clicks the login button. */
     public void goToLogin(View view) {
     	Intent login = new Intent(this, LoginActivity.class);
@@ -32,7 +31,7 @@ public class MainActivity extends FragmentActivity {
     }  
     
     /** Called when the user clicks the register button.*/
-    public void goToRegister(View view) {
+    public void goToRegister(View view) { 
     	Intent register = new Intent(this, RegisterActivity.class);
     	startActivity(register);
     }  

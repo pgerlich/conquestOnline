@@ -10,30 +10,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
-import conquest.server.classes.AbstractStructure;
-import conquest.server.classes.ChestChangeRequest;
-import conquest.server.classes.ChestChangeResponse;
-import conquest.server.classes.InventoryChangeRequest;
-import conquest.server.classes.InventoryChangeResponse;
-import conquest.server.classes.LoginRequest;
-import conquest.server.classes.LoginResponse;
-import conquest.server.classes.LogoutRequest;
-import conquest.server.classes.MySqlConnection;
-import conquest.server.classes.PersonNearYou;
-import conquest.server.classes.PersonNearYouRequest;
-import conquest.server.classes.PropStructsRequest;
-import conquest.server.classes.PropStructsResponse;
-import conquest.server.classes.PropertyPurchaseRequest;
-import conquest.server.classes.PropertyPurchaseResponse;
-import conquest.server.classes.RegisterRequest;
-import conquest.server.classes.RegistrationResponse;
-import conquest.server.classes.StructPlaceRequest;
-import conquest.server.classes.StructPlaceResponse;
-import conquest.server.classes.UpdateStatsRequest;
-import conquest.server.classes.UpdateStatsResponse;
-import conquest.server.classes.User;
-import conquest.server.classes.UpdateLatLongRequest;
-
+import conquest.server.classes.*;
 /**
  * This is a connection client. See the constructor for more details.
  * 
@@ -45,6 +22,7 @@ public class ConquestServer {
 
 	// Client to connect to
 	public Server server;
+	public Server movementServer;
 	public boolean online;
 
 	// TCP/UDP Port binds
@@ -91,10 +69,10 @@ public class ConquestServer {
 		usersConnected = new ArrayList<User>();
 
 		// Bind Start up and bind ports
-		if (startServer(TCP, UDP)) {
+		if (startServer(server, TCP, UDP)) {
 			myCon = new MySqlConnection();
 
-			// See if the connection succeded
+			// See if the connection succeeded
 			if (myCon.connected) {
 				// Register classes
 				registerClasses(classes);
@@ -118,13 +96,13 @@ public class ConquestServer {
 	/**
 	 * Start up the server and bind it to the ports and server.
 	 */
-	public boolean startServer(int TCP, int UDP) {
-		server.start();
+	public boolean startServer(Server serv, int TCP, int UDP) {
+		serv.start();
 
 		System.out.println("Server " + name + " online");
 
 		try {
-			server.bind(TCP, UDP);
+			serv.bind(TCP, UDP);
 			System.out.println("Binded to UDP:" + UDP + " and listening.");
 			return true;
 		} catch (IOException e) {
@@ -288,18 +266,6 @@ public class ConquestServer {
 	    	    	  
 	    	      }
 	    	      
-	    	      if (obj instanceof PersonNearYouRequest){
-	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Person Near You" );
-	    	    	  PersonNearYouRequest PNYR = (PersonNearYouRequest) obj;
-	    	    	  ArrayList<PersonNearYou> response = myCon.requestNearbyPeople(PNYR);
-	    	    	  
-	    	    	  //Send them back over
-	    	    	  for(int i = 0; i < response.size(); i++ ) {
-	    	    		  //System.out.println(response.get(i).user);
-	    	    		  con.sendUDP(response.get(i));
-	    	    	  }
-	    	      }
-	    	      
 	    	      if (obj instanceof StructPlaceRequest){
 	    	    	  System.out.println("(" + con.getRemoteAddressUDP() + ")" + ": Struct Placement" );
 	    	    	  StructPlaceRequest SPR = (StructPlaceRequest) obj;
@@ -315,13 +281,14 @@ public class ConquestServer {
 	    	    	  User thisUser = findUser(ULLR.username);
 	    	    	  
 	    	    	  if ( thisUser != null ) {
-		    	    	  //Update the users location on our side
-		    	    	  thisUser.latitude = ULLR.Lat;
-		    	    	  thisUser.longitude = ULLR.Lng;
+		    	    	  //Set the users current location
+		    	    	  thisUser.latitude = ULLR.curLat;
+		    	    	  thisUser.longitude = ULLR.curLng;
 	    	    	  }
 	    	    	  
-	    	    	   myCon.updateLoc(ULLR);
-
+	    	    	   myCon.updateLocation(ULLR);
+	    	    	   
+	    	    	   notifyNearbyUsers(ULLR);
 	    	      }
 	    	    
 		       }
@@ -344,6 +311,11 @@ public class ConquestServer {
 		return null;
 	}
 
+	/**
+	 * Find user by name
+	 * @param username
+	 * @return
+	 */
 	public User findUser(String username) {
 		for (int i = 0; i < usersConnected.size(); i++) {
 			if (usersConnected.get(i).username.equals(username)) {
@@ -353,6 +325,58 @@ public class ConquestServer {
 
 		return null;
 	}
+	
+	/**
+	 * Sends out a notification to all nearby users of people near them's movement
+	 * @param ULLR
+	 */
+	public void notifyNearbyUsers(UpdateLatLongRequest ULLR){
+		for (User u :  usersConnected) {
+			
+			//Don't notify them of their own movement - for now.
+			if ( !u.username.equals(ULLR.username)) {
+				if ( distance(u.latitude, u.longitude, ULLR.curLat, ULLR.curLng) <= 1 ) {
+					
+					//Set all information TODO: More efficient way of doing this?
+					PersonNearYou p = myCon.getUserInfo(ULLR.username);
+					p.user = ULLR.username;
+					p.curLat = ULLR.curLat;
+					p.curLng = ULLR.curLng;
+					p.destLat = ULLR.destLat;
+					p.destLng = ULLR.destLng;
+					
+					//send it off
+					u.con.sendUDP(p);
+					
+					System.out.println("NOTIFIED: " + u.username + " of " + ULLR.username);
+				}
+			}
+		}
+	}
+
+	//Calculate distance between two lat/longs
+	private double distance(double lat1, double lon1, double lat2, double lon2) {
+	  double theta = lon1 - lon2;
+	  double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+	  dist = Math.acos(dist);
+
+	  dist = rad2deg(dist);
+
+	  dist = dist * 60 * 1.1515;
+
+	  return (dist);
+	}
+
+	//Degrees to radians
+	private double deg2rad(double deg) {
+	  return (deg * Math.PI / 180.0);
+	}
+
+	//Radians to degrees
+	private double rad2deg(double rad) {
+	  return (rad * 180 / Math.PI);
+	}
+
 
 	/**
 	 * Kick the user from the server FIXME!!
@@ -401,7 +425,7 @@ public class ConquestServer {
 				PropStructsRequest.class, PropStructsResponse.class,
 				InventoryChangeRequest.class, InventoryChangeResponse.class,
 				ChestChangeRequest.class, ChestChangeResponse.class, StructPlaceRequest.class, 
-				StructPlaceResponse.class, UpdateLatLongRequest.class, PersonNearYouRequest.class, PersonNearYou.class };
+				StructPlaceResponse.class, UpdateLatLongRequest.class, PersonNearYou.class };
 		ConquestServer test = new ConquestServer("Conquest Main", 54555, 54777,
 				classes);
 

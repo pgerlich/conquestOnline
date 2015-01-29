@@ -3,6 +3,12 @@ package conquest.server.classes;
 public class UpdateLatLongRequest {
 	public String username;
 	public String token;
-	public double Lat;
-	public double Lng;
+	
+	//Where we are now
+	public double curLat;
+	public double curLng;
+	
+	//Where we are going
+	public double destLat;
+	public double destLng;
 }

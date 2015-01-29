@@ -9,26 +9,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.google.android.gms.maps.model.LatLng;
 
-import conquest.client.classes.AbstractStructure;
-import conquest.client.classes.ChestChangeRequest;
-import conquest.client.classes.ChestChangeResponse;
-import conquest.client.classes.InventoryChangeRequest;
-import conquest.client.classes.InventoryChangeResponse;
-import conquest.client.classes.LoginRequest;
-import conquest.client.classes.LoginResponse;
-import conquest.client.classes.LogoutRequest;
-import conquest.client.classes.PersonNearYou;
-import conquest.client.classes.PersonNearYouRequest;
-import conquest.client.classes.PropStructsRequest;
-import conquest.client.classes.PropStructsResponse;
-import conquest.client.classes.PropertyPurchaseRequest;
-import conquest.client.classes.PropertyPurchaseResponse;
-import conquest.client.classes.RegisterRequest;
-import conquest.client.classes.RegistrationResponse;
-import conquest.client.classes.StructPlaceRequest;
-import conquest.client.classes.StructPlaceResponse;
-import conquest.client.classes.UpdateStatsRequest;
-import conquest.client.classes.UpdateStatsResponse;
+import conquest.client.classes.*;
 import conquest.client.classes.UpdateLatLongRequest;
 
 
@@ -62,7 +43,7 @@ public class MovementClient implements Runnable {
 	public InventoryChangeResponse invChangeResponse;
 	public ChestChangeResponse chChangeResponse;
 	public ArrayList<PropStructsResponse> structsResponse = new ArrayList<PropStructsResponse>(10);
-	public ArrayList<PersonNearYou> personResponse = new ArrayList<PersonNearYou>(10);
+	public ArrayList<PersonNearYou> nearbyPeople = new ArrayList<PersonNearYou>(10);
 	public StructPlaceResponse placeResponse;
 	public UpdateLatLongRequest locRequest;
 	
@@ -89,7 +70,7 @@ public class MovementClient implements Runnable {
 		this.TCP = 54555;
 		this.UDP = 54777;
 		this.name = "Conquest Online - Movement Client";
-		this.host = "proj-309-R12.cs.iastate.edu";
+		this.host = "10.191.222.243";
 		
 		//Add all the classes
 		@SuppressWarnings("rawtypes")
@@ -101,7 +82,7 @@ public class MovementClient implements Runnable {
 				PropStructsRequest.class, PropStructsResponse.class,
 				InventoryChangeRequest.class, InventoryChangeResponse.class,
 				ChestChangeRequest.class, ChestChangeResponse.class, StructPlaceRequest.class,
-				StructPlaceResponse.class, UpdateLatLongRequest.class, PersonNearYouRequest.class, PersonNearYou.class };
+				StructPlaceResponse.class, UpdateLatLongRequest.class, PersonNearYou.class };
 		
 		//Bind ports and start her up
 		startClient();
@@ -119,7 +100,6 @@ public class MovementClient implements Runnable {
 	          
 	          if (object instanceof RegistrationResponse) {
 	        	  regResponse = (RegistrationResponse) object;
-	        	  regResponse.message = "received";
 	          }
 	          
 	          if (object instanceof PropertyPurchaseResponse){
@@ -147,10 +127,9 @@ public class MovementClient implements Runnable {
 	          }
 	          
 	          if (object instanceof PersonNearYou){
-	        	  //don't add duplicates
-	        	  if ( !containsPerson((PersonNearYou) object) ){
-	        		  personResponse.add((PersonNearYou) object);  
-	        	  }
+	        	  //remove/update info on person
+	        	  removeUserByName((PersonNearYou) object);
+	        	  nearbyPeople.add((PersonNearYou) object);  
 	          }
 
 	       }
@@ -158,15 +137,34 @@ public class MovementClient implements Runnable {
 		
 	}
 	
+	/**
+	 * Checks if we already have this person registered
+	 * @param person
+	 * @return
+	 */
 	public boolean containsPerson(PersonNearYou person) {
-		for(int i = 0; i < personResponse.size(); i++) {
-			PersonNearYou thisPerson = personResponse.get(i);
+		for(int i = 0; i < nearbyPeople.size(); i++) {
+			PersonNearYou thisPerson = nearbyPeople.get(i);
 			if ( thisPerson.user.equals(person.user) ) {
 				return true;
 			}
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Remove person by name
+	 * @param person
+	 * @return
+	 */
+	public void removeUserByName(PersonNearYou person) {
+		for(int i = 0; i < nearbyPeople.size(); i++) {
+			PersonNearYou thisPerson = nearbyPeople.get(i);
+			if ( thisPerson.user.equals(person.user) ) {
+				nearbyPeople.remove(i);
+			}
+		}
 	}
 	
 	/**
@@ -209,17 +207,32 @@ public class MovementClient implements Runnable {
 		this.client.sendUDP(logout);
 	}
 	
-	
-	public void updateLocation(String user, String token, LatLng loc){
+	/**
+	 * Update server of our current location and movement
+	 * @param user
+	 * @param token
+	 * @param cur
+	 * @param dest
+	 */
+	public void updateLocation(String user, String token, LatLng cur, LatLng dest){
 		UpdateLatLongRequest ullr = new UpdateLatLongRequest();
 		ullr.username = user;
 		ullr.token = token;
-		ullr.Lat = loc.latitude;
-		ullr.Lng = loc.longitude;
+		ullr.curLat = cur.latitude;
+		ullr.curLng = cur.longitude;
+		ullr.destLat = dest.latitude;
+		ullr.destLng = dest.longitude;
 		
 		this.client.sendUDP(ullr);
 	}
 	
+	/**
+	 * Ask for the structures nearby
+	 * @param username
+	 * @param token
+	 * @param propertyID
+	 * @param location
+	 */
 	public void requestStructs(String username, String token, int propertyID, String location){
 		PropStructsRequest psr = new PropStructsRequest();
 		psr.user = username;
@@ -229,6 +242,13 @@ public class MovementClient implements Runnable {
 		this.client.sendUDP(psr);
 	}
 	
+	/**
+	 * Purchase a property at location
+	 * @param usernameS
+	 * @param tokenS
+	 * @param latS
+	 * @param lonS
+	 */
 	public void purchaseProp(String usernameS, String tokenS, double latS, double lonS) {
 		PropertyPurchaseRequest ppr = new PropertyPurchaseRequest();
 		ppr.username = usernameS;
@@ -307,12 +327,7 @@ public class MovementClient implements Runnable {
 		this.client.sendUDP(SPR);
 	}
 	
-	public void RequestNearbyPeople(double lat, double lon) {
-		PersonNearYouRequest PNYR = new PersonNearYouRequest();
-		PNYR.lat = lat;
-		PNYR.lon = lon;
-		this.client.sendUDP(PNYR);
-	}
+
 
 	/**
 	 * Bind the classes - IN THE SAME ORDER AS THE SERVER

@@ -50,7 +50,6 @@ public class NewSocialActivity extends Activity {
 	public static ArrayList<String> guilds;
 	public static ArrayList<String> enemies;
 	
-	public View progressView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -341,6 +340,8 @@ public class NewSocialActivity extends Activity {
 		public View socialTitle;
 		public View socialDisplay;
 		
+		public View progressView;
+		
 
 		/**
 		 * Returns a new instance of this fragment for the given section number.
@@ -393,6 +394,8 @@ public class NewSocialActivity extends Activity {
 	        //Set the title screen and load people
 			socialTitle = rootView.findViewById(R.id.socialTitle);
 			socialDisplay = rootView.findViewById(R.id.socialDisplay);
+			progressView = rootView.findViewById(R.id.socialProgressBar);
+			progressView.animate();
 			
             setTitle();
             setPeople();
@@ -428,6 +431,8 @@ public class NewSocialActivity extends Activity {
 					f.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 					((LinearLayout) socialDisplay).addView(f);
 				}
+				
+				progressView.setVisibility(View.INVISIBLE);
 			}
 		}
 		

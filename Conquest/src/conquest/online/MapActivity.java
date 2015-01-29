@@ -1,5 +1,11 @@
 package conquest.online;
 
+/**
+ * Work with adjusting movement speeds
+ * Clean up the code a bit
+ * Get multiple clients showing up again with a new movement algorithm
+ */
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +42,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 //import com.google.android.gms.c
 
 import conquest.client.classes.PersonNearYou;
-import conquest.client.classes.PersonNearYouRequest;
 import conquest.online.client.MovementClient;
 import conquest.online.gameAssets.Property;
 
@@ -48,8 +53,10 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	
 	//calculated so that user with speed 1 has a speed of 6.9 mph --just above the average running speed.
 	private static final double SPEED_FACTOR = 1.0 / 360000.0;
-	public boolean moving = false;
 	
+	/**
+	 * Character rendering shizz
+	 */
 	//used to represent the user's character *note we can set this to a bitmap see link below*
 	//http://developer.android.com/reference/com/google/android/gms/maps/model/MarkerOptions.html
 	private MarkerOptions characterMarkerOptions;
@@ -57,12 +64,26 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	
 	private ArrayList<Marker> characters;
 	
-	public MoveCharacter currentMove;
+	public MoveCharacters currentMove;
 	
+	public CharacterTracker charTracker;
+	
+	/**
+	 * End Character rendering shiz
+	 */
+	
+	
+	/**
+	 * Google Maps Shizz
+	 */
 	//Will be used as the reference to the map dispayed
 	public GoogleMap mMap;
 	public LocationClient mLocationClient;
-	//test wtf
+	
+	/**
+	 * End Google Maps shizz
+	 */
+
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
@@ -70,38 +91,42 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 			
 	    	if ( servicesOK() ) {
 	        	setContentView(R.layout.activity_map);
-	        	if(initMap())
-	        	{
+	        	if (initMap()) {
+	        		
+	        		//Some modifications to the maps display
 	        		mMap.setMyLocationEnabled(true);
 	        		mMap.setIndoorEnabled(false);
 	        		mMap.setBuildingsEnabled(false);
 	 
+	        		//Location services
 	        		mLocationClient = new LocationClient(this, this, this);
 	        		mLocationClient.connect();
 	        		
+	        		//Characters nearby
 	        		characters = new ArrayList<Marker>();
 	        		
-	        		currentMove = new MoveCharacter(user.getUser(), user.getToken());
+	        		//For tracking all other users movement
+	        		charTracker = new CharacterTracker();
+	        		charTracker.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	        		
+	        		currentMove = new MoveCharacters(user.getUser(), user.getToken(), user.getLocation(), user.getLocation());
+
 	                mMap.setOnMapClickListener(new OnMapClickListener() {
 						@Override
 						public void onMapClick(LatLng targetLocation) {
 							
-							//TODO Move from Current Position to future Position
-
 							if(currentMove.getStatus() == AsyncTask.Status.RUNNING ){
 								currentMove.cancel(true);
-							}
-							//else{
-								currentMove = new MoveCharacter(user.getUser(), user.getToken());
-								currentMove.execute(user.getLocation(), targetLocation);
-							//}
+							} 
+							
+							currentMove = new MoveCharacters(user.getUser(), user.getToken(), user.getLocation(), targetLocation);
+							currentMove.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 						}
 	                });
 	        		
 	        	}
 	        	else{
-	        		Toast.makeText(this, "CANTMAPBITCH", Toast.LENGTH_SHORT).show();
+	        		Toast.makeText(this, "Failed to initialize map. Restart and try again.", Toast.LENGTH_SHORT).show();
 	        	}
 	        	
 	    	} else {
@@ -110,10 +135,6 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	    	
 	    	setView();
 		}
-		
-		
-
-
 
 	/**
 	 * Go to the settings
@@ -121,8 +142,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	public void goToSettings(){
     	Intent settings = new Intent(this, SettingsActivity.class);
     	startActivity(settings);
-	}
-		
+	}	
 	
 	/**
 	 * When user taps social button, this function is called and takes user to Social Screen
@@ -177,10 +197,10 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		double currentHealth = user.getCurHealth();
 		double maxHealth = user.getMaxHealth();
 		double percentHealth = currentHealth / maxHealth;
-		// NEED TO GET CURRENT AND MAX HEALTH INFO
 		String display = "Health: " + currentHealth + "/" + maxHealth + " %" + percentHealth;
 		health.setText(display);
 	}
+	
 	/**
 	 * When user taps the newPropbutton it takes you to the new property screen
 	 */
@@ -188,8 +208,6 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		Intent newProp = new Intent(this, NewPropertyActivity.class);
 		startActivity(newProp);
 	}
-
-	
 	
 	/**
 	 * Go to the main menu and close the current activity
@@ -200,71 +218,68 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
     	startActivity(main);
 	}
 	
-
-	
-	
-	
-	
-	
-	
-	
-	public class MoveCharacter extends AsyncTask<LatLng, LatLng, Boolean>{
+	/**
+	 * Used to manage all characters displayed on the screen
+	 * @author Paul
+	 *
+	 */
+	public class CharacterTracker extends AsyncTask<Void, Void, Boolean>{
 		
-		private String username;
-		private String token;
+		public boolean run;
+		public MovementClient mc;
+		private ArrayList<MarkerOptions> nearbyPlayers;
 		
-		MoveCharacter(String user, String token){
-			this.username = user;
-			this.token = token;
+		CharacterTracker(){
+			run = true;
+			nearbyPlayers = new ArrayList<MarkerOptions>();
 		}
 		
 		@Override
-		protected Boolean doInBackground(LatLng... params) {
-			// asynchronous Task
-			MovementClient mc;
+		protected Boolean doInBackground(Void... params) {
 			try {
-				mc = new MovementClient();
+				MovementClient mc = new MovementClient();
+				
+				MarkerOptions m;
+				
+				while (run) {
+					
+					if ( mc.nearbyPeople.size() != 0 ) {
+					
+						//Move everyone one unit vector in the direction they are going
+						for ( PersonNearYou p : mc.nearbyPeople) {
+							
+							LatLng current = new LatLng(p.curLat, p.curLng);
+							LatLng destination = new LatLng(p.destLat, p.destLng);
+							
+							LatLng moveVector = getUnitMovementVector(current, destination);
+		
+							if ( current != destination ) {
+								//Update position
+								p.curLat += moveVector.latitude;
+								p.curLng += moveVector.longitude;
+								
+								//Update visual location
+								m = new MarkerOptions();
+								m.alpha((float)p.maxHealth / (float)p.curHealth);
+								m.title(p.user);
+								m.position(new LatLng(p.curLat, p.curLng));
+								nearbyPlayers.add(m);
+							}
+						}
+						
+						//Update the map with their locations.
+						update(nearbyPlayers);
+					}
+					
+				}
+
+				return true;
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				return false;
 			}
-			
-			int i=0;
-			
-			LatLng current = params[0];
-			LatLng destination = params[1];
-			
-			LatLng moveVector = getUnitMovementVector(current, destination);
-			LatLng direction;
-			
-			
-			do{
-				i++;
-				current = new LatLng(current.latitude + moveVector.latitude, current.longitude + moveVector.longitude);
-				publishProgress(current);
-				if(i % 5 == 0){
-					mc.updateLocation(username, token, current);
-				}
-				direction = getMovementVector(current, destination);
-				if (this.isCancelled()) break;
-				
-				try {
-				    Thread.sleep(100);                 //10 times/second
-				} catch(InterruptedException ex) {
-				    Thread.currentThread().interrupt();
-				}
-				
-			}while(moveVector.latitude * direction.latitude >= 0 && moveVector.longitude * direction.longitude >= 0);
-			//^^ while movement vector and vector currently pointing to destination point in the same direction
-			return true;
 		}
-		
-		@Override
-		protected void onProgressUpdate(LatLng... progress) {
-			//every time there is a new location
-	        user.setLocation(progress[0]);
-	        characterMarker.setPosition(progress[0]);
-	     }
 		
 		@Override
 	    protected void onCancelled() {
@@ -275,6 +290,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		protected void onPostExecute(final Boolean success) {
 			//end of execution
 		}
+		
 		/**
 		 * takes in a start and destination LatLng and outputs a vector to be added to position every cycle.
 		 * @param p1
@@ -290,166 +306,132 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 			Lon = (Lon / vectorMagnitude) * speed * SPEED_FACTOR;
 			return new LatLng(Lat, Lon);
 		}
-		
-		
-		/**
-		 * Used when only the direction of the vector is needed because it takes less processing power.
-		 * @param p1
-		 * @param p2
-		 * @return
-		 */
-		protected LatLng getMovementVector(LatLng p1, LatLng p2){
-			double Lat = p2.latitude - p1.latitude;
-			double Lon = p2.longitude - p1.longitude;
-			return new LatLng(Lat, Lon);
-		}
-		
+
 	}
+
+	public class MoveCharacters extends AsyncTask<Void, Void, Boolean>{
 		
-	
+		private String username;
+		private String token;
+		private LatLng current;
+		private LatLng destination;
 		
+		MoveCharacters(String user, String token, LatLng current, LatLng destination){
+			this.username = user;
+			this.token = token;
+			this.current = current;
+			this.destination = destination;
+		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		public class MarkCharacters extends AsyncTask<Void, ArrayList<MarkerOptions>, Boolean>{
-			private LatLng loc;
-			private ArrayList<MarkerOptions> markerOptions;
-			public MarkCharacters(LatLng l){
-				this.loc = l;
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			// asynchronous Task
+			MovementClient mc;
+			
+			try {
+				mc = new MovementClient();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				return false;
 			}
 			
-			@SuppressWarnings("unchecked")
-			@Override
-			protected Boolean doInBackground(Void... params) {
-				// asynchronous Task
-				MovementClient mc;
-				PersonNearYou p;
-				MarkerOptions m;
-				markerOptions = new ArrayList<MarkerOptions>();
+			//Update the server with our movement and current location as we begin moving
+			mc.updateLocation(username, token, current, destination);
+			
+			int i=0;
+			
+			LatLng moveVector = getUnitMovementVector(current, destination);
+			LatLng direction;
+
+			do{
+				i++;
+				current = new LatLng(current.latitude + moveVector.latitude, current.longitude + moveVector.longitude);
+				publishProgress();
+				if(i % 10 == 0){
+					user.setLocation(current);
+				}
+				
+				direction = getMovementVector(current, destination);
+				if (this.isCancelled()) break;
+				
 				try {
-					mc = new MovementClient();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					return false;
+				    Thread.sleep(100);                 //10 times/second
+				} catch(InterruptedException ex) {
+				    Thread.currentThread().interrupt();
 				}
-
-					if(this.isCancelled()){return false;}
-					mc.RequestNearbyPeople(loc.latitude, loc.longitude);
 				
-					while(mc.personResponse.size() == 0){
-						try {
-					    	Thread.sleep(100);                 //1000 milliseconds is one second.
-						} catch(InterruptedException ex) {
-					    	Thread.currentThread().interrupt();
-						}
-					}
-					for(int i = 0; i < mc.personResponse.size(); i++){
-						p = mc.personResponse.get(i);
-						m = new MarkerOptions();
-						m.alpha((float)p.maxHealth / (float)p.curHealth);
-						m.title(p.user);
-						m.position(new LatLng(p.x, p.y));
-						markerOptions.add(m);
-		        	}
-				return true;
-			}
+			} while(moveVector.latitude * direction.latitude >= 0 && moveVector.longitude * direction.longitude >= 0);
+			//^^ while movement vector and vector currently pointing to destination point in the same direction
 			
-			@Override
-			protected void onProgressUpdate(ArrayList<MarkerOptions>... progress) {
-				//every time there is a new location
-				
-		     }
-			
-			@Override
-		    protected void onCancelled() {
-		        this.cancel(true);
-		    }
-			
-			@Override
-			protected void onPostExecute(final Boolean success) {
-				if(success){
-					update(markerOptions);
-				}
-			}
-
-		
+			//Update the server with our location once we have arrived
+			mc.updateLocation(username, token, current, new LatLng(0,0));
+			return true;
 		}
 		
-		public void update(ArrayList<MarkerOptions> newOptions){
-			
-			for(int i = 0; i < characters.size(); i++){
-				characters.get(i).remove();
-			}
-			for(int i = 0; i < newOptions.size(); i++){
-				Marker a = mMap.addMarker(newOptions.get(i));
-				characters.add(a);
-			}
-			
-			MarkCharacters asyncMark = new MarkCharacters(user.getLocation());
-			asyncMark.execute();
-			
-			
+		@Override
+		protected void onProgressUpdate(Void... progress) {
+			//every time there is a new location
+	        user.setLocation(current);
+	        characterMarker.setPosition(current);
+	     }
+		
+		@Override
+	    protected void onCancelled() {
+	        this.cancel(true);
+	    }
+		
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			//end of execution
 		}
 		
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * takes in a start and destination LatLng and outputs a vector to be added to position every cycle.
+	 * @param p1
+	 * @param p2
+	 * @return
+	 */
+	protected LatLng getUnitMovementVector(LatLng p1, LatLng p2) {
+		double Lat = p2.latitude - p1.latitude;
+		double Lon = p2.longitude - p1.longitude;
+		double vectorMagnitude = Math.sqrt(Math.pow(Lat, 2) + Math.pow(Lon, 2));
+		int speed = user.getSpeed();
+		Lat = (Lat / vectorMagnitude) * speed * SPEED_FACTOR;//SPEED_FACTOR = 1.0 / 360000.0 
+		Lon = (Lon / vectorMagnitude) * speed * SPEED_FACTOR;
+		return new LatLng(Lat, Lon);
+	}
 	
 	
 	/**
-	 * Represents an asynchronous task run on a different thread.
+	 * Used when only the direction of the vector is needed because it takes less processing power.
+	 * @param p1
+	 * @param p2
+	 * @return
 	 */
-	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-		//private final String mUsername;
-		//private final String mPassword;
-
-		UserLoginTask(String email, String password) {
-			//mUsername = email;
-			//mPassword = password;
-			//Instantiate task
-		}
-
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			return null;
-
-			//What to do asynchronously
-			
-		}
-
-		@Override
-		protected void onPostExecute(final Boolean success) {
-
-			//end of execution
-			
-		}
-
-		@Override
-		protected void onCancelled() {
-			//on cancel
-		}
+	protected LatLng getMovementVector(LatLng p1, LatLng p2){
+		double Lat = p2.latitude - p1.latitude;
+		double Lon = p2.longitude - p1.longitude;
+		return new LatLng(Lat, Lon);
 	}
-	
-	
-	
-	
-	
-	
+		
+	}
+		
+	/**
+	 * This refreshes all of the markers on the map (besides ours??)
+	 * @param newOptions
+	 */
+	public void update(ArrayList<MarkerOptions> newOptions){
+		
+		//Clear the current characters
+		characters.clear();
+		
+		//Now fill this with our new positions
+		for(int i = 0; i < newOptions.size(); i++){
+			characters.add(mMap.addMarker(newOptions.get(i)));
+		}
+		
+		Toast.makeText(getApplicationContext(), "Called Update!", Toast.LENGTH_SHORT).show();
+	}
 	
     //method used to check if device is connected to google play services
     public boolean servicesOK()
@@ -469,8 +451,6 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
     	
     	return false;
     }
-    
-    
     
     private boolean initMap() {
     	if (mMap == null){
@@ -493,8 +473,6 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
     	Toast.makeText(this, "NO WAY", Toast.LENGTH_SHORT).show();
     }
     
-    
-    
     private void setView(){
 
 		LatLng playerLoc = user.getLocation();
@@ -507,14 +485,71 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 			//makeMark("Property", ll.latitude, ll.longitude);
 		}
     }
-
-
     
     
+    //This should be deprecated once the new movement rendering is setup
+//    /**
+//     * Marks all characters nearby
+//     * @author Paul
+//     *
+//     */
+//	public class MarkCharacters extends AsyncTask<Void, ArrayList<MarkerOptions>, Boolean>{
+//		
+//		private LatLng loc;
+//		private ArrayList<MarkerOptions> markerOptions;
     
-    
-    
-    
+//		
+//		public MarkCharacters(LatLng l){
+//			this.loc = l;
+//		}
+//		
+//		@Override
+//		protected Boolean doInBackground(Void... params) {
+//			// asynchronous Task
+//			
+//			PersonNearYou p;
+//			MarkerOptions m;
+//			markerOptions = new ArrayList<MarkerOptions>();
+//			
+//			try {
+//				MovementClient mc; = new MovementClient();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				return false;
+//			}
+//				
+//				for(int i = 0; i < mc.personResponse.size(); i++){
+//					p = mc.personResponse.get(i);
+//					m = new MarkerOptions();
+//					m.alpha((float)p.maxHealth / (float)p.curHealth);
+//					m.title(p.user);
+//					m.position(new LatLng(p.x, p.y));
+//					markerOptions.add(m);
+//	        	}
+//				
+//			return true;
+//		}
+//		
+//		@Override
+//		protected void onProgressUpdate(ArrayList<MarkerOptions>... progress) {
+//			//every time there is a new location
+//			
+//	     }
+//		
+//		@Override
+//	    protected void onCancelled() {
+//	        this.cancel(true);
+//	    }
+//		
+//		@Override
+//		protected void onPostExecute(final Boolean success) {
+//			if(success){
+//				update(markerOptions);
+//			}
+//		}
+//
+//	
+//	}
     
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
@@ -550,7 +585,7 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 	        postParams.add(new BasicNameValuePair("lat", lat));
 	        postParams.add(new BasicNameValuePair("lon", lon));
 	        
-			JSONObject requestProps = JSONfunctions.getJSONfromURL("http://proj-309-R12.cs.iastate.edu/functions/properties/requestNearbyProperties.php", postParams);					
+			JSONObject requestProps = JSONfunctions.getJSONfromURL("10.191.222.243/functions/properties/requestNearbyProperties.php", postParams);					
 			
 			//Try and check if it succeeded
 			try {
@@ -625,27 +660,36 @@ GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnect
 		
 	}
 
-
+	/**
+	 * Method for setting our users location and such.
+	 */
 	@Override
 	public void onConnected(Bundle arg0) {
 		
 		LatLng playerLoc = user.getLocation();
 		
-		//if the user's character is in the middle of the pacific ocean (is a new character) set their position to user's
-		if(playerLoc.latitude == 0.0 && playerLoc.longitude == 0.0){
+		//if the user's character is a new character set their position to user's
+		if( playerLoc.latitude == 0 && playerLoc.longitude == 0 ){
 			Location currentLoc = mLocationClient.getLastLocation();
-			new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
+			playerLoc = new LatLng(currentLoc.getLatitude(), currentLoc.getLongitude());
+			user.setLocation(playerLoc);
 		}
+		
+		//Set camera zoom and such
 		float zoom = 18;
 		CameraUpdate update = CameraUpdateFactory.newLatLngZoom(playerLoc, zoom);
 		mMap.animateCamera(update);
+		
+
 		//Draw(currentLoc);
+		
+		//Add users marker and such
 		MarkerOptions m = new MarkerOptions();
 		m.position(playerLoc);
 		characterMarker = mMap.addMarker(m);
-		//MarkCharacters asyncMark = new MarkCharacters(playerLoc);
-		//asyncMark.execute();
 		
+		//Now disable your location because you won't need it.
+		mMap.setMyLocationEnabled(false);
 	}
 
 	

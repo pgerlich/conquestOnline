@@ -312,16 +312,6 @@ public class UserSession {
 			
 			return true;
 		}
-
-		@Override
-		protected void onPostExecute(final Boolean success) {
-			//Nothing needs to go here
-		}
-
-		@Override
-		protected void onCancelled() {
-			//Nothing needs to go here
-		}
 	}
 
 	/**
@@ -360,7 +350,7 @@ public class UserSession {
 	        postParams.add(new BasicNameValuePair("user", username));
 	        postParams.add(new BasicNameValuePair("token", token));
 
-			JSONObject stats = JSONfunctions.getJSONfromURL("http://proj-309-R12.cs.iastate.edu/functions/character/requestStats.php", postParams);					
+			JSONObject stats = JSONfunctions.getJSONfromURL("http://10.191.222.243/functions/character/requestStats.php", postParams);					
 			
 			//Try and check if it succeeded
 			try {
