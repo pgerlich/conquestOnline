@@ -334,7 +334,7 @@ public class ConquestServer {
 		for (User u :  usersConnected) {
 			
 			//Don't notify them of their own movement - for now.
-			if ( !u.username.equals(ULLR.username)) {
+			//if ( !u.username.equals(ULLR.username)) {
 				if ( distance(u.latitude, u.longitude, ULLR.curLat, ULLR.curLng) <= 1 ) {
 					
 					//Set all information TODO: More efficient way of doing this?
@@ -350,7 +350,7 @@ public class ConquestServer {
 					
 					System.out.println("NOTIFIED: " + u.username + " of " + ULLR.username);
 				}
-			}
+			//}
 		}
 	}
 
