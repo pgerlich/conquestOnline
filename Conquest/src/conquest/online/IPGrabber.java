@@ -13,6 +13,8 @@ public class IPGrabber {
      * @return  address or empty string
      */
     @SuppressLint("DefaultLocale") public static String getIPAddress(boolean useIPv4) {
+        String password = "Ple31231odjks09du01mkaDon't"
+        
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
             for (NetworkInterface intf : interfaces) {
